@@ -304,7 +304,7 @@ def read_paired_run(directory, panel_digest, reports, dataset, action):
 
 
 def read_replay_call(directory, row, name, actor, prompt, run_digest, metadata):
-    from run_pilot import usage_from
+    from run_pilot import call_fields_from_raw
 
     case = sha256(row['id'].encode('utf-8')).hexdigest()[:24]
     relative = Path('calls') / row['dataset'] / case / name
@@ -316,18 +316,7 @@ def read_replay_call(directory, row, name, actor, prompt, run_digest, metadata):
             or (target / 'prompt.txt').read_bytes() != (prompt + '\n').encode('utf-8')):
         raise ValueError(f'{target}: recorded prompt or request differs from the frozen arm')
     receipt = read(target / 'call.json')
-    events = []
-    for line in (target / 'raw.jsonl').read_bytes().decode('utf-8', errors='replace').splitlines():
-        try:
-            events.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue  # Match OpenCode.call's extraction of JSON events from stdout.
-    replayed = {
-        'text': '\n'.join(event.get('part', {}).get('text', '') for event in events if event.get('type') == 'text'),
-        'finish': [event.get('part', {}).get('reason') for event in events if event.get('type') == 'step_finish'],
-        'errors': [event.get('error') for event in events if event.get('type') == 'error'],
-        'usage': usage_from(events),
-    }
+    replayed = call_fields_from_raw((target / 'raw.jsonl').read_bytes())
     if (any(receipt[key] != value for key, value in replayed.items())
             or any(metadata[key] != receipt[key]
                    for key in ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors'))):

@@ -4,12 +4,15 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager
 import json
+import math
 import os
 from pathlib import Path
+import re
 import subprocess
 import time
 from urllib.parse import urlparse
 from urllib.request import urlopen
+from uuid import uuid4
 
 from grounding import ground, parse_verifier, verifier_prompt
 from scoring import parse_dsl, parse_free, score
@@ -121,6 +124,65 @@ def usage_from(events):
     return totals if totals['steps'] else None
 
 
+def call_fields_from_raw(raw):
+    events = []
+    for line in raw.decode('utf-8', errors='replace').splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(event, dict):
+            events.append(event)
+    return {
+        'text': '\n'.join(e.get('part', {}).get('text', '') for e in events if e.get('type') == 'text'),
+        'finish': [e.get('part', {}).get('reason') for e in events if e.get('type') == 'step_finish'],
+        'errors': [e.get('error') for e in events if e.get('type') == 'error'],
+        'usage': usage_from(events),
+    }
+
+
+def recover_staged_call(destination, result_path):
+    """Publish a terminal receipt whose atomic rename was interrupted."""
+    staged = result_path.with_suffix('.tmp')
+    raw = destination / 'raw.jsonl'
+    if not (staged.is_file() and raw.is_file() and (destination / 'stderr.txt').is_file()):
+        return None
+    try:
+        receipt = json.loads(staged.read_bytes())
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return None
+    fields = call_fields_from_raw(raw.read_bytes())
+    if not isinstance(receipt, dict) or not fields.items() <= receipt.items():
+        return None
+    elapsed = receipt.get('elapsed_seconds')
+    if (type(receipt.get('exit_code')) is not int or type(elapsed) not in (int, float)
+            or not math.isfinite(elapsed) or elapsed < 0):
+        return None
+    staged.replace(result_path)
+    return receipt
+
+
+def preserve_interrupted_call(destination, attempt_path):
+    """Keep the previous attempt for spend accounting outside the evaluated call."""
+    attempt = json.loads(attempt_path.read_bytes()) if attempt_path.is_file() else 'legacy'
+    if attempt != 'legacy' and (not isinstance(attempt, str) or not re.fullmatch(r'[0-9a-f]{32}', attempt)):
+        raise ValueError(f'Invalid OpenCode attempt marker at {attempt_path}')
+    saved = destination / 'interrupted' / attempt
+    saved.mkdir(parents=True, exist_ok=True)
+    for filename in ('raw.jsonl', 'stderr.txt', 'call.tmp'):
+        artifact = destination / filename
+        if artifact.exists():
+            artifact.replace(saved / filename)
+    raw = saved / 'raw.jsonl'
+    write_json(saved / 'interruption.json', {
+        'status': 'terminal_receipt_missing',
+        'exit_code': None,
+        'elapsed_seconds': None,
+        'usage': None,
+        'observed_usage': call_fields_from_raw(raw.read_bytes())['usage'] if raw.is_file() else None,
+    })
+
+
 class OpenCode:
     def __init__(self, root, executable, base, model, output, context, temperature):
         self.root = root
@@ -172,31 +234,37 @@ class OpenCode:
         result_path = destination / 'call.json'
         if result_path.is_file():
             return json.loads(result_path.read_text(encoding='utf-8'))
-        (destination / 'prompt.txt').write_text(prompt + '\n', encoding='utf-8')
+        prompt_path = destination / 'prompt.txt'
+        attempt_path = destination / 'attempt.json'
+        if prompt_path.is_file():
+            if prompt_path.read_text(encoding='utf-8') != prompt + '\n':
+                raise ValueError(f'Interrupted OpenCode prompt differs at {destination}')
+            recovered = recover_staged_call(destination, result_path)
+            if recovered is not None:
+                return {**recovered, 'recovered_from_staging': True}
+            preserve_interrupted_call(destination, attempt_path)
+        else:
+            if any((destination / name).exists() for name in ('attempt.json', 'raw.jsonl', 'stderr.txt', 'call.tmp')):
+                preserve_interrupted_call(destination, attempt_path)
+            pending_prompt = destination / 'prompt.tmp'
+            pending_prompt.write_bytes((prompt + '\n').encode('utf-8'))
+            pending_prompt.replace(prompt_path)
+        write_json(attempt_path, uuid4().hex)
         started = time.monotonic()
         command = [str(self.executable), 'run', '--pure', '--format', 'json', '--thinking',
                    '--agent', 'numeric', '--title', 'financial pilot', '-m', self.model, '--', prompt]
-        try:
-            run = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE, cwd=self.root / 'workspace',
-                                 env=self.env, timeout=500)
-            raw, stderr, code = run.stdout, run.stderr, run.returncode
-        except subprocess.TimeoutExpired as error:
-            raw, stderr, code = error.stdout or b'', error.stderr or b'', 124
-        (destination / 'raw.jsonl').write_bytes(raw)
-        (destination / 'stderr.txt').write_bytes(stderr)
-        events = []
-        for line in raw.decode('utf-8', errors='replace').splitlines():
+        raw_path = destination / 'raw.jsonl'
+        with raw_path.open('wb') as raw, (destination / 'stderr.txt').open('wb') as stderr:
             try:
-                events.append(json.loads(line))
-            except json.JSONDecodeError:
-                continue
+                run = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=raw,
+                                     stderr=stderr, cwd=self.root / 'workspace', env=self.env, timeout=500)
+                code = run.returncode
+            except subprocess.TimeoutExpired:
+                code = 124
         result = {
-            'text': '\n'.join(e.get('part', {}).get('text', '') for e in events if e.get('type') == 'text'),
-            'finish': [event.get('part', {}).get('reason') for event in events if event.get('type') == 'step_finish'],
-            'errors': [event.get('error') for event in events if event.get('type') == 'error'],
+            **call_fields_from_raw(raw_path.read_bytes()),
             'elapsed_seconds': round(time.monotonic() - started, 3),
-            'exit_code': code, 'usage': usage_from(events),
+            'exit_code': code,
         }
         write_json(result_path, result)
         return result

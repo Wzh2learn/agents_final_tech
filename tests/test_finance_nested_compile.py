@@ -157,7 +157,7 @@ def test_fresh_timing_measures_the_conditional_calls_before_gold_grading(pilot, 
 
 def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot, report, monkeypatch, tmp_path):
     import benchmark_actions as benchmark
-    from run_pilot import load_lines, usage_from, write_json
+    from run_pilot import OpenCode, load_lines, usage_from, write_json
 
     panel = tmp_path / 'panel'
     panel.mkdir()
@@ -186,6 +186,8 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
             path = target / 'call.json'
             if path.is_file():
                 return json.loads(path.read_bytes())
+            if path.with_suffix('.tmp').is_file():
+                return OpenCode.call(self, prompt, target)
             if target.name == 'mid':
                 assert direct.is_file() and len(load_lines(direct)) == len(rows)
             issued.append(target.name)
@@ -231,11 +233,100 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     benchmark.collect(args, root)
     assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
     assert json.loads((root / 'collection.json').read_bytes())['new_calls_this_pass'] == 0
+
+    mid = root / final_rows[0]['calls']['mid']['path']
+    mid.with_name('stderr.txt').touch()
+    mid.replace(mid.with_suffix('.tmp'))
+    benchmark.collect(args, root)
+    assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+    assert json.loads((root / 'collection.json').read_bytes())['new_calls_this_pass'] == 0
+    reused_mid = load_lines(root / 'outcomes.jsonl')[0]['calls']['mid']
+    assert reused_mid == {**final_rows[0]['calls']['mid'], 'cached_this_pass': True}
+
     raw = (root / direct_rows[0]['calls']['low']['path']).with_name('raw.jsonl')
     raw.write_text('', encoding='utf-8')
     with pytest.raises(ValueError, match='raw events, call receipt or recorded usage disagree'):
         benchmark.collect(args, root)
     assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+
+
+@pytest.fixture
+def receipt_actor(pilot, tmp_path):
+    from run_pilot import OpenCode
+
+    return OpenCode(tmp_path / 'actor', Path('opencode'), 'http://127.0.0.1:1/v1',
+                    'fixture', 4096, 16384, .6)
+
+
+def opencode_output(text, tokens):
+    return b''.join(json.dumps(event).encode() + b'\n' for event in (
+        {'type': 'text', 'part': {'text': text}},
+        {'type': 'step_finish', 'part': {'reason': 'stop', 'tokens': {'total': tokens}}},
+    ))
+
+
+def test_recover_terminal_opencode_receipt_before_rename(receipt_actor, monkeypatch, tmp_path):
+    import run_pilot
+
+    destination = tmp_path / 'call'
+    destination.mkdir()
+    raw = opencode_output('Final answer: 3', 7)
+    expected = {**run_pilot.call_fields_from_raw(raw), 'exit_code': 0, 'elapsed_seconds': 2}
+    (destination / 'prompt.txt').write_bytes(b'question\n')
+    (destination / 'raw.jsonl').write_bytes(raw)
+    (destination / 'stderr.txt').write_bytes(b'')
+    (destination / 'call.tmp').write_text(json.dumps(expected), encoding='utf-8')
+    monkeypatch.setattr(run_pilot.subprocess, 'run', lambda *a, **k: pytest.fail('Should reuse the receipt'))
+
+    assert receipt_actor.call('question', destination) == {**expected, 'recovered_from_staging': True}
+    assert json.loads((destination / 'call.json').read_bytes()) == expected
+    assert not (destination / 'call.tmp').exists()
+    assert not (destination / 'interrupted').exists()
+
+
+@pytest.mark.parametrize('legacy', [False, True])
+def test_retry_preserves_unproven_usage_and_partial_opencode_events(receipt_actor, monkeypatch, tmp_path, legacy):
+    import run_pilot
+
+    destination = tmp_path / 'call'
+    partial = opencode_output('Unproven answer', 5)
+
+    if legacy:
+        destination.mkdir()
+        (destination / 'prompt.txt').write_bytes(b'question\n')
+        attempt = 'legacy'
+    else:
+        def interrupted(*args, stdout, stderr, **kwargs):
+            stdout.write(partial + b'{"unfinished"')
+            stderr.write(b'interrupted stderr')
+            raise KeyboardInterrupt
+
+        monkeypatch.setattr(run_pilot.subprocess, 'run', interrupted)
+        with pytest.raises(KeyboardInterrupt):
+            receipt_actor.call('question', destination)
+        attempt = json.loads((destination / 'attempt.json').read_bytes())
+
+    executed = []
+
+    def retry(*args, stdout, **kwargs):
+        executed.append(True)
+        stdout.write(opencode_output('Final answer: 3', 7))
+        return SimpleNamespace(returncode=0)
+
+    monkeypatch.setattr(run_pilot.subprocess, 'run', retry)
+    receipt = receipt_actor.call('question', destination)
+    assert receipt['text'] == 'Final answer: 3' and receipt['usage']['total'] == 7
+    assert executed == [True]
+    archived = destination / 'interrupted' / attempt
+    previous = json.loads((archived / 'interruption.json').read_bytes())
+    assert previous['usage'] is None and previous['elapsed_seconds'] is None and previous['exit_code'] is None
+    if legacy:
+        assert previous['observed_usage'] is None
+    else:
+        assert previous['observed_usage']['total'] == 5
+        assert (archived / 'raw.jsonl').read_bytes() == partial + b'{"unfinished"'
+        assert (archived / 'stderr.txt').read_bytes() == b'interrupted stderr'
+    assert receipt_actor.call('question', destination) == receipt and executed == [True]
 
 
 def test_ratio_prompt_control_is_one_dsl_call_with_only_the_declared_convention(pilot, report):

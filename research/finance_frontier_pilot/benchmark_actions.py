@@ -352,6 +352,7 @@ def collect(args, root):
             if prioritize_direct and name == 'low' and not cached and (not direct or saved_direct is not None):
                 raise ValueError(f'Published direct outcomes require the original low receipt for {ident}')
             result = recorded_call(actors[actor], prompt, target, contract_digest)
+            cached = cached or result.get('recovered_from_staging', False)
             receipts[name] = {field: result[field] for field in ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors')}
             acquired_in_prepass = not direct and name == 'low' and (dataset, ident) in fresh_direct
             receipts[name].update(cached_this_pass=cached and not acquired_in_prepass,
