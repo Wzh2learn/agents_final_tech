@@ -157,7 +157,7 @@ def test_fresh_timing_measures_the_conditional_calls_before_gold_grading(pilot, 
 
 def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot, report, monkeypatch, tmp_path):
     import benchmark_actions as benchmark
-    from run_pilot import OpenCode, load_lines, usage_from, write_json
+    from run_pilot import CorruptCallReceipt, OpenCode, load_lines, usage_from, write_json
 
     panel = tmp_path / 'panel'
     panel.mkdir()
@@ -184,9 +184,7 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
 
         def call(self, prompt, target):
             path = target / 'call.json'
-            if path.is_file():
-                return json.loads(path.read_bytes())
-            if path.with_suffix('.tmp').is_file():
+            if path.is_file() or path.with_suffix('.tmp').is_file():
                 return OpenCode.call(self, prompt, target)
             if target.name == 'mid':
                 assert direct.is_file() and len(load_lines(direct)) == len(rows)
@@ -205,15 +203,28 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     monkeypatch.setattr(benchmark, 'wait_service', lambda *_: None)
     original_collect = benchmark.recorded_call
 
-    def interrupt(actor, prompt, target, digest):
+    def interrupt(actor, prompt, target, digest, **kwargs):
         if issued:
             raise RuntimeError('Interrupted before the second low receipt')
-        return original_collect(actor, prompt, target, digest)
+        return original_collect(actor, prompt, target, digest, **kwargs)
 
     monkeypatch.setattr(benchmark, 'recorded_call', interrupt)
     with pytest.raises(RuntimeError, match='Interrupted'):
         benchmark.collect(args, root)
     assert issued == ['low'] and not direct.exists()
+
+    case_id = sha256(b'cached').hexdigest()[:24]
+    corrupt_mid = root / 'calls' / 'finqa' / case_id / 'mid'
+    corrupt_mid.mkdir()
+    draft = 'Final program: add(1, 2)'
+    prompt = benchmark.mid_prompt(rows[0], draft, benchmark.public_execution(rows[0], benchmark.parse_dsl(draft)))
+    (corrupt_mid / 'prompt.txt').write_bytes((prompt + '\n').encode('utf-8'))
+    write_json(corrupt_mid / 'request.json', {'prompt_sha256': sha256(prompt.encode()).hexdigest(),
+                                             'run_contract': benchmark.digest_file(root / 'run.json'),
+                                             'actor': 'verify'})
+    corrupt_files = ('call.json', 'raw.jsonl', 'stderr.txt')
+    for filename in corrupt_files:
+        (corrupt_mid / filename).touch()
 
     monkeypatch.setattr(benchmark, 'recorded_call', original_collect)
     benchmark.collect(args, root)
@@ -222,6 +233,11 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     direct_rows = load_lines(direct)
     final_rows = load_lines(root / 'outcomes.jsonl')
     assert json.loads((root / 'collection.json').read_bytes())['new_calls_this_pass'] == 3
+    prior = corrupt_mid / 'interrupted' / 'legacy'
+    assert all((prior / filename).read_bytes() == b'' for filename in corrupt_files)
+    interrupted = json.loads((prior / 'interruption.json').read_bytes())
+    assert interrupted['status'] == 'terminal_receipt_corrupt' and interrupted['usage'] is None
+    assert not final_rows[0]['calls']['mid']['cached_this_pass']
     assert json.loads((root / 'run.json').read_bytes())['actions'] == sorted(args.actions)
     for direct_row, final_row, cached in zip(direct_rows, final_rows, (True, False), strict=True):
         assert set(direct_row['actions']) == set(benchmark.DIRECT_ACTIONS) and list(direct_row['calls']) == ['low']
@@ -243,10 +259,19 @@ def test_prioritize_direct_publishes_once_and_reuses_verified_low_receipts(pilot
     reused_mid = load_lines(root / 'outcomes.jsonl')[0]['calls']['mid']
     assert reused_mid == {**final_rows[0]['calls']['mid'], 'cached_this_pass': True}
 
-    raw = (root / direct_rows[0]['calls']['low']['path']).with_name('raw.jsonl')
+    low = root / direct_rows[0]['calls']['low']['path']
+    raw = low.with_name('raw.jsonl')
+    original_raw = raw.read_bytes()
     raw.write_text('', encoding='utf-8')
     with pytest.raises(ValueError, match='raw events, call receipt or recorded usage disagree'):
         benchmark.collect(args, root)
+    assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
+
+    raw.write_bytes(original_raw)
+    low.write_bytes(b'')
+    with pytest.raises(CorruptCallReceipt, match='Corrupt finalized OpenCode receipt'):
+        benchmark.collect(args, root)
+    assert low.read_bytes() == b'' and not (low.parent / 'interrupted').exists()
     assert issued == ['low', 'low', 'mid', 'mid'] and direct.read_bytes() == published
 
 

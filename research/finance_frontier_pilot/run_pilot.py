@@ -162,20 +162,25 @@ def recover_staged_call(destination, result_path):
     return receipt
 
 
-def preserve_interrupted_call(destination, attempt_path):
+class CorruptCallReceipt(ValueError):
+    """A finalized OpenCode receipt cannot be decoded."""
+
+
+def preserve_interrupted_call(destination, attempt_path, *, corrupt_finalized=False):
     """Keep the previous attempt for spend accounting outside the evaluated call."""
     attempt = json.loads(attempt_path.read_bytes()) if attempt_path.is_file() else 'legacy'
     if attempt != 'legacy' and (not isinstance(attempt, str) or not re.fullmatch(r'[0-9a-f]{32}', attempt)):
         raise ValueError(f'Invalid OpenCode attempt marker at {attempt_path}')
     saved = destination / 'interrupted' / attempt
     saved.mkdir(parents=True, exist_ok=True)
-    for filename in ('raw.jsonl', 'stderr.txt', 'call.tmp'):
+    staged_files = ('raw.jsonl', 'stderr.txt', 'call.tmp')
+    for filename in (*staged_files, 'call.json') if corrupt_finalized else staged_files:
         artifact = destination / filename
         if artifact.exists():
             artifact.replace(saved / filename)
     raw = saved / 'raw.jsonl'
     write_json(saved / 'interruption.json', {
-        'status': 'terminal_receipt_missing',
+        'status': 'terminal_receipt_corrupt' if (saved / 'call.json').is_file() else 'terminal_receipt_missing',
         'exit_code': None,
         'elapsed_seconds': None,
         'usage': None,
@@ -233,7 +238,10 @@ class OpenCode:
         destination.mkdir(parents=True, exist_ok=True)
         result_path = destination / 'call.json'
         if result_path.is_file():
-            return json.loads(result_path.read_text(encoding='utf-8'))
+            try:
+                return json.loads(result_path.read_text(encoding='utf-8'))
+            except (json.JSONDecodeError, UnicodeDecodeError) as error:
+                raise CorruptCallReceipt(f'Corrupt finalized OpenCode receipt at {result_path}') from error
         prompt_path = destination / 'prompt.txt'
         attempt_path = destination / 'attempt.json'
         if prompt_path.is_file():

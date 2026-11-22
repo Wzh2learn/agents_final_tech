@@ -22,7 +22,7 @@ import time
 
 from grounding import ground
 from run_pilot import (
-    PUBLIC_FIELDS, OpenCode, load_lines, local_endpoint, paired_prompt,
+    PUBLIC_FIELDS, CorruptCallReceipt, OpenCode, load_lines, local_endpoint, paired_prompt, preserve_interrupted_call,
     wait_service, write_json,
 )
 from scoring import _reply_text, finqa, parse_dsl, parse_free, public_execution, score
@@ -57,7 +57,7 @@ def deliver(call):
     return call['text'] if not call['exit_code'] and not call['errors'] else ''
 
 
-def recorded_call(actor, prompt, target, contract_digest):
+def recorded_call(actor, prompt, target, contract_digest, *, retry_corrupt_secondary=False):
     target.mkdir(parents=True, exist_ok=True)
     key = {'prompt_sha256': hashlib.sha256(prompt.encode('utf-8')).hexdigest(),
            'run_contract': contract_digest, 'actor': actor.root.name}
@@ -68,7 +68,13 @@ def recorded_call(actor, prompt, target, contract_digest):
         if prompt_file.read_text(encoding='utf-8') != prompt + '\n':
             raise ValueError(f'Cached prompt differs at {target}')
     freeze(request, key)
-    return actor.call(prompt, target)
+    try:
+        return actor.call(prompt, target)
+    except CorruptCallReceipt:
+        if not retry_corrupt_secondary:
+            raise
+        preserve_interrupted_call(target, target / 'attempt.json', corrupt_finalized=True)
+        return {**actor.call(prompt, target), 'retried_corrupt_receipt': True}
 
 
 def mid_prompt(row, draft, execution):
@@ -334,6 +340,7 @@ def collect(args, root):
                              output, args.context, args.temperature) for name, output in outputs.items()}
     prioritize_direct = getattr(args, 'prioritize_direct', False)
     direct_path = root / 'direct_outcomes.jsonl'
+    outcomes_path = root / 'outcomes.jsonl'
     saved_direct = load_lines(direct_path) if prioritize_direct and direct_path.is_file() else None
     if saved_direct is not None and len(saved_direct) != len(rows):
         raise ValueError('Published direct outcomes must cover the full panel')
@@ -351,8 +358,11 @@ def collect(args, root):
             cached = path.is_file()
             if prioritize_direct and name == 'low' and not cached and (not direct or saved_direct is not None):
                 raise ValueError(f'Published direct outcomes require the original low receipt for {ident}')
-            result = recorded_call(actors[actor], prompt, target, contract_digest)
-            cached = cached or result.get('recovered_from_staging', False)
+            mutable_secondary = prioritize_direct and not direct and name not in DIRECT_ACTIONS and not outcomes_path.exists()
+            result = recorded_call(actors[actor], prompt, target, contract_digest,
+                                   retry_corrupt_secondary=mutable_secondary)
+            cached = ((cached and not result.get('retried_corrupt_receipt', False))
+                      or result.get('recovered_from_staging', False))
             receipts[name] = {field: result[field] for field in ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors')}
             acquired_in_prepass = not direct and name == 'low' and (dataset, ident) in fresh_direct
             receipts[name].update(cached_this_pass=cached and not acquired_in_prepass,
@@ -409,7 +419,7 @@ def collect(args, root):
 
     if prioritize_direct:
         collect_pass(DIRECT_ACTIONS, direct_path, direct=True)
-    new_calls = collect_pass(args.actions, root / 'outcomes.jsonl')
+    new_calls = collect_pass(args.actions, outcomes_path)
     write_json(root / 'collection.json', {'rows': len(rows), 'new_calls_this_pass': new_calls,
                                          'collection_wall_seconds_this_pass': time.monotonic() - started})
 
