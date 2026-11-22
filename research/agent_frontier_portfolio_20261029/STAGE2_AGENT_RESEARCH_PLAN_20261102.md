@@ -1,11 +1,11 @@
 # 第二阶段研究议题与证据入口
 
-> 2026-11-19｜[v5 工作稿](IJCNN_MANUSCRIPT.md) · [双栏 PDF](ijcnn_ieee/main.pdf) · [实验总表](results/IJCNN_EXPERIMENT_TABLES.md) · [v4 审阅快照](https://github.com/Wzh2learn/agents_final_tech/blob/7900037223d357bb56e08bbc550bda46dd3d1ee6/research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)
+> 2026-11-23｜[v5 阶段档案](IJCNN_MANUSCRIPT.md) · [双栏 PDF](ijcnn_ieee/main.pdf) · [实验总表](results/IJCNN_EXPERIMENT_TABLES.md) · [v4 审阅快照](https://github.com/Wzh2learn/agents_final_tech/blob/7900037223d357bb56e08bbc550bda46dd3d1ee6/research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)
 
 <a id="competitive-research-agenda"></a>
 ## 强对标后的研究议题｜外部专家讨论
 
-现役首批为[强基座零训练诊断](../finance_frontier_pilot/README.md)。以同题两种输出、公开规则复算、来源核验和强模型实测恢复率决定下一条方法路线。
+400 题零训练探针已完成，选择[路线 A](../finance_frontier_pilot/README.md#路线裁决)。现役工作是 [FinQA／TAT-QA 全量同预算对标](../finance_frontier_pilot/README.md#同预算对标准备)。三模型在 1,147 道 FinQA 与 718 道 TAT-QA 算术题的首答已齐，ODA 后续动作正在采集。收齐后接续两套 CAR、BudgetVerify、Cascade Routing 与固定级联汇总。独立端到端计时还需恢复校内网关的进程凭证，原始回执和运行目录见同一入口。
 
 争取在**可执行的金融表文推理、紧凑模型、有限推理预算**这一场景做到领先。绝对准确率和准确率—成本前沿都值得竞争。优先回答两件事：能否提高强首答的正确候选覆盖率，以及执行反馈能否让强首答继续获益。允许重做首答生成、训练数据、教师机制和推理策略，也允许把现有三段重新组织成一个新方法。实验取舍由证据决定。
 
