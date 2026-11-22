@@ -126,15 +126,22 @@ def replay_actions(run, row, gold, run_digest, actions, receipts, metric_dir, *,
     winners = ('low', 'mid' if corrected['mid']['decision'] in {'revise', 'reformat'} else 'low',
                'high_solve' if corrected['high']['decision'] == 'use_new' else 'low')
     compiled = {}
-    for name in dict.fromkeys(winners):
+    before_gate_winner = 'low'
+    for name in dict.fromkeys((*winners, 'high_solve')):
         receipt = replayed_calls[name][2]
         reply = deliver(receipt)
         projected, submission, _, _ = public_contract(row, reply, stopped=bool(reply) and receipt['finish'] == ['stop'])
         scored = score(projected, submission, metric_dir=metric_dir, gold=gold)
         compiled[name] = (bool(scored['strict']), bool(scored['executable']))
+        if name == 'high_solve' and corrected['high']['comparison'] == 'USE_NEW':
+            evidence = observable(row, submission, execution_row=projected)
+            grounded = all(item['match_count'] and not item['conflicts'] for item in evidence['bindings'])
+            if evidence['execution']['status'] == 'executed' and grounded:
+                before_gate_winner = name
     saved_low = actions.get('contract_compile')
     if saved_low is not None and compiled['low'] != (saved_low['strict'], saved_low['executable']):
         raise ValueError(f'{run}: compiled Low differs from the collected compiler action for {row["id"]}')
+    corrected['high']['compile_before_gate'] = compiled[before_gate_winner]
     return corrected['high'], [compiled[name] for name in winners]
 
 
@@ -169,6 +176,7 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
     if any(set(row) != {'dataset', 'id', 'report', *PUBLIC_FIELDS} for row in public.values()):
         raise ValueError(f'{panel}: invalid public-only schema')
     design, correct, executable, costs, compiled = [], [], [], [], []
+    high_before_gate = []
     feature_seconds = 0.0
     required_calls = (['low'], ['low', 'mid'], ['low', 'high_solve', 'high_compare'])
     for ident, row in public.items():
@@ -197,6 +205,7 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
                                                compile_winners=compile_winners)
             if compile_winners:
                 compiled.append(scores)
+                high_before_gate.append(adjusted['compile_before_gate'])
             before, after = original['strict'], adjusted['strict']
             labels[-1] = int(after)
             execution_flags[-1] = adjusted['executable']
@@ -218,6 +227,7 @@ def read_split(panel, run, dataset, *, decode_verifier_answer=False, metric_dir=
         split['verifier_replay'] = {'decoder': 'exact_keep_or_use_new_final_answer_v1', **decoder_stats}
     if compile_winners:
         split['compiled_scores'] = np.array(compiled, dtype=bool)
+        split['high_compile_before_gate_scores'] = np.array(high_before_gate, dtype=bool)
     return split
 
 
@@ -394,6 +404,23 @@ def evaluate_policies(summary, policies, evaluation, exposure):
         report['eval_public_compiler_by_tier'] = {tier: {'strict': scores[:, i, 0].tolist(),
                                                         'executable': scores[:, i, 1].tolist()}
                                                   for i, tier in enumerate(TIERS)}
+        if 'high_compile_before_gate_scores' in evaluation:
+            early_scores = evaluation['high_compile_before_gate_scores']
+            if early_scores.shape != (len(eval_indices), 2):
+                raise ValueError('Expected early-compiled High correctness and execution flags for each question')
+            after_gate = scores[:, TIERS.index('high'), :].all(axis=1)
+            before_gate = early_scores.all(axis=1)
+
+            def summarize_compiler_order(indices):
+                baseline, early = after_gate[indices], before_gate[indices]
+                return {'n': len(indices), 'compile_after_gate_joint_correct': int(baseline.sum()),
+                        'compile_before_gate_joint_correct': int(early.sum()),
+                        'recovered': int((early & ~baseline).sum()), 'harmed': int((baseline & ~early).sum())}
+
+            report['high_compiler_order'] = {
+                'additional_model_calls': 0, 'all': summarize_compiler_order(eval_indices),
+                'by_exposure': {name: summarize_compiler_order(indices) for name, indices in groups.items()},
+            }
     return report
 
 

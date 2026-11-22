@@ -48,6 +48,9 @@ def frozen_high(tmp_path, monkeypatch, request):
         if ratio and valid:
             replies.update(low='Final program: divide(7, 11), multiply(#0, const_100)',
                            high_solve='Final program: divide(7, 11)')
+        if ratio == 'block_scale_operand' and valid:
+            replies.update(low='Final program: add(11, 8)',
+                           high_solve='Final program: divide(7, 11), multiply(#0, 100)')
 
         def record(name, actor, prompt):
             relative = Path('calls/finqa') / sha256(ident.encode()).hexdigest()[:24] / name
@@ -113,7 +116,7 @@ def test_decoding_refuses_unbound_comparison(frozen_high):
 
 
 @pytest.mark.parametrize('frozen_high', [True], indirect=True)
-def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen_high, monkeypatch):
+def test_common_compiler_preserves_selected_replies_and_charges(frozen_high, monkeypatch):
     from budget_policy import evaluate_policies, read_split, replay_compiler_control
     import table_scope_replay
 
@@ -133,6 +136,7 @@ def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen
         ('grounded', 'Final program: divide(7, 11), multiply(#0, const_100)'),
         ('grounded', 'Final program: divide(7, 11)'),
         ('ungrounded', 'Final program: add(11, 8)'),
+        ('ungrounded', 'Final program: add(10, 8)'),
     ]
     exposure = {'grounded': 'matched', 'ungrounded': 'other'}
     report = evaluate_policies({'method': 'fixture'}, [], evaluation, exposure)
@@ -154,6 +158,22 @@ def test_common_compiler_uses_only_selected_replies_and_preserves_charges(frozen
     with pytest.raises(ValueError, match='costs differ'):
         replay_compiler_control(report, evaluation, 'finqa', exposure)
     assert path.read_bytes() == frozen
+
+
+@pytest.mark.parametrize('frozen_high', ['block_scale_operand'], indirect=True)
+def test_compiling_before_grounding_recovers_a_rejected_ratio_with_the_same_calls(frozen_high):
+    from budget_policy import evaluate_policies, read_split
+
+    panel, run = frozen_high
+    evaluation = read_split(panel, run, 'finqa', decode_verifier_answer=True, compile_winners=True)
+    report = evaluate_policies({'method': 'fixture'}, [], evaluation, {'grounded': 'independent'})
+    replay = report['high_compiler_order']
+    assert replay['additional_model_calls'] == 0
+    assert replay['all'] == {'n': 2, 'compile_after_gate_joint_correct': 0,
+                             'compile_before_gate_joint_correct': 1, 'recovered': 1, 'harmed': 0}
+    assert replay['by_exposure']['independent']['recovered'] == 1
+    assert report['eval_public_compiler_by_tier']['high']['strict'] == [False, False]
+    assert report['fixed']['high']['all']['calls'] == 6
 
 
 def test_main_selects_calibration_frontier_before_opening_eval(monkeypatch, tmp_path):
