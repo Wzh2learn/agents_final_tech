@@ -193,6 +193,8 @@ TAT-QA 718 道官方 Dev 算术题的校内首答配对复算已收齐。Qwen �
 
 独立校准复算中，DeepSeek 起步的未执行回退将 FinQA 从 24 提到 25/48，接管 4 次、共 105,120 tokens；扩大到显式冲突触发多调用 7 次并错改 1 题。Qwen 起步的同一回退将 TAT-QA 从 41 提到 45/48，接管 6 次、共 148,997 tokens，继续扩大触发未增加成功数。两处未执行回退无错改。所有方向与已知用量见 GB10 `campus_{finqa,tatqa}48_calibration_grounded_handoff_replay.json`。保留两个起步方向进入正式评测。
 
+把「可执行但存在未定位数值」从显式冲突中单独拆出。两库共 288 道拟合及校准题中，编译后的 DeepSeek 只有 7 道可执行题命中此规则，原答 6 对 1 错。用相同编译器处理的 Qwen 可执行回复接管，救回和错改均为 0，预计增加原回执中记录的 20,177 tokens。相比之下，20 道未执行题接管后救回 7 道。复算仅使用 `campus_{fit,calibration}_*` 的绑定回执，定位沿用 `benchmark_actions.observable` 的 `match_count`，正式策略不加该触发规则。
+
 用相同校内回复测剩余接管空间。独立校准的 FinQA 中，DeepSeek 有 20 道已执行错题，Qwen 仅能救回其中 1 道。若在全部 44 道 DeepSeek 已执行题上也调用 Qwen，要多计 143,038 tokens；即使用参考答案从这两份既有回复中挑选，正确数上限也只是 25→26/48。TAT-QA 对应 4 道已执行错题可救回 2 道，全部 46 道已执行题的附加用量为 121,886 tokens，上限为 43→45/48。拟合及反向顺序的对应结果见 GB10 `campus_train_after_execution_headroom_v1.json`。
 
 在同一校准回执上分解编译器。FinQA 上 Qwen 的原始、仅格式与表范围编译、再加比例约定三档为 9、9、19/48；DeepSeek 为 12、13、24/48。全编译分别救回 12 与 14 题，两个模型均错改同样两题。两模型的 TAT-QA 三档分别为 41、41、41/48 和 40、42、42/48。每一模型的三档共用同一份调用回执。见 GB10 `campus_{finqa,tatqa}48_calibration_compile_components.json`。
