@@ -30,6 +30,7 @@ FIXED_ANCHORS = {
 STYLES = {
     'Contract cascade': ('*', '#CC4422', 105),
     'CAR': ('D', '#0072B2', 40),
+    'CAR + compiler': ('v', '#296C91', 44),
     'BudgetVerify / TabFM': ('^', '#88549C', 41),
     'BudgetVerify / GBM': ('s', '#B67500', 38),
     COMPILED_BUDGETVERIFY: ('X', '#BD447F', 56),
@@ -55,6 +56,8 @@ def family(name, metadata):
         return 'Contract cascade'
     if name == 'car':
         return 'CAR'
+    if name == 'car_compiled':
+        return 'CAR + compiler'
     if name == 'budgetverify':
         return 'BudgetVerify / GBM' if metadata.get('method') == 'GBM' else 'BudgetVerify / TabFM'
     if name.startswith('budgetverify/') and '/lambda_' in name:

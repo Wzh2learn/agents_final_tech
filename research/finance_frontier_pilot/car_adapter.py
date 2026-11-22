@@ -28,7 +28,9 @@ from benchmark_actions import (
 from diagnose import read_replay_call
 from grounding import YEAR, UNIT, ground
 from run_pilot import paired_prompt
-from scoring import SCALE_FACTORS, _metric_type, _reply_text, finqa, parse_dsl, public_execution, score
+from scoring import (
+    SCALE_FACTORS, _metric_type, _reply_text, finqa, finqa_ratio_rule, parse_dsl, public_execution, score,
+)
 
 
 CHECKS = {
@@ -357,6 +359,27 @@ def source_rows(args, stage):
     return entries, gold, {k: contract[k] for k in PROFILE_KEYS}, panel, coverage
 
 
+def compiled_selection(row: dict, entry: dict, result: dict, gold: dict,
+                       metric_dir: Path | None = None) -> dict[str, bool] | None:
+    """Score the selected CAR submission under the shared public compiler."""
+    compiled_draft = entry['actions'].get('contract_compile')
+    if compiled_draft is None:
+        return None
+
+    candidate = result['submission']
+    selected = result
+    if not result['repaired']:
+        if candidate != entry['actions']['low']['submission'] or compiled_draft['calls'] != ['low']:
+            raise ValueError(f'{row["id"]}: retained CAR draft differs from its compiled Low action')
+        selected = compiled_draft
+    elif row['dataset'] == 'finqa':
+        # Accepted edits already execute. Keep the parsed scale and apply the same ratio rule.
+        revised = finqa_ratio_rule(row, candidate, public_execution(row, candidate))
+        if revised is not None and public_execution(row, revised)['status'] == 'executed':
+            selected = score(row, revised, metric_dir=metric_dir, gold=gold)
+    return {name: bool(selected[name]) for name in ('strict', 'executable')}
+
+
 def evaluate_row(row, entry, gold, args, call, planner):
     low = entry['actions']['low']
     draft, judgments = low['submission'], entry['actions']['car_probe']['judgments']
@@ -378,6 +401,10 @@ def evaluate_row(row, entry, gold, args, call, planner):
     if args.stage == 'fit':
         initial = score(row, draft, metric_dir=args.metric_dir, gold=gold)
         result.update(draft=draft, judgments=judgments, fit_leaf=fit_leaf(row, draft, gold, initial) if not low['strict'] else None)
+    elif args.stage == 'eval':
+        compiled = compiled_selection(row, entry, result, gold, args.metric_dir)
+        if compiled is not None:
+            result['compiled_selection'] = compiled
     return result
 
 

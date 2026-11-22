@@ -246,6 +246,28 @@ def test_shared_budgetverify_compiler_updates_answers_without_changing_routes_or
     assert compiled in report['paired_strict_evaluation']['by_stratum']['all']
 
 
+def test_car_compiler_preserves_attempt_costs_and_retained_draft(matched_runs):
+    from frontier_report import CAR_COMPILED, build_report
+
+    path = matched_runs.car_run / 'outcomes.jsonl'
+    rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+    for row in rows:
+        compiled = row['id'] == 'known'
+        row.update(strict=False, repaired=False, compiled_selection={'strict': compiled, 'executable': compiled})
+    path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+    report = build_report(matched_runs)
+    native = report['strata']['all']['policies']['car']
+    compiled = report['strata']['all']['policies'][CAR_COMPILED]
+    assert (native['correct'], compiled['correct']) == (0, 1)
+    assert all(compiled[key] == native[key] for key in ('calls', 'known_tokens', 'summed_call_seconds'))
+    assert CAR_COMPILED in report['paired_tradeoff_evaluation']['anchors']
+
+    rows[0]['compiled_selection']['strict'] = False
+    path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+    with pytest.raises(ValueError, match='compiled CAR selection differs from retained ODA draft'):
+        build_report(matched_runs)
+
+
 def test_matched_report_rejects_duplicate_ids(matched_runs):
     from frontier_report import build_report
 

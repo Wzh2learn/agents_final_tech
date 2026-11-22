@@ -19,6 +19,7 @@ TIERS = ('low', 'mid', 'high')
 MODELS = ('oda-8b', 'qwen-27b', 'deepseek')
 CONTRACT_CASCADE = 'contract_8b_free_qwen_deepseek'
 FLAGSHIP = f'cascade/compiled/{CONTRACT_CASCADE}'
+CAR_COMPILED = 'car_compiled'
 INTERVAL_ANCHORS = ('cascade/compiled/nonexecution_8b_qwen_deepseek',
                     'cascade/compiled/nonexecution_deepseek_qwen', 'oda/compiled_fallback', 'car')
 TRADEOFF_BASELINES = (*INTERVAL_ANCHORS, 'cascade/compiled/cascade_routing_1.5',
@@ -129,7 +130,7 @@ def car_items(root, oda, ids, dataset, panel, oda_digest):
             or contract['draft_collection'] != oda_digest or not contract['policy']):
         raise ValueError('CAR outcomes need the matched ODA drafts, frozen panel and policy')
     rows = matched(load_lines(root / 'outcomes.jsonl'), ids, 'CAR', dataset)
-    results = {}
+    results, compiled = {}, {}
     for ident, row in rows.items():
         draft = oda[ident]
         if row['report'] != draft['report'] or row['draft_correct'] != draft['actions']['low']['strict']:
@@ -149,8 +150,28 @@ def car_items(root, oda, ids, dataset, panel, oda_digest):
         execution_source = execution_flag(draft['actions']['low'].get('executable')) if retained else None
         execution = matched_execution(row.get('executable'), execution_source, f'CAR/{ident}')
         results[ident] = outcome(row['strict'], cost, executable=execution)
-    return results, {'family': 'CAR adaptation', 'policy_sha256': contract['policy'],
-                     'probe_decoding': contract.get('probe_decoding')}
+        if 'compiled_selection' in row:
+            selection = row['compiled_selection']
+            if (not isinstance(selection, dict) or set(selection) != {'strict', 'executable'}
+                    or any(type(value) is not bool for value in selection.values())
+                    or type(row.get('repaired')) is not bool or (row['repaired'] and not row['attempted_repair'])):
+                raise ValueError(f'{ident}: invalid compiled CAR selection')
+            item = outcome(selection['strict'], cost, executable=selection['executable'])
+            if retained:
+                expected = selected_action(draft, 'contract_compile')
+                if (item.strict, item.executable) != (expected.strict, expected.executable):
+                    raise ValueError(f'{ident}: compiled CAR selection differs from retained ODA draft')
+            elif not execution or not item.executable:
+                raise ValueError(f'{ident}: the accepted CAR repair must remain executable')
+            compiled[ident] = item
+    metadata = {'family': 'CAR adaptation', 'policy_sha256': contract['policy'],
+                'probe_decoding': contract.get('probe_decoding')}
+    policies = {'car': (results, metadata)}
+    if compiled:
+        if compiled.keys() != results.keys():
+            raise ValueError('compiled CAR selections must cover the matched panel')
+        policies[CAR_COMPILED] = (compiled, {**metadata, 'representation': 'compiled_selected_submission'})
+    return policies
 
 
 def budget_items(report, oda, ids, dataset, provenance, expected_method):
@@ -410,6 +431,8 @@ def paired_tradeoff_report(policies, public, strata):
     """Report paired uncertainty at named operating points independent of eval accuracy."""
     names = [name for name in TRADEOFF_BASELINES if name in policies]
     missing = [name for name in TRADEOFF_BASELINES if name not in policies]
+    if CAR_COMPILED in policies:
+        names.append(CAR_COMPILED)
     for classifier in ('tabfm', 'gbm'):
         prefix = f'budgetverify/{classifier}/'
         budget_points = [name for name, (_, metadata) in policies.items()
@@ -552,7 +575,7 @@ def build_report(args):
     oda_policies = {action: {ident: selected_action(row, action) for ident, row in oda.items()}
                     for action in ODA_METHODS}
     policies = {f'oda/{action}': (items, {'family': 'Fixed ODA action'}) for action, items in oda_policies.items()}
-    policies['car'] = car_items(args.car_run, oda, public, args.dataset, panel, provenance['outcomes.jsonl'])
+    policies.update(car_items(args.car_run, oda, public, args.dataset, panel, provenance['outcomes.jsonl']))
     gbm, tabfm = read(args.budgetverify_gbm), read(args.budgetverify_tabfm)
     budget_inputs = shared_budgetverify_inputs(gbm, tabfm)
     for tag, record, method in (('gbm', gbm, 'GBM'), ('tabfm', tabfm, 'TabFM-1.0.0-PyTorch')):
