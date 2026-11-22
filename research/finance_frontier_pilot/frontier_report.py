@@ -358,6 +358,7 @@ def paired_compiler_effect(policies, public, strata):
     """Compare the same first replies with and without public compilation."""
     by_stratum = {group: {} for group in ('all', 'no_detected_overlap', 'reference_depth/single', 'reference_depth/multi')
                   if group in strata}
+    first_replies = {}
     columns = (('compiled', 'strict'), ('raw', 'strict'))
     for model in MODELS:
         raw, _ = policies[f'cascade/raw/always_{model}']
@@ -365,6 +366,7 @@ def paired_compiler_effect(policies, public, strata):
         if any(raw[ident]._replace(strict=0, executable=None) != compiled[ident]._replace(strict=0, executable=None)
                for ident in public):
             raise ValueError(f'{model}: the same-call compiler comparison has different recorded charges')
+        first_replies[model] = raw, compiled
         for group, models in by_stratum.items():
             ids = strata[group]
             metrics = {}
@@ -382,9 +384,26 @@ def paired_compiler_effect(policies, public, strata):
                     'compiled_correct': sum(outcomes['compiled']['strict'] for _, outcomes in examples),
                 }
             models[model] = metrics
+    rescue_overlap = {}
+    for group in by_stratum:
+        counts = [0] * (len(MODELS) + 1)
+        exclusive = dict.fromkeys(MODELS, 0)
+        all_raw_wrong = all_raw_wrong_rescued = 0
+        for ident in strata[group]:
+            rescued = [model for model, (raw, compiled) in first_replies.items()
+                       if not raw[ident].strict and compiled[ident].strict]
+            counts[len(rescued)] += 1
+            if len(rescued) == 1:
+                exclusive[rescued[0]] += 1
+            if all(not raw[ident].strict for raw, _ in first_replies.values()):
+                all_raw_wrong += 1
+                all_raw_wrong_rescued += bool(rescued)
+        rescue_overlap[group] = {'n': len(strata[group]), 'rescued_by_model_count': counts,
+                                 'rescued_by_only': exclusive, 'all_raw_wrong': all_raw_wrong,
+                                 'all_raw_wrong_rescued': all_raw_wrong_rescued}
     return {'scope': 'Raw versus compiled on the same direct model calls. The joint metric uses pairs with both '
                      'execution flags known. Intervals resample reports or table contexts within each contrast.',
-            'by_stratum': by_stratum}
+            'by_stratum': by_stratum, 'strict_rescue_overlap_by_stratum': rescue_overlap}
 
 
 def paired_tradeoff_report(policies, public, strata):

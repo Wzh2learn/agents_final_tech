@@ -165,6 +165,10 @@ def test_matched_report_keeps_cost_uncertainty_and_calibration_choice(matched_ru
         assert (effect['n'], effect['raw_correct'], effect['compiled_correct'], effect['gains']) == (2, 0, 1, 1)
         assert effect['paired_cluster_percentile_95_pp'] == [0, 100]
         assert compiler['qwen-27b'][metric]['losses'] == 0
+    shared_rescue = report['paired_compiler_effect']['strict_rescue_overlap_by_stratum']['all']
+    assert shared_rescue == {'n': 2, 'rescued_by_model_count': [1, 1, 0, 0],
+                             'rescued_by_only': {'oda-8b': 1, 'qwen-27b': 0, 'deepseek': 0},
+                             'all_raw_wrong': 0, 'all_raw_wrong_rescued': 0}
     assert strata['reference_depth/single']['n'] == strata['reference_depth/multi']['n'] == 1
     by_depth = report['paired_compiler_effect']['by_stratum']
     assert by_depth['reference_depth/single']['oda-8b']['strict']['gains'] == 1
