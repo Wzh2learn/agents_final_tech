@@ -214,8 +214,9 @@ def render(reports, output, label, *, online=False, executable=False):
             present.update(plot_axis(time_axis, report, executable=executable))
             token_axis.set_ylabel('Strict & executable rate' if executable else 'Strict accuracy')
     figure.suptitle(label, x=.08, ha='left', y=.97, fontsize=12, fontweight='bold')
+    native_online = {'CAR', 'BudgetVerify / TabFM', 'BudgetVerify / GBM'} if online else set()
     legend = [Line2D([], [], marker=marker, color=color, markersize=7 if marker == '*' else 5,
-                     linestyle='none', label=kind)
+                     linestyle='none', label=f'{kind} (native)' if kind in native_online else kind)
               for kind, (marker, color, _) in STYLES.items() if kind in present]
     legend.append(Line2D([], [], color='#253849', linestyle='--', marker='o', markerfacecolor='none',
                          markersize=6, linewidth=1, label='Point-estimate frontier'))
