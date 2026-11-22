@@ -154,6 +154,8 @@ ODA 的同回复消融显示两套任务的收益来源不同。FinQA 上，格�
 
 固定接管路径和已知输入费用，用同题回执求前置 ODA 的用量持平点。以 DeepSeek→Qwen 为参照，FinQA 的前置输入为 1.61M tokens，省下的校内用量为 1.70M，留给 1,138 道 ODA 首答的输出共 87,256 tokens。TAT-QA 的 717 道配对题对应 72,975 个输出 tokens。两库分别要求原输出减少 96.9% 和 95.2%。以 Qwen→DeepSeek 为参照，要求分别减少 58.3% 和 49.4%。这些数值是保持原接管集合与输入成本的算术界限。见 GB10 `official_fixed_oda_output_break_even_v1.json`。
 
+用同题回执区分接管选择的上限和新增模型的独有覆盖。FinQA 的 DeepSeek→Qwen 答对 802 题，按参考答案在两校内回复间逐题选择可达 831 题，再纳入 ODA 可达 846 题。TAT-QA 两校内模型中较强的固定路径 Qwen→DeepSeek 为 626，校内并集为 630，三模型并集为 640。ODA 独有的严格可执行正确分别为 15 和 10 题，其中两库未检出重叠组各占 3 题。并集仅量化已生成候选的上限。见 GB10 `official_matched_model_unique_contribution_v1.json`。
+
 在上述完整 DeepSeek 直跑回执上逐题复算，FinQA 原答、仅格式与表范围编译、再加比例终值规则分别为 390、415、766/1,147。加比例规则救回 362、错改 11。最终相对原答净增 32.78 pp，报告簇 95% 区间为 [29.56, 36.04]，未检出重叠的 440 题上净增 31.36 pp。TAT-QA 三档为 583、598、598/718，无错改。两套共记录 3,229,829 已知 tokens，9 次用量未知，编译复用原调用。该批完整保留调用耗时，启动时尚无 `online_wall` 字段。端到端同条件计时另行采集。GB10 证据见 `official_deepseek_direct_compiler_v1.json`。
 
 校内 Qwen 和 DeepSeek 的 FinQA 1,147 道官方题已完成首答配对复算。校内 Qwen 原答、仅格式与表范围、完整编译三档为 398、399、751/1,147，完整编译救回 364、错改 11，净增 30.78 pp，报告簇配对 95% 区间为 [27.45, 34.10] pp。DeepSeek 三档为 390、415、766。完整编译后 Qwen 相对 DeepSeek 低 1.31 pp，区间为 [−3.55, 0.95] pp。未检出重叠的 440 题上两者分别答对 306 和 303 题。Qwen 记录 3,769,235 已知 tokens、两次未知，DeepSeek 记录 2,241,636 已知 tokens、八次未知。2,294 次首答均已核对冻结题面、原始事件和账本，零新增调用。Qwen 的 FinQA 数据取自同批次完整前缀。见 GB10 `official_finqa_managed_direct_comparison_preflight_v1.json`。
