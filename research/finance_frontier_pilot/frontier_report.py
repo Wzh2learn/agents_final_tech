@@ -343,6 +343,19 @@ def matched_frontiers(policies, strata):
     return strata, result
 
 
+def reference_depth_strata(programs: dict[str, str | None]) -> dict[str, list[str]]:
+    """Split FinQA questions by reference depth for reporting after evaluation."""
+    if not any(program is not None for program in programs.values()):
+        return {}
+    if any(not isinstance(program, str) or '(' not in program for program in programs.values()):
+        raise ValueError('FinQA depth stratification requires a reference program for each question')
+    strata = {}
+    for ident, program in programs.items():
+        depth = 'single' if program.count('(') == 1 else 'multi'
+        strata.setdefault(f'reference_depth/{depth}', []).append(ident)
+    return strata
+
+
 def paired_evaluation(policies, public, strata):
     missing = {FLAGSHIP, *INTERVAL_ANCHORS} - policies.keys()
     if missing:
@@ -541,6 +554,8 @@ def build_direct_report(args):
             policies[f'cascade/{representation}/always_{arm}'] = outcomes, {'family': 'Fixed baseline'}
 
     scopes = {'all': list(public)}
+    if args.dataset == 'finqa':
+        scopes.update(reference_depth_strata({ident: gold[args.dataset, ident].get('program') for ident in public}))
     exposure_path = args.panel / 'exposure.json'
     if exposure_path.is_file():
         exposure = matched(read(exposure_path), public, 'exposure', args.dataset)
@@ -598,13 +613,7 @@ def build_report(args):
     strata = {'all': list(public)}
     if args.dataset == 'finqa':
         references = matched(load_lines(args.panel / 'references.jsonl'), public, 'FinQA references', args.dataset)
-        programs = {ident: row['gold'].get('program') for ident, row in references.items()}
-        if any(program is not None for program in programs.values()):
-            if any(not isinstance(program, str) or '(' not in program for program in programs.values()):
-                raise ValueError('FinQA depth stratification requires a reference program for each question')
-            for ident, program in programs.items():
-                depth = 'single' if program.count('(') == 1 else 'multi'
-                strata.setdefault(f'reference_depth/{depth}', []).append(ident)
+        strata.update(reference_depth_strata({ident: row['gold'].get('program') for ident, row in references.items()}))
     exposure_path = args.panel / 'exposure.json'
     if exposure_path.is_file():
         exposure = matched(read(exposure_path), public, 'exposure', args.dataset)
