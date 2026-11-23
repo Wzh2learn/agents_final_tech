@@ -263,6 +263,8 @@ GB10 用新入口复算前 80 道 FinQA TRAIN 拟合题。护栏使 ODA 直跑�
 
 ODA 首答账本的 `reasoning` 字段均为零。用冻结权重配套的 tokenizer 重计所有 1,864 份已知用量首答中的原生事件，两库约 98.5% 的生成 tokens 对应推理段。事件重计总量与输出账本的逐题绝对差中位数、p90 均为 3 tokens，正式成本继续采用原账本。若固定首答结果和未执行接管集合，单靠缩短推理段，要让 ODA→DeepSeek→Qwen 与 DeepSeek→Qwen 等总用量，FinQA 需减去估计推理量的 98.4%，TAT-QA 需减去 96.6%。此时固定的正确数仍分别为 781 对 794、594 对 611。这是基于已保存事件的压缩界限。见 GB10 `official_oda_reasoning_event_token_decomposition_v1.json`。
 
+短程序首答可以只改变一个请求字段。冻结的 ODA 模板在 `enable_thinking=false` 时预填空推理段。GB10 用相同版本的 OpenCode 向本机模拟端点发送两份请求，实测模型 `options` 中的 `chat_template_kwargs.enable_thinking=false` 会转发到请求体。模板和传参已验证，短程序的生成成本及准确率尚未测量。后续可先在 TRAIN 上比较同一 DSL 提示下的两个模式，并以编译 DeepSeek→Qwen 的联合正确率和总用量为参照。见 GB10 `oda_thinking_opencode_request_preflight_v1.json`。
+
 检验首答前的题面、表格与上下文大小能否发现值得先调用 ODA 的题。两批各 96 道 TRAIN 题分别按来源五折留出，以同题联合正确和 token 增量拟合岭回归，固定 24 题改用 ODA→DeepSeek→Qwen。FinQA 联合分为 64/96，与 DeepSeek→Qwen 持平，增加 80,916 tokens。TAT-QA 从 80 降到 79/96，在 95 道完整计费配对题上增加 43,786 tokens。均匀随机固定 24 题的期望为 64.25 和 80.25。仅按上下文短优先得 63 和 81，成本也高于直接强模型起步。全部先用 ODA 仅改变 3 和 7 题的联合成败，分别为救回 2、错改 1 与救回 4、错改 3。复算见 `train_full_fit_pair_effect_v1.json` 的 `public_start_model_replay`。
 
 反向使用 ODA 接管同一批题。以 ODA 替换 DeepSeek→Qwen 的末级，FinQA 联合分 64→63，增加 4,282 tokens；TAT-QA 仍为 80，在 95 道完整计费配对题上增加 3,161 tokens。以 ODA 替换 Qwen→DeepSeek 的末级，联合分分别为 66→64、83→81，两组增费。仅在两个校内模型均未执行时征询 ODA，FinQA 两种起步顺序均多救同一题，各多用 10,126 tokens。TAT-QA 额外调用 4 次且无增益。复算复用原回执，见 `train_full_fit_pair_effect_v1.json` 的 `oda_after_managed_replay`。
