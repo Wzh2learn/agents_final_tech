@@ -259,6 +259,8 @@ GB10 用新入口复算前 80 道 FinQA TRAIN 拟合题。护栏使 ODA 直跑�
 
 固定首答中能执行的结果，理想地修对所有未执行题，ODA 的联合正确数上限在 FinQA 为 75/96，在 TAT-QA 为 89/96。若进一步把未执行首答的输出 token 全部免去，仍按原值计输入与已执行首答，FinQA 的 ODA 开销下界为 286,276 tokens，高于 DeepSeek→Qwen 的 226,836。在 TAT-QA 的 95 道完整计费配对题上，下界为 206,332，对照为 141,898。若要与该强模型起步策略等 token，ODA 首答总开销至少要降 44.0% 与 48.9%。这两个界限针对固定先跑 ODA 和现有首答开销，提示成本改进还需触及首答选择或已执行回答的长度。见 `train_full_fit_pair_effect_v1.json` 的 `oda_first_call_cost_floor`。
 
+同一界限在两套官方全集上也成立。保留 ODA 所有已执行首答，允许接管把其余题全部答对，FinQA 上限 921/1,147，仍有 226 道已执行错题；TAT-QA 上限 642/718，仍有 76 道已执行错题。在三模型首答用量完整的 1,136／716 题上，即使后续接管完全免费，ODA 首答本身已耗用 4.40M／2.21M tokens，超过完整 DeepSeek→Qwen 的 2.51M／1.12M。两库至少需减少首答用量 42.9%／49.3%，才有机会在该成本点竞争。这是冻结首答的反事实界限，复算未新增调用。见 GB10 `official_oda_first_terminal_ceiling_v1.json`。
+
 检验首答前的题面、表格与上下文大小能否发现值得先调用 ODA 的题。两批各 96 道 TRAIN 题分别按来源五折留出，以同题联合正确和 token 增量拟合岭回归，固定 24 题改用 ODA→DeepSeek→Qwen。FinQA 联合分为 64/96，与 DeepSeek→Qwen 持平，增加 80,916 tokens。TAT-QA 从 80 降到 79/96，在 95 道完整计费配对题上增加 43,786 tokens。均匀随机固定 24 题的期望为 64.25 和 80.25。仅按上下文短优先得 63 和 81，成本也高于直接强模型起步。全部先用 ODA 仅改变 3 和 7 题的联合成败，分别为救回 2、错改 1 与救回 4、错改 3。复算见 `train_full_fit_pair_effect_v1.json` 的 `public_start_model_replay`。
 
 反向使用 ODA 接管同一批题。以 ODA 替换 DeepSeek→Qwen 的末级，FinQA 联合分 64→63，增加 4,282 tokens；TAT-QA 仍为 80，在 95 道完整计费配对题上增加 3,161 tokens。以 ODA 替换 Qwen→DeepSeek 的末级，联合分分别为 66→64、83→81，两组增费。仅在两个校内模型均未执行时征询 ODA，FinQA 两种起步顺序均多救同一题，各多用 10,126 tokens。TAT-QA 额外调用 4 次且无增益。复算复用原回执，见 `train_full_fit_pair_effect_v1.json` 的 `oda_after_managed_replay`。
