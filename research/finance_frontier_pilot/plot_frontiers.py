@@ -162,7 +162,7 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
     x, y = zip(*marked)
     axis.plot(x, y, color='#253849', linestyle='--', linewidth=1.05, zorder=2)
     axis.scatter(x, y, s=130, facecolors='none', edgecolors='#253849', linewidths=.9, zorder=10)
-    title = f'{DATASETS[report["dataset"]]}  ·  {cohort}, n={n:,}'
+    title = f'{DATASETS[report["dataset"]]}  ·  n={n:,}\n{cohort}'
     if missing:
         title += f'\nUnavailable policy costs: {missing}'
     axis.set_title(title, loc='left', fontsize=9.2, fontweight='bold', pad=8)
