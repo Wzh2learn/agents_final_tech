@@ -94,7 +94,9 @@ Encore 已使用表头行列定位数值并拆解公式来构造监督。后续�
 
 以官方全集为比较分母，同时保留分组结果。FinQA 的 1,147 题包括 200 道探针题、337 道同报告或同表题、155 道同公司同年题、15 道与官方训练集同表题，余 440 道未检出上述重叠。TAT-QA 的 718 道算术题包括 200 道探针题、186 道同表题、64 道旧 C3 原题、101 道同 C3 表的其他题，余 167 道未检出上述重叠。用户已授权在独立实验中重测官方副本，旧 IJCNN 档案和结果继续封存。GB10 `finance_frontier_benchmark_20261120_v2/panel/eval/exposure.json` 通过公开的 64 张表成员清单和原定题号哈希重建分组，仅用于分组报告。两个拟合、校准面板和全量题目保持与 v1 字节一致。
 
-另核对 ODA 公开 RL 训练文件。12,187 条中有 243 条以 FLARE FinQA 为来源，题干均可在官方 TRAIN 匹配。对整个公开 RL 文件用题干和报告片段检索官方评测题，定位 2 道 FinQA 候选，均落在本项目未检出重叠组。其中 MultiHiertt 的 1 道同时匹配题干、76 个八词报告片段与数值答案；另一道 FLARE FinQA 候选的数值答案不同。两道一起筛除后，ODA 编译首答、冻结级联、DeepSeek→Qwen、作者高预算级联分别为 632、696、800、804/1,145，排序保持一致。相同检索在 TAT-QA 718 题上未检出匹配。本次核查覆盖公开 RL 文件，SFT 和基础预训练留待后续核查。复算见 GB10 `oda_published_rl_train_source_overlap_v1.json`。[ODA 公开 RL 训练文件](https://huggingface.co/datasets/OpenDataArena/ODA-Fin-RL-12k/blob/91d92388623efd63a37cb2b616335415e8b46cfd/train.parquet) · [ODA 论文](https://arxiv.org/html/2603.07223v1)
+另用规范化题干与至少两个八词报告片段核对 ODA 发布的 318,599 条 SFT 及 12,187 条 RL 训练数据，两个文件均校验发布方 SHA-256。FinQA 找到 11 道题干和上下文匹配候选（SFT 10、RL 2，重合 1），其中 1 道的 MultiHiertt 来源 RL 答案通过官方评分。TAT-QA 找到 137 道匹配候选，均来自 SFT 的 Agentar-DeepFinance-100K；其中 20 道的公开最终答复通过官方评分。137 道中有 22 道落在原项目未检出重叠的 167 题内。该组名称只对应项目已列出的探针、报告、表及 C3 来源。核查覆盖当前公开后训练文件。[ODA SFT 训练文件](https://huggingface.co/datasets/OpenDataArena/ODA-Fin-SFT-318k/blob/4986d04ddb9bc70c2b84f8ce144760d9dfb2779f/train.json) · [ODA RL 训练文件](https://huggingface.co/datasets/OpenDataArena/ODA-Fin-RL-12k/blob/91d92388623efd63a37cb2b616335415e8b46cfd/train.parquet)
+
+筛除全部题干与上下文匹配候选，FinQA 的 ODA 编译首答、冻结级联、DeepSeek→Qwen 和作者高预算级联依次为 627、690、794、798/1,136，排序保持一致。TAT-QA 的 ODA／Qwen／DeepSeek 编译首答为 408／474／479，固定 DeepSeek→Qwen 和 Qwen→DeepSeek 为 491／501，分母 581。把项目未检出的 TAT-QA 组进一步筛除上述公开候选后，两固定顺序为 116／118，分母 145。这是复用原回执的敏感性核对。官方主结果、评分与策略均沿用冻结协议。见 GB10 `oda_published_sft_rl_visible_sensitivity_v1.json`。
 
 旧探针 400 题的 800 份平铺和自由回执已逐题匹配题号、报告、公开提示和原始计费事件。存留的服务镜像、参数、挂载与 OpenCode actor 配置均与当前配置一致。旧回执缺逐请求运行指纹，且题目已用于选路线。正式主结果使用冻结协议下的新采集，旧回执用于诊断与复算。核对见 GB10 `pilot_receipt_eligibility.json`。
 
