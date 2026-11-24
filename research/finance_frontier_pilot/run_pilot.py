@@ -189,7 +189,7 @@ def preserve_interrupted_call(destination, attempt_path, *, corrupt_finalized=Fa
 
 
 class OpenCode:
-    def __init__(self, root, executable, base, model, output, context, temperature):
+    def __init__(self, root, executable, base, model, output, context, temperature, *, disable_thinking=False):
         self.root = root
         self.executable = executable
         self.model = f'pilot/{model}'
@@ -208,6 +208,10 @@ class OpenCode:
                                   'permission': {'*': 'deny'}}},
             'tools': {'*': False}, 'permission': {'*': 'deny'},
         }
+        if disable_thinking:
+            config['provider']['pilot']['models'][model]['options'] = {
+                'chat_template_kwargs': {'enable_thinking': False},
+            }
         frozen = root / 'opencode.json'
         if frozen.exists():
             saved = json.loads(frozen.read_text(encoding='utf-8'))

@@ -349,6 +349,10 @@ def collect(args, root):
         'serve_sha256': profile_digest, 'opencode_sha256': digest_file(args.opencode),
         'seed': 17, 'context': args.context, 'output': outputs, 'temperature': args.temperature,
     }
+    actor_kwargs = {}
+    if getattr(args, 'disable_thinking', False):
+        actor_kwargs['disable_thinking'] = True
+        contract['chat_template_kwargs'] = {'enable_thinking': False}
     if args.measure_wall:
         contract['timing_protocol'] = 'fresh_serial_action_until_execution_v1'
         if (root / 'run.json').exists():
@@ -357,7 +361,8 @@ def collect(args, root):
     contract_digest = digest_file(root / 'run.json')
     wait_service(args.base, args.model, 90)
     actors = {name: OpenCode(root / 'actors' / name, args.opencode, args.base, args.model,
-                             output, args.context, args.temperature) for name, output in outputs.items()}
+                             output, args.context, args.temperature, **actor_kwargs)
+              for name, output in outputs.items()}
     prioritize_direct = getattr(args, 'prioritize_direct', False)
     direct_path = root / 'direct_outcomes.jsonl'
     outcomes_path = root / 'outcomes.jsonl'
@@ -464,6 +469,8 @@ def main():
     parser.add_argument('--verify-output', type=int, default=1024)
     parser.add_argument('--probe-output', type=int, default=256)
     parser.add_argument('--temperature', type=float, default=.6)
+    parser.add_argument('--disable-thinking', action='store_true',
+                        help='Send enable_thinking=false to the frozen model chat template')
     parser.add_argument('--measure-wall', action='store_true',
                         help='Time one selected action per question with fresh serial calls, before grading')
     parser.add_argument('--prioritize-direct', action='store_true',

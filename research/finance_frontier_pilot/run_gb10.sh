@@ -12,8 +12,8 @@ old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
 case $benchmark_split in
-    fit|calibration|eval|timing) ;;
-    *) echo 'Expected benchmark split fit, calibration, eval or timing.' >&2; exit 2 ;;
+    fit|calibration|eval|timing|short-calibration) ;;
+    *) echo 'Expected fit, calibration, eval, timing or short-calibration.' >&2; exit 2 ;;
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
@@ -143,6 +143,10 @@ PY
     panel_split=$benchmark_split
     if [[ $benchmark_split == timing ]]; then
         panel_split=eval
+    elif [[ $benchmark_split == short-calibration ]]; then
+        panel_split=calibration
+        test -s "$work/oda_calibration_v1/outcomes.jsonl"
+        test ! -e "$work/oda_short_calibration_v1/outcomes.jsonl"
     fi
     test -s "$work/panel/$panel_split/public.jsonl"
     test -s "$work/panel/$panel_split/references.jsonl"
@@ -160,8 +164,8 @@ with open(sys.argv[1]) as source:
     rows = json.load(source)
 assert len(rows) == 400 and sum('teacher' in row for row in rows) == 220
 PY
-elif [[ $benchmark_split == timing ]]; then
-    echo 'Matched timing requires the finalized benchmark directory.' >&2
+elif [[ $benchmark_split == timing || $benchmark_split == short-calibration ]]; then
+    echo 'This mode requires the benchmark directory.' >&2
     exit 2
 fi
 lslocks -rn -o PID,PATH | awk -v guard="$guard_pid" -v lock="$HOME/wzh/.gpu_lock" \
@@ -278,6 +282,16 @@ PY
         'from run_pilot import wait_service; wait_service("http://127.0.0.1:18157/v1", "oda-fin-rl-8b", 300)'
     if [[ $benchmark_split == timing ]]; then
         timing_run
+        exit 0
+    fi
+    if [[ $benchmark_split == short-calibration ]]; then
+        "$python" -u "$repo/research/finance_frontier_pilot/benchmark_actions.py" \
+            --panel "$work/panel/calibration" --run-dir "$work" --namespace oda_short_calibration_v1 \
+            --base http://127.0.0.1:18157/v1 --model oda-fin-rl-8b \
+            --checkpoint 948c22ea48f9bf93e5747f4211657fcad9cb0295 \
+            --serving-profile "$work/oda_serving_profile.json" --metric-dir "$metric_dir" \
+            --actions contract_compile --disable-thinking --workers 8 --context 16384 \
+            --solve-output 4096 --verify-output 4096 --probe-output 4096 --temperature .6
         exit 0
     fi
     if [[ ! -e $work/oda_${benchmark_split}_v1/outcomes.jsonl ]]; then
