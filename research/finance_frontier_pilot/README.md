@@ -364,6 +364,8 @@ TAT-QA 同一 vLLM 实例三臂各采集 48 次 OpenCode 首答。关闭思考�
 
 短程序有 238 道已执行错题。固定算式枚举合法尺度时，68 道有唯一可通过的替代标签，170 道换任一合法尺度仍无法通过，另有 7 道首答未执行。已有 DeepSeek 回执在共同计费题上可补救 166 道。按参考答案事后挑选这 166 道接管，可得 633/711、938,127 tokens，给出该候选池的条件上限。见 GB10 `compact_program_development_v1/tatqa_aligned/official_tatqa_error_and_routing_headroom.json`。
 
+既有公开尺度规则只修改输出尺度。复用短程序的官方 718 题回执时，规则修改 11 道，救回 4 道、错改 0 道，分数从 473 提至 477。4 道救回均是补百分比标签。原 TRAIN 校准 48 题应用同一规则后，得分从 30 降至 29，唯一修改为补百万标签。新增推理调用为零。见 GB10 `compact_program_development_v1/tatqa_aligned/public_joint_scale_rule_replay_v1.json`。
+
 为检验 FinQA 的单步覆盖假设，两组均保留原 67 道多步训练题，从 67 个新增报告和表来源分别补入单步或同表多步题，共 134 题一组。用同一报告和表上的 48 对新单步、多步题对照，并保留最初的 48 道多步校准题测保持。训练材料筛选、参考程序验收及子集配对见 GB10 `compact_program_development_v1/finqa_depth_control/summary.json`。官方 FinQA 仅用公开来源键排重。
 
 两组训练各完成 134 次更新，随后采集 288 次 OpenCode 首答。加入单步题的组相对同表多步对照，在新单步集从 17→29/48（救回 12、错改 0，+25.0 pp，联合 95% 区间 [12.5, 39.6] pp），新多步集从 30→25/48（救回 0、错改 5），原多步校准集均为 25/48。同一来源上的单步相对多步的增量差为 +35.4 pp，配对报告簇 95% 区间 [20.8, 50.0] pp。新单步共用量为 69,766 对 70,137 tokens。包括单步题的组在新多步集有一次用量未知，相关成本区间按 47 道完整题计算。见 `finqa_depth_control/calibration_summary.json`。
@@ -391,7 +393,7 @@ FinQA 有 131 道可执行错题能由 DeepSeek 救回，直接替换也可能�
 
 排除与前序拟合、校准及官方 Dev 连通的表来源后，官方 TRAIN 有 5,190 道候选，其中 4,885 道可用现有编译器形成通过官方执行评分的目标。单步为 2,608 道，多步为 2,277 道。其中 359 道单步和 1,218 道多步保留原算式，仅将标注尺度换成唯一能通过评分的尺度。另有 1,315 个独立来源同时含可用单步、多步题。统计见 GB10 `compact_program_development_v1/tatqa_aligned/train_source_coverage_v1.json`。
 
-按固定哈希锁定 96 道新 TRAIN 校准题，并从不同来源各取 128 道单步、多步训练题。两臂共享题面和程序，分别监督原标注尺度及执行对齐尺度，实际有 89 道尺度不同。训练输入逐序列复现了原适配器的 78 道编码，两臂均为 6,979 个监督 tokens。另保留已有 78 题适配器作参照。目标、训练计划、公开输入和评分依据见 GB10 `compact_program_development_v1/tatqa_aligned/source_expansion_v1/`。训练入口为 `compact-tatqa-expansion-train`。
+按固定哈希锁定 96 道新 TRAIN 校准题，并从不同来源各取 128 道单步、多步训练题。两臂共享题面和程序，分别监督原标注尺度及执行对齐尺度，实际有 89 道尺度不同。训练输入逐序列复现了原适配器的 78 道编码，两臂均为 6,979 个监督 tokens。校准时用同一个 BF16 服务分别采集两个新适配器及原 78 题适配器的 OpenCode 首答。目标、训练计划、公开输入和评分依据见 GB10 `compact_program_development_v1/tatqa_aligned/source_expansion_v1/`。训练与校准入口为 `compact-tatqa-expansion-train` 和 `compact-tatqa-expansion-calibration`。
 
 ### FinQA 可执行答案的接管试验
 

@@ -23,6 +23,13 @@ BASE_MODEL = 'oda-fin-rl-8b'
 REVISION = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 ALIASES = {'base': BASE_MODEL, 'canonical': 'oda-compact-canonical', 'teacher': 'oda-compact-teacher'}
 DEPTH_ALIASES = {'balanced': 'oda-compact-balanced', 'multi_only': 'oda-compact-multi-only'}
+TATQA_EXPANSION_ALIASES = {'canonical': ALIASES['canonical'],
+                           'annotated_scale': 'oda-compact-annotated-scale',
+                           'execution_aligned': 'oda-compact-execution-aligned'}
+TATQA_EXPANSION_PINS = {
+    'panel/manifest.json': 'be7a3cbf21a09afe88ad6c75dc4323c5d4a01f0e30ef01c86aba04dcbe8670c8',
+    'panel/calibration/public.jsonl': 'f6478c5ca6e127b557bb8fbe1c54e567d53f052bb7b221f0beb882b11add464d',
+}
 DATASET = 'finqa'
 ACTION = 'contract_compile'
 ADAPTER_FILES = ('adapter_config.json', 'adapter_model.safetensors')
@@ -32,7 +39,7 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_control=False):
+def inspect_server(benchmark, container):
     # Ask Docker for these fields alone. Full inspect can contain environment variables.
     keys = ('Image', 'Config.Cmd', 'Mounts', 'State.Running')
     template = '\n'.join('{{json .' + key + '}}' for key in keys)
@@ -45,7 +52,11 @@ def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_co
     if (not running or frozen['model'] != BASE_MODEL or frozen['checkpoint'] != REVISION or image != frozen['image']
             or argv[:len(frozen['argv'])] != frozen['argv'] or any(mount not in mounts for mount in frozen['mounts'])):
         raise ValueError('Compact evaluation requires the frozen BF16 ODA image, flags, and base mounts')
+    return frozen, image, argv, mounts
 
+
+def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_control=False):
+    _, image, argv, mounts = inspect_server(benchmark, container)
     common = {'base_checkpoint': REVISION, 'image': image, 'argv': argv, 'mounts': mounts}
     profiles = {'base': {**common, 'model': BASE_MODEL, 'checkpoint': REVISION}}
     loras = [json.loads(argument) for argument in argv[argv.index('--lora-modules') + 1:]]
@@ -218,6 +229,158 @@ def run(benchmark, container, metric_dir, *, dataset=DATASET):
         report['arms'][arm] = entry
         print(json.dumps({'arm': arm, **entry}), flush=True)
     freeze(compact / 'calibration_summary.json', report)
+
+
+def tatqa_expansion_inputs(benchmark, compact):
+    """Bind both panels and training inputs to the pre-existing source snapshot."""
+    from cohorts import read_source, table_signature
+
+    for relative, digest in TATQA_EXPANSION_PINS.items():
+        if digest_file(compact / relative) != digest:
+            raise ValueError(f'Frozen TAT-QA expansion input changed: {relative}')
+    manifest_path = compact / 'panel' / 'manifest.json'
+    manifest = read(manifest_path)
+    source = manifest['train']
+    if (manifest['schema'] != 'tatqa-compact-source-expansion-v1'
+            or source['sha256'] != '2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69'
+            or manifest['scoring_n'] != 96
+            or manifest['train_counts'] != {'single': 128, 'single_changed': 16,
+                                            'multi': 128, 'multi_changed': 73}):
+        raise ValueError('Unexpected frozen TAT-QA source-expansion manifest')
+    candidates, observed_source = read_source('tatqa', Path(source['path']), upstream={
+        'tatqa': (source['split'], source['url'], source['sha256'], source['source_questions'])})
+    if observed_source != source:
+        raise ValueError('The TAT-QA training source differs from the frozen manifest')
+    source_rows = {row['id']: (row, {k: v for k, v in reference.items() if k != 'question'})
+                   for row, reference, _ in candidates}
+    panels = {name: read_panel(compact / 'panel' / name, 'tatqa') for name in ('fit', 'calibration')}
+    for name, expected in (('fit', 256), ('calibration', 96)):
+        public, gold, _ = panels[name]
+        if len(public) != expected:
+            raise ValueError(f'Expected {expected} frozen {name} questions')
+        if any(row['id'] not in source_rows or source_rows[row['id']] != (row, gold['tatqa', row['id']])
+               for row in public):
+            raise ValueError(f'{name}: public inputs or references differ from the pinned source')
+    fit, calibration = (panels[name][0] for name in ('fit', 'calibration'))
+    if ({r['id'] for r in fit} & {r['id'] for r in calibration}
+            or {r['report'] for r in fit} & {r['report'] for r in calibration}
+            or {table_signature(r['table']) for r in fit} & {table_signature(r['table']) for r in calibration}):
+        raise ValueError('Training and calibration sources must be disjoint')
+
+    targets = compact / 'targets.jsonl'
+    if digest_file(targets) != manifest['targets_sha256']:
+        raise ValueError('Prepared training targets differ from the frozen manifest')
+    target_rows = [json.loads(line) for line in targets.read_text(encoding='utf-8').splitlines() if line.strip()]
+    target_ids = {row['id']: row['report'] for row in target_rows}
+    if len(target_rows) != 256 or len(target_ids) != 256 or target_ids != {r['id']: r['report'] for r in fit}:
+        raise ValueError('Training target identities differ from the frozen fit panel')
+    if set(manifest['old_public_exclusion']) != {'fit', 'calibration', 'eval'}:
+        raise ValueError('The frozen old-panel exclusions are incomplete')
+    for name, digest in manifest['old_public_exclusion'].items():
+        if digest_file(benchmark / 'panel' / name / 'public.jsonl') != digest:
+            raise ValueError(f'Old public exclusion changed: {name}')
+    plans, data_rows = {}, {}
+    for arm in ('annotated_scale', 'execution_aligned'):
+        plan = read(compact / arm / 'PLAN.json')
+        if (plan['arms'] != [arm] or plan['updates_per_arm'] != 256
+                or plan['terminal_status'] != 'TRAINED_TATQA_COMPACT_SOURCE_EXPANSION'
+                or digest_file(compact / arm / 'DATA.json') != plan['data_sha256']):
+            raise ValueError(f'{arm}: frozen training plan or data differs')
+        data = read(compact / arm / 'DATA.json')
+        if data['verified_target_carrier'] != manifest['targets_sha256'] or len(data['rows']) != 256:
+            raise ValueError(f'{arm}: training data is not bound to the frozen targets')
+        data_rows[arm] = data['rows']
+        plans[arm] = plan
+    matched = ('model_path', 'seed', 'updates_per_arm', 'schedule', 'learning_rate',
+               'rank', 'alpha', 'completion_logits_only')
+    if any(plans['annotated_scale'][key] != plans['execution_aligned'][key] for key in matched):
+        raise ValueError('Expansion arms must use the same training schedule and model settings')
+    for a, b in zip(data_rows['annotated_scale'], data_rows['execution_aligned'], strict=True):
+        if (a['prompt_token_count'] != b['prompt_token_count']
+                or a['input_ids'][:a['prompt_token_count']] != b['input_ids'][:b['prompt_token_count']]):
+            raise ValueError('Expansion training prompts differ across arms')
+    identity = {'manifest_sha256': digest_file(manifest_path), 'source_sha256': source['sha256'],
+                'targets_sha256': digest_file(targets), 'panels': {name: p[2] for name, p in panels.items()},
+                'plans': {arm: digest_file(compact / arm / 'PLAN.json') for arm in plans},
+                'data': {arm: digest_file(compact / arm / 'DATA.json') for arm in plans}}
+    return panels['calibration'], identity
+
+
+def tatqa_expansion_profiles(benchmark, compact, container):
+    """Verify the three static adapters share exactly one frozen BF16 server."""
+    frozen, image, argv, mounts = inspect_server(benchmark, container)
+    prefix = frozen['argv'] + ['--enable-lora', '--max-lora-rank', '8', '--lora-dtype', 'bfloat16',
+                              '--max-loras', '1', '--max-cpu-loras', '3', '--lora-modules']
+    if argv[:len(prefix)] != prefix:
+        raise ValueError('Expected the frozen BF16 ODA server with three static adapters')
+    loras = [json.loads(argument) for argument in argv[len(prefix):]]
+    by_name = {entry['name']: entry for entry in loras}
+    if len(loras) != 3 or by_name.keys() != set(TATQA_EXPANSION_ALIASES.values()):
+        raise ValueError('Expected exactly the three TAT-QA expansion adapter aliases')
+    profiles = {}
+    for arm, alias in TATQA_EXPANSION_ALIASES.items():
+        root = compact.parent / arm if arm == 'canonical' else compact / arm
+        path = root / arm
+        destination = f'/adapters/{arm}'
+        if ({'Source': str(path.resolve()), 'Destination': destination, 'RW': False} not in mounts
+                or by_name[alias] != {'name': alias, 'path': destination, 'base_model_name': BASE_MODEL}):
+            raise ValueError(f'{alias}: adapter mount or model identity differs')
+        receipt = root / 'RESULT.json'
+        result = read(receipt)
+        updates, status = ((78, 'TRAINED_TATQA_COMPACT_PROGRAM_DEVELOPMENT') if arm == 'canonical'
+                           else (256, 'TRAINED_TATQA_COMPACT_SOURCE_EXPANSION'))
+        if (result['status'] != status or result['optimizer_updates'] != updates
+                or result['arms'].keys() != {arm} or result['arms'][arm]['updates'] != updates):
+            raise ValueError(f'{alias}: incomplete or unexpected training result')
+        artifacts = {name: digest_file(path / name) for name in ADAPTER_FILES}
+        if any(result['arms'][arm]['adapter_files'].get(name) != digest for name, digest in artifacts.items()):
+            raise ValueError(f'{alias}: adapter files differ from its training receipt')
+        identity = hashlib.sha256(json.dumps(artifacts, sort_keys=True).encode()).hexdigest()
+        profiles[arm] = {'base_checkpoint': REVISION, 'image': image, 'argv': argv, 'mounts': mounts,
+                         'model': alias, 'checkpoint': identity, 'adapter_files': artifacts,
+                         'training_result_sha256': digest_file(receipt)}
+    return profiles
+
+
+def run_tatqa_expansion(benchmark, container, metric_dir):
+    from paired_tradeoff import paired_tradeoff
+
+    compact = benchmark / 'compact_program_development_v1' / 'tatqa_aligned' / 'source_expansion_v1'
+    panel = compact / 'panel' / 'calibration'
+    (public, gold, panel_identity), source_identity = tatqa_expansion_inputs(benchmark, compact)
+    profiles = tatqa_expansion_profiles(benchmark, compact, container)
+    reports = {row['id']: row['report'] for row in public}
+    wait_service(BASE, BASE_MODEL, 300)
+    for alias in TATQA_EXPANSION_ALIASES.values():
+        wait_service(BASE, alias, 30)
+    report = {'scope': 'Matched TAT-QA TRAIN calibration: three fresh native adapter collections. '
+                       'This is a development comparison, not an official DEV confirmation.',
+              'panel': panel_identity, 'source_identity': source_identity, 'arms': {}}
+    decisions = {}
+    for arm, profile in profiles.items():
+        profile = {**profile, 'source_identity': source_identity}
+        local, provenance = collect_and_verify(
+            benchmark, f'oda_compact_tatqa_expansion_{arm}_calibration_v1',
+            compact / f'{arm}_serving_profile.json', profile, panel, public, gold,
+            panel_identity, metric_dir, dataset='tatqa')
+        decisions[arm] = local
+        report['arms'][arm] = {'native': {**summarize(local), **{
+            key: sum(item[key] for item in local) for key in ('known_input_tokens', 'known_output_tokens')}},
+            'provenance': provenance}
+        print(json.dumps({'arm': arm, **report['arms'][arm]}), flush=True)
+    if tatqa_expansion_inputs(benchmark, compact)[1] != source_identity:
+        raise ValueError('Frozen TAT-QA inputs changed during collection')
+    if tatqa_expansion_profiles(benchmark, compact, container) != profiles:
+        raise ValueError('The serving image, mounts, adapters or receipts changed during collection')
+    aligned = decisions['execution_aligned']
+    report['contrasts'] = {}
+    for arm in ('annotated_scale', 'canonical'):
+        report['contrasts'][arm] = {
+            'recovery_and_harm': recovery_and_harm(aligned, decisions[arm]),
+            'paired_tradeoff': paired_tradeoff(indexed_outcomes(aligned), indexed_outcomes(decisions[arm]),
+                                               reports.keys(), reports, require_execution=True)}
+    freeze(compact / 'calibration_summary.json', report)
+    print(json.dumps({'contrasts': report['contrasts']}), flush=True)
 
 
 def run_depth(benchmark, container, metric_dir):
@@ -565,7 +728,8 @@ def main():
     parser.add_argument('--container', required=True)
     parser.add_argument('--metric-dir', type=Path, required=True)
     parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'official-tatqa',
-                                           'depth-calibration', 'official-finqa-depth', 'recovery-fit'),
+                                           'depth-calibration', 'official-finqa-depth', 'recovery-fit',
+                                           'tatqa-expansion-calibration'),
                         default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
@@ -575,11 +739,13 @@ def main():
     if args.stage == 'calibration':
         run(benchmark, args.container, metric, dataset=args.dataset)
     else:
-        expected = 'tatqa' if args.stage == 'official-tatqa' else DATASET
+        expected = 'tatqa' if args.stage in ('official-tatqa', 'tatqa-expansion-calibration') else DATASET
         if args.dataset != expected:
             parser.error(f'--stage {args.stage} requires --dataset {expected}')
         if args.stage == 'depth-calibration':
             run_depth(benchmark, args.container, metric)
+        elif args.stage == 'tatqa-expansion-calibration':
+            run_tatqa_expansion(benchmark, args.container, metric)
         elif args.stage == 'recovery-fit':
             collect_recovery_fit(benchmark, args.container, metric)
         else:

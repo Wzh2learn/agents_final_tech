@@ -13,10 +13,10 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
-if [[ $benchmark_split == compact-official-tatqa || $benchmark_split == compact-tatqa-expansion-train ]]; then
+if [[ $benchmark_split == compact-official-tatqa || $benchmark_split == compact-tatqa-expansion-* ]]; then
     compact_dataset=${6:-tatqa}
     [[ $compact_dataset == tatqa ]] || { echo 'Expected the TAT-QA adapter.' >&2; exit 2; }
 elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
@@ -24,6 +24,10 @@ elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
     echo 'Use FinQA or TAT-QA with compact training and calibration.' >&2
     exit 2
 fi
+compact_collect=0
+case $benchmark_split in
+    compact*-calibration|compact*-official-*|compact-depth-recovery-fit) compact_collect=1 ;;
+esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
 image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
@@ -102,13 +106,24 @@ if [[ -n $benchmark ]]; then
     compact_arms=(canonical teacher)
     if [[ $compact_dataset == tatqa ]]; then
         compact="$compact/tatqa_aligned"
-        if [[ $benchmark_split == compact-tatqa-expansion-train ]]; then
+        if [[ $benchmark_split == compact-tatqa-expansion-* ]]; then
+            tatqa_compact="$compact"
             compact="$compact/source_expansion_v1"
             compact_arms=(annotated_scale execution_aligned)
+            if (( compact_collect )); then
+                compact_arms=(canonical "${compact_arms[@]}")
+            fi
         fi
     elif [[ $benchmark_split == compact-depth-* ]]; then
         compact="$compact/finqa_depth_control"
         compact_arms=(balanced multi_only)
+    fi
+    declare -A compact_arm_dirs=()
+    for arm in "${compact_arms[@]}"; do
+        compact_arm_dirs[$arm]="$compact/$arm"
+    done
+    if [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
+        compact_arm_dirs[canonical]="$tatqa_compact/canonical"
     fi
     run_car=0
     if [[ $benchmark_split == timing ]]; then
@@ -180,8 +195,7 @@ PY
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
         done
-    elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-            $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
+    elif (( compact_collect )); then
         panel_split=calibration
         if [[ $benchmark_split == compact*-official-* ]]; then
             panel_split=eval
@@ -192,11 +206,15 @@ PY
             test -s "$work/oda_compact_depth_balanced_single_calibration_v1/run.json"
             test -s "$work/qwen27b_local_finqa_recovery_fit_v1/outcomes.jsonl"
             test -s "$work/qwen27b_local_finqa_recovery_fit_v1/collection.json"
+        elif [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
+            panel_dir="$compact/panel"
+            test -s "$panel_dir/manifest.json"
         fi
         for arm in "${compact_arms[@]}"; do
-            test -s "$compact/$arm/RESULT.json"
-            test -s "$compact/$arm/$arm/adapter_config.json"
-            test -s "$compact/$arm/$arm/adapter_model.safetensors"
+            arm_dir=${compact_arm_dirs[$arm]}
+            test -s "$arm_dir/RESULT.json"
+            test -s "$arm_dir/$arm/adapter_config.json"
+            test -s "$arm_dir/$arm/adapter_model.safetensors"
         done
     fi
     test -s "$panel_dir/$panel_split/public.jsonl"
@@ -317,12 +335,11 @@ if [[ $benchmark_split == compact*-train ]]; then
 fi
 lora_mount=()
 lora_options=()
-if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
-    lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
-                  --lora-modules)
+if (( compact_collect )); then
+    lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1
+                  --max-cpu-loras "${#compact_arms[@]}" --lora-modules)
     for arm in "${compact_arms[@]}"; do
-        lora_mount+=(-v "$compact/$arm/$arm:/adapters/$arm:ro")
+        lora_mount+=(-v "${compact_arm_dirs[$arm]}/$arm:/adapters/$arm:ro")
         lora_options+=("{\"name\":\"oda-compact-${arm//_/-}\",\"path\":\"/adapters/$arm\",\"base_model_name\":\"oda-fin-rl-8b\"}")
     done
 fi
@@ -344,8 +361,7 @@ echo "$cid" >oda_container_id
     done
 ) &
 watcher=$!
-if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
+if (( compact_collect )); then
     stage=calibration
     dataset_args=()
     if [[ $compact_dataset == tatqa ]]; then
@@ -361,6 +377,8 @@ if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-dep
         stage=depth-calibration
     elif [[ $benchmark_split == compact-depth-recovery-fit ]]; then
         stage=recovery-fit
+    elif [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
+        stage=tatqa-expansion-calibration
     fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
         --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage" "${dataset_args[@]}"
