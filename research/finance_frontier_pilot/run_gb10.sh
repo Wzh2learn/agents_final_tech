@@ -12,7 +12,7 @@ old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 work=$root
@@ -154,8 +154,11 @@ PY
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
         done
-    elif [[ $benchmark_split == compact-calibration ]]; then
+    elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
         panel_split=calibration
+        if [[ $benchmark_split == compact-official-finqa ]]; then
+            panel_split=eval
+        fi
         compact="$work/compact_program_development_v1"
         for arm in canonical teacher; do
             test -s "$compact/$arm/RESULT.json"
@@ -281,7 +284,7 @@ if [[ $benchmark_split == compact-train ]]; then
 fi
 lora_mount=()
 lora_options=()
-if [[ $benchmark_split == compact-calibration ]]; then
+if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
     lora_mount=(-v "$compact/canonical/canonical:/adapters/canonical:ro"
                 -v "$compact/teacher/teacher:/adapters/teacher:ro")
     lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
@@ -307,9 +310,13 @@ echo "$cid" >oda_container_id
     done
 ) &
 watcher=$!
-if [[ $benchmark_split == compact-calibration ]]; then
+if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
+    stage=calibration
+    if [[ $benchmark_split == compact-official-finqa ]]; then
+        stage=official-finqa
+    fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
-        --benchmark "$work" --container "$cid" --metric-dir "$metric_dir"
+        --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage"
     exit 0
 fi
 if [[ -n $benchmark ]]; then
