@@ -12,8 +12,8 @@ old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train) ;;
-    *) echo 'Expected fit, calibration, eval, timing, short-calibration or compact-train.' >&2; exit 2 ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration) ;;
+    *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
@@ -154,6 +154,14 @@ PY
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
         done
+    elif [[ $benchmark_split == compact-calibration ]]; then
+        panel_split=calibration
+        compact="$work/compact_program_development_v1"
+        for arm in canonical teacher; do
+            test -s "$compact/$arm/RESULT.json"
+            test -s "$compact/$arm/$arm/adapter_config.json"
+            test -s "$compact/$arm/$arm/adapter_model.safetensors"
+        done
     fi
     test -s "$work/panel/$panel_split/public.jsonl"
     test -s "$work/panel/$panel_split/references.jsonl"
@@ -171,7 +179,7 @@ with open(sys.argv[1]) as source:
     rows = json.load(source)
 assert len(rows) == 400 and sum('teacher' in row for row in rows) == 220
 PY
-elif [[ $benchmark_split == timing || $benchmark_split == short-calibration || $benchmark_split == compact-train ]]; then
+elif [[ $benchmark_split == timing || $benchmark_split == short-calibration || $benchmark_split == compact-* ]]; then
     echo 'This mode requires the benchmark directory.' >&2
     exit 2
 fi
@@ -271,13 +279,23 @@ if [[ $benchmark_split == compact-train ]]; then
     done
     exit 0
 fi
+lora_mount=()
+lora_options=()
+if [[ $benchmark_split == compact-calibration ]]; then
+    lora_mount=(-v "$compact/canonical/canonical:/adapters/canonical:ro"
+                -v "$compact/teacher/teacher:/adapters/teacher:ro")
+    lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
+                  --lora-modules
+                  '{"name":"oda-compact-canonical","path":"/adapters/canonical","base_model_name":"oda-fin-rl-8b"}'
+                  '{"name":"oda-compact-teacher","path":"/adapters/teacher","base_model_name":"oda-fin-rl-8b"}')
+fi
 cid=$(docker run -d --name "finance-frontier-oda-v1-$$" --pull never --network host --ipc host \
     --device nvidia.com/gpu=all -v "$model_dir:/models/oda:ro" \
-    -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
+    -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" "${lora_mount[@]}" -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
     "$image" vllm serve /models/oda --host 127.0.0.1 --port 18157 --served-model-name oda-fin-rl-8b \
     --dtype bfloat16 --gpu-memory-utilization 0.23 --kv-cache-memory 5368709120 --max-model-len 16384 \
     --max-num-seqs 12 --max-num-batched-tokens 12288 --enable-prefix-caching --enforce-eager \
-    --reasoning-parser qwen3)
+    --reasoning-parser qwen3 "${lora_options[@]}")
 echo "$cid" >oda_container_id
 (
     while sleep 5; do
@@ -289,6 +307,11 @@ echo "$cid" >oda_container_id
     done
 ) &
 watcher=$!
+if [[ $benchmark_split == compact-calibration ]]; then
+    "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
+        --benchmark "$work" --container "$cid" --metric-dir "$metric_dir"
+    exit 0
+fi
 if [[ -n $benchmark ]]; then
     "$python" - "$cid" "$model_dir" <<'PY'
 import json, subprocess, sys
