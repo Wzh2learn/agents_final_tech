@@ -181,6 +181,8 @@ PY
             panel_split=fit
             test -s "$panel_dir/../manifest.json"
             test -s "$work/oda_compact_depth_balanced_single_calibration_v1/run.json"
+            test -s "$work/qwen27b_local_finqa_recovery_fit_v1/outcomes.jsonl"
+            test -s "$work/qwen27b_local_finqa_recovery_fit_v1/collection.json"
         fi
         for arm in "${compact_arms[@]}"; do
             test -s "$compact/$arm/RESULT.json"

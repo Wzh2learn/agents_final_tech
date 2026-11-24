@@ -3,9 +3,10 @@
 import argparse
 import hashlib
 import json
-from math import isclose
+from math import isclose, isfinite
 from pathlib import Path
 import re
+from statistics import median
 import subprocess
 import sys
 
@@ -92,12 +93,13 @@ def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold,
 
 
 def verify_collection(directory, path, profile, public, gold, panel_identity, metric_dir,
-                      *, dataset=DATASET, check_conflicts=False):
+                      *, dataset=DATASET, check_conflicts=False, disable_thinking=True):
     namespace = directory.name
     reports = {row['id']: row['report'] for row in public}
     run, indexed, provenance = read_paired_run(directory, panel_identity, reports, dataset, ACTION)
+    expected = {'enable_thinking': False} if disable_thinking else None
     if (run['model'] != profile['model'] or run['checkpoint'] != profile['checkpoint']
-            or run['serve_sha256'] != digest_file(path) or run['chat_template_kwargs'] != {'enable_thinking': False}):
+            or run['serve_sha256'] != digest_file(path) or run.get('chat_template_kwargs') != expected):
         raise ValueError(f'{namespace}: unexpected local serving contract')
     decisions = []
     for row in public:
@@ -122,10 +124,21 @@ def verify_collection(directory, path, profile, public, gold, panel_identity, me
                     'selected': profile['model'], 'queried': [profile['model']], **cost,
                     'known_input_tokens': usage.get('input', 0), 'known_output_tokens': usage.get('output', 0)}
         if check_conflicts:
-            decision['explicit_conflict'] = bool(result['executable'] and any(
-                binding['explicit_conflicts'] for binding in ground(row, result['submission']['program'])))
+            bindings = ground(row, result['submission']['program']) if result['executable'] else []
+            decision['explicit_conflict'] = any(binding['explicit_conflicts'] for binding in bindings)
+            decision['ambiguous_literals'] = sum(len(binding['candidates']) > 1 for binding in bindings)
         decisions.append(decision)
-    return decisions, {'namespace': namespace, 'files': provenance, 'collection': read(directory / 'collection.json')}
+    evidence = {'namespace': namespace, 'files': provenance, 'collection': read(directory / 'collection.json')}
+    if run.get('timing_protocol') == 'fresh_serial_action_until_execution_v1':
+        times = []
+        for entry in indexed.values():
+            timing = entry['online_wall']
+            seconds = timing['seconds']
+            if timing['action'] != ACTION or not isfinite(seconds) or seconds <= 0:
+                raise ValueError(f'{namespace}: invalid measured wall time for {entry["id"]}')
+            times.append(seconds)
+        evidence['serial_action_wall_seconds'] = {'n': len(times), 'median': median(times), 'sum': sum(times)}
+    return decisions, evidence
 
 
 def recovery_and_harm(candidate, baseline):
@@ -137,10 +150,11 @@ def recovery_and_harm(candidate, baseline):
             'harms': sum(old and not new for new, old in outcomes)}
 
 
-def prepend(local, managed, *, forward_conflicts=False):
+def prepend(local, managed, *, forward_conflicts=False, forward_ids=()):
     decisions = []
     for first in local:
-        if first['executable'] and not (forward_conflicts and first['explicit_conflict']):
+        if (first['executable'] and first['id'] not in forward_ids
+                and not (forward_conflicts and first['explicit_conflict'])):
             decisions.append(first)
             continue
         peer = managed[first['id']]
@@ -466,6 +480,51 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
           flush=True)
 
 
+def report_recovery_fit(student, teacher, reports):
+    from benchmark_panels import priority
+    from paired_tradeoff import paired_tradeoff
+
+    if [item['id'] for item in student] != [item['id'] for item in teacher]:
+        raise ValueError('Expected the same ordered recovery questions for both models')
+    peers = {item['id']: item for item in teacher}
+    executable = [item for item in student if item['executable']]
+    ambiguous = {item['id'] for item in executable if item['ambiguous_literals']}
+    conflict = {item['id'] for item in executable if item['explicit_conflict']}
+    k = len(ambiguous)
+    ranked = sorted(executable, key=lambda item: (not item['explicit_conflict'],
+                    priority(DATASET, 'recovery-gate-tie', item['id'])))
+    arms = {
+        'nonexecution': prepend(student, peers),
+        'explicit_conflict': prepend(student, peers, forward_ids=conflict),
+        'same_k_conflict_first': prepend(student, peers, forward_ids={item['id'] for item in ranked[:k]}),
+        'ambiguous_literal': prepend(student, peers, forward_ids=ambiguous),
+        'always_qwen': teacher,
+    }
+    base = arms['nonexecution']
+    probability = k / len(executable) if executable else 0.0
+    recoverable = endangered = 0
+    for local in executable:
+        remote = peers[local['id']]
+        correct = remote['strict'] and remote['executable']
+        recoverable += not local['strict'] and correct
+        endangered += local['strict'] and not correct
+    random = {'expected_recoveries': probability * recoverable, 'expected_harms': probability * endangered,
+              'expected_correct': summarize(base)['strict_and_executable'] + probability * (recoverable - endangered),
+              'expected_known_tokens': sum(item['known_tokens'] for item in base) + probability * sum(
+                  peers[item['id']]['known_tokens'] for item in executable),
+              'expected_unknown_usage_calls': sum(item['unknown_usage_calls'] for item in base) + probability * sum(
+                  peers[item['id']]['unknown_usage_calls'] for item in executable)}
+    candidate = indexed_outcomes(arms['ambiguous_literal'])
+    contrasts = {name: paired_tradeoff(candidate, indexed_outcomes(arms[name]), reports, reports,
+                                      require_execution=True)
+                 for name in ('nonexecution', 'same_k_conflict_first', 'always_qwen')}
+    return {'n_executable': len(executable), 'k': k, 'explicit_conflict': len(conflict),
+            'student': summarize(student),
+            'policies': {name: {**summarize(items), 'vs_nonexecution': recovery_and_harm(items, base)}
+                         for name, items in arms.items()},
+            'same_k_random': random, 'paired_ambiguity_contrasts': contrasts}
+
+
 def collect_recovery_fit(benchmark, container, metric_dir):
     development = benchmark / 'compact_program_development_v1'
     recovery = development / 'finqa_recovery_pairs'
@@ -476,6 +535,11 @@ def collect_recovery_fit(benchmark, container, metric_dir):
             or manifest['panels']['fit']['sha256'] != identity
             or manifest['panels']['fit']['n'] != len(public) or len(public) != 96):
         raise ValueError('Expected the frozen FinQA recovery fit panel')
+    teacher_profile = recovery / 'local_qwen27b_serving_profile.json'
+    teacher, teacher_provenance = verify_collection(
+        benchmark / 'qwen27b_local_finqa_recovery_fit_v1', teacher_profile, read(teacher_profile),
+        public, gold, identity, metric_dir, disable_thinking=False,
+    )
     compact = development / 'finqa_depth_control'
     profile = serving_profiles(benchmark, compact, container, depth_control=True)['balanced']
     profile_path = compact / 'balanced_serving_profile.json'
@@ -488,7 +552,11 @@ def collect_recovery_fit(benchmark, container, metric_dir):
         benchmark, 'oda_compact_balanced_finqa_recovery_fit_v1', profile_path, profile,
         panel, public, gold, identity, metric_dir, check_conflicts=True,
     )
-    print(json.dumps({'panel': identity, 'native': summarize(decisions), 'provenance': provenance}), flush=True)
+    reports = {row['id']: row['report'] for row in public}
+    report = report_recovery_fit(decisions, teacher, reports)
+    report.update(panel=identity, student_provenance=provenance, teacher_provenance=teacher_provenance)
+    freeze(recovery / 'fit_summary.json', report)
+    print(json.dumps(report), flush=True)
 
 
 def main():
