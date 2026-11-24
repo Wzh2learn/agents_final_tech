@@ -13,7 +13,7 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-depth-train|compact-depth-calibration) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 if [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
@@ -96,8 +96,12 @@ if [[ -n $benchmark ]]; then
     work=$(cd "$benchmark" && pwd)
     [[ $work == "$HOME/wzh/research_evidence/finance_frontier_benchmark_"* ]]
     compact="$work/compact_program_development_v1"
+    compact_arms=(canonical teacher)
     if [[ $compact_dataset == tatqa ]]; then
         compact="$compact/tatqa_aligned"
+    elif [[ $benchmark_split == compact-depth-* ]]; then
+        compact="$compact/finqa_depth_control"
+        compact_arms=(balanced multi_only)
     fi
     run_car=0
     if [[ $benchmark_split == timing ]]; then
@@ -157,18 +161,19 @@ PY
         panel_split=calibration
         test -s "$work/oda_calibration_v1/outcomes.jsonl"
         test ! -e "$work/oda_short_calibration_v1/outcomes.jsonl"
-    elif [[ $benchmark_split == compact-train ]]; then
+    elif [[ $benchmark_split == compact-train || $benchmark_split == compact-depth-train ]]; then
         panel_split=fit
-        for arm in canonical teacher; do
+        for arm in "${compact_arms[@]}"; do
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
         done
-    elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
+    elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ||
+            $benchmark_split == compact-depth-calibration ]]; then
         panel_split=calibration
         if [[ $benchmark_split == compact-official-finqa ]]; then
             panel_split=eval
         fi
-        for arm in canonical teacher; do
+        for arm in "${compact_arms[@]}"; do
             test -s "$compact/$arm/RESULT.json"
             test -s "$compact/$arm/$arm/adapter_config.json"
             test -s "$compact/$arm/$arm/adapter_model.safetensors"
@@ -265,9 +270,9 @@ if grep -Fxq "$old_container" <<<"$running"; then
     exit 1
 fi
 awk '/^MemAvailable:/{if ($2<50331648) exit 1; print}' /proc/meminfo
-if [[ $benchmark_split == compact-train ]]; then
+if [[ $benchmark_split == compact-train || $benchmark_split == compact-depth-train ]]; then
     flock -u 9  # The trainer acquires this same lease before loading weights.
-    for arm in canonical teacher; do
+    for arm in "${compact_arms[@]}"; do
         "$repo/venv/bin/python" -B -u -c \
             'from finqa_learning import train, sha; from pathlib import Path; import sys; root=Path(sys.argv[1]); train(sha(root / "PLAN.json"), root)' \
             "$compact/$arm" &
@@ -292,13 +297,14 @@ if [[ $benchmark_split == compact-train ]]; then
 fi
 lora_mount=()
 lora_options=()
-if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
-    lora_mount=(-v "$compact/canonical/canonical:/adapters/canonical:ro"
-                -v "$compact/teacher/teacher:/adapters/teacher:ro")
+if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ||
+      $benchmark_split == compact-depth-calibration ]]; then
     lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
-                  --lora-modules
-                  '{"name":"oda-compact-canonical","path":"/adapters/canonical","base_model_name":"oda-fin-rl-8b"}'
-                  '{"name":"oda-compact-teacher","path":"/adapters/teacher","base_model_name":"oda-fin-rl-8b"}')
+                  --lora-modules)
+    for arm in "${compact_arms[@]}"; do
+        lora_mount+=(-v "$compact/$arm/$arm:/adapters/$arm:ro")
+        lora_options+=("{\"name\":\"oda-compact-${arm//_/-}\",\"path\":\"/adapters/$arm\",\"base_model_name\":\"oda-fin-rl-8b\"}")
+    done
 fi
 cid=$(docker run -d --name "finance-frontier-oda-v1-$$" --pull never --network host --ipc host \
     --device nvidia.com/gpu=all -v "$model_dir:/models/oda:ro" \
@@ -318,7 +324,8 @@ echo "$cid" >oda_container_id
     done
 ) &
 watcher=$!
-if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
+if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ||
+      $benchmark_split == compact-depth-calibration ]]; then
     stage=calibration
     dataset_args=()
     if [[ $compact_dataset == tatqa ]]; then
@@ -326,6 +333,8 @@ if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-off
     fi
     if [[ $benchmark_split == compact-official-finqa ]]; then
         stage=official-finqa
+    elif [[ $benchmark_split == compact-depth-calibration ]]; then
+        stage=depth-calibration
     fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
         --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage" "${dataset_args[@]}"

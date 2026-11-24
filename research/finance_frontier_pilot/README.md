@@ -350,7 +350,11 @@ FinQA 官方全量已收齐 1,147 次短程序首答，均有用量。首答为 
 
 训练的 67 题均为多步。在全量的 493 道多步题上，短程序首答相对默认 ODA 加编译从 224 增至 258。在 654 道单步题上从 410 降至 251。冻结两套已有回答，在共同计费题上用参考答案只接管 358 道可救回题，事后上限为 861/1,132、2.420M tokens。DeepSeek→Qwen 为 793/1,132、2.505M。该上限刻画后续接管选择的空间，实际固定门控为 535/1,132。见 GB10 `compact_program_development_v1/official_finqa_depth_and_routing_headroom.json`。
 
-TAT-QA 的 96 道 TRAIN 拟合题里，官方推导原文均无法按当前 DSL 直接执行。有限算术展开使 91 道可执行，其中 61 道按原尺度通过官方评估。另有 27 道保持同一算式，将输出尺度从 `percent` 改为 `none` 后唯一通过。尺度匹配后的官方程序与已验证教师程序形成 78 道同题配对，含 37 道同目标。训练来源与官方 Dev 的题号、报告、表均不重叠。两臂的原生训练前缀已编码，尚未训练。见 GB10 `compact_program_development_v1/tatqa_aligned_matched_targets.json`。
+TAT-QA 的 96 道 TRAIN 拟合题里，官方推导原文均无法按当前 DSL 直接执行。有限算术展开使 91 道可执行，其中 61 道按原尺度通过官方评估。另有 27 道保持同一算式，将输出尺度从 `percent` 改为 `none` 后唯一通过。尺度匹配后的官方程序与已验证教师程序形成 78 道同题配对，含 37 道同目标。训练来源与官方 Dev 的题号、报告、表均不重叠。见 GB10 `compact_program_development_v1/tatqa_aligned_matched_targets.json`。
+
+TAT-QA 同一 vLLM 实例三臂各采集 48 次 OpenCode 首答。关闭思考基座、尺度对齐的官方程序监督、教师程序监督分别得到 27、30、27 道可执行正确，记录 66,727、50,119、50,190 tokens。官方监督相对基座救回 12、错改 9，正确率差的报告簇联合 95% 区间为 [−14.6, 27.1] pp，输出 tokens 从 17,688 降到 1,224。官方监督 48 道全部可执行，现行显式冲突规则也未触发。18 道已执行错题中，参考答案枚举只在 3 道找到有效的替代尺度。DeepSeek→Qwen 同题为 43/48，记录 80,416 个已知 tokens、一次用量未知。已有回执未显示能在 TAT-QA 兑现该低成本模型的接管优势。见 GB10 `compact_program_development_v1/tatqa_aligned/{calibration_summary,calibration_diagnostics}.json`。
+
+为检验 FinQA 的单步覆盖假设，两组均保留原 67 道多步训练题，从 67 个新增报告和表来源分别补入单步或同表多步题，共 134 题一组。用同一报告和表上的 48 对新单步、多步题对照，并保留最初的 48 道多步校准题测保持。训练材料筛选、参考程序验收及子集配对见 GB10 `compact_program_development_v1/finqa_depth_control/summary.json`。官方 FinQA 仅用公开来源键排重。
 
 ### 对标权重与推理精度
 
