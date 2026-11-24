@@ -466,13 +466,39 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
           flush=True)
 
 
+def collect_recovery_fit(benchmark, container, metric_dir):
+    development = benchmark / 'compact_program_development_v1'
+    recovery = development / 'finqa_recovery_pairs'
+    panel = recovery / 'panel' / 'fit'
+    public, gold, identity = read_panel(panel, DATASET)
+    manifest = read(recovery / 'manifest.json')
+    if (manifest['schema'] != 'finqa-train-recovery-pairs-v1'
+            or manifest['panels']['fit']['sha256'] != identity
+            or manifest['panels']['fit']['n'] != len(public) or len(public) != 96):
+        raise ValueError('Expected the frozen FinQA recovery fit panel')
+    compact = development / 'finqa_depth_control'
+    profile = serving_profiles(benchmark, compact, container, depth_control=True)['balanced']
+    profile_path = compact / 'balanced_serving_profile.json'
+    calibration = read(benchmark / 'oda_compact_depth_balanced_single_calibration_v1' / 'run.json')
+    if (read(profile_path) != profile or calibration['serve_sha256'] != digest_file(profile_path)
+            or calibration['opencode_sha256'] != digest_file(Path.home() / '.opencode/bin/opencode')):
+        raise ValueError('Recovery fit requires the balanced FinQA calibration model and OpenCode')
+    wait_service(BASE, profile['model'], 300)
+    decisions, provenance = collect_and_verify(
+        benchmark, 'oda_compact_balanced_finqa_recovery_fit_v1', profile_path, profile,
+        panel, public, gold, identity, metric_dir, check_conflicts=True,
+    )
+    print(json.dumps({'panel': identity, 'native': summarize(decisions), 'provenance': provenance}), flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--benchmark', type=Path, required=True)
     parser.add_argument('--container', required=True)
     parser.add_argument('--metric-dir', type=Path, required=True)
     parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'official-tatqa',
-                                           'depth-calibration', 'official-finqa-depth'), default='calibration')
+                                           'depth-calibration', 'official-finqa-depth', 'recovery-fit'),
+                        default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
     if re.fullmatch(r'[0-9a-f]{12,64}', args.container) is None:
@@ -486,6 +512,8 @@ def main():
             parser.error(f'--stage {args.stage} requires --dataset {expected}')
         if args.stage == 'depth-calibration':
             run_depth(benchmark, args.container, metric)
+        elif args.stage == 'recovery-fit':
+            collect_recovery_fit(benchmark, args.container, metric)
         else:
             run_official(benchmark, args.container, metric, dataset=args.dataset,
                          depth_control=args.stage == 'official-finqa-depth')

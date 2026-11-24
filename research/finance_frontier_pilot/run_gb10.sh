@@ -13,7 +13,7 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 if [[ $benchmark_split == compact-official-tatqa ]]; then
@@ -157,6 +157,7 @@ for dataset in ('finqa', 'tatqa'):
 PY
         fi
     fi
+    panel_dir="$work/panel"
     panel_split=$benchmark_split
     if [[ $benchmark_split == timing ]]; then
         panel_split=eval
@@ -171,10 +172,15 @@ PY
             test ! -e "$compact/$arm/LIVE.json"
         done
     elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-            $benchmark_split == compact*-official-* ]]; then
+            $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
         panel_split=calibration
         if [[ $benchmark_split == compact*-official-* ]]; then
             panel_split=eval
+        elif [[ $benchmark_split == compact-depth-recovery-fit ]]; then
+            panel_dir="$work/compact_program_development_v1/finqa_recovery_pairs/panel"
+            panel_split=fit
+            test -s "$panel_dir/../manifest.json"
+            test -s "$work/oda_compact_depth_balanced_single_calibration_v1/run.json"
         fi
         for arm in "${compact_arms[@]}"; do
             test -s "$compact/$arm/RESULT.json"
@@ -182,8 +188,8 @@ PY
             test -s "$compact/$arm/$arm/adapter_model.safetensors"
         done
     fi
-    test -s "$work/panel/$panel_split/public.jsonl"
-    test -s "$work/panel/$panel_split/references.jsonl"
+    test -s "$panel_dir/$panel_split/public.jsonl"
+    test -s "$panel_dir/$panel_split/references.jsonl"
     if [[ -e $work/oda_${benchmark_split}_v1/outcomes.jsonl && $run_car == 0 ]]; then
         echo 'Existing finalized outcomes are inputs to downstream baselines. Preserve them before any explicit repair.' >&2
         exit 1
@@ -301,7 +307,7 @@ fi
 lora_mount=()
 lora_options=()
 if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-* ]]; then
+      $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
     lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
                   --lora-modules)
     for arm in "${compact_arms[@]}"; do
@@ -328,7 +334,7 @@ echo "$cid" >oda_container_id
 ) &
 watcher=$!
 if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-* ]]; then
+      $benchmark_split == compact*-official-* || $benchmark_split == compact-depth-recovery-fit ]]; then
     stage=calibration
     dataset_args=()
     if [[ $compact_dataset == tatqa ]]; then
@@ -342,6 +348,8 @@ if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-dep
         stage=official-tatqa
     elif [[ $benchmark_split == compact-depth-calibration ]]; then
         stage=depth-calibration
+    elif [[ $benchmark_split == compact-depth-recovery-fit ]]; then
+        stage=recovery-fit
     fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
         --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage" "${dataset_args[@]}"
