@@ -13,10 +13,10 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
-if [[ $benchmark_split == compact-official-tatqa ]]; then
+if [[ $benchmark_split == compact-official-tatqa || $benchmark_split == compact-tatqa-expansion-train ]]; then
     compact_dataset=${6:-tatqa}
     [[ $compact_dataset == tatqa ]] || { echo 'Expected the TAT-QA adapter.' >&2; exit 2; }
 elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
@@ -102,6 +102,10 @@ if [[ -n $benchmark ]]; then
     compact_arms=(canonical teacher)
     if [[ $compact_dataset == tatqa ]]; then
         compact="$compact/tatqa_aligned"
+        if [[ $benchmark_split == compact-tatqa-expansion-train ]]; then
+            compact="$compact/source_expansion_v1"
+            compact_arms=(annotated_scale execution_aligned)
+        fi
     elif [[ $benchmark_split == compact-depth-* ]]; then
         compact="$compact/finqa_depth_control"
         compact_arms=(balanced multi_only)
@@ -165,8 +169,13 @@ PY
         panel_split=calibration
         test -s "$work/oda_calibration_v1/outcomes.jsonl"
         test ! -e "$work/oda_short_calibration_v1/outcomes.jsonl"
-    elif [[ $benchmark_split == compact-train || $benchmark_split == compact-depth-train ]]; then
+    elif [[ $benchmark_split == compact*-train ]]; then
         panel_split=fit
+        if [[ $benchmark_split == compact-tatqa-expansion-train ]]; then
+            panel_dir="$compact/panel"
+            test -s "$panel_dir/manifest.json"
+            test -s "$panel_dir/calibration/public.jsonl"
+        fi
         for arm in "${compact_arms[@]}"; do
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
@@ -281,7 +290,7 @@ if grep -Fxq "$old_container" <<<"$running"; then
     exit 1
 fi
 awk '/^MemAvailable:/{if ($2<50331648) exit 1; print}' /proc/meminfo
-if [[ $benchmark_split == compact-train || $benchmark_split == compact-depth-train ]]; then
+if [[ $benchmark_split == compact*-train ]]; then
     flock -u 9  # The trainer acquires this same lease before loading weights.
     for arm in "${compact_arms[@]}"; do
         "$repo/venv/bin/python" -B -u -c \

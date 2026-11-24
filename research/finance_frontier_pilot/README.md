@@ -374,6 +374,23 @@ FinQA 1,147 次新首答均已绑定原生回执与实际用量。混合监督�
 
 在共同计费的 1,132 题上，混合监督首答为 737 道、1.640M，未执行时接管为 748 道、1.694M，均进入低成本前沿。DeepSeek 直跑为 762 道、2.230M，DeepSeek→Qwen 为 793 道、2.505M。混合监督加未执行接管比 DeepSeek 直跑少用 24.0% tokens，配对正确率差 −1.23 pp [−4.52, 2.07]。在新适配器上启用显式冲突会额外接管 67 道，救回 9、错改 14。比仅未执行接管多用约 0.135M tokens、少答对 5 道。按参考答案只选择可救回的 151 道时，同回执的事后上限为 888/1,132、2.005M tokens。完整记录与图见 GB10 `finqa_depth_control/official_finqa_summary.json`、`official_finqa_depth_and_routing_headroom.json` 和 `official_finqa_compact_frontier.pdf`。
 
+### 两库的接管预算要求
+
+在官方共同计费题上，两库都先运行短程序，仅在未执行时调用 DeepSeek。以全量 DeepSeek 直跑的总用量为上限，FinQA 剩余 555,247 tokens，TAT-QA 剩余 248,249。按可执行题的平均接管用量，两库分别可随机接管 281 和 181 道。下表的随机正确数为同一批回执的数学期望，预算约束也在期望用量上计算。
+
+| 数据集 | 短程序加未执行接管 | DeepSeek 直跑 | 随机接管期望正确数 | 追平所需净救回／每百次接管 |
+|---|---:|---:|---:|---:|
+| FinQA 1,132 | 745 | 762 | 749.3 | 6.0 |
+| TAT-QA 711 | 470 | 593 | 501.6 | 68.0 |
+
+FinQA 有 131 道可执行错题能由 DeepSeek 救回，直接替换也可能破坏 114 道已正确首答。TAT-QA 对应为 163 和 40 道，追平需要净增 123 道。结果支持在 FinQA 优先比较接管选题，在 TAT-QA 优先提高首答。两种教师顺序的完整预算复算见 GB10 `compact_program_development_v1/official_recovery_budget_requirements_v1.json`。
+
+### TAT-QA 首答监督扩展
+
+排除与前序拟合、校准及官方 Dev 连通的表来源后，官方 TRAIN 有 5,190 道候选，其中 4,885 道可用现有编译器形成通过官方执行评分的目标。单步为 2,608 道，多步为 2,277 道。其中 359 道单步和 1,218 道多步保留原算式，仅将标注尺度换成唯一能通过评分的尺度。另有 1,315 个独立来源同时含可用单步、多步题。统计见 GB10 `compact_program_development_v1/tatqa_aligned/train_source_coverage_v1.json`。
+
+按固定哈希锁定 96 道新 TRAIN 校准题，并从不同来源各取 128 道单步、多步训练题。两臂共享题面和程序，分别监督原标注尺度及执行对齐尺度，实际有 89 道尺度不同。训练输入逐序列复现了原适配器的 78 道编码，两臂均为 6,979 个监督 tokens。另保留已有 78 题适配器作参照。目标、训练计划、公开输入和评分依据见 GB10 `compact_program_development_v1/tatqa_aligned/source_expansion_v1/`。训练入口为 `compact-tatqa-expansion-train`。
+
 ### FinQA 可执行答案的接管试验
 
 从官方 TRAIN 冻结 96 道开发题和 48 道校准题，各半为单步、多步。按报告、表和公司年份排除前序拟合、校准和官方测试来源。两批的成员及配对协议见 GB10 `compact_program_development_v1/finqa_recovery_pairs/manifest.json`。比较操作数同值歧义、显式冲突和同预算随机接管。每题配对使用混合监督短程序与本地 Qwen3.8-27B FP8 独立复解，以官方执行正确数、救回、错改和实测用量计算收益。先采集 96 道开发题。混合监督首答通过 `compact-depth-recovery-fit` 使用原校准模型和 OpenCode。
