@@ -13,10 +13,13 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa) ;;
+    fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
-if [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
+if [[ $benchmark_split == compact-official-tatqa ]]; then
+    compact_dataset=${6:-tatqa}
+    [[ $compact_dataset == tatqa ]] || { echo 'Expected the TAT-QA adapter.' >&2; exit 2; }
+elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
       ( $benchmark_split != compact-train && $benchmark_split != compact-calibration ) ) ]]; then
     echo 'Use FinQA or TAT-QA with compact training and calibration.' >&2
     exit 2
@@ -168,9 +171,9 @@ PY
             test ! -e "$compact/$arm/LIVE.json"
         done
     elif [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-            $benchmark_split == compact*-official-finqa ]]; then
+            $benchmark_split == compact*-official-* ]]; then
         panel_split=calibration
-        if [[ $benchmark_split == compact*-official-finqa ]]; then
+        if [[ $benchmark_split == compact*-official-* ]]; then
             panel_split=eval
         fi
         for arm in "${compact_arms[@]}"; do
@@ -298,7 +301,7 @@ fi
 lora_mount=()
 lora_options=()
 if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-finqa ]]; then
+      $benchmark_split == compact*-official-* ]]; then
     lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1 --max-cpu-loras 2
                   --lora-modules)
     for arm in "${compact_arms[@]}"; do
@@ -325,7 +328,7 @@ echo "$cid" >oda_container_id
 ) &
 watcher=$!
 if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-depth-calibration ||
-      $benchmark_split == compact*-official-finqa ]]; then
+      $benchmark_split == compact*-official-* ]]; then
     stage=calibration
     dataset_args=()
     if [[ $compact_dataset == tatqa ]]; then
@@ -335,6 +338,8 @@ if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-dep
         stage=official-finqa
     elif [[ $benchmark_split == compact-depth-official-finqa ]]; then
         stage=official-finqa-depth
+    elif [[ $benchmark_split == compact-official-tatqa ]]; then
+        stage=official-tatqa
     elif [[ $benchmark_split == compact-depth-calibration ]]; then
         stage=depth-calibration
     fi
