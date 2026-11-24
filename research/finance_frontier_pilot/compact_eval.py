@@ -91,13 +91,14 @@ def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_co
 
 
 def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold, panel_identity, metric_dir,
-                       *, dataset=DATASET, check_conflicts=False):
+                       *, dataset=DATASET, check_conflicts=False, measure_wall=False):
     freeze(path, profile)
+    timing = ['--workers', '1', '--measure-wall'] if measure_wall else ['--workers', '8']
     subprocess.run([sys.executable, '-B', '-u', str(Path(__file__).with_name('benchmark_actions.py')),
                     '--panel', str(panel), '--dataset', dataset, '--run-dir', str(benchmark), '--namespace', namespace,
                     '--base', BASE, '--model', profile['model'], '--checkpoint', profile['checkpoint'],
                     '--serving-profile', str(path), '--metric-dir', str(metric_dir), '--actions', ACTION,
-                    '--disable-thinking', '--workers', '8', '--context', '16384', '--temperature', '.6',
+                    '--disable-thinking', *timing, '--context', '16384', '--temperature', '.6',
                     '--solve-output', '4096', '--verify-output', '4096', '--probe-output', '4096'], check=True)
     return verify_collection(benchmark / namespace, path, profile, public, gold, panel_identity, metric_dir,
                              dataset=dataset, check_conflicts=check_conflicts)
@@ -713,7 +714,7 @@ def collect_recovery_fit(benchmark, container, metric_dir):
     wait_service(BASE, profile['model'], 300)
     decisions, provenance = collect_and_verify(
         benchmark, 'oda_compact_balanced_finqa_recovery_fit_v1', profile_path, profile,
-        panel, public, gold, identity, metric_dir, check_conflicts=True,
+        panel, public, gold, identity, metric_dir, check_conflicts=True, measure_wall=True,
     )
     reports = {row['id']: row['report'] for row in public}
     report = report_recovery_fit(decisions, teacher, reports)

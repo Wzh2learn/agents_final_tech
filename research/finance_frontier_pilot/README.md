@@ -403,6 +403,8 @@ FinQA 有 131 道可执行错题能由 DeepSeek 救回，直接替换也可能�
 
 从官方 TRAIN 冻结 96 道开发题和 48 道校准题，各半为单步、多步。按报告、表和公司年份排除前序拟合、校准和官方测试来源。两批的成员及配对协议见 GB10 `compact_program_development_v1/finqa_recovery_pairs/manifest.json`。比较操作数同值歧义、显式冲突和同预算随机接管。每题配对使用混合监督短程序与本地 Qwen3.8-27B FP8 独立复解，以官方执行正确数、救回、错改和实测用量计算收益。先采集 96 道开发题。混合监督首答通过 `compact-depth-recovery-fit` 使用原校准模型和 OpenCode。
 
+96 题的两路独立首答均单 worker 采集，逐题记录从请求发出前到公开执行的时间。两路分别占用同一台 GB10 的 GPU；接管策略的回放另按其所选调用计费。
+
 ### 对标权重与推理精度
 
 - CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。复测分别记录 CAR 的百分比归一口径及各臂统一的严格执行分。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
