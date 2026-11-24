@@ -382,6 +382,8 @@ FinQA 1,147 次新首答均已绑定原生回执与实际用量。混合监督�
 
 ### 两库的接管预算要求
 
+两库的共同计费前沿使用 FinQA 1,132 题和 TAT-QA 711 题。将排除题目纳回准确率统计后，短程序加未执行时的 DeepSeek→Qwen 接管与 DeepSeek 直跑分别得到 FinQA 756 对 766/1,147、TAT-QA 476 对 598/718。短程序加接管用量完整。以 DeepSeek 的已知用量为下界，两库的全量节省分别至少为 23.4% 和 24.4%。恢复全量分母后，共同计费前沿上的点均未出现由用量完整策略可证的支配。见 GB10 `compact_program_development_v1/official_missing_usage_sensitivity_v1.json` 及两库同轴图 `official_compact_tradeoffs.pdf`。
+
 在官方共同计费题上，两库都先运行短程序，仅在未执行时调用 DeepSeek。以全量 DeepSeek 直跑的总用量为上限，FinQA 剩余 555,247 tokens，TAT-QA 剩余 248,249。按可执行题的平均接管用量，两库分别可随机接管 281 和 181 道。下表的随机正确数为同一批回执的数学期望，预算约束也在期望用量上计算。
 
 | 数据集 | 短程序加未执行接管 | DeepSeek 直跑 | 随机接管期望正确数 | 追平所需净救回／每百次接管 |
