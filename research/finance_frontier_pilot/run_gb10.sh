@@ -11,10 +11,16 @@ guard_pid=$2
 old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
+compact_dataset=${6:-finqa}
 case $benchmark_split in
     fit|calibration|eval|timing|short-calibration|compact-train|compact-calibration|compact-official-finqa) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
+if [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
+      ( $benchmark_split != compact-train && $benchmark_split != compact-calibration ) ) ]]; then
+    echo 'Use FinQA or TAT-QA with compact training and calibration.' >&2
+    exit 2
+fi
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
 image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
@@ -89,6 +95,10 @@ tr '\0' '\n' <"/proc/$guard_pid/cmdline" | grep -Fxq "$old_restore"
 if [[ -n $benchmark ]]; then
     work=$(cd "$benchmark" && pwd)
     [[ $work == "$HOME/wzh/research_evidence/finance_frontier_benchmark_"* ]]
+    compact="$work/compact_program_development_v1"
+    if [[ $compact_dataset == tatqa ]]; then
+        compact="$compact/tatqa_aligned"
+    fi
     run_car=0
     if [[ $benchmark_split == timing ]]; then
         test -n "${BUPT_API_KEY:-}"
@@ -149,7 +159,6 @@ PY
         test ! -e "$work/oda_short_calibration_v1/outcomes.jsonl"
     elif [[ $benchmark_split == compact-train ]]; then
         panel_split=fit
-        compact="$work/compact_program_development_v1"
         for arm in canonical teacher; do
             test -s "$compact/$arm/PLAN.json"
             test ! -e "$compact/$arm/LIVE.json"
@@ -159,7 +168,6 @@ PY
         if [[ $benchmark_split == compact-official-finqa ]]; then
             panel_split=eval
         fi
-        compact="$work/compact_program_development_v1"
         for arm in canonical teacher; do
             test -s "$compact/$arm/RESULT.json"
             test -s "$compact/$arm/$arm/adapter_config.json"
@@ -312,11 +320,15 @@ echo "$cid" >oda_container_id
 watcher=$!
 if [[ $benchmark_split == compact-calibration || $benchmark_split == compact-official-finqa ]]; then
     stage=calibration
+    dataset_args=()
+    if [[ $compact_dataset == tatqa ]]; then
+        dataset_args=(--dataset tatqa)
+    fi
     if [[ $benchmark_split == compact-official-finqa ]]; then
         stage=official-finqa
     fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
-        --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage"
+        --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage" "${dataset_args[@]}"
     exit 0
 fi
 if [[ -n $benchmark ]]; then
