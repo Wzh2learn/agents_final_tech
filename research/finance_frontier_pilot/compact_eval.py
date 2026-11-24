@@ -87,8 +87,13 @@ def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold,
                     '--serving-profile', str(path), '--metric-dir', str(metric_dir), '--actions', ACTION,
                     '--disable-thinking', '--workers', '8', '--context', '16384', '--temperature', '.6',
                     '--solve-output', '4096', '--verify-output', '4096', '--probe-output', '4096'], check=True)
+    return verify_collection(benchmark / namespace, path, profile, public, gold, panel_identity, metric_dir,
+                             dataset=dataset, check_conflicts=check_conflicts)
 
-    directory = benchmark / namespace
+
+def verify_collection(directory, path, profile, public, gold, panel_identity, metric_dir,
+                      *, dataset=DATASET, check_conflicts=False):
+    namespace = directory.name
     reports = {row['id']: row['report'] for row in public}
     run, indexed, provenance = read_paired_run(directory, panel_identity, reports, dataset, ACTION)
     if (run['model'] != profile['model'] or run['checkpoint'] != profile['checkpoint']
@@ -325,11 +330,42 @@ def official_archive(benchmark, public, panel_identity):
     return root, digest_file(archive_path), policies, ids
 
 
-def run_official(benchmark, container, metric_dir):
+def compact_policies(arm, native, managed):
+    return {f'{arm}_native': native, f'{arm}_nonexecution_then_managed': prepend(native, managed),
+            f'{arm}_conflict_or_nonexecution_then_managed': prepend(native, managed, forward_conflicts=True)}
+
+
+def replay_official_canonical(benchmark, compact, public, gold, panel_identity, metric_dir, ledger_digest, managed):
+    summary_path = compact / 'official_finqa_summary.json'
+    saved = read(summary_path)
+    if saved['panel'] != panel_identity or saved['managed_ledger_sha256'] != ledger_digest:
+        raise ValueError('Canonical official summary differs in panel or managed ledger')
+    profile_path = compact / 'canonical_serving_profile.json'
+    profile = read(profile_path)
+    if profile['model'] != ALIASES['canonical'] or profile['base_checkpoint'] != REVISION:
+        raise ValueError('Canonical archive uses a different serving identity')
+    native, provenance = verify_collection(benchmark / 'oda_compact_canonical_finqa_test_v1', profile_path,
+                                           profile, public, gold, panel_identity, metric_dir, check_conflicts=True)
+    if provenance != saved['provenance']:
+        raise ValueError('Canonical native receipt provenance differs from the published official summary')
+    policies = compact_policies('canonical', native, managed)
+    fields = ('n', 'strict', 'executable', 'strict_and_executable', 'known_tokens', 'unknown_usage_calls')
+    for name, items in policies.items():
+        measured = summarize(items)
+        if any(measured[key] != saved['policies'][name][key] for key in fields):
+            raise ValueError(f'{name}: replayed outcomes differ from the canonical official summary')
+    return {name: indexed_outcomes(items) for name, items in policies.items()}, digest_file(summary_path)
+
+
+def run_official(benchmark, container, metric_dir, *, depth_control=False):
     from frontier_report import frontier, summarize as summarize_outcomes
     from paired_tradeoff import paired_tradeoff
 
-    compact = benchmark / 'compact_program_development_v1'
+    original = benchmark / 'compact_program_development_v1'
+    compact = original / 'finqa_depth_control' if depth_control else original
+    arm = 'balanced' if depth_control else 'canonical'
+    calibration = ('oda_compact_depth_balanced_single_calibration_v1' if depth_control
+                   else 'oda_compact_canonical_calibration_v1')
     panel = benchmark / 'panel' / 'eval'
     public, gold, panel_identity = read_panel(panel, DATASET)
     if len(public) != 1147:
@@ -337,6 +373,7 @@ def run_official(benchmark, container, metric_dir):
     reports = {row['id']: row['report'] for row in public}
     root, archive_digest, archived, archive_ids = official_archive(benchmark, reports, panel_identity)
     ledger = root / 'campus_ledger.json'
+    ledger_digest = digest_file(ledger)
     runs = [benchmark / 'oda_eval_v1', *(benchmark / f'campus_eval_{model}_v1'
                                         for model in (campus.QWEN_MODEL, campus.MODEL))]
     pool = read_pool(panel, DATASET, runs, representation='compiled', metric_dir=metric_dir, campus_rows=read(ledger))
@@ -358,44 +395,52 @@ def run_official(benchmark, container, metric_dir):
     by_id = {item['id']: item for item in managed}
     managed = [by_id[ident] for ident in reports]
 
-    profile = serving_profiles(benchmark, compact, container)['canonical']
-    profile_path = compact / 'canonical_serving_profile.json'
+    canonical_policies, canonical_digest = {}, None
+    if depth_control:
+        canonical_policies, canonical_digest = replay_official_canonical(
+            benchmark, original, public, gold, panel_identity, metric_dir, ledger_digest, by_id)
+    profile = serving_profiles(benchmark, compact, container, depth_control=depth_control)[arm]
+    profile_path = compact / f'{arm}_serving_profile.json'
     if read(profile_path) != profile:
-        raise ValueError('Official inference requires the exact canonical calibration serving profile')
-    calibrated = read(benchmark / 'oda_compact_canonical_calibration_v1' / 'run.json')
+        raise ValueError(f'Official inference requires the exact {arm} calibration serving profile')
+    calibrated = read(benchmark / calibration / 'run.json')
     if (calibrated['opencode_sha256'] != digest_file(Path.home() / '.opencode/bin/opencode')
             or calibrated['checkpoint'] != profile['checkpoint'] or calibrated['serve_sha256'] != digest_file(profile_path)):
-        raise ValueError('Official inference requires the same OpenCode and adapter as canonical calibration')
-    wait_service(BASE, ALIASES['canonical'], 300)
-    native, provenance = collect_and_verify(benchmark, 'oda_compact_canonical_finqa_test_v1', profile_path,
+        raise ValueError(f'Official inference requires the same OpenCode and adapter as {arm} calibration')
+    wait_service(BASE, profile['model'], 300)
+    native, provenance = collect_and_verify(benchmark, f'oda_compact_{arm}_finqa_test_v1', profile_path,
                                             profile, panel, public, gold, panel_identity, metric_dir,
                                             check_conflicts=True)
-    native_name = 'canonical_native'
-    base_gate = 'canonical_nonexecution_then_managed'
-    conflict_gate = 'canonical_conflict_or_nonexecution_then_managed'
-    candidates = {native_name: native, base_gate: prepend(native, by_id),
-                  conflict_gate: prepend(native, by_id, forward_conflicts=True)}
+    candidates = compact_policies(arm, native, by_id)
+    native_name, base_gate, conflict_gate = candidates
     indexed = {name: indexed_outcomes(items) for name, items in candidates.items()}
-    ids = [ident for ident in archive_ids if all(not items[ident].unknown_usage_calls for items in indexed.values())]
+    compact_policies_by_id = {**canonical_policies, **indexed}
+    ids = [ident for ident in archive_ids
+           if all(not items[ident].unknown_usage_calls for items in compact_policies_by_id.values())]
     if not ids:
         raise ValueError('No complete official cost comparisons remain after adding the compact policies')
     points = {name: summarize_outcomes([items[ident] for ident in ids])
-              for name, items in {**archived, **indexed}.items()}
+              for name, items in {**archived, **compact_policies_by_id}.items()}
     comparator = {**indexed, 'managed_only': indexed_outcomes(managed)}
     contrasts = {}
     for name, baselines in ((native_name, ('managed_only',)), (base_gate, (native_name, 'managed_only')),
                             (conflict_gate, (native_name, base_gate, 'managed_only'))):
         contrasts[name] = {baseline: paired_tradeoff(indexed[name], comparator[baseline], reports.keys(), reports,
                                                      require_execution=True) for baseline in baselines}
-    report = {'scope': 'Frozen canonical adapter on the complete official FinQA test. Local generation uses '
+    if depth_control:
+        for name in candidates:
+            previous = name.replace('balanced_', 'canonical_', 1)
+            contrasts[name][previous] = paired_tradeoff(indexed[name], canonical_policies[previous],
+                                                        reports.keys(), reports, require_execution=True)
+    report = {'scope': f'Frozen {arm} adapter on the complete official FinQA test. Local generation uses '
                        'native calls and replays the existing managed-only paths when the fixed gate fires.',
               'panel': panel_identity, 'archive_sha256': archive_digest,
-              'managed_ledger_sha256': digest_file(ledger), 'provenance': provenance,
+              'managed_ledger_sha256': ledger_digest, 'provenance': provenance,
               'fixed_gate': 'Escalate on nonexecution or a public grounding explicit conflict.',
               'native_explicit_conflicts': sum(item['explicit_conflict'] for item in native),
               'native_known_input_tokens': sum(item['known_input_tokens'] for item in native),
               'native_known_output_tokens': sum(item['known_output_tokens'] for item in native),
-              'policies': {name: {**summarize(items), 'vs_canonical_native': recovery_and_harm(items, native),
+              'policies': {name: {**summarize(items), f'vs_{arm}_native': recovery_and_harm(items, native),
                                   'vs_managed_only': recovery_and_harm(items, managed)}
                            for name, items in candidates.items()},
               'managed': {name: summarize(items) for name, items in managed_arms.items()},
@@ -403,6 +448,8 @@ def run_official(benchmark, container, metric_dir):
               'common_complete_usage_and_execution': {
                   'archived_n': len(archive_ids), 'n': len(ids), 'policies': points,
                   'executable_correct_token_frontier': frontier(points, 'total_tokens', 'strict_and_executable')}}
+    if canonical_digest is not None:
+        report['canonical_official_summary_sha256'] = canonical_digest
     freeze(compact / 'official_finqa_summary.json', report)
     print(json.dumps({'policies': report['policies'], 'common_complete_n': len(ids),
                       'token_frontier': report['common_complete_usage_and_execution']['executable_correct_token_frontier']}),
@@ -414,7 +461,8 @@ def main():
     parser.add_argument('--benchmark', type=Path, required=True)
     parser.add_argument('--container', required=True)
     parser.add_argument('--metric-dir', type=Path, required=True)
-    parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'depth-calibration'), default='calibration')
+    parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'depth-calibration', 'official-finqa-depth'),
+                        default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
     if re.fullmatch(r'[0-9a-f]{12,64}', args.container) is None:
@@ -425,8 +473,10 @@ def main():
     else:
         if args.dataset != DATASET:
             parser.error(f'--stage {args.stage} requires --dataset finqa')
-        entry = run_official if args.stage == 'official-finqa' else run_depth
-        entry(benchmark, args.container, metric)
+        if args.stage == 'depth-calibration':
+            run_depth(benchmark, args.container, metric)
+        else:
+            run_official(benchmark, args.container, metric, depth_control=args.stage == 'official-finqa-depth')
 
 
 if __name__ == '__main__':
