@@ -90,6 +90,38 @@ def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_co
     return profiles
 
 
+def timed_compact_profile(benchmark, container, dataset):
+    """Bind the matched timing server to the two evaluated compact checkpoints."""
+    development = benchmark / 'compact_program_development_v1'
+    adapters = {'finqa': ('balanced', DEPTH_ALIASES['balanced'], development / 'finqa_depth_control'),
+                'tatqa': ('canonical', ALIASES['canonical'], development / 'tatqa_aligned')}
+    arm, alias, directory = adapters[dataset]
+    frozen, image, argv, mounts = inspect_server(benchmark, container)
+    prefix = frozen['argv'] + ['--enable-lora', '--max-lora-rank', '8', '--lora-dtype', 'bfloat16',
+                              '--max-loras', '1', '--max-cpu-loras', '2', '--lora-modules']
+    expected_loras = [{'name': model, 'path': f'/adapters/{name}', 'base_model_name': BASE_MODEL}
+                      for name, model, _ in adapters.values()]
+    if argv[:len(prefix)] != prefix or [json.loads(entry) for entry in argv[len(prefix):]] != expected_loras:
+        raise ValueError('Matched timing requires the two frozen compact aliases and serving flags')
+    expected_mounts = [
+        *frozen['mounts'],
+        *({'Source': str((root / name / name).resolve()), 'Destination': f'/adapters/{name}', 'RW': False}
+          for name, _, root in adapters.values()),
+    ]
+    if sorted(expected_mounts, key=lambda item: item['Destination']) != mounts:
+        raise ValueError('Matched timing requires the frozen base and read-only compact adapter mounts')
+    profile_path = directory / f'{arm}_serving_profile.json'
+    previous = read(profile_path)
+    artifacts = {name: digest_file(directory / arm / arm / name) for name in ADAPTER_FILES}
+    checkpoint = hashlib.sha256(json.dumps(artifacts, sort_keys=True).encode()).hexdigest()
+    if (previous['model'], previous['base_checkpoint'], previous['checkpoint'], previous['adapter_files']) != (
+            alias, REVISION, checkpoint, artifacts):
+        raise ValueError('Timed compact adapter differs from the evaluated checkpoint')
+    return {'model': alias, 'checkpoint': checkpoint, 'base_checkpoint': REVISION,
+            'image': image, 'argv': argv, 'mounts': mounts, 'adapter_files': artifacts,
+            'evaluated_serving_profile_sha256': digest_file(profile_path)}
+
+
 def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold, panel_identity, metric_dir,
                        *, dataset=DATASET, check_conflicts=False, measure_wall=False):
     freeze(path, profile)

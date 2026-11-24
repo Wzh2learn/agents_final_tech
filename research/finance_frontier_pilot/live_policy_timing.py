@@ -31,6 +31,7 @@ ODA_CHECKPOINT = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 ORDER_SEED = 20261120
 DIRECT_MODELS = dict(zip(('oda-direct', 'qwen-direct', 'deepseek-direct'), (ODA, *MANAGED), strict=True))
 MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS, *MANAGED_ORDERS)
+COMPACT_POLICIES = ('compact-direct', 'compact-fallback')
 
 
 class TimingBudgetExhausted(Exception):
@@ -74,6 +75,22 @@ def select_policy(row, policy, call):
             'selected_stage': f'compiled_{model}', 'selected_model': model}, projected
 
 
+def select_compact_policy(row, policy, call, model):
+    """Use the compiled compact output, escalating only when it cannot execute."""
+    if policy not in COMPACT_POLICIES:
+        raise ValueError(f'unknown compact timed policy {policy}')
+    role = policy.replace('-', '_')
+    outputs, projections = select_case(
+        row, ['contract_compile'], lambda name, unused_role, prompt: call('compact', role, prompt))
+    selected = {**outputs['contract_compile'], 'calls': ['compact'],
+                'selected_model': model, 'selected_stage': 'compiled_compact'}
+    projected = projections.get('contract_compile', row)
+    if policy == 'compact-direct' or public_execution(projected, selected['submission'])['status'] == 'executed':
+        return selected, projected
+    fallback, projected = select_policy(row, 'ds-first', call)
+    return {**fallback, 'calls': ['compact', *fallback['calls']]}, projected
+
+
 def frozen_cases(rows, count, policies=POLICIES, offset=0):
     if not 0 <= offset < len(rows) or not 1 <= count <= len(rows) - offset:
         raise ValueError('timing offset and size must be within the selected panel')
@@ -104,9 +121,9 @@ def summed_cost(costs):
             'summed_call_seconds': sum(item['summed_call_seconds'] for item in costs)}
 
 
-def paired_online_wall(pair_records, reports):
+def paired_online_wall(pair_records, reports, proposed='contract'):
     """Compare measured response-path wall time on the same complete questions."""
-    if 'contract' not in pair_records:
+    if proposed not in pair_records:
         return {}
     ids = list(reports)
     outcomes = {
@@ -118,10 +135,10 @@ def paired_online_wall(pair_records, reports):
     def wall_delta(proposed, baseline):
         return proposed.wall_seconds - baseline.wall_seconds
 
-    return {name: {metric: contrast(outcomes['contract'], baseline, ids, reports, 'mean_online_wall_seconds_delta',
+    return {name: {metric: contrast(outcomes[proposed], baseline, ids, reports, 'mean_online_wall_seconds_delta',
                                     wall_delta, BOOTSTRAP_DRAWS, 0, require_execution)
                    for metric, require_execution in (('strict', False), ('strict_and_executable', True))}
-            for name, baseline in outcomes.items() if name != 'contract'}
+            for name, baseline in outcomes.items() if name != proposed}
 
 
 def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None):
@@ -159,7 +176,8 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
                                       'path': receipt_path.relative_to(root).as_posix()}
                     if (getattr(args, 'compare_baselines', False) and name not in profiles
                             and (result['exit_code'] or result['errors'])):
-                        wait_service(args.base, ODA, 10)
+                        model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA
+                        wait_service(args.base, model, 10)
                     return result
 
                 begin = monotonic()
@@ -205,7 +223,7 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
                           'median_wall_seconds': median(durations) if durations else None, 'p90_wall_seconds': p90,
                           'cost': summed_cost([record['cost'] for record in records])}
     posts, tokens = school.charged(budget.rows[start_index:])
-    write_json(root / 'collection.json', {
+    summary = {
         'complete_paired_questions': completed, 'planned_questions': len(cases),
         'stop_reason': 'gateway_budget' if stopped else None,
         'campus_posts': posts, 'campus_debit_including_unknown': tokens,
@@ -220,7 +238,15 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
             'comparisons': paired_online_wall(pair_records, reports),
         },
         'collection_wall_seconds': monotonic() - started,
-    })
+    }
+    if 'compact-fallback' in pair_records:
+        summary['compact_paired_online_wall'] = {
+            'proposed': 'compact-fallback',
+            'scope': 'Fresh measured wall, using complete paired questions even when token usage is missing.',
+            'interval_method': summary['paired_online_wall']['interval_method'],
+            'comparisons': paired_online_wall(pair_records, reports, 'compact-fallback'),
+        }
+    write_json(root / 'collection.json', summary)
 
 
 def run(args, benchmark, ledger_root):
@@ -231,6 +257,14 @@ def run(args, benchmark, ledger_root):
     serve = json.loads(serve_path.read_text(encoding='utf-8'))
     if serve['model'] != ODA or serve['checkpoint'] != ODA_CHECKPOINT:
         raise ValueError('ODA requires the pinned local serving profile and checkpoint')
+    compact_profile = None
+    if getattr(args, 'compact_container', None):
+        from compact_eval import BASE as COMPACT_BASE, timed_compact_profile
+
+        compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset)
+        if (args.base != COMPACT_BASE or compact_profile.get('base_checkpoint') != ODA_CHECKPOINT
+                or not compact_profile.get('model') or not compact_profile.get('checkpoint')):
+            raise ValueError('Compact timing requires a verified ODA adapter profile')
     providers = {}
     provider_digest = {}
     for model, custom in zip(MANAGED, (args.qwen_api_profile, args.deepseek_api_profile), strict=True):
@@ -265,7 +299,13 @@ def run(args, benchmark, ledger_root):
             selector_by_name = {**local, 'author-cascade': author}
             for name in ('contract', *DIRECT_MODELS, *MANAGED_ORDERS):
                 selector_by_name[name] = lambda row, call, policy=name: select_policy(row, policy, call)
-            selectors = {name: selector_by_name[name] for name in MATCHED_POLICIES}
+            policy_names = MATCHED_POLICIES
+            if compact_profile is not None:
+                for name in COMPACT_POLICIES:
+                    selector_by_name[name] = lambda row, call, policy=name: select_compact_policy(
+                        row, policy, call, compact_profile['model'])
+                policy_names = (*MATCHED_POLICIES, *COMPACT_POLICIES)
+            selectors = {name: selector_by_name[name] for name in policy_names}
             baseline_metadata = {**local_metadata, 'author-cascade': author_metadata,
                                  'direct_reference': 'One compiled response from the indicated model.',
                                  'managed_nonexecution_orders': MANAGED_ORDERS}
@@ -275,8 +315,9 @@ def run(args, benchmark, ledger_root):
         root = benchmark / args.namespace
         root.mkdir(exist_ok=False, mode=0o700)
         contract = root / 'run.json'
-        freeze(contract, {
-            'schema': 'finance-live-policy-timing-v2' if selectors else 'finance-live-policy-timing-v1',
+        contract_data = {
+            'schema': ('finance-live-policy-timing-v3' if compact_profile is not None else
+                       'finance-live-policy-timing-v2' if selectors else 'finance-live-policy-timing-v1'),
             'namespace': args.namespace, 'stage': args.stage, 'case_offset': args.offset,
             'dataset': args.dataset, 'panel': panel_digest,
             'case_order': [{'id': row['id'], 'policy_order': order} for row, order in cases],
@@ -290,11 +331,23 @@ def run(args, benchmark, ledger_root):
                               'post_limit': budget.posts, 'token_limit': budget.tokens},
             'measurement': 'Fresh serial request construction, model/relay and public execution with policy '
                            'cost accounting. Official grading follows timing. Receipt reuse disabled.',
-        })
+        }
+        if compact_profile is not None:
+            contract_data['compact_oda'] = {'endpoint': args.base, 'profile': compact_profile,
+                                            'context': 16384, 'output': 4096, 'temperature': .6,
+                                            'chat_template_kwargs': {'enable_thinking': False},
+                                            'fallback': 'Nonexecution only; DeepSeek then Qwen.'}
+        freeze(contract, contract_data)
         actors = {role: OpenCode(root / 'actors' / role, args.opencode, args.base, ODA, 4096, 16384, .6) for role in roles}
+        if compact_profile is not None:
+            for role in ('compact_direct', 'compact_fallback'):
+                actors[role] = OpenCode(root / 'actors' / role, args.opencode, args.base,
+                                        compact_profile['model'], 4096, 16384, .6, disable_thinking=True)
         for actor in actors.values():
             actor.initialize_session_store()
         wait_service(args.base, ODA, 90)
+        if compact_profile is not None:
+            wait_service(args.base, compact_profile['model'], 90)
         collect_cases(args, root, cases, gold, actors, providers, budget, key, digest_file(contract), selectors)
 
 
@@ -315,6 +368,7 @@ def main():
     parser.add_argument('--deepseek-api-profile', type=Path)
     parser.add_argument('--metric-dir', type=Path)
     parser.add_argument('--compare-baselines', action='store_true')
+    parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
     parser.add_argument('--tabfm-checkpoint', type=Path)
@@ -328,6 +382,9 @@ def main():
         parser.error('require explicit positive gateway caps and the official TAT-QA metric directory when used')
     if args.compare_baselines != (args.stage == 'eval'):
         parser.error('the matched baseline batch requires the official eval panel and frozen training policies')
+    if args.compact_container and (args.stage != 'eval' or not args.compare_baselines
+                                   or not re.fullmatch(r'[0-9a-f]{12,64}', args.compact_container)):
+        parser.error('compact policies require --stage eval --compare-baselines and a Docker container ID')
     if args.compare_baselines and (args.upstream is None or not args.upstream.is_dir()):
         parser.error('the matched baseline batch requires the pinned author Cascade checkout')
     if args.compare_baselines and (args.author_dependency_path is None or not args.author_dependency_path.is_dir()):

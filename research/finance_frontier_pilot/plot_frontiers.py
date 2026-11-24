@@ -26,6 +26,8 @@ FIXED_ANCHORS = {
     'deepseek-direct': ('DeepSeek direct', -13),
     'qwen-first': ('Qwen → DeepSeek', -16),
     'ds-first': ('DeepSeek → Qwen', 11),
+    'compact-direct': ('Compact 8B direct', 12),
+    'compact-fallback': ('Compact 8B → DeepSeek → Qwen', -15),
 }
 STYLES = {
     'Contract cascade': ('*', '#CC4422', 105),
@@ -35,10 +37,13 @@ STYLES = {
     'BudgetVerify / GBM': ('s', '#B67500', 38),
     COMPILED_BUDGETVERIFY: ('X', '#BD447F', 56),
     'Author Cascade': ('P', '#00815F', 44),
+    'Compact 8B direct': ('h', '#D55E00', 48),
+    'Compact 8B with fallback': ('p', '#009E73', 48),
     'Fixed / single model': ('o', '#747C87', 25),
 }
 ONLINE_POLICIES = {'contract', 'car', 'budgetverify', 'author-cascade', 'oda-direct',
                    'qwen-direct', 'deepseek-direct', 'qwen-first', 'ds-first'}
+COMPACT_POLICIES = {'compact-direct', 'compact-fallback'}
 ONLINE_METRICS = {
     'correct': ('strict_wall_frontier', 'Strict accuracy'),
     'strict_and_executable': ('strict_and_executable_wall_frontier', 'Strict & executable rate'),
@@ -52,6 +57,10 @@ EXECUTABLE_FRONTIERS = {
 
 
 def family(name, metadata):
+    if name == 'compact-direct':
+        return 'Compact 8B direct'
+    if name == 'compact-fallback':
+        return 'Compact 8B with fallback'
     if name in (CONTRACT, 'contract'):
         return 'Contract cascade'
     if name == 'car':
@@ -70,20 +79,27 @@ def family(name, metadata):
 
 
 def load_online(path):
-    """Read the nine full-pair wall-time points and the adjacent frozen run contract."""
+    """Read complete paired wall-time points and their adjacent frozen run contract."""
     collection = json.loads(path.read_text(encoding='utf-8'))
     contract = json.loads(path.with_name('run.json').read_text(encoding='utf-8'))
     dataset = contract.get('dataset')
     cases = contract.get('case_order', [])
     n = collection.get('planned_questions')
     policies = collection.get('complete_pair_policies', {})
-    if (contract.get('schema') != 'finance-live-policy-timing-v2' or contract.get('stage') != 'eval'
+    schema = contract.get('schema')
+    expected_policies = (ONLINE_POLICIES if schema == 'finance-live-policy-timing-v2' else
+                         ONLINE_POLICIES | COMPACT_POLICIES if schema == 'finance-live-policy-timing-v3' else None)
+    compact = contract.get('compact_oda')
+    if (expected_policies is None or contract.get('stage') != 'eval'
+            or (schema == 'finance-live-policy-timing-v3' and
+                (not isinstance(compact, dict) or not isinstance(compact.get('profile'), dict)
+                 or not compact['profile']))
             or dataset not in DATASETS or type(n) is not int or n < 1
             or collection.get('complete_paired_questions') != n or collection.get('stop_reason') is not None
-            or set(policies) != ONLINE_POLICIES or len(cases) != n or len({case['id'] for case in cases}) != n
-            or any(len(case['policy_order']) != len(ONLINE_POLICIES)
-                   or set(case['policy_order']) != ONLINE_POLICIES for case in cases)):
-        raise ValueError(f'{path}: expected a complete matched evaluation with nine policies')
+            or set(policies) != expected_policies or len(cases) != n or len({case['id'] for case in cases}) != n
+            or any(len(case['policy_order']) != len(expected_policies)
+                   or set(case['policy_order']) != expected_policies for case in cases)):
+        raise ValueError(f'{path}: expected a complete matched v2 or v3 evaluation')
     points = {}
     for name, point in policies.items():
         correct = point.get('correct')

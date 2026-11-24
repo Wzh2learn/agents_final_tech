@@ -314,6 +314,8 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 在同条件计时的固定首块上，用 FinQA 18 题与 TAT-QA 18 题回放原回执。共核对 324 个策略与题目组合，提示、所选动作、分数和用量均与冻结对标一致。回放覆盖的校内调用分别为 107 与 94 次，保存用量分别为 260,408 与 179,659 tokens。未产生新调用。见 GB10 `matched_nine_policy_block_receipt_dispatch_v1.json`。
 
+`timing-compact` 增加短程序直跑与未执行时的 DeepSeek→Qwen 回退，九条原策略保留。每库按同一哈希顺序选前 22 题，以平衡十一条策略的位置和相邻顺序。本地推理共用一台挂载两种固定适配器的 BF16 ODA 服务，逐题实际请求，评分在计时区间外。FinQA 使用混合监督适配器，TAT-QA 使用尺度对齐适配器。每库最多 264 个校内请求，沿用 2M tokens 批次上限及项目总账本。十一策略结果写入独立的 v3 命名空间，`plot_frontiers.py --online-timing` 读取实测前沿。
+
 离线从同一 ODA 自由答回执中复原可执行公式。仅用可见回答时，FinQA 的联合正确数从 634 增到 636，TAT-QA 从 505 增到 508。允许使用已记录的推理段后，分别增到 647 和 520。复原须保持原终值与尺度，严格数值正确数仍为 690 和 561。该补充零新增推理，记录在 GB10 的 `official_oda_{finqa,tatqa}_formula_replay_v1.json`。
 
 ### ODA 关闭思考的配对校准（2026-11-24）

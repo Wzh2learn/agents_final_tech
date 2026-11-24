@@ -90,6 +90,30 @@ def test_direct_compiled_uses_only_the_named_model(timing, question):
     assert selected['calls'] == [timing.MANAGED[0]]
 
 
+def test_compact_dispatch_escalates_only_nonexecution(timing, question):
+    calls = []
+    replies = {'compact': 'Final program: add(1, 2)', timing.MANAGED[1]: 'invalid',
+               timing.MANAGED[0]: 'Final program: add(1, 2)'}
+
+    def call(name, role, prompt):
+        calls.append((name, role))
+        return call_receipt(replies[name])
+
+    result, _ = timing.select_compact_policy(question, 'compact-fallback', call, 'compact-model')
+    assert calls == [('compact', 'compact_fallback')]
+    assert result['selected_model'] == 'compact-model' and result['calls'] == ['compact']
+    replies['compact'] = 'not a program'
+    calls.clear()
+    result, _ = timing.select_compact_policy(question, 'compact-direct', call, 'compact-model')
+    assert calls == [('compact', 'compact_direct')] and result['calls'] == ['compact']
+    calls.clear()
+    result, _ = timing.select_compact_policy(question, 'compact-fallback', call, 'compact-model')
+    assert calls == [('compact', 'compact_fallback'), (timing.MANAGED[1], 'solve'),
+                     (timing.MANAGED[0], 'solve')]
+    assert result['selected_model'] == timing.MANAGED[0]
+    assert result['calls'] == ['compact', timing.MANAGED[1], timing.MANAGED[0]]
+
+
 def test_comparator_time_includes_probe_and_repair_roles(timing, question, monkeypatch, tmp_path):
     clock = [0.0]
     dispatched = []
