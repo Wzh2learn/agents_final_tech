@@ -12,8 +12,8 @@ old_restore=$3
 benchmark=${4:-}
 benchmark_split=${5:-fit}
 case $benchmark_split in
-    fit|calibration|eval|timing|short-calibration) ;;
-    *) echo 'Expected fit, calibration, eval, timing or short-calibration.' >&2; exit 2 ;;
+    fit|calibration|eval|timing|short-calibration|compact-train) ;;
+    *) echo 'Expected fit, calibration, eval, timing, short-calibration or compact-train.' >&2; exit 2 ;;
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
@@ -147,6 +147,13 @@ PY
         panel_split=calibration
         test -s "$work/oda_calibration_v1/outcomes.jsonl"
         test ! -e "$work/oda_short_calibration_v1/outcomes.jsonl"
+    elif [[ $benchmark_split == compact-train ]]; then
+        panel_split=fit
+        compact="$work/compact_program_development_v1"
+        for arm in canonical teacher; do
+            test -s "$compact/$arm/PLAN.json"
+            test ! -e "$compact/$arm/LIVE.json"
+        done
     fi
     test -s "$work/panel/$panel_split/public.jsonl"
     test -s "$work/panel/$panel_split/references.jsonl"
@@ -164,7 +171,7 @@ with open(sys.argv[1]) as source:
     rows = json.load(source)
 assert len(rows) == 400 and sum('teacher' in row for row in rows) == 220
 PY
-elif [[ $benchmark_split == timing || $benchmark_split == short-calibration ]]; then
+elif [[ $benchmark_split == timing || $benchmark_split == short-calibration || $benchmark_split == compact-train ]]; then
     echo 'This mode requires the benchmark directory.' >&2
     exit 2
 fi
@@ -184,11 +191,17 @@ fi
 cd "$work"
 cid=
 watcher=
+trainer=
 stop_oda () {
     if [[ -n $watcher ]]; then
         kill "$watcher" 2>/dev/null || true
         wait "$watcher" 2>/dev/null || true
         watcher=
+    fi
+    if [[ -n $trainer ]]; then
+        kill -TERM "$trainer" 2>/dev/null || true
+        wait "$trainer" 2>/dev/null || true
+        trainer=
     fi
     if [[ -n $cid ]]; then
         docker logs "$cid" >"oda_service.$cid.log" 2>&1 || true
@@ -233,6 +246,31 @@ if grep -Fxq "$old_container" <<<"$running"; then
     exit 1
 fi
 awk '/^MemAvailable:/{if ($2<50331648) exit 1; print}' /proc/meminfo
+if [[ $benchmark_split == compact-train ]]; then
+    flock -u 9  # The trainer acquires this same lease before loading weights.
+    for arm in canonical teacher; do
+        "$repo/venv/bin/python" -B -u -c \
+            'from finqa_learning import train, sha; from pathlib import Path; import sys; root=Path(sys.argv[1]); train(sha(root / "PLAN.json"), root)' \
+            "$compact/$arm" &
+        trainer=$!
+        (
+            while sleep 5; do
+                if ! awk '/^MemAvailable:/{exit ($2<33554432)}' /proc/meminfo; then
+                    echo 'Compact-program training stopped below the 32 GiB RAM reserve.' >&2
+                    kill -TERM "$trainer" 2>/dev/null || true
+                    exit 1
+                fi
+            done
+        ) &
+        watcher=$!
+        wait "$trainer"
+        trainer=
+        kill "$watcher" 2>/dev/null || true
+        wait "$watcher" 2>/dev/null || true
+        watcher=
+    done
+    exit 0
+fi
 cid=$(docker run -d --name "finance-frontier-oda-v1-$$" --pull never --network host --ipc host \
     --device nvidia.com/gpu=all -v "$model_dir:/models/oda:ro" \
     -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
