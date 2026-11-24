@@ -21,6 +21,7 @@ BASE = 'http://127.0.0.1:18157/v1'
 BASE_MODEL = 'oda-fin-rl-8b'
 REVISION = '948c22ea48f9bf93e5747f4211657fcad9cb0295'
 ALIASES = {'base': BASE_MODEL, 'canonical': 'oda-compact-canonical', 'teacher': 'oda-compact-teacher'}
+DEPTH_ALIASES = {'balanced': 'oda-compact-balanced', 'multi_only': 'oda-compact-multi-only'}
 DATASET = 'finqa'
 ACTION = 'contract_compile'
 ADAPTER_FILES = ('adapter_config.json', 'adapter_model.safetensors')
@@ -30,7 +31,7 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def serving_profiles(benchmark, compact, container, *, dataset=DATASET):
+def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_control=False):
     # Ask Docker for these fields alone. Full inspect can contain environment variables.
     keys = ('Image', 'Config.Cmd', 'Mounts', 'State.Running')
     template = '\n'.join('{{json .' + key + '}}' for key in keys)
@@ -48,12 +49,17 @@ def serving_profiles(benchmark, compact, container, *, dataset=DATASET):
     profiles = {'base': {**common, 'model': BASE_MODEL, 'checkpoint': REVISION}}
     loras = [json.loads(argument) for argument in argv[argv.index('--lora-modules') + 1:]]
     by_name = {entry['name']: entry for entry in loras}
-    if len(loras) != 2 or by_name.keys() != {ALIASES['canonical'], ALIASES['teacher']}:
+    aliases = DEPTH_ALIASES if depth_control else {arm: ALIASES[arm] for arm in ('canonical', 'teacher')}
+    if len(loras) != 2 or by_name.keys() != set(aliases.values()):
         raise ValueError('Expected exactly the two frozen static LoRA aliases')
-    updates, status = ((78, 'TRAINED_TATQA_COMPACT_PROGRAM_DEVELOPMENT') if dataset == 'tatqa'
-                       else (67, 'TRAINED_COMPACT_PROGRAM_DEVELOPMENT'))
-    for arm in ('canonical', 'teacher'):
-        alias, destination = ALIASES[arm], f'/adapters/{arm}'
+    if depth_control:
+        updates, status = 134, 'TRAINED_FINQA_DEPTH_CONTROL'
+    elif dataset == 'tatqa':
+        updates, status = 78, 'TRAINED_TATQA_COMPACT_PROGRAM_DEVELOPMENT'
+    else:
+        updates, status = 67, 'TRAINED_COMPACT_PROGRAM_DEVELOPMENT'
+    for arm, alias in aliases.items():
+        destination = f'/adapters/{arm}'
         path = compact / arm / arm
         expected = {'Source': str(path.resolve()), 'Destination': destination, 'RW': False}
         if expected not in mounts or by_name[alias] != {'name': alias, 'path': destination, 'base_model_name': BASE_MODEL}:
@@ -139,6 +145,14 @@ def prepend(local, managed, *, forward_conflicts=False):
     return decisions
 
 
+def indexed_outcomes(decisions):
+    from frontier_report import Outcome
+
+    return {item['id']: Outcome(int(item['strict']), item['known_tokens'], item['unknown_usage_calls'],
+                               len(item['queried']), item['summed_call_seconds'], item['executable'])
+            for item in decisions}
+
+
 def run(benchmark, container, metric_dir, *, dataset=DATASET):
     compact = benchmark / 'compact_program_development_v1'
     namespace_prefix = 'oda_compact'
@@ -185,6 +199,79 @@ def run(benchmark, container, metric_dir, *, dataset=DATASET):
         report['arms'][arm] = entry
         print(json.dumps({'arm': arm, **entry}), flush=True)
     freeze(compact / 'calibration_summary.json', report)
+
+
+def run_depth(benchmark, container, metric_dir):
+    """Compare matched training depths on new source pairs and the original calibration panel."""
+    from cohorts import table_signature
+    from diagnose import paired_effect
+    from paired_tradeoff import paired_tradeoff
+
+    compact = benchmark / 'compact_program_development_v1' / 'finqa_depth_control'
+    preparation_path = compact / 'summary.json'
+    preparation = read(preparation_path)
+    paths = {name: compact / 'panel' / name for name in ('single', 'multi')}
+    paths['retention'] = benchmark / 'panel' / 'calibration'
+    panels = {name: read_panel(path, DATASET) for name, path in paths.items()}
+    if any(len(public) != 48 for public, _, _ in panels.values()):
+        raise ValueError('Each depth-control panel requires its fixed 48 FinQA questions')
+    if ({name: panels[name][2] for name in ('single', 'multi')} != preparation['calibration_panel_sha256']
+            or panels['retention'][2]['public.jsonl'] != preparation['public_panel_sha256']['calibration']):
+        raise ValueError('Depth-control panels differ from the prepared experiment')
+
+    single = panels['single'][0]
+    multi = {row['report']: row for row in panels['multi'][0]}
+    if len(multi) != 48 or multi.keys() != {row['report'] for row in single}:
+        raise ValueError('Single and multi panels do not match by distinct source report')
+    pairs = [[row['id'], multi[row['report']]['id']] for row in single]
+    pair_digest = hashlib.sha256(json.dumps(pairs, separators=(',', ':')).encode()).hexdigest()
+    if (pair_digest != preparation['new_calibration_pair_ids_sha256'] or any(
+            row['id'] == multi[row['report']]['id']
+            or table_signature(row['table']) != table_signature(multi[row['report']]['table']) for row in single)):
+        raise ValueError('Depth-control question pairs do not match the frozen source tables')
+
+    profiles = serving_profiles(benchmark, compact, container, depth_control=True)
+    wait_service(BASE, BASE_MODEL, 300)
+    for alias in DEPTH_ALIASES.values():
+        wait_service(BASE, alias, 30)
+    report = {'scope': 'FinQA TRAIN development control. One native call per question and adapter. '
+                       'The new depth panels match by source report and table; retention is the original panel.',
+              'preparation_sha256': digest_file(preparation_path), 'pair_ids_sha256': pair_digest, 'panels': {}}
+    source_effects = {}
+    for name, path in paths.items():
+        public, gold, panel_identity = panels[name]
+        reports = {row['id']: row['report'] for row in public}
+        decisions = {}
+        entry = {'panel': panel_identity, 'arms': {}}
+        for arm in DEPTH_ALIASES:
+            local, provenance = collect_and_verify(
+                benchmark, f'oda_compact_depth_{arm}_{name}_calibration_v1',
+                compact / f'{arm}_serving_profile.json', profiles[arm], path, public, gold, panel_identity, metric_dir)
+            decisions[arm] = local
+            entry['arms'][arm] = {'native': {**summarize(local), **{
+                key: sum(item[key] for item in local) for key in ('known_input_tokens', 'known_output_tokens')}},
+                'provenance': provenance}
+        balanced, multi_only = (decisions[arm] for arm in DEPTH_ALIASES)
+        entry['balanced_vs_multi_only'] = recovery_and_harm(balanced, multi_only)
+        entry['paired_tradeoff'] = paired_tradeoff(indexed_outcomes(balanced), indexed_outcomes(multi_only),
+                                                   reports.keys(), reports, require_execution=True)
+        if name != 'retention':
+            source_effects[name] = {reports[first['id']]: int(first['strict'] and first['executable'])
+                                    - int(second['strict'] and second['executable'])
+                                    for first, second in zip(balanced, multi_only, strict=True)}
+        report['panels'][name] = entry
+        print(json.dumps({'panel': name, **entry}), flush=True)
+
+    draws = 10000
+    examples = [(report_id, {depth: {'delta': source_effects[depth][report_id]} for depth in ('single', 'multi')})
+                for report_id in sorted(multi)]
+    interaction = paired_effect(examples, (('single', 'delta'), ('multi', 'delta')), draws)
+    report['depth_interaction'] = {'contrast': '(balanced - multi_only) on single minus multi, '
+                                              'using strict and executable success',
+                                   'draws': draws, **{key: interaction[key] for key in (
+                                       'n', 'reports', 'net_pp', 'paired_cluster_percentile_95_pp')}}
+    freeze(compact / 'calibration_summary.json', report)
+    print(json.dumps({'depth_interaction': report['depth_interaction']}), flush=True)
 
 
 def official_archive(benchmark, public, panel_identity):
@@ -239,7 +326,7 @@ def official_archive(benchmark, public, panel_identity):
 
 
 def run_official(benchmark, container, metric_dir):
-    from frontier_report import Outcome, frontier, summarize as summarize_outcomes
+    from frontier_report import frontier, summarize as summarize_outcomes
     from paired_tradeoff import paired_tradeoff
 
     compact = benchmark / 'compact_program_development_v1'
@@ -258,11 +345,6 @@ def run_official(benchmark, container, metric_dir):
         'always_deepseek': realized(None, pool, initial=2),
         'nonexecution_deepseek_qwen': realized(NonexecutionCascade((2, 1)), pool),
     }
-
-    def indexed_outcomes(decisions):
-        return {item['id']: Outcome(int(item['strict']), item['known_tokens'], item['unknown_usage_calls'],
-                                   len(item['queried']), item['summed_call_seconds'], item['executable'])
-                for item in decisions}
 
     for name, decisions in managed_arms.items():
         expected = archived[f'cascade/compiled/{name}']
@@ -332,18 +414,19 @@ def main():
     parser.add_argument('--benchmark', type=Path, required=True)
     parser.add_argument('--container', required=True)
     parser.add_argument('--metric-dir', type=Path, required=True)
-    parser.add_argument('--stage', choices=('calibration', 'official-finqa'), default='calibration')
+    parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'depth-calibration'), default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
     if re.fullmatch(r'[0-9a-f]{12,64}', args.container) is None:
         parser.error('--container must be a Docker container ID')
     benchmark, metric = args.benchmark.resolve(), args.metric_dir.resolve()
-    if args.stage == 'official-finqa':
-        if args.dataset != DATASET:
-            parser.error('--stage official-finqa requires --dataset finqa')
-        run_official(benchmark, args.container, metric)
-    else:
+    if args.stage == 'calibration':
         run(benchmark, args.container, metric, dataset=args.dataset)
+    else:
+        if args.dataset != DATASET:
+            parser.error(f'--stage {args.stage} requires --dataset finqa')
+        entry = run_official if args.stage == 'official-finqa' else run_depth
+        entry(benchmark, args.container, metric)
 
 
 if __name__ == '__main__':
