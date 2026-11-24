@@ -1,4 +1,4 @@
-"""Evaluate compact ODA adapters on matched FinQA calibration or official test."""
+"""Evaluate compact ODA adapters on matched calibration or official FinQA test."""
 
 import argparse
 import hashlib
@@ -30,7 +30,7 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def serving_profiles(benchmark, compact, container):
+def serving_profiles(benchmark, compact, container, *, dataset=DATASET):
     # Ask Docker for these fields alone. Full inspect can contain environment variables.
     keys = ('Image', 'Config.Cmd', 'Mounts', 'State.Running')
     template = '\n'.join('{{json .' + key + '}}' for key in keys)
@@ -50,6 +50,8 @@ def serving_profiles(benchmark, compact, container):
     by_name = {entry['name']: entry for entry in loras}
     if len(loras) != 2 or by_name.keys() != {ALIASES['canonical'], ALIASES['teacher']}:
         raise ValueError('Expected exactly the two frozen static LoRA aliases')
+    updates, status = ((78, 'TRAINED_TATQA_COMPACT_PROGRAM_DEVELOPMENT') if dataset == 'tatqa'
+                       else (67, 'TRAINED_COMPACT_PROGRAM_DEVELOPMENT'))
     for arm in ('canonical', 'teacher'):
         alias, destination = ALIASES[arm], f'/adapters/{arm}'
         path = compact / arm / arm
@@ -58,9 +60,9 @@ def serving_profiles(benchmark, compact, container):
             raise ValueError(f'{alias}: adapter mount or model identity differs')
         result_path = compact / arm / 'RESULT.json'
         result = read(result_path)
-        if (result['status'] != 'TRAINED_COMPACT_PROGRAM_DEVELOPMENT' or result['optimizer_updates'] != 67
-                or result['arms'].keys() != {arm} or result['arms'][arm]['updates'] != 67):
-            raise ValueError(f'{alias}: expected one completed training pass with 67 updates')
+        if (result['status'] != status or result['optimizer_updates'] != updates
+                or result['arms'].keys() != {arm} or result['arms'][arm]['updates'] != updates):
+            raise ValueError(f'{alias}: expected one completed training pass with {updates} updates')
         artifacts = {name: digest_file(path / name) for name in ADAPTER_FILES}
         if any(result['arms'][arm]['adapter_files'].get(name) != digest for name, digest in artifacts.items()):
             raise ValueError(f'{alias}: adapter files differ from the training receipt')
@@ -71,10 +73,10 @@ def serving_profiles(benchmark, compact, container):
 
 
 def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold, panel_identity, metric_dir,
-                       *, check_conflicts=False):
+                       *, dataset=DATASET, check_conflicts=False):
     freeze(path, profile)
     subprocess.run([sys.executable, '-B', '-u', str(Path(__file__).with_name('benchmark_actions.py')),
-                    '--panel', str(panel), '--dataset', DATASET, '--run-dir', str(benchmark), '--namespace', namespace,
+                    '--panel', str(panel), '--dataset', dataset, '--run-dir', str(benchmark), '--namespace', namespace,
                     '--base', BASE, '--model', profile['model'], '--checkpoint', profile['checkpoint'],
                     '--serving-profile', str(path), '--metric-dir', str(metric_dir), '--actions', ACTION,
                     '--disable-thinking', '--workers', '8', '--context', '16384', '--temperature', '.6',
@@ -82,7 +84,7 @@ def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold,
 
     directory = benchmark / namespace
     reports = {row['id']: row['report'] for row in public}
-    run, indexed, provenance = read_paired_run(directory, panel_identity, reports, DATASET, ACTION)
+    run, indexed, provenance = read_paired_run(directory, panel_identity, reports, dataset, ACTION)
     if (run['model'] != profile['model'] or run['checkpoint'] != profile['checkpoint']
             or run['serve_sha256'] != digest_file(path) or run['chat_template_kwargs'] != {'enable_thinking': False}):
         raise ValueError(f'{namespace}: unexpected local serving contract')
@@ -99,7 +101,7 @@ def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold,
             seen.append(receipt)
             return receipt
 
-        scored = collect_case(row, gold[DATASET, ident], [ACTION], call, metric_dir)
+        scored = collect_case(row, gold[dataset, ident], [ACTION], call, metric_dir)
         cost = action_cost(seen)
         if entry['actions'] != {name: {**result, 'cost': cost} for name, result in scored.items()}:
             raise ValueError(f'{namespace}: replayed score or usage differs for {ident}')
@@ -137,17 +139,23 @@ def prepend(local, managed, *, forward_conflicts=False):
     return decisions
 
 
-def run(benchmark, container, metric_dir):
+def run(benchmark, container, metric_dir, *, dataset=DATASET):
     compact = benchmark / 'compact_program_development_v1'
+    namespace_prefix = 'oda_compact'
+    dataset_name = 'FinQA'
+    if dataset == 'tatqa':
+        compact /= 'tatqa_aligned'
+        namespace_prefix = 'oda_compact_tatqa'
+        dataset_name = 'TAT-QA'
     panel = benchmark / 'panel' / 'calibration'
-    public, gold, panel_identity = read_panel(panel, DATASET)
+    public, gold, panel_identity = read_panel(panel, dataset)
     if len(public) != 48:
-        raise ValueError('Expected the fixed 48 FinQA calibration questions')
-    profiles = serving_profiles(benchmark, compact, container)
+        raise ValueError(f'Expected the fixed 48 {dataset_name} calibration questions')
+    profiles = serving_profiles(benchmark, compact, container, dataset=dataset)
     ledger = benchmark / 'official_frontiers_v1' / 'campus_ledger.json'
     old = [benchmark / 'oda_calibration_v1', *(benchmark / f'campus_calibration_{model}_v1'
                                                for model in (campus.QWEN_MODEL, campus.MODEL))]
-    pool = read_pool(panel, DATASET, old, representation='compiled', metric_dir=metric_dir, campus_rows=read(ledger))
+    pool = read_pool(panel, dataset, old, representation='compiled', metric_dir=metric_dir, campus_rows=read(ledger))
     managed = realized(NonexecutionCascade((2, 1)), pool)
     by_id = {decision['id']: decision for decision in managed}
     if len(managed) != 48 or by_id.keys() != {row['id'] for row in public}:
@@ -157,14 +165,14 @@ def run(benchmark, container, metric_dir):
     wait_service(BASE, BASE_MODEL, 300)
     for model in (ALIASES['canonical'], ALIASES['teacher']):
         wait_service(BASE, model, 30)
-    report = {'scope': 'Matched FinQA development comparison. Local arms are native calls. '
+    report = {'scope': f'Matched {dataset_name} development comparison. Local arms are native calls. '
                        'The managed cascade and appended handoffs replay existing receipts without new calls.',
               'panel': panel_identity, 'managed_ledger_sha256': digest_file(ledger),
               'managed_only': summarize(managed), 'arms': {}}
     for arm, profile in profiles.items():
-        local, provenance = collect_and_verify(benchmark, f'oda_compact_{arm}_calibration_v1',
+        local, provenance = collect_and_verify(benchmark, f'{namespace_prefix}_{arm}_calibration_v1',
                                                compact / f'{arm}_serving_profile.json', profile,
-                                               panel, public, gold, panel_identity, metric_dir)
+                                               panel, public, gold, panel_identity, metric_dir, dataset=dataset)
         if arm == 'base':
             baseline = local
         cascade = prepend(local, by_id)
@@ -325,11 +333,17 @@ def main():
     parser.add_argument('--container', required=True)
     parser.add_argument('--metric-dir', type=Path, required=True)
     parser.add_argument('--stage', choices=('calibration', 'official-finqa'), default='calibration')
+    parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
     if re.fullmatch(r'[0-9a-f]{12,64}', args.container) is None:
         parser.error('--container must be a Docker container ID')
-    entry = run_official if args.stage == 'official-finqa' else run
-    entry(args.benchmark.resolve(), args.container, args.metric_dir.resolve())
+    benchmark, metric = args.benchmark.resolve(), args.metric_dir.resolve()
+    if args.stage == 'official-finqa':
+        if args.dataset != DATASET:
+            parser.error('--stage official-finqa requires --dataset finqa')
+        run_official(benchmark, args.container, metric)
+    else:
+        run(benchmark, args.container, metric, dataset=args.dataset)
 
 
 if __name__ == '__main__':
