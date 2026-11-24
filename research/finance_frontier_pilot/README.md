@@ -291,6 +291,27 @@ TAT-QA 对两个校内模型的 96 题拟合集和 48 题校准集复算固定�
 
 ODA 论文的 FinQA 和 TAT-QA 报分使用 CompassVerifier，当前实验对照以自己的统一官方评分为准。[ODA 原文](https://arxiv.org/html/2603.07223v1#S4) · [固定版本](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
+### 两套官方全量结果（2026-11-24）
+
+FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_frontiers_v1/` 保存逐策略 TSV、配对区间 JSON 和准确率—成本图。下表按官方严格正确且可执行计分。准确数使用全量分母，token 列统一使用所有策略用量与执行状态均已知的共同子集（FinQA 1,132 题，TAT-QA 711 题）。
+
+| 策略 | FinQA / 1,147 | FinQA tokens | TAT-QA / 718 | TAT-QA tokens |
+| --- | ---: | ---: | ---: | ---: |
+| ODA 首答加编译 | 634 | 4.386M | 505 | 2.198M |
+| 当前 ODA 自由答回退级联 | 698 | 6.100M | 541 | 2.822M |
+| 跳过自由答，ODA → Qwen → DeepSeek | 789 | 5.719M | 597 | 2.766M |
+| DeepSeek 直跑加编译 | 766 | 2.230M | 598 | 0.977M |
+| DeepSeek → Qwen | 802 | 2.505M | 613 | 1.107M |
+| Qwen → DeepSeek | 801 | 4.100M | 626 | 2.024M |
+| Cascade Routing 适配（成本因子 1.5） | 806 | 6.326M | 604 | 2.113M |
+| CAR 适配加编译 | 634 | 9.434M | 505 | 4.809M |
+| BudgetVerify GBM（校准选点）加编译 | 634 | 4.386M | 510 | 2.304M |
+| BudgetVerify TabFM（校准选点）加编译 | 634 | 4.386M | 517 | 2.475M |
+
+同一回执只加编译，ODA 从 284 提到 634、从 446 提到 505。自由答回退却在两库分别产生 50 和 56 道严格答对但不可执行的结果。相对跳过自由答，当前级联的可执行正确率在配对计费子集上分别低 7.85 pp [−9.65, −6.17] 和 7.68 pp [−10.06, −5.47]。DeepSeek → Qwen 在两库同时提高可执行正确率并降低用量。TAT-QA 的 Qwen → DeepSeek 以额外用量换取更高正确数。现有证据支持保留编译器，停止把自由答回退级联当作优于强基线的候选。
+
+报告的延迟轴来自逐题已记录调用耗时之和。九策略同条件端到端实测仍待校内授权凭证恢复，当前未将串行调用和当作实测部署墙时。
+
 ### 对标权重与推理精度
 
 - CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。复测分别记录 CAR 的百分比归一口径及各臂统一的严格执行分。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
