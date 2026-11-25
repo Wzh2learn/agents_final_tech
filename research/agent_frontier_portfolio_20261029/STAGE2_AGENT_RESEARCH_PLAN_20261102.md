@@ -5,7 +5,7 @@
 <a id="competitive-research-agenda"></a>
 ## 强对标后的研究议题｜外部专家讨论
 
-400 题零训练探针已完成，选择[路线 A](../finance_frontier_pilot/README.md#路线裁决)。现役工作是 [FinQA／TAT-QA 全量同预算对标](../finance_frontier_pilot/README.md#同预算对标准备)。三模型在 1,147 道 FinQA 与 718 道 TAT-QA 算术题的首答已齐，ODA 后续动作正在采集。收齐后接续两套 CAR、BudgetVerify、Cascade Routing 与固定级联汇总。独立端到端计时还需恢复校内网关的进程凭证，原始回执和运行目录见同一入口。
+400 题零训练探针已完成，选择[路线 A](../finance_frontier_pilot/README.md#路线裁决)。[FinQA 1,147 题与 TAT-QA 718 题的全量对标](../finance_frontier_pilot/README.md#两套官方全量结果2026-11-24)已齐，含 CAR、BudgetVerify、Cascade Routing 与固定级联适配。两库的短程序首答及未执行回退补足了低成本区，FinQA 的同值歧义选题在独立 TRAIN 开发集未产生净增。当前优先验证 TAT-QA 首答的尺度监督和保留能力。独立的端到端计时仍待恢复校内网关凭证，运行目录与回执见[现役实验记录](../finance_frontier_pilot/README.md)。
 
 争取在**可执行的金融表文推理、紧凑模型、有限推理预算**这一场景做到领先。绝对准确率和准确率—成本前沿都值得竞争。优先回答两件事：能否提高强首答的正确候选覆盖率，以及执行反馈能否让强首答继续获益。允许重做首答生成、训练数据、教师机制和推理策略，也允许把现有三段重新组织成一个新方法。实验取舍由证据决定。
 

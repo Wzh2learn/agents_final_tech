@@ -1,9 +1,10 @@
 # Open Decisions And Blockers
 
-> 2026-11-19 | 只留未决事项与后续动作。实验数字和成本见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
+> 2026-11-25 | 只留未决事项与后续动作。现役入口见[短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。
 
 | 事项 | 下一动作 / 边界 |
 | --- | --- |
+| 强基座金融推理 | 全量比较已齐。先完成 TAT-QA 两种尺度监督的独立校准，再按结果决定是否进入全量。校内端到端计时等凭证恢复。[运行与证据](../research/finance_frontier_pilot/README.md)。 |
 | 导师 / 开题 | 11-11反馈：Paper E老师先审后提交；当前优先开题报告与答辩。独立对话负责，研究点按问题、机制、形式化和验证组织，后两点是否合并待导师指导。 |
 | Paper E 投稿办理 | 独立对话跟进，当前办理状态未复核。既有待项为账号、作者终核、邮箱/声明和提交授权；暂定王/阮/侯/俎、俎通讯、北邮电子工程学院。拒稿/撤稿后启用ICDAR；邮箱不入Git。 |
 | 第二篇论文 | v5 已纳入前向57与预定新64四臂。下一次修改以新论文的作者审阅意见为准。导师审阅 v4 保存在 `79000372`。[v5 短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#v5-factorial-goal)。 |
@@ -19,4 +20,4 @@
 | 文档与 skill 存量 | 知识入口见[研究导航](../docs/research/README.md)。存量提醒按相关任务处理。 |
 | 历史生产事项 | PostgreSQL/Loop B/kiosk 并发、M1 OCR 等未复验项见[更早台账](archive/THREADS_2026-10-21_pre_workspace_governance.md)，此次文档整理不关闭它们。 |
 
-科研运行状态见[STATE](STATE.md)，恢复实验须有用户后续明确指令。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)。2027 年 10 月具体送审日仍待学校确定。
+科研授权以会话 Goal 和用户最新指令为准，运行定位见[STATE](STATE.md)。较长旧台账见[治理前快照](archive/THREADS_2026-11-06_pre_context_neat.md)。2027 年 10 月具体送审日仍待学校确定。

@@ -4,7 +4,7 @@
 
 | 当前需要 | 最小入口 |
 | --- | --- |
-| 当前强基座实验 | [FinQA／TAT-QA 全量同预算对标](../../research/finance_frontier_pilot/README.md#同预算对标准备) · [探针与路线裁决](../../research/finance_frontier_pilot/README.md#路线裁决)。 |
+| 当前强基座实验 | [FinQA／TAT-QA 全量对标结果](../../research/finance_frontier_pilot/README.md#两套官方全量结果2026-11-24) · [TAT-QA 首答监督](../../research/finance_frontier_pilot/README.md#tat-qa-首答监督扩展) · [探针与路线裁决](../../research/finance_frontier_pilot/README.md#路线裁决)。 |
 | 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
 | IJCNN 阶段档案 | [IEEE 双栏审阅稿](../../research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)、[英文正文](../../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)与[实验总表](../../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，按章节读取。[定义](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_METHOD.md)和[机制知识](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)按需加载。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
