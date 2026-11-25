@@ -320,6 +320,8 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 全量计时入口 `timing-compact-full` 对全部 FinQA 1,147 题和 TAT-QA 718 题交错比较 11 条路径。FinQA 挂载已测混合监督适配器，TAT-QA 挂载已在 718 题执行的扩容尺度对齐适配器。CAR 与 BudgetVerify 计时沿用各自的原生选答，公共编译复算另见准确率—token 表。两个数据集可分别启动，结果写入 `matched_live_policy_{finqa,tatqa}_v4/`。逐题旋转策略顺序，按每题上限 12 次校内请求及 80,000 个计提 tokens 设批次安全上限，仍受项目总账本约束。当前账面计提含历史 60,404,610 和本阶段 14,102,106，共 74,506,716／10 亿 tokens，其中本阶段有 15 次用量未知。全量鲜活计时依赖启动进程中的校内凭证。
 
+2026-11-25，校内网关验证通过，GB10 启动 v4 全量计时。当前队列先 FinQA、后 TAT-QA。私有实验目录中 `live_timing_launch_v4/latest` 指向本次启动记录。各策略完毕后按题写入 `outcomes.jsonl`，最终配对数及计费以 `collection.json` 为准。
+
 离线从同一 ODA 自由答回执中复原可执行公式。仅用可见回答时，FinQA 的联合正确数从 634 增到 636，TAT-QA 从 505 增到 508。允许使用已记录的推理段后，分别增到 647 和 520。复原须保持原终值与尺度，严格数值正确数仍为 690 和 561。该补充零新增推理，记录在 GB10 的 `official_oda_{finqa,tatqa}_formula_replay_v1.json`。
 
 ### ODA 关闭思考的配对校准（2026-11-24）
