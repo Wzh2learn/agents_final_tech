@@ -119,7 +119,8 @@ def run(args):
     training = {row['id']: (row, gold, stratum) for row, gold, stratum in train}
     selected = [training[row['id']] for row in rows]
     if (train_identity != partition['train'] or partition['partition_questions']['calibration'] != len(rows)
-            or any((row, references['finqa', row['id']]) != recorded[:2]
+            or any(row != recorded[0] or references['finqa', row['id']] != {
+                       key: value for key, value in recorded[1].items() if key != 'question'}
                    for row, recorded in zip(rows, selected, strict=True))
             or sum(1 for _ in source_components(selected)) != len(rows)):
         raise ValueError('FinQA calibration rows must match independent pinned TRAIN sources')
