@@ -3,7 +3,7 @@
 > 2026-11-25 | 接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。实际授权看会话 Goal。
 
 - **强基座金融推理**：400 题探针选路线 A。FinQA 1,147 与 TAT-QA 718 道官方题的同条件全量对标已齐。接续看[现役结果与下一批](../research/finance_frontier_pilot/README.md)。
-- **当前比较**：FinQA 同值歧义规则停在 TRAIN 开发。TAT-QA 执行对齐组完成 718 题全量复核，补足低成本区。接续 CAR 原生文本对照。完整端到端墙时仍待校内凭证。批次结果和计费见实验记录与 GB10 回执。
+- **当前比较**：FinQA 同值歧义规则停在 TRAIN 开发，CAR 文本有界修订与重写对照均无净增。TAT-QA 执行对齐组完成 718 题全量复核，接续独立 TRAIN 上的选择性接管比较。完整端到端墙时仍待校内凭证。批次结果见实验记录与 GB10 回执。
 - **第二篇 v4/v5 阶段档案**：保留 79000372 与 36edf5bd。纠正、接管、跨契约和单步分层见[实验总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，阶段费用见[历史短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#边界预算与恢复位置)。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。

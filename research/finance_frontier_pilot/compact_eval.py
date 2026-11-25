@@ -33,6 +33,10 @@ TATQA_EXPANSION_PINS = {
 DATASET = 'finqa'
 ACTION = 'contract_compile'
 ADAPTER_FILES = ('adapter_config.json', 'adapter_model.safetensors')
+MANAGED_RESCUE_FEATURES = ('question_chars', 'question_digits', 'question_percent', 'question_years',
+                           'table_rows', 'table_cells', 'evidence_chars', 'program_chars', 'operations',
+                           'scale_none', 'scale_thousand', 'scale_million', 'scale_billion', 'scale_percent',
+                           'ambiguous_literals', 'explicit_conflicts')
 
 
 def read(path):
@@ -123,7 +127,7 @@ def timed_compact_profile(benchmark, container, dataset):
 
 
 def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold, panel_identity, metric_dir,
-                       *, dataset=DATASET, check_conflicts=False, measure_wall=False):
+                       *, dataset=DATASET, check_conflicts=False, measure_wall=False, capture_features=False):
     freeze(path, profile)
     timing = ['--workers', '1', '--measure-wall'] if measure_wall else ['--workers', '8']
     subprocess.run([sys.executable, '-B', '-u', str(Path(__file__).with_name('benchmark_actions.py')),
@@ -133,11 +137,11 @@ def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold,
                     '--disable-thinking', *timing, '--context', '16384', '--temperature', '.6',
                     '--solve-output', '4096', '--verify-output', '4096', '--probe-output', '4096'], check=True)
     return verify_collection(benchmark / namespace, path, profile, public, gold, panel_identity, metric_dir,
-                             dataset=dataset, check_conflicts=check_conflicts)
+                             dataset=dataset, check_conflicts=check_conflicts, capture_features=capture_features)
 
 
 def verify_collection(directory, path, profile, public, gold, panel_identity, metric_dir,
-                      *, dataset=DATASET, check_conflicts=False, disable_thinking=True):
+                      *, dataset=DATASET, check_conflicts=False, disable_thinking=True, capture_features=False):
     namespace = directory.name
     reports = {row['id']: row['report'] for row in public}
     run, indexed, provenance = read_paired_run(directory, panel_identity, reports, dataset, ACTION)
@@ -167,10 +171,12 @@ def verify_collection(directory, path, profile, public, gold, panel_identity, me
         decision = {'id': ident, 'strict': result['strict'], 'executable': result['executable'],
                     'selected': profile['model'], 'queried': [profile['model']], **cost,
                     'known_input_tokens': usage.get('input', 0), 'known_output_tokens': usage.get('output', 0)}
-        if check_conflicts:
+        if check_conflicts or capture_features:
             bindings = ground(row, result['submission']['program']) if result['executable'] else []
             decision['explicit_conflict'] = any(binding['explicit_conflicts'] for binding in bindings)
             decision['ambiguous_literals'] = sum(len(binding['candidates']) > 1 for binding in bindings)
+            if capture_features:
+                decision['public_features'] = managed_rescue_features(row, result['submission'], decision)
         decisions.append(decision)
     evidence = {'namespace': namespace, 'files': provenance, 'collection': read(directory / 'collection.json')}
     if run.get('timing_protocol') == 'fresh_serial_action_until_execution_v1':
@@ -192,6 +198,22 @@ def recovery_and_harm(candidate, baseline):
     outcomes = [(a['strict'] and a['executable'], b['strict'] and b['executable']) for a, b in pairs]
     return {'recoveries': sum(new and not old for new, old in outcomes),
             'harms': sum(old and not new for new, old in outcomes)}
+
+
+def managed_rescue_features(row, submission, observed):
+    """Fixed, label-free features available immediately after local execution."""
+    question = row['question'].casefold()
+    program = submission.get('program') or ''
+    scale = submission.get('scale') or ''
+    values = (len(question), sum(char.isdigit() for char in question),
+              int('%' in question or 'percent' in question), len(re.findall(r'\b(?:19|20)\d{2}\b', question)),
+              len(row['table']), sum(len(line) for line in row['table']),
+              sum(len(text) for key in ('pre_text', 'post_text') for text in row[key]),
+              len(program), program.count('('), *(int(scale == name) for name in ('', 'thousand', 'million', 'billion', 'percent')),
+              observed['ambiguous_literals'], int(observed['explicit_conflict']))
+    if len(values) != len(MANAGED_RESCUE_FEATURES):
+        raise ValueError('Unexpected managed-rescue public feature length')
+    return values
 
 
 def prepend(local, managed, *, forward_conflicts=False, forward_ids=()):
@@ -762,6 +784,172 @@ def report_recovery_fit(student, teacher, reports):
             'same_k_random': random, 'paired_ambiguity_contrasts': contrasts}
 
 
+def run_tatqa_managed_train(benchmark, container, metric_dir):
+    """Fit two public-feature selectors on old TRAIN; replay matched managed receipts."""
+    import numpy as np
+    from benchmark_panels import priority
+    from cohorts import table_signature
+    from paired_tradeoff import paired_tradeoff
+    from sklearn.linear_model import Ridge
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    compact = benchmark / 'compact_program_development_v1' / 'tatqa_aligned' / 'source_expansion_v1'
+    (_, _, expansion_panel), source_identity = tatqa_expansion_inputs(benchmark, compact)
+    profiles = tatqa_expansion_profiles(benchmark, compact, container)
+    profile = {**profiles['execution_aligned'], 'source_identity': source_identity}
+    profile_path = compact / 'execution_aligned_serving_profile.json'
+    calibration = benchmark / 'oda_compact_tatqa_expansion_execution_aligned_calibration_v1' / 'run.json'
+    saved = read(compact / 'calibration_summary.json')
+    calibrated = read(calibration)
+    if (read(profile_path) != profile or saved['source_identity'] != source_identity
+            or saved['panel'] != expansion_panel
+            or saved['arms']['execution_aligned']['provenance']['files']['run.json'] != digest_file(calibration)
+            or calibrated['opencode_sha256'] != digest_file(Path.home() / '.opencode/bin/opencode')
+            or calibrated['checkpoint'] != profile['checkpoint']
+            or calibrated['serve_sha256'] != digest_file(profile_path)):
+        raise ValueError('Managed TRAIN probe requires the matched expansion calibration profile and OpenCode')
+    panels = {name: read_panel(benchmark / 'panel' / name, 'tatqa') for name in ('fit', 'calibration')}
+    if len(panels['fit'][0]) != 96 or len(panels['calibration'][0]) != 48:
+        raise ValueError('Expected the fixed 96 fit and 48 calibration TAT-QA questions')
+    fit, check = (panels[name][0] for name in ('fit', 'calibration'))
+    if ({r['id'] for r in fit} & {r['id'] for r in check}
+            or {r['report'] for r in fit} & {r['report'] for r in check}
+            or {table_signature(r['table']) for r in fit} & {table_signature(r['table']) for r in check}):
+        raise ValueError('Managed TRAIN fit and calibration sources must be disjoint')
+    ledger = benchmark / 'official_frontiers_v1' / 'campus_ledger.json'
+    old_runs = {}
+    for name in panels:
+        old_local = benchmark / ('reconciled_fit_v1/oda_fit_v1' if name == 'fit' else 'oda_calibration_v1')
+        old_runs[name] = [old_local, *(benchmark / f'campus_{name}_{model}_v1'
+                                       for model in (campus.QWEN_MODEL, campus.MODEL))]
+    old_digests = {name: [{file: digest_file(path / file) for file in ('run.json', 'outcomes.jsonl')}
+                          for path in paths] for name, paths in old_runs.items()}
+    contract = {'schema': 'tatqa-expansion-managed-train-v1', 'dataset': 'tatqa',
+                'script_sha256': digest_file(Path(__file__)),
+                'panels': {name: panel[2] for name, panel in panels.items()},
+                'source_identity': source_identity, 'serving_profile_sha256': digest_file(profile_path),
+                'calibration_sha256': digest_file(calibration), 'campus_ledger_sha256': digest_file(ledger),
+                'managed_and_old_local_runs': old_digests,
+                'features': list(MANAGED_RESCUE_FEATURES), 'estimator': 'StandardScaler + Ridge(alpha=4)',
+                'targets': {'gain': 'C(deepseek)-C(local)', 'risk': '1-C(local)'},
+                'training_scope': 'Only locally executable fit states; C means strict and executable.',
+                'selection': 'Top 12 executable local states by score; fixed source-hash tie break.',
+                'fallback': 'Nonexecution uses the archived DeepSeek then Qwen route; selected executable '
+                            'states use one archived DeepSeek response only.'}
+    contract_path = compact / 'managed_train_rescue_contract.json'
+    freeze(contract_path, contract)
+    ledger_rows = read(ledger)
+    runs, pools, provenance = {}, {}, {}
+    for name in panels:
+        pools[name] = read_pool(benchmark / 'panel' / name, 'tatqa', old_runs[name], representation='compiled',
+                                metric_dir=metric_dir, campus_rows=ledger_rows)
+    wait_service(BASE, profile['model'], 300)
+    for name, (public, gold, panel_identity) in panels.items():
+        namespace = f'oda_compact_tatqa_expansion_managed_{name}_v1'
+        runs[name], provenance[name] = collect_and_verify(
+            benchmark, namespace, profile_path, profile, benchmark / 'panel' / name, public, gold,
+            panel_identity, metric_dir, dataset='tatqa', capture_features=True)
+    if (tatqa_expansion_inputs(benchmark, compact)[1] != source_identity
+            or tatqa_expansion_profiles(benchmark, compact, container) != profiles
+            or digest_file(ledger) != contract['campus_ledger_sha256']
+            or {name: [{file: digest_file(path / file) for file in ('run.json', 'outcomes.jsonl')}
+                       for path in paths] for name, paths in old_runs.items()} != old_digests):
+        raise ValueError('Frozen expansion or managed source changed during collection')
+
+    teacher_fit = {item['id']: item for item in realized(None, pools['fit'], initial=2)}
+    fit_local = [item for item in runs['fit'] if item['executable']]
+    if len(fit_local) < 2 or set(teacher_fit) != {r['id'] for r in fit}:
+        raise ValueError('Insufficient matched executable fit states')
+    x = np.asarray([item['public_features'] for item in fit_local], dtype=float)
+    current = np.asarray([int(item['strict'] and item['executable']) for item in fit_local])
+    teacher = np.asarray([int(teacher_fit[item['id']]['strict'] and teacher_fit[item['id']]['executable'])
+                          for item in fit_local])
+    models = {name: make_pipeline(StandardScaler(), Ridge(alpha=4)).fit(x, target)
+              for name, target in (('gain', teacher - current), ('risk', 1 - current))}
+    public, _, panel_identity = panels['calibration']
+    reports = {row['id']: row['report'] for row in public}
+    local = runs['calibration']
+    eligible = [item for item in local if item['executable']]
+    if len(eligible) < 12:
+        raise ValueError('Fewer than twelve executable calibration states; no top-12 comparison')
+    matrix = np.asarray([item['public_features'] for item in eligible], dtype=float)
+    teacher_rows = realized(None, pools['calibration'], initial=2)
+    teacher_by_id = {item['id']: item for item in teacher_rows}
+    managed_rows = realized(NonexecutionCascade((2, 1)), pools['calibration'])
+    managed = {item['id']: item for item in managed_rows}
+    if teacher_by_id.keys() != reports.keys() or managed.keys() != reports.keys():
+        raise ValueError('Matched managed receipts must cover every calibration question')
+    baseline = prepend(local, managed)
+    p = lambda ident: priority('tatqa', 'managed-rescue-tie-v1', ident)
+    selected = {}
+    for name, model in models.items():
+        scores = model.predict(matrix)
+        selected[name] = {item['id'] for _, item in sorted(
+            zip(scores, eligible, strict=True), key=lambda pair: (-pair[0], p(pair[1]['id'])))[:12]}
+    selected['conflict_first'] = {item['id'] for item in sorted(
+        eligible, key=lambda item: (not item['explicit_conflict'], p(item['id'])))[:12]}
+
+    policies = {'nonexecution': baseline, 'direct_deepseek': teacher_rows}
+    for name, ids in selected.items():
+        redirected = prepend(local, teacher_by_id, forward_ids=ids)
+        policies[name] = [redirect if item['id'] in ids else original
+                          for item, redirect, original in zip(local, redirected, baseline, strict=True)]
+    report_policies = {name: {**summarize(items), 'vs_nonexecution': recovery_and_harm(items, baseline),
+                              'vs_direct_deepseek': recovery_and_harm(items, teacher_rows)}
+                       for name, items in policies.items()}
+    contrasts = {name: {other: paired_tradeoff(indexed_outcomes(policies[name]), indexed_outcomes(policies[other]),
+                                                reports.keys(), reports, require_execution=True)
+                        for other in ('nonexecution', 'direct_deepseek')}
+                 for name in selected}
+    for other in ('risk', 'conflict_first'):
+        contrasts['gain'][other] = paired_tradeoff(indexed_outcomes(policies['gain']), indexed_outcomes(policies[other]),
+                                                   reports.keys(), reports, require_execution=True)
+    probability = 12 / len(eligible)
+    base_summary = summarize(baseline)
+    recovered = sum(not item['strict'] and teacher_by_id[item['id']]['strict']
+                    and teacher_by_id[item['id']]['executable'] for item in eligible)
+    harmed = sum(item['strict'] and not (teacher_by_id[item['id']]['strict']
+                                        and teacher_by_id[item['id']]['executable']) for item in eligible)
+    unknown = base_summary['unknown_usage_calls'] + probability * sum(
+        teacher_by_id[item['id']]['unknown_usage_calls'] for item in eligible)
+    uniform = {'n': len(local), 'k': 12, 'eligible': len(eligible),
+               'expected_recoveries': probability * recovered, 'expected_harms': probability * harmed,
+               'expected_strict_and_executable': base_summary['strict_and_executable'] + probability * (recovered - harmed),
+               'expected_known_tokens': base_summary['known_tokens'] + probability * sum(
+                   teacher_by_id[item['id']]['known_tokens'] for item in eligible),
+               'expected_unknown_usage_calls': unknown,
+               'expected_total_tokens': None if unknown else base_summary['known_tokens'] + probability * sum(
+                   teacher_by_id[item['id']]['known_tokens'] for item in eligible)}
+    gain_result, direct_result = report_policies['gain'], report_policies['direct_deepseek']
+    transition = gain_result['vs_nonexecution']
+    net = transition['recoveries'] - transition['harms']
+    if not gain_result['unknown_usage_calls'] and gain_result['known_tokens'] <= direct_result['known_tokens']:
+        cost_compatible = True  # Direct known tokens are a lower bound even with unknown usage.
+    elif not gain_result['unknown_usage_calls'] and not direct_result['unknown_usage_calls']:
+        cost_compatible = False
+    else:
+        cost_compatible = None
+    verdict = {'net_recoveries_vs_nonexecution': net, 'required_net_recoveries': 7,
+               'cost_compatible_with_direct_deepseek': cost_compatible,
+               'meets_joint_condition': False if net < 7 or cost_compatible is False else
+                                        True if cost_compatible is True else None,
+               'cost_scope': 'Known recorded tokens only; unknown usage prevents treating a lower bound as a total.'}
+    report = {'scope': 'Frozen TRAIN fit/calibration development; managed calls replayed, no new campus calls.',
+              'contract_sha256': digest_file(contract_path), 'panel': panel_identity,
+              'local_provenance': provenance, 'fit_executable_n': len(fit_local),
+              'fit_target_counts': {'gain_positive': int(sum(teacher > current)),
+                                    'gain_negative': int(sum(teacher < current)), 'local_incorrect': int(sum(1 - current))},
+              'models': {name: {'mean': model[0].mean_.tolist(), 'scale': model[0].scale_.tolist(),
+                                'coefficient': model[1].coef_.tolist(), 'intercept': float(model[1].intercept_)}
+                         for name, model in models.items()},
+              'selected_ids': {name: sorted(ids) for name, ids in selected.items()},
+              'policies': report_policies, 'paired_tradeoff': contrasts, 'uniform_k12': uniform,
+              'seven_net_cost_verdict': verdict}
+    freeze(compact / 'managed_train_rescue_summary.json', report)
+    print(json.dumps({'policies': report_policies, 'uniform_k12': uniform}), flush=True)
+
+
 def collect_recovery_fit(benchmark, container, metric_dir):
     development = benchmark / 'compact_program_development_v1'
     recovery = development / 'finqa_recovery_pairs'
@@ -803,7 +991,8 @@ def main():
     parser.add_argument('--metric-dir', type=Path, required=True)
     parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'official-tatqa',
                                            'depth-calibration', 'official-finqa-depth', 'recovery-fit',
-                                           'tatqa-expansion-calibration', 'official-tatqa-expansion'),
+                                           'tatqa-expansion-calibration', 'official-tatqa-expansion',
+                                           'tatqa-expansion-managed-train'),
                         default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
@@ -814,13 +1003,15 @@ def main():
         run(benchmark, args.container, metric, dataset=args.dataset)
     else:
         expected = 'tatqa' if args.stage in ('official-tatqa', 'tatqa-expansion-calibration',
-                                             'official-tatqa-expansion') else DATASET
+                                             'official-tatqa-expansion', 'tatqa-expansion-managed-train') else DATASET
         if args.dataset != expected:
             parser.error(f'--stage {args.stage} requires --dataset {expected}')
         if args.stage == 'depth-calibration':
             run_depth(benchmark, args.container, metric)
         elif args.stage == 'tatqa-expansion-calibration':
             run_tatqa_expansion(benchmark, args.container, metric)
+        elif args.stage == 'tatqa-expansion-managed-train':
+            run_tatqa_managed_train(benchmark, args.container, metric)
         elif args.stage == 'recovery-fit':
             collect_recovery_fit(benchmark, args.container, metric)
         else:

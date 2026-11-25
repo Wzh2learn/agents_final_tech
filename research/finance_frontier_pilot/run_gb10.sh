@@ -13,7 +13,7 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
+    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration|compact-tatqa-expansion-managed-recovery) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 if [[ $benchmark_split == compact-official-tatqa* || $benchmark_split == compact-tatqa-expansion-* ]]; then
@@ -26,7 +26,7 @@ elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
 fi
 compact_collect=0
 case $benchmark_split in
-    compact*-calibration|compact*-official-*|compact-depth-recovery-fit) compact_collect=1 ;;
+    compact*-calibration|compact*-official-*|compact-depth-recovery-fit|compact-tatqa-expansion-managed-recovery) compact_collect=1 ;;
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
@@ -145,7 +145,7 @@ if [[ -n $benchmark ]]; then
     for arm in "${compact_arms[@]}"; do
         compact_arm_dirs[$arm]="$compact/$arm"
     done
-    if [[ $benchmark_split == compact-tatqa-expansion-calibration || $benchmark_split == compact-official-tatqa-expansion ]]; then
+    if [[ $benchmark_split == compact-tatqa-expansion-calibration || $benchmark_split == compact-official-tatqa-expansion || $benchmark_split == compact-tatqa-expansion-managed-recovery ]]; then
         compact_arm_dirs[canonical]="$tatqa_compact/canonical"
     elif [[ $benchmark_split == timing-compact ]]; then
         compact_arms=(balanced canonical)
@@ -254,6 +254,11 @@ PY
         elif [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
             panel_dir="$compact/panel"
             test -s "$panel_dir/manifest.json"
+        elif [[ $benchmark_split == compact-tatqa-expansion-managed-recovery ]]; then
+            test -s "$panel_dir/fit/public.jsonl"
+            test -s "$panel_dir/fit/references.jsonl"
+            test -s "$compact/calibration_summary.json"
+            test -s "$compact/official_tatqa_summary.json"
         fi
         for arm in "${compact_arms[@]}"; do
             arm_dir=${compact_arm_dirs[$arm]}
@@ -458,6 +463,8 @@ if (( compact_collect )); then
         stage=recovery-fit
     elif [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
         stage=tatqa-expansion-calibration
+    elif [[ $benchmark_split == compact-tatqa-expansion-managed-recovery ]]; then
+        stage=tatqa-expansion-managed-train
     fi
     "$repo/venv/bin/python" -B -u "$repo/research/finance_frontier_pilot/compact_eval.py" \
         --benchmark "$work" --container "$cid" --metric-dir "$metric_dir" --stage "$stage" "${dataset_args[@]}"
