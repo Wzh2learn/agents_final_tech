@@ -1,6 +1,7 @@
 """Render matched accuracy and executable-accuracy frontiers from saved reports."""
 
 import argparse
+import csv
 from hashlib import sha256
 import json
 from math import isclose, isfinite
@@ -86,7 +87,14 @@ def family(name, metadata):
     return 'Fixed / single model'
 
 
-def load_online(path):
+def pareto_frontier(points, cost, score):
+    return {name for name, point in points.items()
+            if not any(other[cost] <= point[cost] and other[score] >= point[score]
+                       and (other[cost] < point[cost] or other[score] > point[score])
+                       for other in points.values())}
+
+
+def load_online(path, *, fresh_comparison=False):
     """Read complete paired wall-time points and their adjacent frozen run contract."""
     collection = json.loads(path.read_text(encoding='utf-8'))
     contract = json.loads(path.with_name('run.json').read_text(encoding='utf-8'))
@@ -131,11 +139,7 @@ def load_online(path):
     strata = {}
     for score, (field, _) in ONLINE_METRICS.items():
         recorded = collection.get(field)
-        expected = {name for name, point in points.items()
-                    if not any(other['mean_wall_seconds'] <= point['mean_wall_seconds']
-                               and other[score] >= point[score]
-                               and (other['mean_wall_seconds'] < point['mean_wall_seconds']
-                                    or other[score] > point[score]) for other in points.values())}
+        expected = pareto_frontier(points, 'mean_wall_seconds', score)
         if not isinstance(recorded, list) or len(recorded) != len(expected) or set(recorded) != expected:
             raise ValueError(f'{path}: {field} disagrees with measured wall-time points')
         strata[score] = {'n': n, field: recorded,
@@ -146,7 +150,75 @@ def load_online(path):
     report = {'dataset': dataset, 'policy_metadata': {'budgetverify': budgetverify}, 'strata': strata}
     if full_official:
         report['full_official_panel'] = True
+    if fresh_comparison:
+        if not full_official:
+            raise ValueError(f'{path}: fresh comparison requires complete official v4 timing')
+        report['fresh_token_strata'] = read_fresh_token_strata(path.with_name('outcomes.jsonl'), cases, dataset, points)
     return report
+
+
+def read_fresh_token_strata(path, cases, dataset, wall_points):
+    """Use one shared known-usage cohort for every policy and both scores."""
+    outcomes = {name: [] for name in wall_points}
+    with path.open(encoding='utf-8') as stream:
+        for case, line in zip(cases, stream, strict=True):
+            row = json.loads(line)
+            measured = row['policies']
+            if (row['dataset'] != dataset or row['id'] != case['id'] or row['policy_order'] != case['policy_order']
+                    or row['complete_pair'] is not True or measured.keys() != outcomes.keys()):
+                raise ValueError(f'{path}: outcome differs from planned pair {case["id"]}')
+            for name, record in measured.items():
+                result, seconds, cost = record['result'], record['wall_seconds'], record['cost']
+                correct, executable = result['strict'], result['executable']
+                tokens, unknown = cost['total_tokens'], cost['unknown_usage_calls']
+                if (record['status'] != 'complete' or type(correct) is not bool or type(executable) is not bool
+                        or type(seconds) not in (int, float) or not isfinite(seconds) or seconds < 0
+                        or type(unknown) is not int or unknown < 0
+                        or (tokens is None) != (unknown > 0)
+                        or (tokens is not None and (type(tokens) is not int or tokens < 0))):
+                    raise ValueError(f'{path}: invalid measurement for {case["id"]}/{name}')
+                outcomes[name].append((correct, correct and executable, seconds, tokens))
+
+    cohort = [i for i in range(len(cases)) if all(rows[i][3] is not None for rows in outcomes.values())]
+    if not cohort:
+        raise ValueError(f'{path}: no pairs with complete token usage across all policies')
+    n = len(cohort)
+    points = {}
+    for name, rows in outcomes.items():
+        wall = wall_points[name]
+        if (sum(row[0] for row in rows) != wall['correct']
+                or sum(row[1] for row in rows) != wall['strict_and_executable']
+                or not isclose(sum(row[2] for row in rows), len(cases) * wall['mean_wall_seconds'])):
+            raise ValueError(f'{path}: outcomes disagree with timing summary for {name}')
+        points[name] = {'n': n, 'correct': sum(rows[i][0] for i in cohort),
+                        'strict_and_executable': sum(rows[i][1] for i in cohort),
+                        'total_tokens': sum(rows[i][3] for i in cohort)}
+    return {score: {'n': n, 'token_frontier': sorted(pareto_frontier(points, 'total_tokens', score)),
+                    'policies': {name: {**point, 'accuracy': point[score] / n} for name, point in points.items()}}
+            for score in ONLINE_METRICS}
+
+
+def write_fresh_comparison(reports, path):
+    with path.open('w', newline='', encoding='utf-8') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        writer.writerow(('dataset', 'policy', 'paired_n', 'strict_correct', 'strict_and_executable',
+                         'mean_wall_seconds', 'common_usage_n', 'common_usage_strict_correct',
+                         'common_usage_strict_and_executable', 'common_usage_total_tokens',
+                         'mean_tokens_per_common_usage_question', 'on_strict_wall_frontier',
+                         'on_executable_wall_frontier', 'on_strict_token_frontier',
+                         'on_executable_token_frontier'))
+        for report in reports:
+            paired, executable = (report['strata'][score] for score in ONLINE_METRICS)
+            tokens, executable_tokens = (report['fresh_token_strata'][score] for score in ONLINE_METRICS)
+            for name, point in sorted(paired['policies'].items()):
+                token_point = tokens['policies'][name]
+                writer.writerow((report['dataset'], name, point['n'], point['correct'],
+                                 point['strict_and_executable'], point['mean_wall_seconds'], token_point['n'],
+                                 token_point['correct'], token_point['strict_and_executable'],
+                                 token_point['total_tokens'], token_point['total_tokens'] / token_point['n'],
+                                 name in paired['strict_wall_frontier'],
+                                 name in executable['strict_and_executable_wall_frontier'],
+                                 name in tokens['token_frontier'], name in executable_tokens['token_frontier']))
 
 
 def validate_full_official_profile(path, profile, model):
@@ -162,7 +234,11 @@ def validate_full_official_profile(path, profile, model):
 
 
 def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False):
-    if online_score is not None:
+    if online_score is not None and tokens:
+        scope, cost_field, frontier_field = online_score, 'total_tokens', 'token_frontier'
+        x_label = 'Mean measured model tokens / question'
+        cohort = 'complete usage across all policies'
+    elif online_score is not None:
         scope, cost_field, frontier_field = online_score, 'mean_wall_seconds', ONLINE_METRICS[online_score][0]
         x_label = 'Mean measured online wall time / question (s)'
         cohort = 'complete paired'
@@ -176,7 +252,7 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
         cohort = 'all matched'
     if executable:
         scope, frontier_field, cohort = EXECUTABLE_FRONTIERS[tokens]
-    group = report['strata'][scope]
+    group = report['fresh_token_strata' if online_score is not None and tokens else 'strata'][scope]
     n = group['n']
     points = {}
     missing = 0
@@ -239,7 +315,7 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
     return present
 
 
-def render(reports, output, label, *, online=False, executable=False):
+def render(reports, output, label, *, online=False, executable=False, online_tokens=False):
     matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 8.5,
                                 'axes.edgecolor': '#6A7581', 'axes.labelcolor': '#182632',
                                 'xtick.color': '#45535F', 'ytick.color': '#45535F', 'pdf.fonttype': 42})
@@ -251,7 +327,7 @@ def render(reports, output, label, *, online=False, executable=False):
     if online:
         for (score, (_, y_label)), row in zip(ONLINE_METRICS.items(), axes, strict=True):
             for report, axis in zip(reports, row, strict=True):
-                present.update(plot_axis(axis, report, online_score=score))
+                present.update(plot_axis(axis, report, online_score=score, tokens=online_tokens))
                 axis.set_ylabel(y_label)
                 if score == 'correct':
                     axis.set_xlabel('')
@@ -283,11 +359,15 @@ def main():
     source.add_argument('--online-timing', type=Path, nargs=2, metavar='COLLECTION',
                         help='FinQA and TAT-QA live collection.json files with adjacent run.json')
     parser.add_argument('--output', type=Path, required=True, help='Output basename without .pdf or .png')
+    parser.add_argument('--fresh-comparison', action='store_true',
+                        help='Also export a complete v4 token frontier and joined TSV from adjacent outcomes.jsonl')
     parser.add_argument('--label')
     args = parser.parse_args()
+    if args.fresh_comparison and not args.online_timing:
+        parser.error('--fresh-comparison requires --online-timing')
     try:
         if args.online_timing:
-            reports = [load_online(path) for path in args.online_timing]
+            reports = [load_online(path, fresh_comparison=args.fresh_comparison) for path in args.online_timing]
             full_official = sum(report.get('full_official_panel', False) for report in reports)
             if 0 < full_official < len(reports):
                 parser.error('Full official online timing requires both datasets to be complete v4 runs')
@@ -302,6 +382,10 @@ def main():
             parser.error('Reports must identify distinct FinQA or TAT-QA datasets')
         label = label if args.label is None else args.label
         render(reports, args.output, label, online=bool(args.online_timing))
+        if args.fresh_comparison:
+            token_output = args.output.with_name(f'{args.output.name}_tokens')
+            render(reports, token_output, 'Full official online token use', online=True, online_tokens=True)
+            write_fresh_comparison(reports, args.output.with_name(f'{args.output.name}_comparison.tsv'))
         if args.input:
             executable_reports = [report for report in reports
                                   if all(report['strata'].get(scope, {}).get('n', 0) > 0
@@ -309,7 +393,7 @@ def main():
             if executable_reports:
                 output = args.output.with_name(f'{args.output.name}_executable')
                 render(executable_reports, output, f'{label} (strict and executable)', executable=True)
-    except (ValueError, OSError) as error:
+    except (ValueError, OSError, KeyError, TypeError) as error:
         parser.error(str(error))
 
 

@@ -1,4 +1,5 @@
 """Frozen online-timing plot contracts accept only complete matched policies."""
+import csv
 import json
 from hashlib import sha256
 from pathlib import Path
@@ -128,3 +129,45 @@ def test_online_plot_rejects_mixed_full_and_pilot_runs(plotting, monkeypatch, tm
     assert error.value.code == 2
     assert 'both datasets to be complete v4' in capsys.readouterr().err
     assert not output.with_suffix('.pdf').exists()
+
+
+@pytest.mark.parametrize('bad', [None, 'order', 'summary'])
+def test_fresh_comparison_uses_one_usage_cohort_for_all_policies(plotting, tmp_path, bad):
+    n = 718
+    path, contract, collection = write_pair(tmp_path, plotting, 4, dataset='tatqa', n=n)
+    names = contract['case_order'][0]['policy_order']
+    collection['complete_pair_policies'][names[-1]]['correct'] -= 1
+    collection['complete_pair_policies'][names[-1]]['strict_and_executable'] -= 1
+    path.write_text(json.dumps(collection), encoding='utf-8')
+    with path.with_name('outcomes.jsonl').open('w', encoding='utf-8') as stream:
+        for index, case in enumerate(contract['case_order']):
+            first = index == 0
+            records = {}
+            for j, name in enumerate(names):
+                correct = not (first and name == names[-1] and bad != 'summary')
+                total = None if first and name == names[0] else 10 + j
+                records[name] = {'status': 'complete', 'result': {'strict': correct, 'executable': True},
+                                 'wall_seconds': j + 1,
+                                 'cost': {'total_tokens': total, 'unknown_usage_calls': int(total is None)}}
+            order = names[::-1] if first and bad == 'order' else names
+            row = {'id': case['id'], 'dataset': 'tatqa', 'policy_order': order,
+                   'policies': records, 'complete_pair': True}
+            stream.write(json.dumps(row) + '\n')
+    if bad:
+        with pytest.raises(ValueError, match='planned pair' if bad == 'order' else 'timing summary'):
+            plotting.load_online(path, fresh_comparison=True)
+        return
+
+    report = plotting.load_online(path, fresh_comparison=True)
+    assert report['fresh_token_strata']['correct']['token_frontier'] == [names[0]]
+    output = tmp_path / 'comparison.tsv'
+    plotting.write_fresh_comparison([report], output)
+    with output.open(newline='', encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream, delimiter='\t'))
+    assert len(rows) == 11
+    assert {row['paired_n'] for row in rows} == {str(n)}
+    assert {row['common_usage_n'] for row in rows} == {str(n - 1)}
+    assert rows[-1]['strict_correct'] == str(n - 1)
+    assert rows[0]['strict_correct'] == str(n)
+    assert {row['common_usage_strict_correct'] for row in rows} == {str(n - 1)}
+    assert rows[-1]['common_usage_total_tokens'] == str((n - 1) * 20)

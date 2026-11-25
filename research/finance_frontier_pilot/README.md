@@ -322,6 +322,8 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 2026-11-25，校内网关验证通过，GB10 启动 v4 全量计时。当前队列先 FinQA、后 TAT-QA。私有实验目录中 `live_timing_launch_v4/latest` 指向本次启动记录。各策略完毕后按题写入 `outcomes.jsonl`，最终配对数及计费以 `collection.json` 为准。
 
+两库均完成后，用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --fresh-comparison --output <输出名>` 生成墙时图、Token 图和合并 TSV。墙时图使用全部配对题，Token 图使用 11 条策略均有用量的共同题集。两类判据都同时报告严格正确与严格正确且可执行。
+
 离线从同一 ODA 自由答回执中复原可执行公式。仅用可见回答时，FinQA 的联合正确数从 634 增到 636，TAT-QA 从 505 增到 508。允许使用已记录的推理段后，分别增到 647 和 520。复原须保持原终值与尺度，严格数值正确数仍为 690 和 561。该补充零新增推理，记录在 GB10 的 `official_oda_{finqa,tatqa}_formula_replay_v1.json`。
 
 ### ODA 关闭思考的配对校准（2026-11-24）
