@@ -98,3 +98,31 @@ def test_probe_replay_rejects_unbound_prompt(draft_run):
     prompt.write_bytes(prompt.read_bytes() + b'changed')
     with pytest.raises(ValueError, match='recorded prompt or request differs'):
         source_rows(draft_run, 'fit')
+
+
+def test_repair_preserves_optional_thinking_contract(draft_run, monkeypatch, tmp_path):
+    import car_adapter
+
+    contract_path = draft_run.drafts / 'run.json'
+    contract = json.loads(contract_path.read_text(encoding='utf-8'))
+    legacy = car_adapter.checked_profile(contract)
+    disabled = car_adapter.checked_profile({**contract, 'chat_template_kwargs': {'enable_thinking': False}})
+    assert 'chat_template_kwargs' not in legacy
+    assert disabled == {**legacy, 'chat_template_kwargs': {'enable_thinking': False}}
+    with pytest.raises(ValueError, match='disable-thinking'):
+        car_adapter.checked_profile({**contract, 'chat_template_kwargs': {'enable_thinking': True}})
+
+    contract_path.write_text(json.dumps({**contract, 'chat_template_kwargs': {'enable_thinking': False}}), encoding='utf-8')
+    contract_digest = sha256(contract_path.read_bytes()).hexdigest()
+    for path in draft_run.drafts.rglob('request.json'):
+        receipt = json.loads(path.read_text(encoding='utf-8'))
+        path.write_text(json.dumps({**receipt, 'run_contract': contract_digest}), encoding='utf-8')
+    _, _, retained_profile, _, _ = car_adapter.source_rows(draft_run, 'fit')
+    assert retained_profile == disabled
+
+    calls = []
+    monkeypatch.setattr(car_adapter, 'OpenCode', lambda *args, **kwargs: calls.append((args, kwargs)))
+    args = SimpleNamespace(opencode=Path('opencode'), base='http://127.0.0.1:18157/v1', repair_output=384)
+    car_adapter.repair_actor(tmp_path, args, legacy)
+    car_adapter.repair_actor(tmp_path, args, retained_profile)
+    assert calls[0][1] == {} and calls[1][1] == {'disable_thinking': True}

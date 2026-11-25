@@ -54,6 +54,22 @@ def read(path):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+def checked_profile(contract):
+    profile = {key: contract[key] for key in PROFILE_KEYS}
+    if 'chat_template_kwargs' in contract:
+        options = contract['chat_template_kwargs']
+        if not isinstance(options, dict) or set(options) != {'enable_thinking'} or options['enable_thinking'] is not False:
+            raise ValueError('CAR only supports the retained disable-thinking request contract')
+        profile['chat_template_kwargs'] = dict(options)
+    return profile
+
+
+def repair_actor(root, args, profile):
+    options = {'disable_thinking': True} if 'chat_template_kwargs' in profile else {}
+    return OpenCode(root / 'repair', args.opencode, args.base, profile['model'], args.repair_output,
+                    profile['context'], profile['temperature'], **options)
+
+
 def row_key(row):
     return row['dataset'], row['id']
 
@@ -356,7 +372,7 @@ def source_rows(args, stage):
         else:
             probe['judgments'] = judgments
             coverage['recovered_by_replay'] += 1
-    return entries, gold, {k: contract[k] for k in PROFILE_KEYS}, panel, coverage
+    return entries, gold, checked_profile(contract), panel, coverage
 
 
 def compiled_selection(row: dict, entry: dict, result: dict, gold: dict,
@@ -444,8 +460,7 @@ def collect(args):
                           'policy': digest_file(args.policy) if policy else None,
                           'draft_collection': digest_file(args.drafts / 'outcomes.jsonl'),
                           'probe_decoding': coverage})
-        actor = OpenCode(root / 'repair', args.opencode, args.base, profile['model'], args.repair_output,
-                         profile['context'], profile['temperature'])
+        actor = repair_actor(root, args, profile)
         wait_service(args.base, profile['model'], 90)
         contract_digest = digest_file(contract)
 
