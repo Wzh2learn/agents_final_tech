@@ -545,8 +545,9 @@ def compact_policies(arm, native, managed):
             f'{arm}_conflict_or_nonexecution_then_managed': prepend(native, managed, forward_conflicts=True)}
 
 
-def replay_official_canonical(benchmark, compact, public, gold, panel_identity, metric_dir, ledger_digest, managed):
-    summary_path = compact / 'official_finqa_summary.json'
+def replay_official_canonical(benchmark, compact, public, gold, panel_identity, metric_dir, ledger_digest, managed,
+                              *, dataset=DATASET):
+    summary_path = compact / f'official_{dataset}_summary.json'
     saved = read(summary_path)
     if saved['panel'] != panel_identity or saved['managed_ledger_sha256'] != ledger_digest:
         raise ValueError('Canonical official summary differs in panel or managed ledger')
@@ -554,8 +555,10 @@ def replay_official_canonical(benchmark, compact, public, gold, panel_identity, 
     profile = read(profile_path)
     if profile['model'] != ALIASES['canonical'] or profile['base_checkpoint'] != REVISION:
         raise ValueError('Canonical archive uses a different serving identity')
-    native, provenance = verify_collection(benchmark / 'oda_compact_canonical_finqa_test_v1', profile_path,
-                                           profile, public, gold, panel_identity, metric_dir, check_conflicts=True)
+    namespace = ('oda_compact_canonical_tatqa_dev_v1' if dataset == 'tatqa'
+                 else 'oda_compact_canonical_finqa_test_v1')
+    native, provenance = verify_collection(benchmark / namespace, profile_path, profile, public, gold,
+                                           panel_identity, metric_dir, dataset=dataset, check_conflicts=True)
     if provenance != saved['provenance']:
         raise ValueError('Canonical native receipt provenance differs from the published official summary')
     policies = compact_policies('canonical', native, managed)
@@ -567,7 +570,7 @@ def replay_official_canonical(benchmark, compact, public, gold, panel_identity, 
     return {name: indexed_outcomes(items) for name, items in policies.items()}, digest_file(summary_path)
 
 
-def run_official(benchmark, container, metric_dir, *, depth_control=False, dataset=DATASET):
+def run_official(benchmark, container, metric_dir, *, depth_control=False, dataset=DATASET, source_expansion=False):
     from frontier_report import frontier, summarize as summarize_outcomes
     from paired_tradeoff import paired_tradeoff
 
@@ -578,6 +581,8 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
                    else 'oda_compact_canonical_calibration_v1')
     namespace = f'oda_compact_{arm}_finqa_test_v1'
     panel_name, expected_n, archived_n = 'FinQA test', 1147, 1132
+    if source_expansion and (dataset != 'tatqa' or depth_control):
+        raise ValueError('Source expansion requires the TAT-QA official panel')
     if dataset == 'tatqa':
         if depth_control:
             raise ValueError('The depth-control official comparison requires FinQA')
@@ -585,6 +590,11 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
         calibration = 'oda_compact_tatqa_canonical_calibration_v1'
         namespace = 'oda_compact_canonical_tatqa_dev_v1'
         panel_name, expected_n, archived_n = 'TAT-QA development arithmetic', 718, 711
+        if source_expansion:
+            compact /= 'source_expansion_v1'
+            arm = 'execution_aligned'
+            calibration = 'oda_compact_tatqa_expansion_execution_aligned_calibration_v1'
+            namespace = 'oda_compact_tatqa_expansion_execution_aligned_dev_v1'
     panel = benchmark / 'panel' / 'eval'
     public, gold, panel_identity = read_panel(panel, dataset)
     if len(public) != expected_n:
@@ -617,10 +627,21 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
     managed = [by_id[ident] for ident in reports]
 
     canonical_policies, canonical_digest = {}, None
-    if depth_control:
+    if depth_control or source_expansion:
+        canonical_root = original / 'tatqa_aligned' if source_expansion else original
         canonical_policies, canonical_digest = replay_official_canonical(
-            benchmark, original, public, gold, panel_identity, metric_dir, ledger_digest, by_id)
-    profile = serving_profiles(benchmark, compact, container, dataset=dataset, depth_control=depth_control)[arm]
+            benchmark, canonical_root, public, gold, panel_identity, metric_dir, ledger_digest, by_id,
+            dataset=dataset)
+    if source_expansion:
+        (_, _, calibration_identity), source_identity = tatqa_expansion_inputs(benchmark, compact)
+        profiles = tatqa_expansion_profiles(benchmark, compact, container)
+        profile = {**profiles[arm], 'source_identity': source_identity}
+        calibration_summary = compact / 'calibration_summary.json'
+        saved = read(calibration_summary)
+        if saved['panel'] != calibration_identity or saved['source_identity'] != source_identity:
+            raise ValueError('Expansion calibration does not match the frozen source and panel')
+    else:
+        profile = serving_profiles(benchmark, compact, container, dataset=dataset, depth_control=depth_control)[arm]
     profile_path = compact / f'{arm}_serving_profile.json'
     if read(profile_path) != profile:
         raise ValueError(f'Official inference requires the exact {arm} calibration serving profile')
@@ -628,6 +649,8 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
     if (calibrated['opencode_sha256'] != digest_file(Path.home() / '.opencode/bin/opencode')
             or calibrated['checkpoint'] != profile['checkpoint'] or calibrated['serve_sha256'] != digest_file(profile_path)):
         raise ValueError(f'Official inference requires the same OpenCode and adapter as {arm} calibration')
+    if source_expansion and saved['arms'][arm]['provenance']['files']['run.json'] != digest_file(benchmark / calibration / 'run.json'):
+        raise ValueError('Expansion calibration receipt differs from its frozen summary')
     wait_service(BASE, profile['model'], 300)
     native, provenance = collect_and_verify(benchmark, namespace, profile_path, profile, panel, public, gold,
                                             panel_identity, metric_dir, dataset=dataset, check_conflicts=True)
@@ -647,11 +670,15 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
                             (conflict_gate, (native_name, base_gate, 'managed_only'))):
         contrasts[name] = {baseline: paired_tradeoff(indexed[name], comparator[baseline], reports.keys(), reports,
                                                      require_execution=True) for baseline in baselines}
-    if depth_control:
+    if depth_control or source_expansion:
         for name in candidates:
-            previous = name.replace('balanced_', 'canonical_', 1)
+            previous = name.replace(f'{arm}_', 'canonical_', 1)
             contrasts[name][previous] = paired_tradeoff(indexed[name], canonical_policies[previous],
                                                         reports.keys(), reports, require_execution=True)
+            if source_expansion and previous != 'canonical_native':
+                contrasts[name]['canonical_native'] = paired_tradeoff(
+                    indexed[name], canonical_policies['canonical_native'], reports.keys(), reports,
+                    require_execution=True)
     report = {'scope': f'Frozen {arm} adapter on the complete official {panel_name}. Local generation uses '
                        'native calls and replays the existing managed-only paths when the fixed gate fires.',
               'panel': panel_identity, 'archive_sha256': archive_digest,
@@ -670,6 +697,20 @@ def run_official(benchmark, container, metric_dir, *, depth_control=False, datas
                   'executable_correct_token_frontier': frontier(points, 'total_tokens', 'strict_and_executable')}}
     if canonical_digest is not None:
         report['canonical_official_summary_sha256'] = canonical_digest
+    if source_expansion:
+        if (tatqa_expansion_inputs(benchmark, compact)[1] != source_identity
+                or tatqa_expansion_profiles(benchmark, compact, container) != profiles):
+            raise ValueError('Expansion inputs or serving profile changed during collection')
+        report['source_identity'] = source_identity
+        report['calibration_summary_sha256'] = digest_file(calibration_summary)
+        baseline = canonical_policies['canonical_native']
+        for name, items in candidates.items():
+            outcomes = indexed[name]
+            report['policies'][name]['vs_canonical_native'] = {
+                'recoveries': sum(bool(outcomes[i].strict and outcomes[i].executable)
+                                  and not bool(baseline[i].strict and baseline[i].executable) for i in reports),
+                'harms': sum(bool(baseline[i].strict and baseline[i].executable)
+                             and not bool(outcomes[i].strict and outcomes[i].executable) for i in reports)}
     freeze(compact / f'official_{dataset}_summary.json', report)
     print(json.dumps({'policies': report['policies'], 'common_complete_n': len(ids),
                       'token_frontier': report['common_complete_usage_and_execution']['executable_correct_token_frontier']}),
@@ -762,7 +803,7 @@ def main():
     parser.add_argument('--metric-dir', type=Path, required=True)
     parser.add_argument('--stage', choices=('calibration', 'official-finqa', 'official-tatqa',
                                            'depth-calibration', 'official-finqa-depth', 'recovery-fit',
-                                           'tatqa-expansion-calibration'),
+                                           'tatqa-expansion-calibration', 'official-tatqa-expansion'),
                         default='calibration')
     parser.add_argument('--dataset', choices=(DATASET, 'tatqa'), default=DATASET)
     args = parser.parse_args()
@@ -772,7 +813,8 @@ def main():
     if args.stage == 'calibration':
         run(benchmark, args.container, metric, dataset=args.dataset)
     else:
-        expected = 'tatqa' if args.stage in ('official-tatqa', 'tatqa-expansion-calibration') else DATASET
+        expected = 'tatqa' if args.stage in ('official-tatqa', 'tatqa-expansion-calibration',
+                                             'official-tatqa-expansion') else DATASET
         if args.dataset != expected:
             parser.error(f'--stage {args.stage} requires --dataset {expected}')
         if args.stage == 'depth-calibration':
@@ -783,7 +825,8 @@ def main():
             collect_recovery_fit(benchmark, args.container, metric)
         else:
             run_official(benchmark, args.container, metric, dataset=args.dataset,
-                         depth_control=args.stage == 'official-finqa-depth')
+                         depth_control=args.stage == 'official-finqa-depth',
+                         source_expansion=args.stage == 'official-tatqa-expansion')
 
 
 if __name__ == '__main__':

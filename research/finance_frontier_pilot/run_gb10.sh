@@ -13,10 +13,10 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
+    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
-if [[ $benchmark_split == compact-official-tatqa || $benchmark_split == compact-tatqa-expansion-* ]]; then
+if [[ $benchmark_split == compact-official-tatqa* || $benchmark_split == compact-tatqa-expansion-* ]]; then
     compact_dataset=${6:-tatqa}
     [[ $compact_dataset == tatqa ]] || { echo 'Expected the TAT-QA adapter.' >&2; exit 2; }
 elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
@@ -129,7 +129,7 @@ if [[ -n $benchmark ]]; then
     compact_arms=(canonical teacher)
     if [[ $compact_dataset == tatqa ]]; then
         compact="$compact/tatqa_aligned"
-        if [[ $benchmark_split == compact-tatqa-expansion-* ]]; then
+        if [[ $benchmark_split == compact-tatqa-expansion-* || $benchmark_split == compact-official-tatqa-expansion ]]; then
             tatqa_compact="$compact"
             compact="$compact/source_expansion_v1"
             compact_arms=(annotated_scale execution_aligned)
@@ -145,7 +145,7 @@ if [[ -n $benchmark ]]; then
     for arm in "${compact_arms[@]}"; do
         compact_arm_dirs[$arm]="$compact/$arm"
     done
-    if [[ $benchmark_split == compact-tatqa-expansion-calibration ]]; then
+    if [[ $benchmark_split == compact-tatqa-expansion-calibration || $benchmark_split == compact-official-tatqa-expansion ]]; then
         compact_arm_dirs[canonical]="$tatqa_compact/canonical"
     elif [[ $benchmark_split == timing-compact ]]; then
         compact_arms=(balanced canonical)
@@ -240,6 +240,10 @@ PY
         panel_split=calibration
         if [[ $benchmark_split == compact*-official-* ]]; then
             panel_split=eval
+            if [[ $benchmark_split == compact-official-tatqa-expansion ]]; then
+                test -s "$compact/calibration_summary.json"
+                test -s "$tatqa_compact/official_tatqa_summary.json"
+            fi
         elif [[ $benchmark_split == compact-depth-recovery-fit ]]; then
             panel_dir="$work/compact_program_development_v1/finqa_recovery_pairs/panel"
             panel_split=fit
@@ -446,6 +450,8 @@ if (( compact_collect )); then
         stage=official-finqa-depth
     elif [[ $benchmark_split == compact-official-tatqa ]]; then
         stage=official-tatqa
+    elif [[ $benchmark_split == compact-official-tatqa-expansion ]]; then
+        stage=official-tatqa-expansion
     elif [[ $benchmark_split == compact-depth-calibration ]]; then
         stage=depth-calibration
     elif [[ $benchmark_split == compact-depth-recovery-fit ]]; then
