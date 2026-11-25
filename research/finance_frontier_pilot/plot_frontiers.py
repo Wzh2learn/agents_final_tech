@@ -1,6 +1,7 @@
 """Render matched accuracy and executable-accuracy frontiers from saved reports."""
 
 import argparse
+from collections import Counter
 import csv
 from hashlib import sha256
 import json
@@ -51,6 +52,10 @@ FULL_OFFICIAL_COMPACT = {
     'finqa': (1147, 'oda-compact-balanced'),
     'tatqa': (718, 'oda-compact-execution-aligned'),
 }
+STRATIFIED_LATENCY_SCHEMA = 'finance-live-policy-timing-stratified-v1'
+STRATIFIED_LATENCY_N = 24
+LATENCY_REFERENCES = (('compact-fallback', 'compact_paired_online_wall'), ('contract', 'paired_online_wall'))
+WALL_DELTA = 'mean_online_wall_seconds_delta'
 ADAPTER_FILES = {'adapter_config.json', 'adapter_model.safetensors'}
 SHA256 = re.compile(r'[0-9a-f]{64}')
 ONLINE_METRICS = {
@@ -104,7 +109,8 @@ def load_online(path, *, fresh_comparison=False):
     policies = collection.get('complete_pair_policies', {})
     schema = contract.get('schema')
     full_official = schema == 'finance-live-policy-timing-v4'
-    has_compact = full_official or schema == 'finance-live-policy-timing-v3'
+    stratified = schema == STRATIFIED_LATENCY_SCHEMA
+    has_compact = full_official or stratified or schema == 'finance-live-policy-timing-v3'
     expected_policies = (ONLINE_POLICIES if schema == 'finance-live-policy-timing-v2' else
                          ONLINE_POLICIES | COMPACT_POLICIES if has_compact else None)
     compact = contract.get('compact_oda')
@@ -117,13 +123,17 @@ def load_online(path, *, fresh_comparison=False):
             or set(policies) != expected_policies or len(cases) != n or len({case['id'] for case in cases}) != n
             or any(len(case['policy_order']) != len(expected_policies)
                    or set(case['policy_order']) != expected_policies for case in cases)):
-        raise ValueError(f'{path}: expected a complete matched v2, v3 or v4 evaluation')
-    if full_official:
+        raise ValueError(f'{path}: expected a complete matched online evaluation')
+    if full_official or stratified:
         expected_n, model = FULL_OFFICIAL_COMPACT[dataset]
         offset = contract.get('case_offset')
-        if contract.get('full_official_panel') is not True or type(offset) is not int or offset != 0 or n != expected_n:
-            raise ValueError(f'{path}: expected the full {expected_n}-question {DATASETS[dataset]} panel at offset zero')
+        if type(offset) is not int or offset != 0 or contract.get('full_official_panel') is not full_official:
+            raise ValueError(f'{path}: online panel scope and offset disagree with the run schema')
+        if full_official and n != expected_n:
+            raise ValueError(f'{path}: expected the full {expected_n}-question {DATASETS[dataset]} panel')
         validate_full_official_profile(path, compact['profile'], model)
+        if stratified:
+            validate_stratified_sample(path, contract, cases, n, expected_n)
     points = {}
     for name, point in policies.items():
         correct = point.get('correct')
@@ -150,11 +160,76 @@ def load_online(path, *, fresh_comparison=False):
     report = {'dataset': dataset, 'policy_metadata': {'budgetverify': budgetverify}, 'strata': strata}
     if full_official:
         report['full_official_panel'] = True
+    if stratified:
+        report['stratified_latency'] = load_stratified_latency(path, collection, points, n)
     if fresh_comparison:
         if not full_official:
             raise ValueError(f'{path}: fresh comparison requires complete official v4 timing')
         report['fresh_token_strata'] = read_fresh_token_strata(path.with_name('outcomes.jsonl'), cases, dataset, points)
     return report
+
+
+def validate_stratified_sample(path, contract, cases, n, population_n):
+    source = contract['official_source']
+    sample = contract['stratified_sampling']
+    assignments = sample['stratum_by_id']
+    counts = Counter(assignments.values())
+    strata = sample['strata']
+    if (n != STRATIFIED_LATENCY_N or sample['sample_n'] != n or sample['population_n'] != population_n
+            or source['source_questions'] != population_n or set(assignments) != {case['id'] for case in cases}
+            or counts.keys() != strata.keys() or sum(cell['population_n'] for cell in strata.values()) != population_n
+            or any(not 1 <= counts[name] == cell['sample_n'] <= cell['population_n']
+                   for name, cell in strata.items())):
+        raise ValueError(f'{path}: stratified sampling counts disagree with the official panel or timed questions')
+
+
+def load_stratified_latency(path, collection, points, n):
+    timings = {}
+    for name, point in collection['complete_pair_policies'].items():
+        median, p90 = (point[field] for field in ('median_wall_seconds', 'p90_wall_seconds'))
+        if not all(type(value) in (int, float) and isfinite(value) for value in (median, p90)) or not 0 <= median <= p90:
+            raise ValueError(f'{path}: invalid wall-time percentiles for {name}')
+        timings[name] = {'median_wall_seconds': median, 'p90_wall_seconds': p90}
+    for reference, field in LATENCY_REFERENCES:
+        paired = collection[field]
+        comparisons = paired['comparisons']
+        if paired['proposed'] != reference or comparisons.keys() != points.keys() - {reference}:
+            raise ValueError(f'{path}: paired wall-time coverage disagrees with {reference}')
+        for name, scores in comparisons.items():
+            result = scores['strict']
+            delta = result[WALL_DELTA]
+            clusters = result['report_clusters']
+            interval = result['interval_95']
+            if (result['n'] != n or result['excluded_n'] != 0 or type(clusters) is not int or not 1 <= clusters <= n
+                    or not isclose(delta, points[reference]['mean_wall_seconds'] - points[name]['mean_wall_seconds'],
+                                   abs_tol=1e-9)
+                    or (interval is None) != (clusters < 2)):
+                raise ValueError(f'{path}: invalid paired wall-time estimate for {reference}/{name}')
+            bounds = (None, None) if interval is None else interval[WALL_DELTA]
+            if interval is not None and (len(bounds) != 2 or not all(isfinite(x) for x in bounds)
+                                         or bounds[0] > bounds[1]):
+                raise ValueError(f'{path}: invalid paired wall-time interval for {reference}/{name}')
+            timings[name][reference] = (clusters, delta, *bounds)
+    return timings
+
+
+def write_stratified_latency(reports, path):
+    with path.open('w', newline='', encoding='utf-8') as stream:
+        writer = csv.writer(stream, delimiter='\t', lineterminator='\n')
+        columns = ('report_clusters', 'mean_delta_seconds', 'interval_95_low_seconds', 'interval_95_high_seconds')
+        writer.writerow(('dataset', 'scope', 'policy', 'paired_n', 'strict_correct', 'strict_and_executable',
+                         'mean_wall_seconds', 'median_wall_seconds', 'p90_wall_seconds',
+                         *(f'{reference.replace("-", "_")}_minus_policy_{col}'
+                           for reference, _ in LATENCY_REFERENCES for col in columns)))
+        for report in reports:
+            points = report['strata']['correct']['policies']
+            for name, point in sorted(points.items()):
+                timing = report['stratified_latency'][name]
+                writer.writerow((report['dataset'], 'unweighted_stratified_sample', name, point['n'],
+                                 point['correct'], point['strict_and_executable'], point['mean_wall_seconds'],
+                                 timing['median_wall_seconds'], timing['p90_wall_seconds'],
+                                 *(value for reference, _ in LATENCY_REFERENCES
+                                   for value in timing.get(reference, (None, None, None, None)))))
 
 
 def read_fresh_token_strata(path, cases, dataset, wall_points):
@@ -254,6 +329,8 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
         scope, frontier_field, cohort = EXECUTABLE_FRONTIERS[tokens]
     group = report['fresh_token_strata' if online_score is not None and tokens else 'strata'][scope]
     n = group['n']
+    if 'stratified_latency' in report:
+        cohort = f'Stratified sample · {cohort}'
     points = {}
     missing = 0
     for name, point in group['policies'].items():
@@ -369,10 +446,15 @@ def main():
         if args.online_timing:
             reports = [load_online(path, fresh_comparison=args.fresh_comparison) for path in args.online_timing]
             full_official = sum(report.get('full_official_panel', False) for report in reports)
+            stratified = sum('stratified_latency' in report for report in reports)
             if 0 < full_official < len(reports):
                 parser.error('Full official online timing requires both datasets to be complete v4 runs')
-            label = 'Full official online wall time' if full_official else 'Matched online wall time'
+            if 0 < stratified < len(reports):
+                parser.error('Stratified online timing requires both datasets to use the stratified sample')
+            label = ('Stratified sample online wall time' if stratified else
+                     'Full official online wall time' if full_official else 'Matched online wall time')
         else:
+            stratified = 0
             if len(args.input) not in (1, 2):
                 parser.error('Pass one or two frontier reports')
             reports = [json.loads(path.read_text(encoding='utf-8')) for path in args.input]
@@ -382,6 +464,8 @@ def main():
             parser.error('Reports must identify distinct FinQA or TAT-QA datasets')
         label = label if args.label is None else args.label
         render(reports, args.output, label, online=bool(args.online_timing))
+        if stratified:
+            write_stratified_latency(reports, args.output.with_name(f'{args.output.name}_latency.tsv'))
         if args.fresh_comparison:
             token_output = args.output.with_name(f'{args.output.name}_tokens')
             render(reports, token_output, 'Full official online token use', online=True, online_tokens=True)

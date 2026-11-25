@@ -1,6 +1,7 @@
 """Measure fresh, interleaved policy wall time with official grading outside the timer."""
 
 import argparse
+import ast
 from contextlib import ExitStack
 from hashlib import sha256
 from itertools import permutations
@@ -33,6 +34,8 @@ DIRECT_MODELS = dict(zip(('oda-direct', 'qwen-direct', 'deepseek-direct'), (ODA,
 MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS, *MANAGED_ORDERS)
 COMPACT_POLICIES = ('compact-direct', 'compact-fallback')
 OFFICIAL_COUNTS = {'finqa': 1147, 'tatqa': 718}
+STRATIFIED_COUNT = 24
+STRATIFIED_SEED = 20261126
 
 
 class TimingBudgetExhausted(Exception):
@@ -46,6 +49,14 @@ def validate_full_panel_request(args):
             or args.cases != OFFICIAL_COUNTS[args.dataset]):
         raise ValueError('full-panel timing requires eval, matched baselines, a compact container, '
                          'zero offset and the complete official question count')
+
+
+def validate_stratified_panel_request(args):
+    if (args.dataset not in OFFICIAL_COUNTS or args.stage != 'eval' or not args.compare_baselines
+            or not getattr(args, 'compact_container', None) or args.offset != 0
+            or args.cases != STRATIFIED_COUNT):
+        raise ValueError('stratified-panel timing requires eval, matched baselines, a compact container, '
+                         'zero offset and 24 questions')
 
 
 def validate_official_panel(benchmark, dataset, public, gold):
@@ -140,6 +151,81 @@ def frozen_cases(rows, count, policies=POLICIES, offset=0):
             orders.extend([tuple(reversed(sequence)) for sequence in orders])
     sample = sorted(rows, key=key)[offset:offset + count]
     return [(row, orders[(offset + i) % len(orders)]) for i, row in enumerate(sample)]
+
+
+def reference_depth(dataset, reference):
+    """Coarse reference-operation count for sampling, independent of model outputs."""
+    if dataset == 'finqa':
+        steps = (reference.get('program') or '').count('(')
+    else:
+        derivation = reference.get('derivation')
+        if not isinstance(derivation, str) or not derivation.strip():
+            return 'unknown'
+        # Treat formatting symbols as annotations on numbers. Parse syntax only.
+        normalized = derivation.translate(str.maketrans('−–×÷％', '--*/%'))
+        normalized = re.sub(r'(?<=\d),(?=\d{3}(?:\D|$))', '', normalized).replace('%', '').strip()
+        try:
+            nodes = list(ast.walk(ast.parse(normalized, mode='eval')))
+        except SyntaxError:
+            return 'unknown'
+        if any(not isinstance(node, (ast.Expression, ast.BinOp, ast.UnaryOp, ast.Constant,
+                                     ast.operator, ast.unaryop)) or
+               isinstance(node, ast.Constant) and type(node.value) not in (int, float)
+               for node in nodes):
+            return 'unknown'
+        steps = sum(isinstance(node, ast.BinOp) for node in nodes)
+    return 'single' if steps == 1 else 'multi' if steps > 1 else 'unknown'
+
+
+def stratified_cases(public, gold, dataset, policies=(*MATCHED_POLICIES, *COMPACT_POLICIES)):
+    """Freeze 24 official questions before any timed inference on these cases."""
+    if len(public) < STRATIFIED_COUNT:
+        raise ValueError('stratified timing requires at least 24 eligible questions')
+    by_depth = {}
+    for row in public:
+        depth = reference_depth(dataset, gold[dataset, row['id']])
+        by_depth.setdefault(depth, []).append(row)
+
+    strata = {}
+    for depth, rows in sorted(by_depth.items()):
+        ordered = sorted(rows, key=lambda row: (len(paired_prompt(row, 'dsl')), row['id']))
+        middle = (len(ordered) + 1) // 2
+        strata[f'{depth}-short'] = ordered[:middle]
+        if middle < len(ordered):
+            strata[f'{depth}-long'] = ordered[middle:]
+
+    # Guarantee one observation in each nonempty stratum, then fill the largest
+    # proportional allocation deficits while respecting finite stratum sizes.
+    counts = dict.fromkeys(strata, 1)
+    for _ in range(STRATIFIED_COUNT - len(strata)):
+        eligible = (name for name, rows in strata.items() if counts[name] < len(rows))
+        name = max(eligible, key=lambda name: (
+            STRATIFIED_COUNT * len(strata[name]) - counts[name] * len(public), name))
+        counts[name] += 1
+
+    selected, stratum_by_id = [], {}
+    for name, rows in strata.items():
+        ranked = sorted(rows, key=lambda row: (
+            sha256(f'{STRATIFIED_SEED}|{dataset}|{row["id"]}'.encode()).digest(), row['id']))
+        for row in ranked[:counts[name]]:
+            selected.append(row)
+            stratum_by_id[row['id']] = name
+    cases = frozen_cases(selected, STRATIFIED_COUNT, policies)
+    sampling = {
+        'seed': STRATIFIED_SEED,
+        'method': 'Within each reference-depth group, rank by input length and split into halves. '
+                  'Allocate near-proportionally with at least one per nonempty stratum, '
+                  'then select by fixed SHA-256 rank.',
+        'length_metric': 'Character length of the public DSL prompt, with question ID as length tie-break.',
+        'depth_metric': ('FinQA official program operation count.' if dataset == 'finqa' else
+                         'TAT-QA reference derivation binary operation count after normalizing numeric notation. '
+                         'Unparsed expressions and expressions without binary operations have unknown depth.'),
+        'population_n': len(public),
+        'sample_n': len(cases),
+        'strata': {name: {'population_n': len(rows), 'sample_n': counts[name]} for name, rows in strata.items()},
+        'stratum_by_id': stratum_by_id,
+    }
+    return cases, sampling
 
 
 def summed_cost(costs):
@@ -281,10 +367,19 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
 def run(args, benchmark, ledger_root):
     benchmark_panel = benchmark / 'panel' / args.stage
     full_panel = getattr(args, 'full_panel', False)
-    if full_panel:
-        validate_full_panel_request(args)
+    stratified_panel = getattr(args, 'stratified_panel', False)
+    if full_panel and stratified_panel:
+        raise ValueError('full-panel and stratified-panel timing are mutually exclusive')
+    official_panel = full_panel or stratified_panel
+    if official_panel:
+        if full_panel:
+            validate_full_panel_request(args)
+        else:
+            validate_stratified_panel_request(args)
         public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
         official_source = validate_official_panel(benchmark, args.dataset, public, gold)
+        if stratified_panel:
+            cases, sampling = stratified_cases(public, gold, args.dataset)
     if args.dataset == 'tatqa':
         _metric_type(args.metric_dir)
     serve_path = args.serving_profile or benchmark / 'oda_serving_profile.json'
@@ -295,7 +390,7 @@ def run(args, benchmark, ledger_root):
     if getattr(args, 'compact_container', None):
         from compact_eval import BASE as COMPACT_BASE, timed_compact_profile
 
-        if full_panel:
+        if official_panel:
             compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset, expanded=True)
         else:
             compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset)
@@ -347,14 +442,16 @@ def run(args, benchmark, ledger_root):
                                  'direct_reference': 'One compiled response from the indicated model.',
                                  'managed_nonexecution_orders': MANAGED_ORDERS}
             roles = ('solve', 'verify', 'probe', 'repair')
-        if not full_panel:
+        if not official_panel:
             public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
-        cases = frozen_cases(public, args.cases, tuple(selectors) if selectors else POLICIES, args.offset)
+        if not stratified_panel:
+            cases = frozen_cases(public, args.cases, tuple(selectors) if selectors else POLICIES, args.offset)
         root = benchmark / args.namespace
         root.mkdir(exist_ok=False, mode=0o700)
         contract = root / 'run.json'
         contract_data = {
-            'schema': ('finance-live-policy-timing-v4' if full_panel else
+            'schema': ('finance-live-policy-timing-stratified-v1' if stratified_panel else
+                       'finance-live-policy-timing-v4' if full_panel else
                        'finance-live-policy-timing-v3' if compact_profile is not None else
                        'finance-live-policy-timing-v2' if selectors else 'finance-live-policy-timing-v1'),
             'namespace': args.namespace, 'stage': args.stage, 'case_offset': args.offset,
@@ -374,6 +471,9 @@ def run(args, benchmark, ledger_root):
         if full_panel:
             contract_data.update(full_official_panel=True, official_source=official_source,
                                  full_panel_completion='Check collection.json for completed paired questions.')
+        if stratified_panel:
+            contract_data.update(full_official_panel=False, official_source=official_source,
+                                 stratified_sampling=sampling)
         if compact_profile is not None:
             contract_data['compact_oda'] = {'endpoint': args.base, 'profile': compact_profile,
                                             'context': 16384, 'output': 4096, 'temperature': .6,
@@ -410,17 +510,23 @@ def main():
     parser.add_argument('--deepseek-api-profile', type=Path)
     parser.add_argument('--metric-dir', type=Path)
     parser.add_argument('--compare-baselines', action='store_true')
-    parser.add_argument('--full-panel', action='store_true',
-                        help='Measure the complete official eval panel with the expanded compact profile')
+    panel_group = parser.add_mutually_exclusive_group()
+    panel_group.add_argument('--full-panel', action='store_true',
+                             help='Measure the complete official eval panel with the expanded compact profile')
+    panel_group.add_argument('--stratified-panel', action='store_true',
+                             help='Measure 24 stratified official eval questions with the expanded compact profile')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
     parser.add_argument('--tabfm-checkpoint', type=Path)
     parser.add_argument('--opencode', type=Path, default=Path.home() / '.opencode/bin/opencode')
     args = parser.parse_args()
-    if args.full_panel:
+    if args.full_panel or args.stratified_panel:
         try:
-            validate_full_panel_request(args)
+            if args.full_panel:
+                validate_full_panel_request(args)
+            else:
+                validate_stratified_panel_request(args)
         except ValueError as exc:
             parser.error(str(exc))
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_.-]*', args.namespace):

@@ -131,6 +131,93 @@ def test_online_plot_rejects_mixed_full_and_pilot_runs(plotting, monkeypatch, tm
     assert not output.with_suffix('.pdf').exists()
 
 
+def write_stratified_pair(root, plotting, dataset):
+    n = 24
+    population, _ = plotting.FULL_OFFICIAL_COMPACT[dataset]
+    path, contract, summary = write_pair(root, plotting, 4, dataset=dataset, n=n)
+    assignments = {case['id']: 'single-short' if index < 8 else 'multi-long'
+                   for index, case in enumerate(contract['case_order'])}
+    contract.update(schema=plotting.STRATIFIED_LATENCY_SCHEMA, full_official_panel=False,
+                    official_source={'source_questions': population},
+                    stratified_sampling={
+                        'seed': 20261126, 'method': 'deterministic stratified hash',
+                        'length_metric': 'visible context length', 'depth_metric': 'reference depth',
+                        'population_n': population, 'sample_n': n, 'stratum_by_id': assignments,
+                        'strata': {'single-short': {'population_n': 200, 'sample_n': 8},
+                                   'multi-long': {'population_n': population - 200, 'sample_n': 16}},
+                    })
+    points = summary['complete_pair_policies']
+    for point in points.values():
+        point.update(median_wall_seconds=point['mean_wall_seconds'], p90_wall_seconds=point['mean_wall_seconds'])
+    for reference, field in plotting.LATENCY_REFERENCES:
+        comparisons = {}
+        for name, point in points.items():
+            if name != reference:
+                difference = points[reference]['mean_wall_seconds'] - point['mean_wall_seconds']
+                comparisons[name] = {'strict': {'n': n, 'excluded_n': 0, 'report_clusters': 18,
+                                                plotting.WALL_DELTA: difference,
+                                                'interval_95': {plotting.WALL_DELTA: [difference - 1, difference + 1]}}}
+        summary[field] = {'proposed': reference, 'comparisons': comparisons}
+    (root / 'run.json').write_text(json.dumps(contract), encoding='utf-8')
+    path.write_text(json.dumps(summary), encoding='utf-8')
+    return path, contract, summary
+
+
+def test_stratified_online_cli_exports_sample_scoped_latency(plotting, monkeypatch, tmp_path):
+    reports = []
+    for dataset in ('finqa', 'tatqa'):
+        root = tmp_path / dataset
+        root.mkdir()
+        reports.append(write_stratified_pair(root, plotting, dataset)[0])
+    labels = []
+
+    def inspect_plot(reports, output, label, **options):
+        labels.append(label)
+        figure, axis = plotting.plt.subplots()
+        try:
+            plotting.plot_axis(axis, reports[0], online_score='correct')
+            assert 'Stratified sample' in axis.get_title(loc='left')
+        finally:
+            plotting.plt.close(figure)
+
+    monkeypatch.setattr(plotting, 'render', inspect_plot)
+    output = tmp_path / 'stratified'
+    monkeypatch.setattr(sys, 'argv', ['plot_frontiers.py', '--online-timing', *map(str, reports),
+                                      '--output', str(output)])
+    plotting.main()
+    assert labels == ['Stratified sample online wall time']
+    with (tmp_path / 'stratified_latency.tsv').open(newline='', encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream, delimiter='\t'))
+    assert len(rows) == 22
+    assert {r['scope'] for r in rows} == {'unweighted_stratified_sample'}
+    assert {r['paired_n'] for r in rows} == {'24'}
+    assert {r['dataset'] for r in rows} == {'finqa', 'tatqa'}
+    compact = next(r for r in rows if r['dataset'] == 'finqa' and r['policy'] == 'compact-fallback')
+    car = next(r for r in rows if r['dataset'] == 'finqa' and r['policy'] == 'car')
+    delta = float(compact['mean_wall_seconds']) - float(car['mean_wall_seconds'])
+    assert compact['compact_fallback_minus_policy_mean_delta_seconds'] == ''
+    assert float(car['compact_fallback_minus_policy_mean_delta_seconds']) == delta
+    assert float(car['compact_fallback_minus_policy_interval_95_high_seconds']) == delta + 1
+    assert not (tmp_path / 'stratified_comparison.tsv').exists()
+
+
+@pytest.mark.parametrize('bad', ['counts', 'scope', 'adapter', 'paired_delta'])
+def test_stratified_latency_rejects_inconsistent_measurements(plotting, tmp_path, bad):
+    path, contract, summary = write_stratified_pair(tmp_path, plotting, 'tatqa')
+    if bad == 'counts':
+        contract['stratified_sampling']['strata']['multi-long']['sample_n'] -= 1
+    elif bad == 'scope':
+        contract['full_official_panel'] = True
+    elif bad == 'adapter':
+        contract['compact_oda']['profile']['model'] = 'oda-compact-canonical'
+    else:
+        summary['compact_paired_online_wall']['comparisons']['car']['strict'][plotting.WALL_DELTA] += 1
+    (tmp_path / 'run.json').write_text(json.dumps(contract), encoding='utf-8')
+    path.write_text(json.dumps(summary), encoding='utf-8')
+    with pytest.raises(ValueError):
+        plotting.load_online(path)
+
+
 @pytest.mark.parametrize('bad', [None, 'order', 'summary'])
 def test_fresh_comparison_uses_one_usage_cohort_for_all_policies(plotting, tmp_path, bad):
     n = 718

@@ -13,15 +13,15 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|timing-compact|timing-compact-full|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration|compact-tatqa-expansion-managed-recovery) ;;
+    fit|calibration|eval|timing|timing-compact|timing-compact-full|timing-compact-stratified|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration|compact-tatqa-expansion-managed-recovery) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 timing_datasets=(finqa tatqa)
-if [[ $benchmark_split == timing-compact-full ]]; then
+if [[ $benchmark_split == timing-compact-full || $benchmark_split == timing-compact-stratified ]]; then
     case ${6:-both} in
         both) ;;
         finqa|tatqa) timing_datasets=("$6") ;;
-        *) echo 'Full official timing expects both, finqa, or tatqa.' >&2; exit 2 ;;
+        *) echo 'Official timing expects both, finqa, or tatqa.' >&2; exit 2 ;;
     esac
     compact_dataset=finqa
 elif [[ $benchmark_split == compact-official-tatqa* || $benchmark_split == compact-tatqa-expansion-* ]]; then
@@ -90,6 +90,12 @@ timing_run () {
     elif [[ $benchmark_split == timing-compact-full ]]; then
         version=v4
         compact_args=(--compact-container "$cid" --full-panel)
+    elif [[ $benchmark_split == timing-compact-stratified ]]; then
+        cases=24
+        posts=$((12 * cases))
+        token_cap=$((80000 * cases))
+        version=stratified_v1
+        compact_args=(--compact-container "$cid" --stratified-panel)
     fi
     local sources="$HOME/wzh/external_research_sources/finance_frontier"
     local driver="$repo/research/finance_frontier_pilot"
@@ -166,7 +172,7 @@ if [[ -n $benchmark ]]; then
     elif [[ $benchmark_split == timing-compact* ]]; then
         timing_tatqa="$compact/tatqa_aligned"
         timing_tatqa_arm=canonical
-        if [[ $benchmark_split == timing-compact-full ]]; then
+        if [[ $benchmark_split == timing-compact-full || $benchmark_split == timing-compact-stratified ]]; then
             timing_tatqa="$timing_tatqa/source_expansion_v1"
             timing_tatqa_arm=execution_aligned
             test -s "$timing_tatqa/official_tatqa_summary.json"
@@ -189,7 +195,11 @@ if [[ -n $benchmark ]]; then
         fi
         test "$(wc -l < "$work/oda_eval_v1/outcomes.jsonl")" -eq 1865
         timing_version=v2
-        case $benchmark_split in timing-compact) timing_version=v3 ;; timing-compact-full) timing_version=v4 ;; esac
+        case $benchmark_split in
+            timing-compact) timing_version=v3 ;;
+            timing-compact-full) timing_version=v4 ;;
+            timing-compact-stratified) timing_version=stratified_v1 ;;
+        esac
         for dataset in "${timing_datasets[@]}"; do
             test -s "$work/car_oda_4096_v1/$dataset/frozen_policy.json"
             test -s "$work/car_oda_4096_v1/$dataset/eval/outcomes.jsonl"

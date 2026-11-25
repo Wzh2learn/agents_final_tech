@@ -320,9 +320,15 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 全量计时入口 `timing-compact-full` 对全部 FinQA 1,147 题和 TAT-QA 718 题交错比较 11 条路径。FinQA 挂载已测混合监督适配器，TAT-QA 挂载已在 718 题执行的扩容尺度对齐适配器。CAR 与 BudgetVerify 计时沿用各自的原生选答，公共编译复算另见准确率—token 表。两个数据集可分别启动，结果写入 `matched_live_policy_{finqa,tatqa}_v4/`。逐题旋转策略顺序，按每题上限 12 次校内请求及 80,000 个计提 tokens 设批次安全上限，仍受项目总账本约束。当前账面计提含历史 60,404,610 和本阶段 14,102,106，共 74,506,716／10 亿 tokens，其中本阶段有 15 次用量未知。全量鲜活计时依赖启动进程中的校内凭证。
 
-2026-11-25，校内网关验证通过，GB10 启动 v4 全量计时。当前队列先 FinQA、后 TAT-QA。私有实验目录中 `live_timing_launch_v4/latest` 指向本次启动记录。各策略完毕后按题写入 `outcomes.jsonl`，最终配对数及计费以 `collection.json` 为准。
+2026-11-25，校内网关验证通过，GB10 启动 v4 全量计时。11 月 26 日确认切换到分层延迟测量后，v4 在 FinQA 完成八题配对，随后有序退出，TAT-QA 尚未启动。原始回执和 `live_timing_launch_v4/latest` 保留供核查。
 
 两库均完成后，用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --fresh-comparison --output <输出名>` 生成墙时图、Token 图和合并 TSV。墙时图使用全部配对题，Token 图使用 11 条策略均有用量的共同题集。两类判据都同时报告严格正确与严格正确且可执行。
+
+现行口径保留 FinQA 1,147 题和 TAT-QA 718 题的完整准确率与 Token 比较。延迟使用 `timing-compact-stratified` 在两库各固定 24 题，每题独立串行执行全部 11 条策略。以参考推理步数和可见输入长度分层，题目选择只依赖固定种子和官方数据，参考程序和推导仅用于分层与评分。结果写入独立的 `matched_live_policy_{finqa,tatqa}_stratified_v1/`，报告该样本内的配对延迟差和区间。
+
+主比较为短程序回退相对 CAR、BudgetVerify 和 Cascade Routing 的每题平均耗时差。若某组配对区间同时容许比基线快 20% 和慢 20%，该比较记为精度不足，后续可从同一分层框架再独立取 24 题复核，分批报告。首批样本不会依据实测结果增删。
+
+两库各 24 题均跑齐后，用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --output <输出名>` 生成延迟图及 `_latency.tsv`。论文同时引用既有全量准确率与 Token 前沿，并标明延迟的样本分母。
 
 离线从同一 ODA 自由答回执中复原可执行公式。仅用可见回答时，FinQA 的联合正确数从 634 增到 636，TAT-QA 从 505 增到 508。允许使用已记录的推理段后，分别增到 647 和 520。复原须保持原终值与尺度，严格数值正确数仍为 690 和 561。该补充零新增推理，记录在 GB10 的 `official_oda_{finqa,tatqa}_formula_replay_v1.json`。
 

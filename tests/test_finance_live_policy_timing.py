@@ -77,6 +77,50 @@ def test_full_panel_requires_complete_official_request(timing, dataset, count):
             timing.validate_full_panel_request(changed)
 
 
+def test_stratified_panel_requires_24_official_paired_questions(timing):
+    args = SimpleNamespace(dataset='tatqa', cases=24, stage='eval', offset=0,
+                           compare_baselines=True, compact_container='a' * 12)
+    timing.validate_stratified_panel_request(args)
+    for key, value in [('cases', 23), ('offset', 1), ('stage', 'fit'),
+                       ('compare_baselines', False), ('compact_container', None)]:
+        changed = SimpleNamespace(**{**vars(args), key: value})
+        with pytest.raises(ValueError, match='stratified-panel'):
+            timing.validate_stratified_panel_request(changed)
+
+
+@pytest.mark.parametrize('dataset', ['finqa', 'tatqa'])
+def test_stratified_sample_is_stable_and_preserves_depth_and_length(timing, question, dataset):
+    rows = [dict(question, dataset=dataset, id=str(i), pre_text=['x' * i]) for i in range(100)]
+    references = {
+        'finqa': ('program', ('add(1, 2)', 'add(1, 2), divide(#0, 2)')),
+        'tatqa': ('derivation', ('(-1,200.5) − 93%', '(1,200.5 − 93) ÷ 2 × 100%')),
+    }
+    field, (single, multi) = references[dataset]
+    gold = {(dataset, row['id']): {field: single if i < 36 else multi} for i, row in enumerate(rows)}
+    if dataset == 'tatqa':
+        gold[dataset, '98'] = {field: 'implicit arithmetic'}
+        gold[dataset, '99'] = {field: ''}
+
+    cases, sampling = timing.stratified_cases(rows, gold, dataset)
+    assert timing.stratified_cases(list(reversed(rows)), gold, dataset) == (cases, sampling)
+    assert len(cases) == len(sampling['stratum_by_id']) == sampling['sample_n'] == 24
+    assert sampling['population_n'] == 100
+    assert {row['id'] for row, _ in cases} == set(sampling['stratum_by_id'])
+    strata = sampling['strata']
+    assert {key: strata[key]['population_n'] for key in ('single-short', 'single-long')} == {
+        'single-short': 18, 'single-long': 18}
+    assert strata['multi-short']['population_n'] == strata['multi-long']['population_n'] == (
+        31 if dataset == 'tatqa' else 32)
+    if dataset == 'tatqa':
+        assert strata['unknown-short'] == strata['unknown-long'] == {'population_n': 1, 'sample_n': 1}
+    observed = Counter(sampling['stratum_by_id'].values())
+    assert observed == {key: value['sample_n'] for key, value in strata.items()}
+    assert all(observed.values())
+    expected_policies = set(timing.MATCHED_POLICIES + timing.COMPACT_POLICIES)
+    for position in range(len(expected_policies)):
+        assert {order[position] for _, order in cases[:len(expected_policies)]} == expected_policies
+
+
 @pytest.mark.parametrize('dataset,count', [('finqa', 1147), ('tatqa', 718)])
 def test_full_panel_binds_selected_rows_and_references_to_official_source(timing, monkeypatch, tmp_path,
                                                                         dataset, count):
@@ -131,16 +175,21 @@ def test_v4_alone_selects_expanded_timing_profile(timing, monkeypatch, tmp_path,
     assert calls == [((tmp_path, 'a' * 12, 'finqa'), {'expanded': True} if full_panel else {})]
 
 
-def test_v4_contract_declares_full_planned_panel_and_eleven_policies(timing, monkeypatch, tmp_path, question):
+@pytest.mark.parametrize('stratified', [False, True])
+def test_official_timing_contract_declares_planned_panel_and_eleven_policies(timing, monkeypatch, tmp_path,
+                                                                            question, stratified):
     serve = tmp_path / 'oda_serving_profile.json'
     serve.write_text(json.dumps({'model': timing.ODA, 'checkpoint': timing.ODA_CHECKPOINT}), encoding='utf-8')
-    args = SimpleNamespace(dataset='finqa', stage='eval', cases=1147, offset=0, compare_baselines=True,
-                           compact_container='a' * 12, full_panel=True, serving_profile=serve,
+    args = SimpleNamespace(dataset='finqa', stage='eval', cases=24 if stratified else 1147, offset=0,
+                           compare_baselines=True, compact_container='a' * 12, full_panel=not stratified,
+                           stratified_panel=stratified, serving_profile=serve,
                            base='http://127.0.0.1:18157/v1', qwen_api_profile=None, deepseek_api_profile=None,
                            prior_charged_tokens=0, max_posts=1, token_cap=100, namespace='full',
                            opencode=tmp_path / 'opencode', metric_dir=None)
-    rows = [dict(question, id=str(i)) for i in range(args.cases)]
-    monkeypatch.setattr(timing, 'read_panel', lambda *_: (rows, {}, {'public.jsonl': 'panel'}))
+    rows = [dict(question, id=str(i), pre_text=['x' * (i % 20)]) for i in range(1147)]
+    gold = {('finqa', row['id']): {'program': 'add(1, 2)' if i % 2 else 'add(1, 2), divide(#0, 2)'}
+            for i, row in enumerate(rows)}
+    monkeypatch.setattr(timing, 'read_panel', lambda *_: (rows, gold, {'public.jsonl': 'panel'}))
     monkeypatch.setattr(timing, 'validate_official_panel', lambda *args: {'sha256': 'official'})
     monkeypatch.setattr(timing, 'digest_file', lambda *_: 'digest')
     monkeypatch.setenv('BUPT_API_KEY', 'test-only')
@@ -164,12 +213,19 @@ def test_v4_contract_declares_full_planned_panel_and_eleven_policies(timing, mon
     ledger.mkdir()
     timing.run(args, tmp_path, ledger)
     contract = json.loads((tmp_path / 'full' / 'run.json').read_text(encoding='utf-8'))
-    assert contract['schema'] == 'finance-live-policy-timing-v4'
-    assert contract['full_official_panel'] is True and contract['case_offset'] == 0
-    assert len(contract['case_order']) == len(collected) == 1147
+    assert contract['schema'] == ('finance-live-policy-timing-stratified-v1' if stratified
+                                  else 'finance-live-policy-timing-v4')
+    assert contract['full_official_panel'] is (not stratified) and contract['case_offset'] == 0
+    assert contract['official_source'] == {'sha256': 'official'}
+    assert len(contract['case_order']) == len(collected) == args.cases
     assert all(set(order) == set(timing.MATCHED_POLICIES + timing.COMPACT_POLICIES)
                for _, order in collected)
-    assert 'collection.json' in contract['full_panel_completion']
+    if stratified:
+        selected, sampling = timing.stratified_cases(rows, gold, 'finqa')
+        assert contract['stratified_sampling'] == sampling
+        assert selected == collected
+    else:
+        assert 'collection.json' in contract['full_panel_completion']
 
 
 def test_matched_block_balances_positions_and_keeps_shard_order(timing, question):
