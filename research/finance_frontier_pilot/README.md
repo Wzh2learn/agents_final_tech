@@ -332,6 +332,8 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 与现行计时相配的官方准确率取 GB10 `compact_program_development_v1/finqa_depth_control/official_finqa_summary.json` 和 `compact_program_development_v1/tatqa_aligned/source_expansion_v1/official_tatqa_summary.json`。短程序未执行时回退分别取得 756/1,147 和 499/718，实测总用量为 1,718,076 和 726,013 tokens。统一策略成本前沿使用各策略均有用量的 1,132 和 711 题，见同一 `source_expansion_v1/` 下的 `official_compact_tradeoffs.pdf`。全量基线明细位于 `official_frontiers_v1/`。延迟图上 CAR 和 BudgetVerify 的正确率使用各自同次计时的原生选答。
 
+FinQA 已完成 24 道分层题的 264 次策略计时，模型调用回执共 322 次，用量均已记录。短程序回退平均 4.6 秒/题，CAR、BudgetVerify TabFM 和作者 Cascade Routing 分别为 406.9、170.3 和 50.4 秒。同题平均差（短程序回退减基线）及报告簇配对 95% 区间分别为 −402.4 [−463.3, −339.6]、−165.8 [−206.5, −128.0] 和 −45.8 [−65.7, −29.1] 秒。原始回执和汇总位于 GB10 `matched_live_policy_finqa_stratified_v1/`。TAT-QA 批次已启动。
+
 离线从同一 ODA 自由答回执中复原可执行公式。仅用可见回答时，FinQA 的联合正确数从 634 增到 636，TAT-QA 从 505 增到 508。允许使用已记录的推理段后，分别增到 647 和 520。复原须保持原终值与尺度，严格数值正确数仍为 690 和 561。该补充零新增推理，记录在 GB10 的 `official_oda_{finqa,tatqa}_formula_replay_v1.json`。
 
 ### ODA 关闭思考的配对校准（2026-11-24）
