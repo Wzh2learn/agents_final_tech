@@ -1,9 +1,11 @@
 """Render matched accuracy and executable-accuracy frontiers from saved reports."""
 
 import argparse
+from hashlib import sha256
 import json
 from math import isclose, isfinite
 from pathlib import Path
+import re
 
 import matplotlib
 
@@ -44,6 +46,12 @@ STYLES = {
 ONLINE_POLICIES = {'contract', 'car', 'budgetverify', 'author-cascade', 'oda-direct',
                    'qwen-direct', 'deepseek-direct', 'qwen-first', 'ds-first'}
 COMPACT_POLICIES = {'compact-direct', 'compact-fallback'}
+FULL_OFFICIAL_COMPACT = {
+    'finqa': (1147, 'oda-compact-balanced'),
+    'tatqa': (718, 'oda-compact-execution-aligned'),
+}
+ADAPTER_FILES = {'adapter_config.json', 'adapter_model.safetensors'}
+SHA256 = re.compile(r'[0-9a-f]{64}')
 ONLINE_METRICS = {
     'correct': ('strict_wall_frontier', 'Strict accuracy'),
     'strict_and_executable': ('strict_and_executable_wall_frontier', 'Strict & executable rate'),
@@ -87,11 +95,13 @@ def load_online(path):
     n = collection.get('planned_questions')
     policies = collection.get('complete_pair_policies', {})
     schema = contract.get('schema')
+    full_official = schema == 'finance-live-policy-timing-v4'
+    has_compact = full_official or schema == 'finance-live-policy-timing-v3'
     expected_policies = (ONLINE_POLICIES if schema == 'finance-live-policy-timing-v2' else
-                         ONLINE_POLICIES | COMPACT_POLICIES if schema == 'finance-live-policy-timing-v3' else None)
+                         ONLINE_POLICIES | COMPACT_POLICIES if has_compact else None)
     compact = contract.get('compact_oda')
     if (expected_policies is None or contract.get('stage') != 'eval'
-            or (schema == 'finance-live-policy-timing-v3' and
+            or (has_compact and
                 (not isinstance(compact, dict) or not isinstance(compact.get('profile'), dict)
                  or not compact['profile']))
             or dataset not in DATASETS or type(n) is not int or n < 1
@@ -99,7 +109,13 @@ def load_online(path):
             or set(policies) != expected_policies or len(cases) != n or len({case['id'] for case in cases}) != n
             or any(len(case['policy_order']) != len(expected_policies)
                    or set(case['policy_order']) != expected_policies for case in cases)):
-        raise ValueError(f'{path}: expected a complete matched v2 or v3 evaluation')
+        raise ValueError(f'{path}: expected a complete matched v2, v3 or v4 evaluation')
+    if full_official:
+        expected_n, model = FULL_OFFICIAL_COMPACT[dataset]
+        offset = contract.get('case_offset')
+        if contract.get('full_official_panel') is not True or type(offset) is not int or offset != 0 or n != expected_n:
+            raise ValueError(f'{path}: expected the full {expected_n}-question {DATASETS[dataset]} panel at offset zero')
+        validate_full_official_profile(path, compact['profile'], model)
     points = {}
     for name, point in policies.items():
         correct = point.get('correct')
@@ -127,7 +143,22 @@ def load_online(path):
     budgetverify = contract.get('baseline_policies', {}).get('budgetverify', {})
     if budgetverify.get('method') not in ('GBM', 'TabFM-1.0.0-PyTorch'):
         raise ValueError(f'{path}: unknown BudgetVerify model')
-    return {'dataset': dataset, 'policy_metadata': {'budgetverify': budgetverify}, 'strata': strata}
+    report = {'dataset': dataset, 'policy_metadata': {'budgetverify': budgetverify}, 'strata': strata}
+    if full_official:
+        report['full_official_panel'] = True
+    return report
+
+
+def validate_full_official_profile(path, profile, model):
+    files = profile.get('adapter_files')
+    evaluated_profile = profile.get('evaluated_serving_profile_sha256')
+    if (profile.get('model') != model or not isinstance(files, dict) or set(files) != ADAPTER_FILES
+            or any(not isinstance(value, str) or not SHA256.fullmatch(value) for value in files.values())
+            or not isinstance(evaluated_profile, str) or not SHA256.fullmatch(evaluated_profile)):
+        raise ValueError(f'{path}: expected the verified compact profile for {model}')
+    checkpoint = sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()
+    if profile.get('checkpoint') != checkpoint:
+        raise ValueError(f'{path}: compact checkpoint differs from its adapter file digests')
 
 
 def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False):
@@ -257,7 +288,10 @@ def main():
     try:
         if args.online_timing:
             reports = [load_online(path) for path in args.online_timing]
-            label = 'Matched online wall time'
+            full_official = sum(report.get('full_official_panel', False) for report in reports)
+            if 0 < full_official < len(reports):
+                parser.error('Full official online timing requires both datasets to be complete v4 runs')
+            label = 'Full official online wall time' if full_official else 'Matched online wall time'
         else:
             if len(args.input) not in (1, 2):
                 parser.error('Pass one or two frontier reports')

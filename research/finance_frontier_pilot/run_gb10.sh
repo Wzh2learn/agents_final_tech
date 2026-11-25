@@ -13,10 +13,18 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration|compact-tatqa-expansion-managed-recovery) ;;
+    fit|calibration|eval|timing|timing-compact|timing-compact-full|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-official-tatqa-expansion|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration|compact-tatqa-expansion-managed-recovery) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
-if [[ $benchmark_split == compact-official-tatqa* || $benchmark_split == compact-tatqa-expansion-* ]]; then
+timing_datasets=(finqa tatqa)
+if [[ $benchmark_split == timing-compact-full ]]; then
+    case ${6:-both} in
+        both) ;;
+        finqa|tatqa) timing_datasets=("$6") ;;
+        *) echo 'Full official timing expects both, finqa, or tatqa.' >&2; exit 2 ;;
+    esac
+    compact_dataset=finqa
+elif [[ $benchmark_split == compact-official-tatqa* || $benchmark_split == compact-tatqa-expansion-* ]]; then
     compact_dataset=${6:-tatqa}
     [[ $compact_dataset == tatqa ]] || { echo 'Expected the TAT-QA adapter.' >&2; exit 2; }
 elif [[ $compact_dataset != finqa && ( $compact_dataset != tatqa ||
@@ -72,23 +80,31 @@ car_run () {
 
 timing_run () {
     local dataset namespace
-    local cases=18 posts=180 version=v2
+    local cases=18 posts=180 version=v2 token_cap=2000000
     local compact_args=()
     if [[ $benchmark_split == timing-compact ]]; then
         cases=22
         posts=264
         version=v3
         compact_args=(--compact-container "$cid")
+    elif [[ $benchmark_split == timing-compact-full ]]; then
+        version=v4
+        compact_args=(--compact-container "$cid" --full-panel)
     fi
     local sources="$HOME/wzh/external_research_sources/finance_frontier"
     local driver="$repo/research/finance_frontier_pilot"
     export PYTHONPATH="$sources/budgetverify-tabfm-deps-v1:$driver:$PYTHONPATH"
-    for dataset in finqa tatqa; do
+    for dataset in "${timing_datasets[@]}"; do
+        if [[ $version == v4 ]]; then
+            case $dataset in finqa) cases=1147 ;; tatqa) cases=718 ;; esac
+            posts=$((12 * cases))
+            token_cap=$((80000 * cases))
+        fi
         namespace="matched_live_policy_${dataset}_$version"
         printf '%s starting isolated matched official timing for %s\n' "$(date -Is)" "$dataset"
         "$repo/venv/bin/python" -B -u "$driver/live_policy_timing.py" \
             --benchmark "$work" --namespace "$namespace" --stage eval --dataset "$dataset" \
-            --cases "$cases" --max-posts "$posts" --token-cap 2000000 --metric-dir "$metric_dir" \
+            --cases "$cases" --max-posts "$posts" --token-cap "$token_cap" --metric-dir "$metric_dir" \
             --compare-baselines --upstream "$sources/cascade-routing" --author-deps "$sources/cascade-router-deps" \
             --tabfm-checkpoint "$HOME/wzh/models/hf/tabfm-1.0.0-pytorch" "${compact_args[@]}"
         "$repo/venv/bin/python" -B - "$work/$namespace/collection.json" "$cases" <<'PY'
@@ -147,12 +163,19 @@ if [[ -n $benchmark ]]; then
     done
     if [[ $benchmark_split == compact-tatqa-expansion-calibration || $benchmark_split == compact-official-tatqa-expansion || $benchmark_split == compact-tatqa-expansion-managed-recovery ]]; then
         compact_arm_dirs[canonical]="$tatqa_compact/canonical"
-    elif [[ $benchmark_split == timing-compact ]]; then
-        compact_arms=(balanced canonical)
+    elif [[ $benchmark_split == timing-compact* ]]; then
+        timing_tatqa="$compact/tatqa_aligned"
+        timing_tatqa_arm=canonical
+        if [[ $benchmark_split == timing-compact-full ]]; then
+            timing_tatqa="$timing_tatqa/source_expansion_v1"
+            timing_tatqa_arm=execution_aligned
+            test -s "$timing_tatqa/official_tatqa_summary.json"
+        fi
+        compact_arms=(balanced "$timing_tatqa_arm")
         compact_arm_dirs[balanced]="$compact/finqa_depth_control/balanced"
-        compact_arm_dirs[canonical]="$compact/tatqa_aligned/canonical"
+        compact_arm_dirs[$timing_tatqa_arm]="$timing_tatqa/$timing_tatqa_arm"
         test -s "$compact/finqa_depth_control/balanced_serving_profile.json"
-        test -s "$compact/tatqa_aligned/canonical_serving_profile.json"
+        test -s "$timing_tatqa/${timing_tatqa_arm}_serving_profile.json"
         for arm in "${compact_arms[@]}"; do
             test -s "${compact_arm_dirs[$arm]}/$arm/adapter_config.json"
             test -s "${compact_arm_dirs[$arm]}/$arm/adapter_model.safetensors"
@@ -160,13 +183,14 @@ if [[ -n $benchmark ]]; then
     fi
     run_car=0
     if [[ $benchmark_split == timing* ]]; then
-        test -n "${BUPT_API_KEY:-}"
+        if [[ -z ${BUPT_API_KEY:-} ]]; then
+            echo 'BUPT_API_KEY is required in the authorized timing process environment.' >&2
+            exit 2
+        fi
         test "$(wc -l < "$work/oda_eval_v1/outcomes.jsonl")" -eq 1865
         timing_version=v2
-        if [[ $benchmark_split == timing-compact ]]; then
-            timing_version=v3
-        fi
-        for dataset in finqa tatqa; do
+        case $benchmark_split in timing-compact) timing_version=v3 ;; timing-compact-full) timing_version=v4 ;; esac
+        for dataset in "${timing_datasets[@]}"; do
             test -s "$work/car_oda_4096_v1/$dataset/frozen_policy.json"
             test -s "$work/car_oda_4096_v1/$dataset/eval/outcomes.jsonl"
             test ! -e "$work/matched_live_policy_${dataset}_$timing_version"
@@ -385,7 +409,7 @@ if [[ $benchmark_split == compact*-train ]]; then
 fi
 lora_mount=()
 lora_options=()
-if (( compact_collect )) || [[ $benchmark_split == timing-compact ]]; then
+if (( compact_collect )) || [[ $benchmark_split == timing-compact* ]]; then
     lora_options=(--enable-lora --max-lora-rank 8 --lora-dtype bfloat16 --max-loras 1
                   --max-cpu-loras "${#compact_arms[@]}" --lora-modules)
     for arm in "${compact_arms[@]}"; do
@@ -439,7 +463,7 @@ PY
         --serving-profile "$car_prose_root/serving_profile.json"
     exit 0
 fi
-if [[ $benchmark_split == timing-compact ]]; then
+if [[ $benchmark_split == timing-compact* ]]; then
     timing_run
     exit 0
 fi

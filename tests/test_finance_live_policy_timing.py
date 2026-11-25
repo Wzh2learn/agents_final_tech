@@ -1,6 +1,8 @@
 from collections import Counter
+from contextlib import nullcontext
 import json
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -61,6 +63,113 @@ def test_train_order_seed_balances_six_permutations(timing, question):
     cases = timing.frozen_cases(rows, 6)
     assert cases == timing.frozen_cases(list(reversed(rows)), 6)
     assert len({order for _, order in cases}) == 6
+
+
+@pytest.mark.parametrize('dataset,count', [('finqa', 1147), ('tatqa', 718)])
+def test_full_panel_requires_complete_official_request(timing, dataset, count):
+    args = SimpleNamespace(dataset=dataset, cases=count, stage='eval', offset=0,
+                           compare_baselines=True, compact_container='a' * 12)
+    timing.validate_full_panel_request(args)
+    for key, value in [('cases', count - 1), ('offset', 1), ('stage', 'fit'),
+                       ('compare_baselines', False), ('compact_container', None)]:
+        changed = SimpleNamespace(**{**vars(args), key: value})
+        with pytest.raises(ValueError, match='full-panel'):
+            timing.validate_full_panel_request(changed)
+
+
+@pytest.mark.parametrize('dataset,count', [('finqa', 1147), ('tatqa', 718)])
+def test_full_panel_binds_selected_rows_and_references_to_official_source(timing, monkeypatch, tmp_path,
+                                                                        dataset, count):
+    import cohorts
+
+    source = {'path': str(tmp_path / 'official.json'), 'sha256': 'official'}
+    (tmp_path / 'panel').mkdir()
+    (tmp_path / 'panel' / 'manifest.json').write_text(
+        json.dumps({'datasets': {dataset: {'eval': source}}}), encoding='utf-8')
+    official = [({'dataset': dataset, 'id': str(i), 'question': f'question {i}'},
+                 {'answer': i, 'question': 'not a reference field'}, 'arithmetic') for i in range(count)]
+    monkeypatch.setattr(cohorts, 'read_source', lambda actual, path: (official, source))
+    public = [row for row, _, _ in official]
+    gold = {(dataset, row['id']): {'answer': reference['answer']} for row, reference, _ in official}
+    assert timing.validate_official_panel(tmp_path, dataset, public, gold) == source
+    with pytest.raises(ValueError, match='official source'):
+        timing.validate_official_panel(tmp_path, dataset, public[:-1], gold)
+    altered = list(public)
+    altered[0] = {**altered[0], 'question': 'a changed prompt'}
+    with pytest.raises(ValueError, match='official source'):
+        timing.validate_official_panel(tmp_path, dataset, altered, gold)
+    altered_gold = dict(gold)
+    altered_gold[dataset, public[0]['id']] = {'answer': -1}
+    with pytest.raises(ValueError, match='official source'):
+        timing.validate_official_panel(tmp_path, dataset, public, altered_gold)
+    with pytest.raises(ValueError, match='official source'):
+        timing.validate_official_panel(tmp_path, dataset, [public[0], *public[1:-1], public[0]], gold)
+
+
+@pytest.mark.parametrize('full_panel', [False, True])
+def test_v4_alone_selects_expanded_timing_profile(timing, monkeypatch, tmp_path, full_panel):
+    class ProfileReached(Exception):
+        pass
+
+    calls = []
+    def profile(*args, **kwargs):
+        calls.append((args, kwargs))
+        raise ProfileReached
+
+    monkeypatch.setitem(sys.modules, 'compact_eval',
+                        SimpleNamespace(BASE='http://127.0.0.1:18157/v1', timed_compact_profile=profile))
+    serve = tmp_path / 'oda_serving_profile.json'
+    serve.write_text(json.dumps({'model': timing.ODA, 'checkpoint': timing.ODA_CHECKPOINT}), encoding='utf-8')
+    args = SimpleNamespace(dataset='finqa', stage='eval', cases=1147, offset=0, compare_baselines=True,
+                           compact_container='a' * 12, full_panel=full_panel, serving_profile=serve,
+                           base='http://127.0.0.1:18157/v1')
+    if full_panel:
+        monkeypatch.setattr(timing, 'read_panel', lambda *_: (['panel'], {'gold': 1}, {'sha': 'digest'}))
+        monkeypatch.setattr(timing, 'validate_official_panel', lambda *args: {'sha256': 'official'})
+    with pytest.raises(ProfileReached):
+        timing.run(args, tmp_path, tmp_path / 'ledger')
+    assert calls == [((tmp_path, 'a' * 12, 'finqa'), {'expanded': True} if full_panel else {})]
+
+
+def test_v4_contract_declares_full_planned_panel_and_eleven_policies(timing, monkeypatch, tmp_path, question):
+    serve = tmp_path / 'oda_serving_profile.json'
+    serve.write_text(json.dumps({'model': timing.ODA, 'checkpoint': timing.ODA_CHECKPOINT}), encoding='utf-8')
+    args = SimpleNamespace(dataset='finqa', stage='eval', cases=1147, offset=0, compare_baselines=True,
+                           compact_container='a' * 12, full_panel=True, serving_profile=serve,
+                           base='http://127.0.0.1:18157/v1', qwen_api_profile=None, deepseek_api_profile=None,
+                           prior_charged_tokens=0, max_posts=1, token_cap=100, namespace='full',
+                           opencode=tmp_path / 'opencode', metric_dir=None)
+    rows = [dict(question, id=str(i)) for i in range(args.cases)]
+    monkeypatch.setattr(timing, 'read_panel', lambda *_: (rows, {}, {'public.jsonl': 'panel'}))
+    monkeypatch.setattr(timing, 'validate_official_panel', lambda *args: {'sha256': 'official'})
+    monkeypatch.setattr(timing, 'digest_file', lambda *_: 'digest')
+    monkeypatch.setenv('BUPT_API_KEY', 'test-only')
+    monkeypatch.setitem(sys.modules, 'compact_eval', SimpleNamespace(
+        BASE=args.base, timed_compact_profile=lambda *a, **kw: {
+            'base_checkpoint': timing.ODA_CHECKPOINT, 'model': 'compact', 'checkpoint': 'adapter'}))
+    monkeypatch.setitem(sys.modules, 'live_local_baselines', SimpleNamespace(
+        load_local_baselines=lambda *a: ({'car': None, 'budgetverify': None}, {})))
+    monkeypatch.setitem(sys.modules, 'live_author_cascade', SimpleNamespace(
+        load_isolated_author_cascade=lambda *a: nullcontext((None, {}))))
+    budget = SimpleNamespace(rows=[], close=lambda: None)
+    monkeypatch.setattr(timing.school.campus, 'BatchBudget', lambda *_: budget)
+    monkeypatch.setattr(timing.school, 'charged', lambda *_: (0, 0))
+    monkeypatch.setattr(timing.school, 'has_gateway_capacity', lambda *_: True)
+    monkeypatch.setattr(timing.school, 'read_profile', lambda path, _: ({}, {'model_id': path.stem}))
+    monkeypatch.setattr(timing, 'OpenCode', lambda *a, **kw: SimpleNamespace(initialize_session_store=lambda: None))
+    monkeypatch.setattr(timing, 'wait_service', lambda *a: None)
+    collected = []
+    monkeypatch.setattr(timing, 'collect_cases', lambda args, root, cases, *rest: collected.extend(cases))
+    ledger = tmp_path / 'ledger'
+    ledger.mkdir()
+    timing.run(args, tmp_path, ledger)
+    contract = json.loads((tmp_path / 'full' / 'run.json').read_text(encoding='utf-8'))
+    assert contract['schema'] == 'finance-live-policy-timing-v4'
+    assert contract['full_official_panel'] is True and contract['case_offset'] == 0
+    assert len(contract['case_order']) == len(collected) == 1147
+    assert all(set(order) == set(timing.MATCHED_POLICIES + timing.COMPACT_POLICIES)
+               for _, order in collected)
+    assert 'collection.json' in contract['full_panel_completion']
 
 
 def test_matched_block_balances_positions_and_keeps_shard_order(timing, question):
@@ -216,3 +325,28 @@ def test_budget_stop_preserves_costs_and_excludes_incomplete_pair(timing, questi
     assert all(not row['n'] for row in summary['complete_pair_policies'].values())
     paired = summary['paired_online_wall']['comparisons']['ds-first']['strict']
     assert paired['n'] == 0 and paired['mean_online_wall_seconds_delta'] is None
+
+
+def test_full_panel_early_budget_stop_is_not_reported_as_completed(timing, question, monkeypatch, tmp_path):
+    args = SimpleNamespace(opencode=Path('fixture-opencode'), metric_dir=None)
+    budget = SimpleNamespace(rows=[])
+    profiles = {model: ({}, {}) for model in timing.MANAGED}
+    monkeypatch.setattr(timing.school, 'has_gateway_capacity', lambda _: False)
+
+    def dispatch(row, call):
+        call(timing.MANAGED[0], 'solve', 'fixture prompt')
+        raise AssertionError('budget stop must interrupt before return')
+
+    policies = timing.MATCHED_POLICIES + timing.COMPACT_POLICIES
+    selectors = {name: dispatch for name in policies}
+    rows = [dict(question, id=str(index)) for index in range(1147)]
+    cases = timing.frozen_cases(rows, len(rows), policies)
+    timing.collect_cases(args, tmp_path, cases, {}, {'solve': None}, profiles,
+                         budget, 'fixture', 'digest', selectors)
+    outcome = json.loads((tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8'))
+    summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    assert not outcome['complete_pair']
+    assert summary['planned_questions'] == 1147 and summary['complete_paired_questions'] == 0
+    assert summary['stop_reason'] == 'gateway_budget'
+    assert set(summary['complete_pair_policies']) == set(policies)
+    assert all(item['n'] == 0 for item in summary['complete_pair_policies'].values())

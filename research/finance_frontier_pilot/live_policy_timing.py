@@ -32,10 +32,39 @@ ORDER_SEED = 20261120
 DIRECT_MODELS = dict(zip(('oda-direct', 'qwen-direct', 'deepseek-direct'), (ODA, *MANAGED), strict=True))
 MATCHED_POLICIES = ('contract', 'car', 'budgetverify', 'author-cascade', *DIRECT_MODELS, *MANAGED_ORDERS)
 COMPACT_POLICIES = ('compact-direct', 'compact-fallback')
+OFFICIAL_COUNTS = {'finqa': 1147, 'tatqa': 718}
 
 
 class TimingBudgetExhausted(Exception):
     """A measured policy could not dispatch its next managed request."""
+
+
+def validate_full_panel_request(args):
+    """A v4 declaration denotes the complete matched, unsharded official panel."""
+    if (args.dataset not in OFFICIAL_COUNTS or args.stage != 'eval' or not args.compare_baselines
+            or not getattr(args, 'compact_container', None) or args.offset != 0
+            or args.cases != OFFICIAL_COUNTS[args.dataset]):
+        raise ValueError('full-panel timing requires eval, matched baselines, a compact container, '
+                         'zero offset and the complete official question count')
+
+
+def validate_official_panel(benchmark, dataset, public, gold):
+    """Bind selected prompts and gold to the pinned, complete official source."""
+    from cohorts import read_source
+
+    manifest = json.loads((benchmark / 'panel' / 'manifest.json').read_text(encoding='utf-8'))
+    expected_source = manifest['datasets'][dataset]['eval']
+    official, source = read_source(dataset, Path(expected_source['path']))
+    expected = {row['id']: (row, {k: v for k, v in reference.items() if k != 'question'})
+                for row, reference, _ in official}
+    if (source != expected_source or len(expected) != OFFICIAL_COUNTS[dataset]
+            or len(public) != OFFICIAL_COUNTS[dataset]
+            or len({row['id'] for row in public}) != len(public)
+            or {row['id'] for row in public} != set(expected)
+            or any(row['dataset'] != dataset or row != expected[row['id']][0]
+                   or gold.get((dataset, row['id'])) != expected[row['id']][1] for row in public)):
+        raise ValueError('full-panel inputs differ from the pinned official source or references')
+    return source
 
 
 def select_policy(row, policy, call):
@@ -251,6 +280,11 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
 
 def run(args, benchmark, ledger_root):
     benchmark_panel = benchmark / 'panel' / args.stage
+    full_panel = getattr(args, 'full_panel', False)
+    if full_panel:
+        validate_full_panel_request(args)
+        public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
+        official_source = validate_official_panel(benchmark, args.dataset, public, gold)
     if args.dataset == 'tatqa':
         _metric_type(args.metric_dir)
     serve_path = args.serving_profile or benchmark / 'oda_serving_profile.json'
@@ -261,7 +295,10 @@ def run(args, benchmark, ledger_root):
     if getattr(args, 'compact_container', None):
         from compact_eval import BASE as COMPACT_BASE, timed_compact_profile
 
-        compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset)
+        if full_panel:
+            compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset, expanded=True)
+        else:
+            compact_profile = timed_compact_profile(benchmark, args.compact_container, args.dataset)
         if (args.base != COMPACT_BASE or compact_profile.get('base_checkpoint') != ODA_CHECKPOINT
                 or not compact_profile.get('model') or not compact_profile.get('checkpoint')):
             raise ValueError('Compact timing requires a verified ODA adapter profile')
@@ -310,13 +347,15 @@ def run(args, benchmark, ledger_root):
                                  'direct_reference': 'One compiled response from the indicated model.',
                                  'managed_nonexecution_orders': MANAGED_ORDERS}
             roles = ('solve', 'verify', 'probe', 'repair')
-        public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
+        if not full_panel:
+            public, gold, panel_digest = read_panel(benchmark_panel, args.dataset)
         cases = frozen_cases(public, args.cases, tuple(selectors) if selectors else POLICIES, args.offset)
         root = benchmark / args.namespace
         root.mkdir(exist_ok=False, mode=0o700)
         contract = root / 'run.json'
         contract_data = {
-            'schema': ('finance-live-policy-timing-v3' if compact_profile is not None else
+            'schema': ('finance-live-policy-timing-v4' if full_panel else
+                       'finance-live-policy-timing-v3' if compact_profile is not None else
                        'finance-live-policy-timing-v2' if selectors else 'finance-live-policy-timing-v1'),
             'namespace': args.namespace, 'stage': args.stage, 'case_offset': args.offset,
             'dataset': args.dataset, 'panel': panel_digest,
@@ -332,6 +371,9 @@ def run(args, benchmark, ledger_root):
             'measurement': 'Fresh serial request construction, model/relay and public execution with policy '
                            'cost accounting. Official grading follows timing. Receipt reuse disabled.',
         }
+        if full_panel:
+            contract_data.update(full_official_panel=True, official_source=official_source,
+                                 full_panel_completion='Check collection.json for completed paired questions.')
         if compact_profile is not None:
             contract_data['compact_oda'] = {'endpoint': args.base, 'profile': compact_profile,
                                             'context': 16384, 'output': 4096, 'temperature': .6,
@@ -368,12 +410,19 @@ def main():
     parser.add_argument('--deepseek-api-profile', type=Path)
     parser.add_argument('--metric-dir', type=Path)
     parser.add_argument('--compare-baselines', action='store_true')
+    parser.add_argument('--full-panel', action='store_true',
+                        help='Measure the complete official eval panel with the expanded compact profile')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
     parser.add_argument('--tabfm-checkpoint', type=Path)
     parser.add_argument('--opencode', type=Path, default=Path.home() / '.opencode/bin/opencode')
     args = parser.parse_args()
+    if args.full_panel:
+        try:
+            validate_full_panel_request(args)
+        except ValueError as exc:
+            parser.error(str(exc))
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_.-]*', args.namespace):
         parser.error('namespace must be one fresh directory name')
     if (args.max_posts < 1 or args.token_cap < school.campus.REQUEST_TOKEN_CEILING

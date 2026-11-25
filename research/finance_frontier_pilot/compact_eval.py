@@ -94,11 +94,66 @@ def serving_profiles(benchmark, compact, container, *, dataset=DATASET, depth_co
     return profiles
 
 
-def timed_compact_profile(benchmark, container, dataset):
+def verified_tatqa_expansion_timing(benchmark, directory):
+    """Bind the expanded timing adapter to its matched calibration and official runs."""
+    (_, _, calibration_panel), source_identity = tatqa_expansion_inputs(benchmark, directory)
+    profile_path = directory / 'execution_aligned_serving_profile.json'
+    previous = read(profile_path)
+    artifacts = {name: digest_file(directory / 'execution_aligned' / 'execution_aligned' / name)
+                 for name in ADAPTER_FILES}
+    checkpoint = hashlib.sha256(json.dumps(artifacts, sort_keys=True).encode()).hexdigest()
+    receipt_path = directory / 'execution_aligned' / 'RESULT.json'
+    receipt = read(receipt_path)
+    if (previous['model'] != TATQA_EXPANSION_ALIASES['execution_aligned']
+            or previous['base_checkpoint'] != REVISION or previous['checkpoint'] != checkpoint
+            or previous['adapter_files'] != artifacts or previous['source_identity'] != source_identity
+            or previous['training_result_sha256'] != digest_file(receipt_path)
+            or receipt['status'] != 'TRAINED_TATQA_COMPACT_SOURCE_EXPANSION'
+            or receipt['optimizer_updates'] != 256 or receipt['arms'].keys() != {'execution_aligned'}
+            or receipt['arms']['execution_aligned']['updates'] != 256
+            or any(receipt['arms']['execution_aligned']['adapter_files'].get(k) != v for k, v in artifacts.items())):
+        raise ValueError('Expanded timing adapter differs from its frozen source or training receipt')
+    calibration_path = directory / 'calibration_summary.json'
+    calibration = read(calibration_path)
+    if calibration['source_identity'] != source_identity or calibration['panel'] != calibration_panel:
+        raise ValueError('Expanded timing requires its matched calibration summary')
+    official_path = directory / 'official_tatqa_summary.json'
+    official = read(official_path)
+    public, _, official_panel = read_panel(benchmark / 'panel' / 'eval', 'tatqa')
+    if (len(public) != 718 or official['panel'] != official_panel or official['source_identity'] != source_identity
+            or official['calibration_summary_sha256'] != digest_file(calibration_path)):
+        raise ValueError('Expanded timing requires its matched official panel and summary')
+    checks = (
+        ('oda_compact_tatqa_expansion_execution_aligned_calibration_v1', calibration_panel,
+         calibration['arms']['execution_aligned']['provenance']),
+        ('oda_compact_tatqa_expansion_execution_aligned_dev_v1', official_panel, official['provenance']),
+    )
+    executable_sha = digest_file(Path.home() / '.opencode/bin/opencode')
+    for namespace, panel, evidence in checks:
+        path = benchmark / namespace
+        files = {name: digest_file(path / name) for name in ('run.json', 'outcomes.jsonl')}
+        run = read(path / 'run.json')
+        if (evidence['namespace'] != namespace or evidence['files'] != files
+                or evidence['collection'] != read(path / 'collection.json')
+                or run['panel'] != panel or run['dataset'] != 'tatqa' or ACTION not in run['actions']
+                or run['model'] != previous['model'] or run['checkpoint'] != checkpoint
+                or run['serve_sha256'] != digest_file(profile_path) or run['opencode_sha256'] != executable_sha
+                or run.get('chat_template_kwargs') != {'enable_thinking': False}):
+            raise ValueError(f'Expanded timing provenance differs from {namespace}')
+    return {'checkpoint': checkpoint, 'source_identity': source_identity,
+            'calibration_summary_sha256': digest_file(calibration_path),
+            'official_summary_sha256': digest_file(official_path), 'official_panel': official_panel,
+            'opencode_sha256': executable_sha}
+
+
+def timed_compact_profile(benchmark, container, dataset, *, expanded=False):
     """Bind the matched timing server to the two evaluated compact checkpoints."""
     development = benchmark / 'compact_program_development_v1'
     adapters = {'finqa': ('balanced', DEPTH_ALIASES['balanced'], development / 'finqa_depth_control'),
                 'tatqa': ('canonical', ALIASES['canonical'], development / 'tatqa_aligned')}
+    if expanded:
+        adapters['tatqa'] = ('execution_aligned', TATQA_EXPANSION_ALIASES['execution_aligned'],
+                             development / 'tatqa_aligned' / 'source_expansion_v1')
     arm, alias, directory = adapters[dataset]
     frozen, image, argv, mounts = inspect_server(benchmark, container)
     prefix = frozen['argv'] + ['--enable-lora', '--max-lora-rank', '8', '--lora-dtype', 'bfloat16',
@@ -114,6 +169,9 @@ def timed_compact_profile(benchmark, container, dataset):
     ]
     if sorted(expected_mounts, key=lambda item: item['Destination']) != mounts:
         raise ValueError('Matched timing requires the frozen base and read-only compact adapter mounts')
+    expansion_binding = None
+    if expanded:
+        expansion_binding = verified_tatqa_expansion_timing(benchmark, adapters['tatqa'][2])
     profile_path = directory / f'{arm}_serving_profile.json'
     previous = read(profile_path)
     artifacts = {name: digest_file(directory / arm / arm / name) for name in ADAPTER_FILES}
@@ -121,9 +179,12 @@ def timed_compact_profile(benchmark, container, dataset):
     if (previous['model'], previous['base_checkpoint'], previous['checkpoint'], previous['adapter_files']) != (
             alias, REVISION, checkpoint, artifacts):
         raise ValueError('Timed compact adapter differs from the evaluated checkpoint')
-    return {'model': alias, 'checkpoint': checkpoint, 'base_checkpoint': REVISION,
-            'image': image, 'argv': argv, 'mounts': mounts, 'adapter_files': artifacts,
-            'evaluated_serving_profile_sha256': digest_file(profile_path)}
+    profile = {'model': alias, 'checkpoint': checkpoint, 'base_checkpoint': REVISION,
+               'image': image, 'argv': argv, 'mounts': mounts, 'adapter_files': artifacts,
+               'evaluated_serving_profile_sha256': digest_file(profile_path)}
+    if expanded:
+        profile['expanded_tatqa_binding'] = expansion_binding
+    return profile
 
 
 def collect_and_verify(benchmark, namespace, path, profile, panel, public, gold, panel_identity, metric_dir,
