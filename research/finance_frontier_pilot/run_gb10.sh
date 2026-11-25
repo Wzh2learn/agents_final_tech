@@ -13,7 +13,7 @@ benchmark=${4:-}
 benchmark_split=${5:-fit}
 compact_dataset=${6:-finqa}
 case $benchmark_split in
-    fit|calibration|eval|timing|timing-compact|short-calibration|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
+    fit|calibration|eval|timing|timing-compact|short-calibration|car-prose-control|compact-train|compact-calibration|compact-official-finqa|compact-official-tatqa|compact-depth-train|compact-depth-calibration|compact-depth-official-finqa|compact-depth-recovery-fit|compact-tatqa-expansion-train|compact-tatqa-expansion-calibration) ;;
     *) echo 'Unknown financial benchmark mode.' >&2; exit 2 ;;
 esac
 if [[ $benchmark_split == compact-official-tatqa || $benchmark_split == compact-tatqa-expansion-* ]]; then
@@ -30,6 +30,9 @@ case $benchmark_split in
 esac
 work=$root
 model_dir=$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea
+served_model=oda-fin-rl-8b
+serve_context=16384
+service_label=oda
 image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
 args=(--root "$root" --metric-dir "$metric_dir"
       --rule-dir "$private/tatqa_correction_v1")
@@ -104,7 +107,19 @@ cd "$root"
 test -r panel/manifest.json
 test -s smoke/teacher/call.json
 "$python" -c 'import json,sys; r=json.load(open(sys.argv[1])); assert r["text"] and r["usage"] and not r["exit_code"]' smoke/teacher/call.json
-[[ $(stat -c %s "$model_dir/model-00003-of-00004.safetensors") = 4999853856 ]]
+if [[ $benchmark_split == car-prose-control ]]; then
+    model_dir=$HOME/wzh/models/hf/Qwen3-8B
+    served_model=qwen3-8b-car
+    serve_context=32768
+    service_label=qwen3-car
+    revision=b968826d9c46dd6066d109eabc6255188de91218
+    for file in config.json tokenizer.json tokenizer_config.json model-0000{1,2,3,4,5}-of-00005.safetensors; do
+        test -s "$model_dir/$file"
+        [[ $(sed -n '1p' "$model_dir/.cache/huggingface/download/$file.metadata") = "$revision" ]]
+    done
+else
+    [[ $(stat -c %s "$model_dir/model-00003-of-00004.safetensors") = 4999853856 ]]
+fi
 [[ $(readlink -f "/proc/$guard_pid/cwd") = "$repo" ]]
 tr '\0' '\n' <"/proc/$guard_pid/cmdline" | grep -Fxq "$old_restore"
 if [[ -n $benchmark ]]; then
@@ -202,6 +217,10 @@ PY
     panel_split=$benchmark_split
     if [[ $benchmark_split == timing* ]]; then
         panel_split=eval
+    elif [[ $benchmark_split == car-prose-control ]]; then
+        panel_split=calibration
+        car_prose_root="$work/car_qwen_prose_calibration_v1"
+        test ! -e "$car_prose_root/summary.json"
     elif [[ $benchmark_split == short-calibration ]]; then
         panel_split=calibration
         test -s "$work/oda_calibration_v1/outcomes.jsonl"
@@ -255,7 +274,7 @@ with open(sys.argv[1]) as source:
     rows = json.load(source)
 assert len(rows) == 400 and sum('teacher' in row for row in rows) == 220
 PY
-elif [[ $benchmark_split == timing* || $benchmark_split == short-calibration || $benchmark_split == compact-* ]]; then
+elif [[ $benchmark_split == timing* || $benchmark_split == short-calibration || $benchmark_split == car-prose-control || $benchmark_split == compact-* ]]; then
     echo 'This mode requires the benchmark directory.' >&2
     exit 2
 fi
@@ -288,7 +307,7 @@ stop_oda () {
         trainer=
     fi
     if [[ -n $cid ]]; then
-        docker logs "$cid" >"oda_service.$cid.log" 2>&1 || true
+        docker logs "$cid" >"$service_label"_service."$cid.log" 2>&1 || true
         if ! docker stop --time 15 "$cid" >/dev/null; then
             [[ $(docker inspect --format '{{.State.Running}}' "$cid" 2>/dev/null) = false ]] || return 1
         fi
@@ -365,14 +384,19 @@ if (( compact_collect )) || [[ $benchmark_split == timing-compact ]]; then
         lora_options+=("{\"name\":\"oda-compact-${arm//_/-}\",\"path\":\"/adapters/$arm\",\"base_model_name\":\"oda-fin-rl-8b\"}")
     done
 fi
-cid=$(docker run -d --name "finance-frontier-oda-v1-$$" --pull never --network host --ipc host \
+cid=$(docker run -d --name "finance-frontier-$service_label-v1-$$" --pull never --network host --ipc host \
     --device nvidia.com/gpu=all -v "$model_dir:/models/oda:ro" \
     -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" "${lora_mount[@]}" -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
-    "$image" vllm serve /models/oda --host 127.0.0.1 --port 18157 --served-model-name oda-fin-rl-8b \
-    --dtype bfloat16 --gpu-memory-utilization 0.23 --kv-cache-memory 5368709120 --max-model-len 16384 \
+    "$image" vllm serve /models/oda --host 127.0.0.1 --port 18157 --served-model-name "$served_model" \
+    --dtype bfloat16 --gpu-memory-utilization 0.23 --kv-cache-memory 5368709120 --max-model-len "$serve_context" \
     --max-num-seqs 12 --max-num-batched-tokens 12288 --enable-prefix-caching --enforce-eager \
     --reasoning-parser qwen3 "${lora_options[@]}")
-echo "$cid" >oda_container_id
+if [[ $benchmark_split == car-prose-control ]]; then
+    mkdir -p "$car_prose_root"
+    printf '%s\n' "$cid" >"$car_prose_root/container_id"
+else
+    echo "$cid" >oda_container_id
+fi
 (
     while sleep 5; do
         if ! awk '/^MemAvailable:/{exit ($2<33554432)}' /proc/meminfo; then
@@ -383,6 +407,29 @@ echo "$cid" >oda_container_id
     done
 ) &
 watcher=$!
+if [[ $benchmark_split == car-prose-control ]]; then
+    driver="$repo/research/finance_frontier_pilot"
+    PYTHONPATH="$driver:$PYTHONPATH" "$repo/venv/bin/python" -B - "$cid" "$car_prose_root" "$served_model" "$revision" <<'PY'
+import json, subprocess, sys
+from pathlib import Path
+from benchmark_actions import freeze
+
+cid, directory, model, revision = sys.argv[1:]
+fields = ('Image', 'Config.Cmd', 'Mounts')
+template = '\n'.join('{{json .' + field + '}}' for field in fields)
+output = subprocess.check_output(['docker', 'inspect', '--format', template, cid], text=True)
+image, argv, mounts = map(json.loads, output.splitlines())
+freeze(Path(directory) / 'serving_profile.json', {
+    'model': model, 'checkpoint': revision, 'image': image, 'argv': argv,
+    'mounts': [{key: m[key] for key in ('Source', 'Destination', 'RW')}
+               for m in sorted(mounts, key=lambda m: m['Destination'])],
+})
+PY
+    "$repo/venv/bin/python" -B -u "$driver/car_prose_control.py" \
+        --panel "$work/panel/calibration" --output "$car_prose_root" --weights "$model_dir" \
+        --serving-profile "$car_prose_root/serving_profile.json"
+    exit 0
+fi
 if [[ $benchmark_split == timing-compact ]]; then
     timing_run
     exit 0

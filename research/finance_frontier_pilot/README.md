@@ -417,7 +417,8 @@ FinQA 有 131 道可执行错题能由 DeepSeek 救回，直接替换也可能�
 
 ### 对标权重与推理精度
 
-- CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。复测分别记录 CAR 的百分比归一口径及各臂统一的严格执行分。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
+- CAR 使用 Qwen3-8B BF16、官方模板和 32,768 上下文，关闭 Qwen 思考。GB10 已有通过静态验收的 `~/wzh/models/hf/Qwen3-8B`，固定版本 `b968826d`。原生文本控制单列严格终值正确率。[CAR 实验配置与评分](https://arxiv.org/html/2611.05166v1#A5.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3-8B/tree/b968826d9c46dd6066d109eabc6255188de91218)
+- `car-prose-control` 在 FinQA 的 48 个独立 TRAIN 来源上共享 Qwen3-8B 草稿和诊断。比较有界文本修订与同提示重写，二者共享证据位置与 384 个输出 tokens。按同一严格终值规则记录正确数、救回、错改和实际费用。这组控制冻结样本与编辑范围，复用本项目诊断并强制尝试修订。正式全量表继续使用原同基座 DSL 适配。[CAR 文本编辑协议](https://arxiv.org/html/2611.05166v1#A5.SS4)
 - BudgetVerify 对标补 Qwen3.5-9B 原版 `c2022362`，在同一权重上比较首答、局部复查和独立重解。论文公开了模型家族，未给出量化精度或权重版本。[BudgetVerify 实验](https://arxiv.org/html/2609.33052v1#S4.SS1) · [模型版本](https://huggingface.co/Qwen/Qwen3.5-9B/tree/c202236235762e1c871ad0ccb60c8ee5ba337b9a)
 - 当前 220 题教师批次使用本地 Qwen3.8-27B FP8。后续对照使用账号可调用的校内托管 `qwen3.8-27b`，配对固定题目、提示及生成预算。网关目录提供模型 ID，权重精度记为托管未知。[FP8 模型卡](https://huggingface.co/Qwen/Qwen3.8-27B-FP8) · [北邮 LLM 网关](https://llm-gw.bupt.edu.cn/)
 
