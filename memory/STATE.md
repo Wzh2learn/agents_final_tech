@@ -1,9 +1,8 @@
 # Current State
 
-> 2026-11-25 | 接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。实际授权看会话 Goal。
+> 2026-11-26 | 接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。实际授权看会话 Goal。
 
-- **强基座金融推理**：400 题探针选路线 A。FinQA 1,147 与 TAT-QA 718 道官方题的同条件全量对标已齐。接续看[现役结果与下一批](../research/finance_frontier_pilot/README.md)。
-- **当前比较**：官方全量准确率与 Token 前沿已交付。两库各 24 题 × 11 策略的分层配对计时均已结束。短程序回退平均 4.56/3.47 秒，六项对照的配对 95% 区间均支持节省耗时。见[实验记录](../research/finance_frontier_pilot/README.md)与 GB10 回执。
+- **强基座金融推理**：400 题探针、路线 A 的实现、两库官方全量对标和各 24 题 × 11 策略的分层计时均已交付。短程序路线得到低成本、低延迟的前沿点，强基线仍有更高的全量准确率。见[阶段验收](../research/finance_frontier_pilot/README.md#阶段验收2026-11-26)。
 - **第二篇 v4/v5 阶段档案**：保留 79000372 与 36edf5bd。纠正、接管、跨契约和单步分层见[实验总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，阶段费用见[历史短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#边界预算与恢复位置)。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。

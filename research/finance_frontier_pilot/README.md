@@ -1,4 +1,17 @@
-# 强基座零训练诊断
+# 强基座金融数值推理
+
+## 阶段验收（2026-11-26）
+
+| 验收项 | 已核实结果 |
+|---|---|
+| 零训练诊断 | FinQA、TAT-QA 各 200 题完成同题自由推理、可执行 DSL 和三种计分复算。操作数回映、表示分歧及旧 Risk/Value 分数均已比较。恢复排序 AUC 的有效样本与正例较少。剩余失分同时包含语义错误、提取失败和未交付。见[路线裁决](#路线裁决)。 |
+| 路线选择与实现 | 按冻结规则，FinQA 的契约差为 30.5 个百分点，达到路线 A 门槛。后续提出的百分比规则将同批差缩至 5.0 个百分点。编译器和短程序适配器已完成官方全量对标。 |
+| 全量准确率与用量 | 使用 FinQA Test 1,147 题和 TAT-QA Dev 718 道算术题，成本前沿按各策略计费齐全的 1,132 和 711 题计算。两库的短程序策略均进入低成本前沿。Cascade Routing 在两库的全量可执行正确数更高，TAT-QA 的同编译器 CAR 和 BudgetVerify TabFM 也有更高正确数。见[全量结果](#两套官方全量结果2026-11-24)和下文的现役短程序结果。 |
+| 端到端延迟 | 两库各 24 题 × 11 策略的计时已齐，六项预定同题比较的 95% 配对区间均支持短程序回退节省时间，本批均走本地路径。见[分层计时](#分层计时结果)。 |
+
+GitHub 保留本页的可分享摘要、实验代码和复算入口。全量对照总表 `official_accuracy_token_comparison.tsv` 与延迟图表同存于 GB10 `finance_frontier_benchmark_20261120_v2/official_frontiers_v1/`。逐题原始回执按下文定位。
+
+## 零训练诊断
 
 第一批对同一题分别运行自由推理和可执行 DSL。使用 `ODA-Fin-RL-8B` BF16 固定版本 `948c22ea48f9bf93e5747f4211657fcad9cb0295`，两臂均经 OpenCode 1.18.3。固定题干、报告输入与生成设置。27B FP8 在同一 DSL 合同下对首答错题独立作答。旧 Risk/Value 权重只读出分，首答同时作为两个状态，供分布迁移下比较。
 
@@ -322,13 +335,15 @@ FinQA test 1,147 题与 TAT-QA dev 算术 718 题均已收齐。GB10 `official_f
 
 2026-11-25，校内网关验证通过，GB10 启动 v4 全量计时。11 月 26 日确认切换到分层延迟测量后，v4 在 FinQA 完成八题配对，随后有序退出，TAT-QA 尚未启动。原始回执和 `live_timing_launch_v4/latest` 保留供核查。
 
-两库均完成后，用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --fresh-comparison --output <输出名>` 生成墙时图、Token 图和合并 TSV。墙时图使用全部配对题，Token 图使用 11 条策略均有用量的共同题集。两类判据都同时报告严格正确与严格正确且可执行。
+v4 的 `--fresh-comparison` 复算入口要求两库全量实测回执，输出墙时图、Token 图和合并 TSV。v4 实际产物为上述八题历史配对。
+
+### 分层计时结果
 
 现行口径保留 FinQA 1,147 题和 TAT-QA 718 题的完整准确率与 Token 比较。延迟使用 `timing-compact-stratified` 在两库各固定 24 题，每题独立串行执行全部 11 条策略。以参考推理步数和可见输入长度分层，题目选择只依赖固定种子和官方数据，参考程序和推导仅用于分层与评分。结果写入独立的 `matched_live_policy_{finqa,tatqa}_stratified_v1/`，报告该样本内的配对延迟差和区间。
 
 主比较为短程序回退相对 CAR、BudgetVerify 和 Cascade Routing 的每题平均耗时差。若某组配对区间同时容许比基线快 20% 和慢 20%，该比较记为精度不足，后续可从同一分层框架再独立取 24 题复核，分批报告。首批样本不会依据实测结果增删。
 
-两库各 24 题均跑齐后，用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --output <输出名>` 生成延迟图及 `_latency.tsv`。论文同时引用既有全量准确率与 Token 前沿，并标明延迟的样本分母。
+用 `plot_frontiers.py --online-timing <FinQA collection.json> <TAT-QA collection.json> --output <输出名>` 复算延迟图及 `_latency.tsv`。图上准确率及延迟使用同一未加权的分层样本，官方全量准确率与 Token 前沿使用上文口径。
 
 与现行计时相配的官方准确率取 GB10 `compact_program_development_v1/finqa_depth_control/official_finqa_summary.json` 和 `compact_program_development_v1/tatqa_aligned/source_expansion_v1/official_tatqa_summary.json`。短程序未执行时回退分别取得 756/1,147 和 499/718，实测总用量为 1,718,076 和 726,013 tokens。统一策略成本前沿使用各策略均有用量的 1,132 和 711 题，见同一 `source_expansion_v1/` 下的 `official_compact_tradeoffs.pdf`。全量基线明细位于 `official_frontiers_v1/`。延迟图上 CAR 和 BudgetVerify 的正确率使用各自同次计时的原生选答。
 
