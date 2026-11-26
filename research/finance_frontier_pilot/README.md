@@ -25,6 +25,14 @@ FinQA 新的 48 个独立 TRAIN 来源上，DeepSeek 首答有 3 次未执行，
 
 TAT-QA 的精确百分比模板从题干提取两个年份，要求唯一定位同一指标行和两个年份列、正基期、末期未下降且两次舍入一致。在来源隔离的 TRAIN 校准组命中 10/1,881，10 题均通过。原 48 道同题回执上命中 1 题，复算保持 45/48，少调用一次并少用 2,399 tokens。这是窄覆盖的成本证据，尚需准确率增量。见 `tatqa_train_explicit_percentage_rule_v1.py` 与对应的 `_calibration_narrow.json`。
 
+FinQA 新批覆盖此前未用的 23 个 TRAIN 来源组、59 道单步题。DeepSeek→Qwen 得 43/59，64 次请求用 136,981 tokens。两次强模型均未执行的 2 道题由既有短程序模型全部救回，增用 2,859 tokens，得到 45/59（R2/H0）。据此冻结仅在双未执行时运行本地短程序的策略，官方复核重采第三步回执。另一个同值确认策略在原 48 道 TRAIN 回执上要求本地短程序与 Qwen 均执行且答案完全一致才替换已执行的 DeepSeek 答案，从 25 提到 26/48（R1/H0，105,120→230,925 tokens）。在新 59 题上需要 54 次短程序复解及 10 次额外 Qwen 调用，总用量升至 248,048 tokens，仍为 43/59。停止该同值确认策略。见 GB10 `train_finqa_fresh_failure_witness_v2/` 和 `train_finqa_consensus_calibration_v1/`。
+
+冻结规则在 FinQA 官方全集触发第三步 28 次，重采后救回 10 题，新增 39,659 tokens。全量为 812/1,147，Cascade 为 806/1,147（R32/H26，配对差 +0.52 个百分点，95% 区间 [−0.77, 1.82]）。共同计费的 1,132 题上为 803 对 795，实际用量 2,542,919 对 6,325,501 tokens。新路径通过 FinQA 的计数与费用门槛，配对准确率区间跨零。28 次第三步的本地请求到执行墙时中位数为 3.15 秒。另从 28 道历史触发题中按固定哈希选 6 道实测完整路径，6 道中位数 57.08 秒，重新触发第三步的 3 道中位数 113.18 秒。方法用独立 TRAIN 锁定，早期官方探索性回放另存，复核使用新第三步回执。同编译器基线配对、逐题结果及实测计时见 GB10 `finqa_double_failure_official_frozen_v1/{report.json,paired_cases.jsonl,live_latency_v1/summary.json}`。
+
+TAT-QA 将规则扩展至可唯一定位年份和指标的变化率、单位明确的均值和同年指标比。FIT 锁定后，来源隔离的 TRAIN 校准命中 74/1,881，全部通过官方评分。原校准 48 道匹配回执上保持 45/48，少用 4,021 tokens。另实测 32 个此前未采集同条件回复的命中来源，模板与 Qwen 均为 32/32，模板省下全部 70,484 tokens。此批按规则命中抽样，覆盖率来自 1,881 题校准组。复用短程序作为两次强模型均未执行后的第三步，在 FIT 和校准的 5 个现场中救回 0 道。见 GB10 `train_tatqa_template_witness_v1/audit.json` 和 `tatqa_train_combined_rule_compact_v1.json`。
+
+在相同的五个 TAT-QA 双未执行现场，改用仅含数值操作数的 DeepSeek 独立复解，FIT 救回 1/4，校准救回 0/1，合计 12,398 tokens。另核对两道新缓存的 Qwen 截断题，原 DeepSeek 回退均已执行。下一批固定原提示与模型，只在 Qwen 因长度截断未执行时将 DeepSeek 第二步的输出上限由 4,096 调至 8,192。TRAIN 校准必须提高可执行正确数，同时新增费用不超过模板配对复算实省的 4,021 tokens。见 GB10 `train_tatqa_literal_rescue_v1/` 和 `train_tatqa_conditional_headroom_v1/contract.json`。
+
 ## 零训练诊断
 
 第一批对同一题分别运行自由推理和可执行 DSL。使用 `ODA-Fin-RL-8B` BF16 固定版本 `948c22ea48f9bf93e5747f4211657fcad9cb0295`，两臂均经 OpenCode 1.18.3。固定题干、报告输入与生成设置。27B FP8 在同一 DSL 合同下对首答错题独立作答。旧 Risk/Value 权重只读出分，首答同时作为两个状态，供分布迁移下比较。
