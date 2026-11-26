@@ -329,7 +329,8 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
         scope, frontier_field, cohort = EXECUTABLE_FRONTIERS[tokens]
     group = report['fresh_token_strata' if online_score is not None and tokens else 'strata'][scope]
     n = group['n']
-    if 'stratified_latency' in report:
+    stratified = 'stratified_latency' in report
+    if stratified:
         cohort = f'Stratified sample · {cohort}'
     points = {}
     missing = 0
@@ -379,6 +380,8 @@ def plot_axis(axis, report, *, tokens=False, online_score=None, executable=False
     left, right = axis.get_xlim()
     bottom, top = axis.get_ylim()
     for name, (label, offset) in FIXED_ANCHORS.items():
+        if stratified and name in COMPACT_POLICIES:
+            continue
         if name in frontier:
             coordinate = points[name]
             place_left = coordinate[0] > left + .60 * (right - left)
