@@ -19,7 +19,11 @@ GitHub 保留本页的可分享摘要、实验代码和复算入口。全量对�
 
 复核两库 576 份 TRAIN 托管回执，55 次编译后未执行，其中 41 次耗尽输出额度且最终文本为空，11 次返回了无法执行的程序，3 次交付失败。复用原有嵌套编译和可见算式工具均未产生校准增量。短程序放在两次强模型之间，FinQA 校准维持 25/48 且少用 7,833 tokens，TAT-QA 拟合和校准各损失一个正确答案。复算脚本和明细见 `train_managed_delivery_diagnostics_v1/`。
 
-TAT-QA 的 32 个独立 TRAIN 表来源上，用相同 Qwen 档位交替实测原提示和只交付两行的精简提示。严格正确且可执行由 28 降至 23，救回 0、错改 5，截断由 2 增至 6，32 对完整计费用量由 81,813 增至 106,383 tokens。报告簇配对 95% 区间为正确率差 [−31.25, −3.13] 个百分点、每题 Token 差 [315, 1,259]。该提示方案结束。见 `train_qwen_compact_output_v1/{run,summary,audit}.json` 和 64 次原始计费回执。FinQA 另行启动 48 个独立 TRAIN 来源的托管失败校准，回执和筛选脚本见 `train_finqa_managed_failure_witness_v1/`。
+TAT-QA 的 32 个独立 TRAIN 表来源上，用相同 Qwen 档位交替实测原提示和只交付两行的精简提示。严格正确且可执行由 28 降至 23，救回 0、错改 5，截断由 2 增至 6，32 对完整计费用量由 81,813 增至 106,383 tokens。报告簇配对 95% 区间为正确率差 [−31.25, −3.13] 个百分点、每题 Token 差 [315, 1,259]。该提示方案结束。见 `train_qwen_compact_output_v1/{run,summary,audit}.json` 和 64 次原始计费回执。
+
+FinQA 新的 48 个独立 TRAIN 来源上，DeepSeek 首答有 3 次未执行，进入 Qwen 后全部恢复执行。两级合计 32/48 严格正确且可执行，51 次请求计 108,924 tokens。短程序第三步的触发数为 0，本批对第三步的准确率增量没有直接证据。见 `train_finqa_managed_failure_witness_v1/audit.json`。
+
+TAT-QA 的精确百分比模板从题干提取两个年份，要求唯一定位同一指标行和两个年份列、正基期、末期未下降且两次舍入一致。在来源隔离的 TRAIN 校准组命中 10/1,881，10 题均通过。原 48 道同题回执上命中 1 题，复算保持 45/48，少调用一次并少用 2,399 tokens。这是窄覆盖的成本证据，尚需准确率增量。见 `tatqa_train_explicit_percentage_rule_v1.py` 与对应的 `_calibration_narrow.json`。
 
 ## 零训练诊断
 
