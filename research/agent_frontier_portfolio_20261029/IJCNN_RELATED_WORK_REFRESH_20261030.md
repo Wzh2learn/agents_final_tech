@@ -1,6 +1,6 @@
 # 第二篇原文、强基线与方法差异
 
-> 2026-11-19｜[v5 现役正文](IJCNN_MANUSCRIPT.md) · [研究议题与证据](STAGE2_AGENT_RESEARCH_PLAN_20261102.md#competitive-research-agenda)
+> 2026-11-27｜[v5 阶段正文](IJCNN_MANUSCRIPT.md) · [研究议题与证据](STAGE2_AGENT_RESEARCH_PLAN_20261102.md#competitive-research-agenda)
 
 ## 全文复核与强基线
 
@@ -18,7 +18,7 @@ GB10 原文库 `~/wzh/research_evidence/agent_learning_20261030/ijcnn_related_wo
 
 ## 模型、代码与可复现状态
 
-首个开放模型 `OpenDataArena/ODA-Fin-RL-8B` 固定版本 `948c22ea48f9bf93e5747f4211657fcad9cb0295`，GB10 的 ModelScope 镜像四个 BF16 权重分片的尺寸与 SHA256 字段均同发行清单。权重正在下载到 `~/wzh/models/hf/ODA-Fin-RL-8B-948c22ea`。以 `DOWNLOAD_STATUS.json` 与实际分片验收为准。该模型本轮未加载、未测分。开放 SFT 版本、已有 8B/27B 留作同家族参照。MATATA、DCRC 等成绩保留相关协议，便于获取正式可执行产物后比较。[固定发布版](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
+`OpenDataArena/ODA-Fin-RL-8B` BF16 固定在 `948c22ea48f9bf93e5747f4211657fcad9cb0295`。GB10 已完成[零训练探针](../finance_frontier_pilot/README.md#零训练诊断)和本地短程序的[强基线续做验收](../finance_frontier_pilot/README.md#续做强基线比较)。MATATA、DCRC 等原论文成绩按上表口径保留，待取得可执行产物后才能在本协议下比较。[固定发布版](https://huggingface.co/OpenDataArena/ODA-Fin-RL-8B/tree/948c22ea48f9bf93e5747f4211657fcad9cb0295)
 
 [FINDER](https://aclanthology.org/2025.emnlp-main.1577/)在 FinQA 公开测试报告 75.32%，独立消融证据检索和示例选择。公开执行参照有 [FinMAN](https://github.com/coenliu/MultiAgentFin) 与 [LEVER](https://proceedings.mlr.press/v202/ni23b.html)。前者报告 BizBench 的 CodeFinQA/CodeTAT-QA，后者提供同候选执行重排。成绩对比用 [FinQA 官方评估器](https://github.com/czyssrs/FinQA/blob/main/code/evaluate/evaluate.py)、[TAT-QA 官方评估器](https://github.com/NExTplusplus/TAT-QA/blob/master/tatqa_eval.py) 和本项目原生回执。
 

@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-11-16 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-11-27 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -12,7 +12,7 @@
 |---|---|
 | 当前状态 | [`../memory/STATE.md`](../memory/STATE.md) |
 | Agent 架构与交接 | [Graph Loop、记忆与升级](17_Graph_Engineering_多层Loop设计.md)、[离线上下文包](../scripts/graph/context_packet.py)、[科研证据自动记录](../scripts/graph/research_auto_record.py)、[科研证据图检查](../scripts/graph/research_evidence_graph.py)、[离线研究工具检查](../scripts/graph/research_tool_runtime.py)、[A/C 派发器](governance/loop_ac_launcher_v1.md) |
-| 研究入口 | [`research/README.md`](research/README.md) |
+| 研究入口 | [研究导航](research/README.md) · [本轮专家复核入口](../research/finance_frontier_pilot/README.md#专家复核入口) |
 | GB10研究服务内存保护 | [权重加载互斥及低内存守护](../scripts/graph/research_gpu_guard.py)；当前端口/换模规则见[CORE](../memory/CORE.md)。只管理本次持有的研究容器，状态不替代Goal授权。 |
 | 第二篇最小接续 | [短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) · [机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge) · [论文总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)。 |
 | 非代码经验与纠正学习 | [现役学习与评价](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_CORRECTION_DATA.md)、[六组上下文对照的协议与逐臂记录](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_RUNTIME_CONTEXT_COMPARISON.md)、[闭合先导与旧底座](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_CONTEXT_STUDY.md#old-parent-baselines)、[训练资产与新布局闭合结果](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)、[ALFWorld当前资格](../research/agent_frontier_portfolio_20261029/results/ALFWORLD_TEXT_AGENT_20261106.md#current-learning)、[隔离动作桥](../scripts/graph/research_alfworld_bridge.py)、[源经验编译](../research/agent_frontier_portfolio_20261029/prepare_alfworld_experience_20261106.py)、[纠正数据](../research/agent_frontier_portfolio_20261029/alfworld_correction_data_20261106.py)、[有限SFT](../research/agent_frontier_portfolio_20261029/alfworld_supervision_learning.py)、[旧4B连通资格](../research/agent_frontier_portfolio_20261029/run_alfworld_correction_learning_20261106.py)；真实任务与训练资格分开。 |

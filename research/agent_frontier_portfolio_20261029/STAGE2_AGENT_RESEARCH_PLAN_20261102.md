@@ -1,15 +1,15 @@
 # 第二阶段研究议题与证据入口
 
-> 2026-11-23｜[v5 阶段档案](IJCNN_MANUSCRIPT.md) · [双栏 PDF](ijcnn_ieee/main.pdf) · [实验总表](results/IJCNN_EXPERIMENT_TABLES.md) · [v4 审阅快照](https://github.com/Wzh2learn/agents_final_tech/blob/7900037223d357bb56e08bbc550bda46dd3d1ee6/research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)
+> 2026-11-27｜[v5 阶段档案](IJCNN_MANUSCRIPT.md) · [双栏 PDF](ijcnn_ieee/main.pdf) · [实验总表](results/IJCNN_EXPERIMENT_TABLES.md) · [v4 审阅快照](https://github.com/Wzh2learn/agents_final_tech/blob/7900037223d357bb56e08bbc550bda46dd3d1ee6/research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)
 
 <a id="competitive-research-agenda"></a>
 ## 强对标后的研究议题｜外部专家讨论
 
-400 题零训练探针已完成，选择[路线 A](../finance_frontier_pilot/README.md#路线裁决)。[FinQA 1,147 题与 TAT-QA 718 题的全量对标](../finance_frontier_pilot/README.md#两套官方全量结果2026-11-24)已齐，含 CAR、BudgetVerify、Cascade Routing 与固定级联适配。两库的短程序首答及未执行回退补足了低成本区，FinQA 的同值歧义选题在独立 TRAIN 开发集未产生净增。当前优先验证 TAT-QA 首答的尺度监督和保留能力。独立的端到端计时仍待恢复校内网关凭证，运行目录与回执见[现役实验记录](../finance_frontier_pilot/README.md)。
+400 题探针选定[路线 A](../finance_frontier_pilot/README.md#路线裁决)。两库的全量正确数、共同计费用量和触发路径计时已通过[续做验收](../finance_frontier_pilot/README.md#续做强基线比较)。专家评审从该页的对照表、冻结协议与失败证据开始。后续验证依据评审反馈再定。
 
-争取在**可执行的金融表文推理、紧凑模型、有限推理预算**这一场景做到领先。绝对准确率和准确率—成本前沿都值得竞争。优先回答两件事：能否提高强首答的正确候选覆盖率，以及执行反馈能否让强首答继续获益。允许重做首答生成、训练数据、教师机制和推理策略，也允许把现有三段重新组织成一个新方法。实验取舍由证据决定。
+请专家判断公开证据、执行门控与短程序补救的组合可以支撑什么论文贡献，尤其是与普通失败回退、BudgetVerify 及原生执行模型的区别。再判断补哪个对照最能改变结论，包括正确候选覆盖、保持能力、调用成本或未见来源验证。
 
-- **强首答。** 首选官方开放的 ODA-Fin-RL-8B，配合本地 Qwen3-8B/27B 和原生 OpenCode 执行。先获取权重与同条件分数，再选择可运行的同量级专门模型。DCRC 和 MATATA 是较高成绩参照。可结合可执行的来源绑定、训练集执行筛选和更有区分力的反事实。
+- **强首答。** ODA-Fin-RL-8B 已完成同条件实测。评估 DCRC、MATATA 等参照中哪些适合加入下一轮同条件对照，或借鉴其可执行来源绑定、训练集执行筛选及反事实设计。
 - **强修订。** 固定首答和证据时，比较 CAR 式定向修订、CCT 式保持/纠正和本项目同一真实恢复前后反例分配。科学价值取决于强基座上能否多救错题且少破坏对题。
 - **强预算策略。** 固定预算时，与 BudgetVerify 式局部复查和独立重解、同模型风险、多候选选择、全量教师对照。报告总推理 token、教师用量和墙时。若多个动作有独立互补性，可重设控制策略及训练过程。
 

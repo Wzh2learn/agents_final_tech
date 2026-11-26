@@ -1,11 +1,11 @@
 # 研究入口
 
-> 2026-11-23 | 当前实验从下表接续。项目概览见[STATE](../../memory/STATE.md)，未决见[THREADS](../../memory/THREADS.md)。
+> 2026-11-27 | 强基线阶段已验收，待外部专家评审。项目概览见[STATE](../../memory/STATE.md)，未决见[THREADS](../../memory/THREADS.md)。
 
 | 当前需要 | 最小入口 |
 | --- | --- |
-| 强基座金融数值推理 | [当前强基线比较](../../research/finance_frontier_pilot/README.md#续做强基线比较) · [前期阶段验收](../../research/finance_frontier_pilot/README.md#阶段验收2026-11-26) · [分层端到端延迟](../../research/finance_frontier_pilot/README.md#分层计时结果)。 |
-| 接任科研 / 本轮行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) → [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md) → 一个指定批次。 |
+| 强基座金融数值推理 / 专家评审 | [验收结果与复核入口](../../research/finance_frontier_pilot/README.md#续做强基线比较) · [评审议题](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#competitive-research-agenda)。 |
+| 接任科研 / 后续行动 | [唯一Loop D指令](LOOP_D_RESEARCH_PROMPT.md) · [第二阶段短计划](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md)。 |
 | IJCNN 阶段档案 | [IEEE 双栏审阅稿](../../research/agent_frontier_portfolio_20261029/ijcnn_ieee/main.pdf)、[英文正文](../../research/agent_frontier_portfolio_20261029/IJCNN_MANUSCRIPT.md)与[实验总表](../../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，按章节读取。[定义](../../research/agent_frontier_portfolio_20261029/results/FINQA_CORRECTION_METHOD.md)和[机制知识](../../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)按需加载。 |
 | 早期现场 / 复用资产 | [ALF现场与规则对照](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_ADDITIONAL_SOURCES.md#simple-recovery)；[Sphinx真实反馈](../../research/agent_frontier_portfolio_20261029/results/CODE_SOURCE_CORRECTIONS.md#sphinx-新来源公开问题与实际运行11-09)；[旧五基线](../../research/agent_frontier_portfolio_20261029/results/ALFWORLD_LEARNING_RUNTIME.md#trained-baselines)。 |
 | 长期方向 / 强对标 | [强对标后的研究议题](../../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#competitive-research-agenda)与[全文复核、强基线和原文库入口](../../research/agent_frontier_portfolio_20261029/IJCNN_RELATED_WORK_REFRESH_20261030.md#全文复核与强基线)。长期规划见[研究组合](../../research/agent_frontier_portfolio_20261029/AGENT_FRONTIER_RESEARCH_PORTFOLIO.md)。 |
