@@ -11,6 +11,12 @@
 
 GitHub 保留本页的可分享摘要、实验代码和复算入口。全量对照总表 `official_accuracy_token_comparison.tsv` 与延迟图表同存于 GB10 `finance_frontier_benchmark_20261120_v2/official_frontiers_v1/`。逐题原始回执按下文定位。
 
+### 续做强基线比较
+
+本阶段目标为 FinQA 至少 807/1,147、TAT-QA 至少 627/718 道严格正确且可执行题。共同计费子集分别要求至少 796/1,132 和 620/711，实际用量分别不超过 6,325,501 和 2,023,682 tokens。FinQA 对照同编译器 Cascade Routing，TAT-QA 对照更强的固定 Qwen→DeepSeek。
+
+首轮只复用已审计的 TRAIN 回执。以 DeepSeek 首答和未执行时转 Qwen 为起点，拟合公开信号驱动的复解排序，再用两个已执行答案的溯源特征差判断替换。两库的 96 道拟合题仅有 4/5 道可用于学习答案偏好的分歧。48 道独立校准题各追加 12 次复解后，FinQA 维持 25/48（救一、错改一，105,120→143,251 tokens），TAT-QA 从 43→45/48（救二、错改零，已知用量 80,416→107,762 tokens，各含一次未知用量）。该小样本增量留作开发证据。脚本与复算日志位于 GB10 `train_managed_disagreement_selector_v1/`，官方评测未参与本轮选择。
+
 ## 零训练诊断
 
 第一批对同一题分别运行自由推理和可执行 DSL。使用 `ODA-Fin-RL-8B` BF16 固定版本 `948c22ea48f9bf93e5747f4211657fcad9cb0295`，两臂均经 OpenCode 1.18.3。固定题干、报告输入与生成设置。27B FP8 在同一 DSL 合同下对首答错题独立作答。旧 Risk/Value 权重只读出分，首答同时作为两个状态，供分布迁移下比较。
