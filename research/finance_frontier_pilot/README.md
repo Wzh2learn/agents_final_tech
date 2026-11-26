@@ -13,7 +13,7 @@ GitHub 保留本页的可分享摘要、实验代码和复算入口。全量对�
 
 ### 续做强基线比较
 
-本阶段目标为 FinQA 至少 807/1,147、TAT-QA 至少 627/718 道严格正确且可执行题。共同计费子集分别要求至少 796/1,132 和 620/711，实际用量分别不超过 6,325,501 和 2,023,682 tokens。FinQA 对照同编译器 Cascade Routing，TAT-QA 对照更强的固定 Qwen→DeepSeek。
+两库均通过续做验收。FinQA 全量 812/1,147、共同集 803/1,132、2,542,919 tokens，门槛分别为 807、796 和 6,325,501。TAT-QA 全量 633/718、共同集 626/711、1,960,896 tokens，门槛分别为 627、620 和 2,023,682。FinQA 对照同编译器 Cascade Routing，TAT-QA 对照更强的固定 Qwen→DeepSeek。两库均已交付 CAR、BudgetVerify、Cascade Routing、固定强模型的逐题配对比较及实际触发计时。
 
 首轮只复用已审计的 TRAIN 回执。以 DeepSeek 首答和未执行时转 Qwen 为起点，拟合公开信号驱动的复解排序，再用两个已执行答案的溯源特征差判断替换。两库的 96 道拟合题仅有 4/5 道可用于学习答案偏好的分歧。48 道独立校准题各追加 12 次复解后，FinQA 维持 25/48（救一、错改一，105,120→143,251 tokens），TAT-QA 从 43→45/48（救二、错改零，已知用量 80,416→107,762 tokens，各含一次未知用量）。该小样本增量留作开发证据。脚本与复算日志位于 GB10 `train_managed_disagreement_selector_v1/`，官方评测未参与本轮选择。
 
@@ -31,7 +31,11 @@ FinQA 新批覆盖此前未用的 23 个 TRAIN 来源组、59 道单步题。Dee
 
 TAT-QA 将规则扩展至可唯一定位年份和指标的变化率、单位明确的均值和同年指标比。FIT 锁定后，来源隔离的 TRAIN 校准命中 74/1,881，全部通过官方评分。原校准 48 道匹配回执上保持 45/48，少用 4,021 tokens。另实测 32 个此前未采集同条件回复的命中来源，模板与 Qwen 均为 32/32，模板省下全部 70,484 tokens。此批按规则命中抽样，覆盖率来自 1,881 题校准组。复用短程序作为两次强模型均未执行后的第三步，在 FIT 和校准的 5 个现场中救回 0 道。见 GB10 `train_tatqa_template_witness_v1/audit.json` 和 `tatqa_train_combined_rule_compact_v1.json`。
 
-在相同的五个 TAT-QA 双未执行现场，改用仅含数值操作数的 DeepSeek 独立复解，FIT 救回 1/4，校准救回 0/1，合计 12,398 tokens。另核对两道新缓存的 Qwen 截断题，原 DeepSeek 回退均已执行。下一批固定原提示与模型，只在 Qwen 因长度截断未执行时将 DeepSeek 第二步的输出上限由 4,096 调至 8,192。TRAIN 校准必须提高可执行正确数，同时新增费用不超过模板配对复算实省的 4,021 tokens。见 GB10 `train_tatqa_literal_rescue_v1/` 和 `train_tatqa_conditional_headroom_v1/contract.json`。
+在相同的五个 TAT-QA 双未执行现场，改用仅含数值操作数的 DeepSeek 独立复解，FIT 救回 1/4，校准救回 0/1，合计 12,398 tokens。另核对两道新缓存的 Qwen 截断题，原 DeepSeek 回退均已执行。固定原提示与模型，只在 Qwen 因长度截断未执行时将 DeepSeek 第二步的输出上限由 4,096 调至 8,192。拟合子集从 3→4/7；独立 TRAIN 校准从 3→2/5，少用 1,649 tokens，救回 0、错改 1。正式对标继续沿用原输出上限。见 GB10 `train_tatqa_literal_rescue_v1/` 和 `train_tatqa_conditional_headroom_v1/summary.json`。
+
+新增可唯一定位指标行、连续年份和尺度的区间均值规则后，合并规则在独立 TRAIN 校准命中 85/1,881，85 题均正确。九个此前未采集匹配模型回复的区间均值来源上，规则相对 Qwen→DeepSeek 从 8→9/9（R1/H0），少用 31,775 tokens。冻结后全量复算，官方 718 题命中 39 道，39 道均正确，和固定 Qwen→DeepSeek 逐题持平，仍为 626/718。共同计费集保持 619/711，用量从 2,023,682 降至 1,945,589（少 78,093 tokens）。命中路径在 GB10 的公开输入到原生执行中位数为 0.094 毫秒。逐题结果、配对区间及计时见 GB10 `tatqa_public_rule_official_frozen_v1/`。
+
+TAT-QA 只对公开规则弃权且两次强模型均未执行的聚合题调用本地短程序。独立 TRAIN 的 22 道候选题上仅触发一次，从 20→21/22，新增 805 tokens。冻结后在官方全集触发第三步 17 次，重采后全部执行，救回 7 题、错改 0 题。最终全量为 633/718，超过同编译器 Cascade 的 604 和固定 Qwen→DeepSeek 的 626。共同计费集为 626/711，对照为 619/711。实际用量 1,960,896 对 2,023,682 tokens（少 62,786）。相对最强固定级联的配对准确率差为全量 +0.97 个百分点 [0.28, 1.83]、共同集 +0.98 [0.28, 1.88]。17 次本地请求到执行的中位耗时为 3.38 秒。按固定哈希取 6 道历史触发题重跑完整路径，6 道中位数 102.43 秒，重新触发第三步的 4 道中位数 128.22 秒。独立 TRAIN 对照见 `train_tatqa_cached_compact_aggregate_v1/audit.json`，官方逐题对照和计时见 `tatqa_aggregate_compact_official_frozen_v1/{report.json,paired_cases.jsonl,live_latency_v1/summary.json}`。
 
 ## 零训练诊断
 
