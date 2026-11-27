@@ -65,6 +65,10 @@ class TimingLocalStorageLocked(Exception):
     """OpenCode exited on a local SQLite lock without emitting a model event."""
 
 
+class TimingLocalActorCrash(Exception):
+    """The local actor was killed by a signal without emitting a model event."""
+
+
 def validate_full_panel_request(args):
     """A v4 declaration denotes the complete matched, unsharded official panel."""
     if (args.dataset not in OFFICIAL_COUNTS or args.stage != 'eval' or not args.compare_baselines
@@ -399,12 +403,20 @@ def select_joint(row, arm, call, receipts, directory, run_digest, joint):
     return {**selected, 'calls': list(receipts)}, projection
 
 
-def local_storage_locked(target, result):
-    if result['exit_code'] != 1 or result['finish'] or result['usage'] is not None:
-        return False
-    raw, stderr = target / 'raw.jsonl', target / 'stderr.txt'
-    return (raw.is_file() and raw.stat().st_size == 0 and stderr.is_file()
-            and 'database is locked' in stderr.read_text(encoding='utf-8', errors='replace').casefold())
+def local_startup_failure(target, result):
+    exit_code = result['exit_code']
+    if (type(exit_code) is not int or not (exit_code == 1 or exit_code < 0)
+            or result['finish'] or result['usage'] is not None):
+        return None
+    raw = target / 'raw.jsonl'
+    if not raw.is_file() or raw.stat().st_size != 0:
+        return None
+    if exit_code < 0:
+        return TimingLocalActorCrash
+    stderr = target / 'stderr.txt'
+    if stderr.is_file() and 'database is locked' in stderr.read_text(encoding='utf-8', errors='replace').casefold():
+        return TimingLocalStorageLocked
+    return None
 
 
 def measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
@@ -431,8 +443,10 @@ def measure_route(args, root, row, policy, actors, profiles, budget, key, run_di
         fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
         receipts[name] = {**{item: result[item] for item in fields if item in result},
                           'path': receipt_path.relative_to(root).as_posix()}
-        if campus_lock is not None and name not in profiles and local_storage_locked(target, result):
-            raise TimingLocalStorageLocked
+        if campus_lock is not None and name not in profiles:
+            startup_failure = local_startup_failure(target, result)
+            if startup_failure is not None:
+                raise startup_failure
         if (getattr(args, 'compare_baselines', False) and name not in profiles
                 and (result['exit_code'] or result['errors'])):
             model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA

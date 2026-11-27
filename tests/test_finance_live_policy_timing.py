@@ -560,11 +560,17 @@ def test_wave_reports_final_remainder_separately(timing, question, monkeypatch, 
     assert strata['2']['arms']['local']['local_call_cost']['known_tokens'] == 48
 
 
-def test_wave_startup_lock_is_an_incomplete_attempt_without_retry(timing, question, monkeypatch, tmp_path):
-    args = SimpleNamespace(metric_dir=None, joint_workers=2)
+@pytest.mark.parametrize(('exit_code', 'stderr', 'failure_type'), [
+    (1, 'Unexpected error: database is locked', 'TimingLocalStorageLocked'),
+    (-5, 'Bun panic: segmentation fault', 'TimingLocalActorCrash'),
+])
+def test_wave_startup_failure_is_an_incomplete_attempt_without_retry(
+    timing, question, monkeypatch, tmp_path, exit_code, stderr, failure_type,
+):
+    args = SimpleNamespace(metric_dir=None, joint_workers=2, compare_baselines=True, base='unused')
     rows = [{**question, 'id': str(index)} for index in range(3)]
-    order = ('model-length', 'startup', 'later')
-    calls = []
+    order = ('model-length', 'model-stop', 'startup', 'later')
+    calls, health_checks = [], []
 
     def recorded(_, prompt, target, __):
         policy = target.parent.name
@@ -573,10 +579,12 @@ def test_wave_startup_lock_is_an_incomplete_attempt_without_retry(timing, questi
         receipt = call_receipt('invalid', tokens=12)
         if policy == 'model-length':
             receipt['finish'] = ['length']
+        elif policy == 'model-stop' and prompt == '0':
+            receipt = call_receipt('Final program: add(1, 2)', tokens=None)
         elif policy == 'startup' and prompt == '0':
-            receipt.update(exit_code=1, finish=[], usage=None, text='')
+            receipt.update(exit_code=exit_code, finish=[], usage=None, text='')
             (target / 'raw.jsonl').write_bytes(b'')
-            (target / 'stderr.txt').write_text('Unexpected error\n\ndatabase is locked\n', encoding='utf-8')
+            (target / 'stderr.txt').write_text(stderr, encoding='utf-8')
         (target / 'call.json').write_text(json.dumps(receipt), encoding='utf-8')
         return receipt
 
@@ -587,23 +595,29 @@ def test_wave_startup_lock_is_an_incomplete_attempt_without_retry(timing, questi
         return {'submission': parse_dsl(timing.deliver(receipt)), 'calls': ['low']}, row
 
     monkeypatch.setattr(timing, 'recorded_call', recorded)
+    monkeypatch.setattr(timing, 'wait_service', lambda *args: health_checks.append(args))
     with pytest.raises(RuntimeError, match='timing wave failed'):
         timing.collect_cases(args, tmp_path, [(row, order) for row in rows],
                              {('finqa', row['id']): {'exe_ans': 3} for row in rows}, {'solve': None}, {},
                              SimpleNamespace(rows=[]), 'fixture', 'run', {policy: select for policy in order})
 
-    assert Counter(calls) == Counter((policy, row['id']) for policy in order[:2] for row in rows[:2])
+    assert Counter(calls) == Counter((policy, row['id']) for policy in order[:3] for row in rows[:2])
     attempts = [json.loads(line) for line in (tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8').splitlines()]
     assert [attempt['complete_pair'] for attempt in attempts] == [False, False]
     assert all(attempt['policies']['model-length']['status'] == 'complete' for attempt in attempts)
+    assert all(attempt['policies']['model-stop']['status'] == 'complete' for attempt in attempts)
+    assert attempts[0]['policies']['model-stop']['result']['strict']
+    assert not attempts[1]['policies']['model-stop']['result']['strict']
+    assert not health_checks
     failed = attempts[0]['policies']['startup']
-    assert (failed['status'], failed['failure_type']) == ('incomplete_error', 'TimingLocalStorageLocked')
+    assert (failed['status'], failed['failure_type']) == ('incomplete_error', failure_type)
     receipt = tmp_path / failed['calls']['low']['path']
     assert receipt.is_file() and (receipt.parent / 'raw.jsonl').stat().st_size == 0
-    assert 'database is locked' in (receipt.parent / 'stderr.txt').read_text(encoding='utf-8')
+    assert json.loads(receipt.read_bytes())['exit_code'] == exit_code
+    assert (receipt.parent / 'stderr.txt').read_text(encoding='utf-8') == stderr
     summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
     assert summary['stop_reason'] == 'route_error' and summary['complete_paired_questions'] == 0
-    assert summary['all_attempt_cost']['calls'] == 4 and summary['all_attempt_cost']['unknown_usage_calls'] == 1
+    assert summary['all_attempt_cost']['calls'] == 6 and summary['all_attempt_cost']['unknown_usage_calls'] == 2
 
 
 def test_joint_shard_preserves_legacy_plan_and_rejects_wave_mixing(timing, question, monkeypatch, tmp_path):
