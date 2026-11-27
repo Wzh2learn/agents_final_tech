@@ -2,7 +2,8 @@
 
 import argparse
 import ast
-from contextlib import ExitStack
+from concurrent.futures import ThreadPoolExecutor
+from contextlib import ExitStack, nullcontext
 from copy import copy
 from hashlib import sha256
 from itertools import permutations
@@ -14,6 +15,7 @@ import re
 from statistics import median, quantiles
 import subprocess
 import sys
+from threading import Lock
 from time import monotonic
 from types import SimpleNamespace
 
@@ -42,6 +44,12 @@ JOINT_N, JOINT_RATE, JOINT_SEED = 4, .2, 20261127
 JOINT_POLICIES = ('joint-compact', 'deepseek-direct', 'car-compiled', 'budgetverify-gbm-compiled',
                   'budgetverify-tabfm-compiled', 'author-cascade', *MANAGED_ORDERS)
 JOINT_LAMBDAS = {'finqa': (.8, .8), 'tatqa': (.65, 0.)}
+JOINT_WAVE_PLAN = 'finance-live-joint-timing-wave-plan-v1'
+JOINT_WAVE_SHARD = 'finance-live-joint-timing-wave-shard-v1'
+LEGACY_SERIAL_DRIVERS = {
+    '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
+    '8a9cbec1f2d5e1ee368b783dec372d2cf863414d71a3d9f10f7f636ef636a55a',
+}
 
 
 class TimingBudgetExhausted(Exception):
@@ -164,6 +172,24 @@ def compiled_baseline(native, role):
     return select
 
 
+def serialized_predictor(selector):
+    """Protect shared predictor/IPC state but release the lock during model calls."""
+    lock = Lock()
+
+    def select(row, call):
+        def inference(*args):
+            lock.release()
+            try:
+                return call(*args)
+            finally:
+                lock.acquire()
+
+        with lock:
+            return selector(row, inference)
+
+    return select
+
+
 def joint_selectors(args, benchmark, serve_path, providers, resources, ledger_root):
     from live_author_cascade import load_isolated_author_cascade
     from live_local_baselines import load_local_baselines
@@ -186,6 +212,9 @@ def joint_selectors(args, benchmark, serve_path, providers, resources, ledger_ro
         'author-cascade': author,
     }
     selectors.update((name, lambda row, call, policy=name: select_policy(row, policy, call)) for name in MANAGED_ORDERS)
+    if getattr(args, 'joint_workers', 1) > 1:
+        for name in ('budgetverify-gbm-compiled', 'budgetverify-tabfm-compiled', 'author-cascade'):
+            selectors[name] = serialized_predictor(selectors[name])
     if tuple(selectors) != JOINT_POLICIES:
         raise ValueError('Unexpected joint timing roster')
     return selectors, {'car-compiled': gbm_info['car'], 'budgetverify-gbm-compiled': gbm_info['budgetverify'],
@@ -214,6 +243,12 @@ def frozen_cases(rows, count, policies=POLICIES, offset=0):
             orders.extend([tuple(reversed(sequence)) for sequence in orders])
     sample = sorted(rows, key=key)[offset:offset + count]
     return [(row, orders[(offset + i) % len(orders)]) for i, row in enumerate(sample)]
+
+
+def joint_wave_cases(rows, workers):
+    """Use the original public question order and rotate policies by whole block."""
+    ordered = frozen_cases(rows, len(rows), JOINT_POLICIES)
+    return [(row, ordered[index // workers][1]) for index, (row, _) in enumerate(ordered)]
 
 
 def reference_depth(dataset, reference):
@@ -355,76 +390,160 @@ def select_joint(row, arm, call, receipts, directory, run_digest, joint):
     return {**selected, 'calls': list(receipts)}, projection
 
 
-def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None, joint=None):
+def measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
+                  *, admitted=None, campus_lock=None):
+    ident = sha256(row['id'].encode()).hexdigest()[:24]
+    directory = root / 'calls' / ident / policy
+    receipts = {}
+
+    def call(name, role, prompt):
+        target = directory / name
+        if role not in actors or (name in profiles and role != 'solve') or target.exists() or name in receipts:
+            raise ValueError('live timing expects independent fresh calls to a configured role')
+        if name in profiles:
+            with campus_lock if campus_lock is not None else nullcontext():
+                if not school.has_gateway_capacity(budget):
+                    raise TimingBudgetExhausted
+                profile, gateway = profiles[name]
+                result = school.fresh_managed_call(target, args.opencode, run_digest, prompt,
+                                                   key=key, budget=budget, profile=profile, gateway=gateway)
+                receipt_path = target / 'provider_receipt.json'
+        else:
+            result = recorded_call(actors[role], prompt, target, run_digest)
+            receipt_path = target / 'call.json'
+        fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
+        receipts[name] = {**{item: result[item] for item in fields if item in result},
+                          'path': receipt_path.relative_to(root).as_posix()}
+        if (getattr(args, 'compare_baselines', False) and name not in profiles
+                and (result['exit_code'] or result['errors'])):
+            model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA
+            wait_service(args.base, model, 10)
+        return result
+
+    begin = monotonic() if admitted is None else admitted
+    status, failure, selected, projection = 'complete', None, None, None
+    try:
+        if joint is not None and policy in ('joint-compact', 'deepseek-direct'):
+            selected, projection = select_joint(row, policy, call, receipts, directory, run_digest, joint)
+        else:
+            selected, projection = (select_policy(row, policy, call) if selectors is None
+                                    else selectors[policy](row, call))
+        if selected['calls'] != list(receipts):
+            raise ValueError('selected call order and metered calls disagree')
+        public_execution(projection, selected['submission'])
+    except TimingBudgetExhausted:
+        status = 'incomplete_budget'
+    except Exception as error:
+        if campus_lock is None:
+            raise
+        status, failure = 'incomplete_error', type(error).__name__
+    cost = action_cost(list(receipts.values()))
+    measured = {'status': status, 'wall_seconds': monotonic() - begin, 'calls': receipts, 'cost': cost}
+    if failure is not None:
+        measured['failure_type'] = failure
+    if campus_lock is not None:
+        measured['local_call_cost'] = action_cost([receipt for name, receipt in receipts.items() if name not in profiles])
+        measured['campus_call_cost'] = action_cost([receipt for name, receipt in receipts.items() if name in profiles])
+    return measured, selected, projection
+
+
+def grade_timed_route(args, row, gold, measure):
+    record, selected, projection = measure
+    if record['status'] == 'complete':
+        record['result'] = grade_case(row, gold[row['dataset'], row['id']], {'selected': selected},
+                                      {'selected': projection}, args.metric_dir)['selected']
+    return record
+
+
+def wave_reports(args, cases, gold, measure, workers, offset):
+    """Yield complete blocks in frozen order and preserve the entire failed block."""
+    campus_lock = Lock()
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for start in range(0, len(cases), workers):
+            block = cases[start:start + workers]
+            order = block[0][1]
+            if any(arm_order != order for _, arm_order in block):
+                raise ValueError('Every route in a timing wave must use the same frozen arm order')
+            records = [{} for _ in block]
+            batches, stop = {}, None
+            for policy in order:
+                batch_start = monotonic()
+                futures = [pool.submit(measure, row, policy, admitted=monotonic(), campus_lock=campus_lock)
+                           for row, _ in block]
+                measured = [future.result() for future in futures]
+                batch_wall = monotonic() - batch_start
+                for index, ((row, _), item) in enumerate(zip(block, measured, strict=True)):
+                    try:
+                        records[index][policy] = grade_timed_route(args, row, gold, item)
+                    except Exception as error:
+                        records[index][policy] = {**item[0], 'status': 'incomplete_error',
+                                                  'failure_type': type(error).__name__}
+                items = [record[policy] for record in records]
+                statuses = {item['status'] for item in items}
+                batches[policy] = {'wall_seconds': batch_wall, 'attempted_routes': len(items),
+                                   'complete_routes': sum(item['status'] == 'complete' for item in items),
+                                   'local_call_cost': summed_cost([item['local_call_cost'] for item in items]),
+                                   'campus_call_cost': summed_cost([item['campus_call_cost'] for item in items])}
+                if statuses != {'complete'}:
+                    stop = 'route_error' if 'incomplete_error' in statuses else 'gateway_budget'
+                    break
+            index = (offset + start) // workers
+            for slot, ((row, _), record) in enumerate(zip(block, records, strict=True)):
+                report = {k: row[k] for k in ('dataset', 'id', 'report')}
+                report.update(policy_order=order, policies=record, complete_pair=stop is None, block_index=index,
+                              block_size=len(block), block_slot=slot)
+                if slot == 0:
+                    report['arm_batches'] = batches
+                yield report, stop
+            if stop is not None:
+                return
+
+
+def serial_reports(args, cases, gold, measure):
+    for row, order in cases:
+        records = {}
+        stop = None
+        for policy in order:
+            record = grade_timed_route(args, row, gold, measure(row, policy))
+            records[policy] = record
+            if record['status'] == 'incomplete_budget':
+                stop = 'gateway_budget'
+                break
+        report = {k: row[k] for k in ('dataset', 'id', 'report')}
+        yield {**report, 'policy_order': order, 'policies': records, 'complete_pair': stop is None}, stop
+        if stop is not None:
+            return
+
+
+def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None, joint=None,
+                  *, joint_offset=0):
     completed = 0
     started = monotonic()
     start_index = len(budget.rows)
-    stopped = False
+    stop = None
     paired_policies = tuple(selectors) if selectors is not None else POLICIES
     pair_records = {name: [] for name in paired_policies}
     reports = {}
-    all_costs = []
+    all_costs, accepted_rows = [], []
+    workers = getattr(args, 'joint_workers', 1)
+
+    def measure(row, policy, **kwargs):
+        return measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
+                             **kwargs)
+
+    produced = (wave_reports(args, cases, gold, measure, workers, joint_offset) if workers > 1
+                else serial_reports(args, cases, gold, measure))
     with (root / 'outcomes.jsonl').open('x', encoding='utf-8') as stream:
-        for row, order in cases:
-            ident = sha256(row['id'].encode()).hexdigest()[:24]
-            measured = {}
-            for policy in order:
-                receipts = {}
-
-                def call(name, role, prompt):
-                    target = root / 'calls' / ident / policy / name
-                    if role not in actors or (name in profiles and role != 'solve') or target.exists() or name in receipts:
-                        raise ValueError('live timing expects independent fresh calls to a configured role')
-                    if name in profiles:
-                        if not school.has_gateway_capacity(budget):
-                            raise TimingBudgetExhausted
-                        profile, gateway = profiles[name]
-                        result = school.fresh_managed_call(target, args.opencode, run_digest, prompt,
-                                                           key=key, budget=budget, profile=profile, gateway=gateway)
-                        receipt_path = target / 'provider_receipt.json'
-                    else:
-                        result = recorded_call(actors[role], prompt, target, run_digest)
-                        receipt_path = target / 'call.json'
-                    fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
-                    receipts[name] = {**{item: result[item] for item in fields if item in result},
-                                      'path': receipt_path.relative_to(root).as_posix()}
-                    if (getattr(args, 'compare_baselines', False) and name not in profiles
-                            and (result['exit_code'] or result['errors'])):
-                        model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA
-                        wait_service(args.base, model, 10)
-                    return result
-
-                begin = monotonic()
-                try:
-                    if joint is not None and policy in ('joint-compact', 'deepseek-direct'):
-                        directory = root / 'calls' / ident / policy
-                        selected, projection = select_joint(row, policy, call, receipts, directory, run_digest, joint)
-                    else:
-                        selected, projection = (select_policy(row, policy, call) if selectors is None
-                                                else selectors[policy](row, call))
-                    if selected['calls'] != list(receipts):
-                        raise ValueError('selected call order and metered calls disagree')
-                    public_execution(projection, selected['submission'])
-                except TimingBudgetExhausted:
-                    cost = action_cost(list(receipts.values()))
-                    measured[policy] = {'status': 'incomplete_budget', 'wall_seconds': monotonic() - begin,
-                                        'calls': receipts, 'cost': cost}
-                    stopped = True
-                    break
-                cost = action_cost(list(receipts.values()))
-                wall = monotonic() - begin
-                scored = grade_case(row, gold[row['dataset'], row['id']], {'selected': selected},
-                                    {'selected': projection}, args.metric_dir)['selected']
-                measured[policy] = {'status': 'complete', 'wall_seconds': wall, 'result': scored,
-                                    'calls': receipts, 'cost': cost}
-            report = {item: row[item] for item in ('dataset', 'id', 'report')}
-            report.update(policy_order=order, policies=measured, complete_pair=not stopped)
+        for report, stop in produced:
+            measured = report['policies']
             stream.write(json.dumps(report, ensure_ascii=False, allow_nan=False) + '\n')
             stream.flush()
             all_costs.extend(record['cost'] for record in measured.values())
-            if stopped:
-                break
-            reports[row['id']] = row['report']
+            if not report['complete_pair']:
+                continue
+            reports[report['id']] = report['report']
+            if workers > 1:
+                accepted_rows.append(report)
             for name, record in measured.items():
                 pair_records[name].append(record)
             completed += 1
@@ -434,7 +553,7 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     proposed = 'joint-compact' if joint is not None else 'contract'
     summary = {
         'complete_paired_questions': completed, 'planned_questions': len(cases),
-        'stop_reason': 'gateway_budget' if stopped else None,
+        'stop_reason': stop,
         'campus_posts': posts, 'campus_debit_including_unknown': tokens,
         'complete_pair_policies': policies, 'all_attempt_cost': summed_cost(all_costs),
         'strict_wall_frontier': frontier(policies, 'mean_wall_seconds'),
@@ -455,7 +574,11 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
             'interval_method': summary['paired_online_wall']['interval_method'],
             'comparisons': paired_online_wall(pair_records, reports, 'compact-fallback'),
         }
+    if workers > 1:
+        summary.update(joint_workers=workers, block_size_strata=wave_strata(accepted_rows, paired_policies))
     write_json(root / 'collection.json', summary)
+    if stop == 'route_error':
+        raise RuntimeError('A timing wave failed; inspect its recorded route attempts')
 
 
 def summarize_timed_policies(pair_records):
@@ -471,6 +594,24 @@ def summarize_timed_policies(pair_records):
                           'median_wall_seconds': median(durations) if durations else None, 'p90_wall_seconds': p90,
                           'cost': summed_cost([record['cost'] for record in records])}
     return policies
+
+
+def wave_strata(rows, policies):
+    strata = {}
+    for size in sorted({row['block_size'] for row in rows}):
+        cohort = [row for row in rows if row['block_size'] == size]
+        batches = [row['arm_batches'] for row in cohort if row['block_slot'] == 0]
+        times = {name: [batch[name]['wall_seconds'] for batch in batches] for name in policies}
+        records = {name: [row['policies'][name] for row in cohort] for name in policies}
+        strata[str(size)] = {
+            'questions': len(cohort), 'blocks': len(batches), 'complete_pair_policies': summarize_timed_policies(records),
+            'arms': {name: {'summed_batch_wall_seconds': sum(times[name]),
+                            'median_batch_wall_seconds': median(times[name]),
+                            'local_call_cost': summed_cost([batch[name]['local_call_cost'] for batch in batches]),
+                            'campus_call_cost': summed_cost([batch[name]['campus_call_cost'] for batch in batches])}
+                     for name in policies},
+        }
+    return strata
 
 
 def check_joint_serving(args, baseline, compact):
@@ -499,6 +640,8 @@ def joint_history(shards, plan, plan_hash):
     """Return the exact completed prefix; keep failed/partial attempts on disk."""
     accepted, attempts = [], sorted(shards.iterdir())
     target = plan['case_order']
+    workers = plan.get('joint_workers', 1)
+    schema = JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1'
     for number, path in enumerate(attempts):
         if not path.is_dir() or path.name != f'{number:05d}':
             raise ValueError('Unexpected attempt directory in the immutable joint timing namespace')
@@ -507,24 +650,37 @@ def joint_history(shards, plan, plan_hash):
             continue
         contract = json.loads(contract_path.read_text(encoding='utf-8'))
         start, order = len(accepted), contract['case_order']
-        if (contract['schema'] != 'finance-live-joint-timing-shard-v1' or contract['joint_plan_sha256'] != plan_hash
+        if (contract['schema'] != schema or contract['joint_plan_sha256'] != plan_hash
                 or contract['case_offset'] != start or not order or order != target[start:start + len(order)]):
             raise ValueError('Joint shard must be a contiguous attempt on the next frozen question IDs')
+        if workers > 1 and (contract.get('joint_workers') != workers or start % workers
+                            or (len(order) % workers and start + len(order) != len(target))):
+            raise ValueError('A wave shard must use the same width and complete frozen blocks')
         if not outcomes_path.is_file():
             continue
-        incomplete = False
+        failed_block = None
+        buffer = []
         with outcomes_path.open(encoding='utf-8') as stream:
             for index, line in enumerate(stream):
                 if not line.endswith('\n'):
                     break  # A process killed while writing has not published this row.
                 row = json.loads(line)
-                if (incomplete or index >= len(order) or row['dataset'] != plan['dataset']
+                if (index >= len(order) or row['dataset'] != plan['dataset']
                         or row['id'] != order[index]['id'] or row['report'] != order[index]['report']
                         or row['policy_order'] != order[index]['policy_order']
                         or type(row['complete_pair']) is not bool):
                     raise ValueError('Joint shard recorded an unexpected or duplicate timing row')
+                block, slot = divmod(start + index, workers)
+                size = min(workers, len(target) - block * workers)
+                if workers > 1 and ((row['block_index'], row['block_slot'], row['block_size']) != (block, slot, size)
+                                    or (slot == 0) != ('arm_batches' in row)):
+                    raise ValueError('A wave timing row has invalid block metadata')
+                if failed_block is not None and (failed_block != block or row['complete_pair']):
+                    raise ValueError('No completed routes or later blocks can follow a failed block')
                 if not row['complete_pair']:
-                    incomplete = True
+                    if buffer:
+                        raise ValueError('A wave must mark all rows of a failed block incomplete')
+                    failed_block = block
                     continue
                 if (set(row['policies']) != set(JOINT_POLICIES)
                         or any(item['status'] != 'complete' for item in row['policies'].values())):
@@ -534,7 +690,12 @@ def joint_history(shards, plan, plan_hash):
                     if not paths or any(not receipt.is_relative_to(path.resolve()) or not receipt.is_file()
                                         for receipt in paths):
                         raise ValueError('A completed joint pair must retain all of its own new receipts')
-                accepted.append(row)
+                if workers > 1 and slot == 0 and set(row['arm_batches']) != set(JOINT_POLICIES):
+                    raise ValueError('A completed wave requires timing evidence for every arm')
+                buffer.append(row)
+                if len(buffer) == size:
+                    accepted.extend(buffer)
+                    buffer.clear()
     return accepted, len(attempts)
 
 
@@ -549,6 +710,13 @@ def joint_shard(args, benchmark, resources, plan, cases):
     if not plan_path.exists() and any(item != '.joint-timing.lock' for item in os.listdir(root)):
         raise ValueError('Joint timing requires a dedicated namespace')
     plan = json.loads(json.dumps(plan, ensure_ascii=False, allow_nan=False))
+    workers = plan.get('joint_workers', 1)
+    if workers == 1 and plan_path.is_file():
+        previous = json.loads(plan_path.read_text(encoding='utf-8'))
+        old_driver = previous.get('driver_sha256', {}).get('live_policy_timing.py')
+        if previous.get('schema') == 'finance-live-joint-timing-plan-v1' and old_driver in LEGACY_SERIAL_DRIVERS:
+            # Preserve exact legacy plan bytes while recording the executing driver in each new shard.
+            plan['driver_sha256']['live_policy_timing.py'] = old_driver
     freeze(plan_path, plan)
     plan_hash = digest_file(plan_path)
     shards.mkdir(mode=0o700, exist_ok=True)
@@ -559,9 +727,14 @@ def joint_shard(args, benchmark, resources, plan, cases):
     if start == len(cases):
         publish_joint_progress(root, plan, plan_hash)
         return None, [], start, plan_hash
+    end = min(start + args.cases, len(cases))
+    if workers > 1 and end < len(cases):
+        end -= end % workers
+        if end <= start:
+            raise ValueError('Joint wave shard size must fit the next complete block')
     shard = shards / f'{next_attempt:05d}'
     shard.mkdir(mode=0o700, exist_ok=False)
-    return shard, cases[start:start + args.cases], start, plan_hash
+    return shard, cases[start:end], start, plan_hash
 
 
 def publish_joint_progress(root, plan, plan_hash):
@@ -574,11 +747,15 @@ def publish_joint_progress(root, plan, plan_hash):
         records = {name: [row['policies'][name] for row in rows] for name in JOINT_POLICIES}
         reports = {row['id']: row['report'] for row in rows}
         policies = summarize_timed_policies(records)
-        freeze(root / 'collection.json', {**progress, 'schema': 'finance-live-joint-timing-full-v1',
+        collection = {**progress, 'schema': 'finance-live-joint-timing-full-v1',
                'dataset': plan['dataset'], 'panel': plan['panel'], 'measurement': plan['measurement'],
                'complete_pair_policies': policies, 'strict_wall_frontier': frontier(policies, 'mean_wall_seconds'),
                'strict_and_executable_wall_frontier': frontier(policies, 'mean_wall_seconds', 'strict_and_executable'),
-               'paired_online_wall': paired_online_wall(records, reports, 'joint-compact')})
+               'paired_online_wall': paired_online_wall(records, reports, 'joint-compact')}
+        if plan.get('joint_workers', 1) > 1:
+            collection.update(schema='finance-live-joint-timing-wave-full-v1', joint_workers=plan['joint_workers'],
+                              block_size_strata=wave_strata(rows, JOINT_POLICIES))
+        freeze(root / 'collection.json', collection)
 
 
 def run(args, benchmark, ledger_root):
@@ -691,7 +868,8 @@ def run(args, benchmark, ledger_root):
         if joint is not None:
             # The shared provider ledger grows between attempts; the fitted input digests remain fixed.
             author_ledger_observed = baseline_metadata['author-cascade'].pop('campus_ledger_sha256')
-            cases = frozen_cases(public, len(public), JOINT_POLICIES)
+            workers = getattr(args, 'joint_workers', 1)
+            cases = joint_wave_cases(public, workers) if workers > 1 else frozen_cases(public, len(public), JOINT_POLICIES)
             plan = {
                 'schema': 'finance-live-joint-timing-plan-v1', 'dataset': args.dataset, 'panel': panel_digest,
                 'official_source': official_source, 'case_order': [{'id': row['id'], 'policy_order': list(order),
@@ -709,12 +887,23 @@ def run(args, benchmark, ledger_root):
                                'Balanced policy order on the same pinned profiles. Grading follows timing.',
                 'author_rng_scope': 'The author worker starts at its fixed post-fit random state in every shard.',
             }
+            if workers > 1:
+                plan.update(schema=JOINT_WAVE_PLAN, joint_workers=workers,
+                            measurement='Fresh wall from per-route admission through terminal public execution, '
+                                        'including the shared gateway queue. Same-arm requests run concurrently '
+                                        'within each frozen question block. Grading follows timing.',
+                            block_order='Balanced policy orders rotate by block index. A failed block is retried '
+                                        'at its original size and question IDs. The final remainder is reported separately.',
+                            author_rng_scope='The author worker starts at its fixed post-fit random state in each '
+                                             'shard. Exchanges are serialized in the order reached by admitted routes.')
             shard, todo, start, plan_hash = joint_shard(args, benchmark, resources, plan, cases)
             if shard is None:
                 return
             contract = shard / 'run.json'
-            freeze(contract, {'schema': 'finance-live-joint-timing-shard-v1', 'joint_plan_sha256': plan_hash,
+            freeze(contract, {'schema': JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1',
+                              'joint_plan_sha256': plan_hash,
                               'case_offset': start, 'case_order': plan['case_order'][start:start + len(todo)],
+                              'joint_workers': workers, 'executed_timing_driver_sha256': driver_hashes['live_policy_timing.py'],
                               'author_observed_campus_ledger_sha256': author_ledger_observed,
                               'gateway_batch': {'posts_before': opening_posts, 'tokens_before': opening_tokens,
                                                 'post_limit': budget.posts, 'token_limit': budget.tokens}})
@@ -726,7 +915,7 @@ def run(args, benchmark, ledger_root):
                 wait_service(args.base, ODA, 90)
                 wait_service(args.base, joint[1]['model'], 90)
                 collect_cases(args, shard, todo, gold, actors, providers, budget, key,
-                              digest_file(contract), selectors, joint)
+                              digest_file(contract), selectors, joint, joint_offset=start)
             finally:
                 publish_joint_progress(benchmark / args.namespace, plan, plan_hash)
             return
@@ -805,12 +994,16 @@ def main():
                              help='Measure a bounded shard of the frozen full official joint/strong-baseline comparison')
     parser.add_argument('--joint-serving-profile', type=Path,
                         help='Recorded base and joint LoRA configuration of the admitted live container')
+    parser.add_argument('--joint-workers', type=int, choices=range(1, 5), default=1,
+                        help='Joint-only same-arm concurrency per frozen block (default 1, serial)')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
     parser.add_argument('--tabfm-checkpoint', type=Path)
     parser.add_argument('--opencode', type=Path, default=Path.home() / '.opencode/bin/opencode')
     args = parser.parse_args()
+    if args.joint_workers > 1 and not args.joint_gate:
+        parser.error('--joint-workers above one requires --joint-gate')
     if args.joint_gate:
         if (args.stage != 'eval' or not args.compare_baselines or not args.compact_container
                 or not args.joint_serving_profile or not args.tabfm_checkpoint or args.cases < 1

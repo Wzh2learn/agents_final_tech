@@ -27,6 +27,10 @@ from table_scope_replay import representation
 
 SAMPLE_COUNTS = (1, 4, 8)
 COMPACT_SYSTEM = 'Answer the provided task using the supplied evidence.'
+OPERAND_PLAN_INSTRUCTION = (
+    '\nFirst write Plan: with up to two operand sources in order: Trow,col (table), '
+    'Pparagraph (pre-text), Qparagraph (post-text), all zero-based. Use ? if unresolved.'
+)
 METRIC = re.compile(r'^(vllm:[\w]+)(?:\{([^}]*)\})?\s+(\S+)(?:\s+\S+)?$')
 COUNTERS = {
     'vllm:prompt_tokens_total': 'prompt_tokens',
@@ -50,7 +54,7 @@ def compact_prompt(row, planned=False):
         ' Scale must describe the number produced by execution. For percent, the number is in percentage points.'
     )
     if planned:
-        directions += '\nBefore those lines give one short Plan: line with the selected quantities and units.'
+        directions += OPERAND_PLAN_INSTRUCTION
     public = {field: row[field] for field in PUBLIC_FIELDS}
     return f'{task}\n{directions}\n\n{json.dumps(public, ensure_ascii=False)}'
 

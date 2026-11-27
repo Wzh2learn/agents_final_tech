@@ -1,8 +1,9 @@
 from collections import Counter
-from contextlib import nullcontext
+from contextlib import ExitStack, nullcontext
 import json
 from pathlib import Path
 import sys
+from threading import Barrier
 from types import SimpleNamespace
 
 import pytest
@@ -406,3 +407,165 @@ def test_full_panel_early_budget_stop_is_not_reported_as_completed(timing, quest
     assert summary['stop_reason'] == 'gateway_budget'
     assert set(summary['complete_pair_policies']) == set(policies)
     assert all(item['n'] == 0 for item in summary['complete_pair_policies'].values())
+
+
+def test_joint_serving_accepts_shuffled_docker_mounts(timing, monkeypatch):
+    argv = ['vllm', 'serve', '/models/base', '--dtype', 'bfloat16', '--max-model-len', '16384',
+            '--max-num-seqs', '12', '--max-num-batched-tokens', '12288', '--served-model-name', 'base',
+            '--reasoning-parser', 'qwen3', '--port', '18157']
+    mounts = [{'Source': '/weights/adapter', 'Destination': '/adapters/joint', 'RW': False},
+              {'Source': '/weights/base', 'Destination': '/models/base', 'RW': False}]
+    profile = {'image': 'image', 'argv': argv, 'mounts': mounts}
+
+    def docker(*args, **kwargs):
+        return '\n'.join(json.dumps(value) for value in ('image', argv, mounts[::-1], True))
+
+    monkeypatch.setattr(timing.subprocess, 'check_output', docker)
+    timing.check_joint_serving(SimpleNamespace(compact_container='fixture'), profile, profile)
+    changed = {**profile, 'mounts': [{**mounts[0], 'RW': True}, mounts[1]]}
+    with pytest.raises(ValueError, match='frozen compact LoRA'):
+        timing.check_joint_serving(SimpleNamespace(compact_container='fixture'), profile, changed)
+
+
+def test_joint_wave_rotates_whole_blocks_and_keeps_remainder(timing, question):
+    rows = [{**question, 'id': str(i)} for i in range(17)]
+    wave = timing.joint_wave_cases(rows, 2)
+    serial = timing.frozen_cases(rows, len(rows), timing.JOINT_POLICIES)
+    assert [row for row, _ in wave] == [row for row, _ in serial]
+    assert [order for _, order in wave[::2]] == [order for _, order in serial[:9]]
+    assert all(wave[i][1] == wave[i + 1][1] for i in range(0, 16, 2))
+    assert all({order[i] for _, order in wave[:16:2]} == set(timing.JOINT_POLICIES) for i in range(8))
+
+
+def test_serialized_predictor_releases_lock_during_local_work(timing):
+    from concurrent.futures import ThreadPoolExecutor
+
+    both_inference = Barrier(2)
+    visited = []
+
+    def selector(row, call):
+        visited.append(('prepare', row))
+        result = call(row)
+        visited.append(('finished', row))
+        return result
+
+    def local(row):
+        both_inference.wait(timeout=5)
+        return row
+
+    select = timing.serialized_predictor(selector)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(select, 'first', local)
+        second = pool.submit(select, 'second', local)
+        assert first.result() == 'first' and second.result() == 'second'
+    assert {operation for operation, _ in visited[:2]} == {'prepare'}
+
+
+def test_wave_gateway_budget_keeps_atomic_prefix_and_all_attempts(timing, question, monkeypatch, tmp_path):
+    args = SimpleNamespace(opencode=Path('fixture-opencode'), metric_dir=None, joint_workers=2)
+    rows = [{**question, 'id': str(index), 'report': f'r{index}'} for index in range(5)]
+    order = timing.JOINT_POLICIES
+    cases = [(row, order) for row in rows]
+    gold = {('finqa', row['id']): {'exe_ans': 3} for row in rows}
+    plan = {'dataset': 'finqa', 'joint_workers': 2, 'case_order': [
+        {'id': row['id'], 'policy_order': list(order), 'report': row['report']} for row in rows]}
+    root = tmp_path / '00000'
+    root.mkdir()
+    timing.freeze(root / 'run.json', {'schema': timing.JOINT_WAVE_SHARD, 'joint_plan_sha256': 'plan',
+                  'joint_workers': 2, 'case_offset': 0, 'case_order': plan['case_order']})
+    budget = SimpleNamespace(rows=[])
+    teacher = timing.MANAGED[1]
+    sync_local = Barrier(2)
+
+    def save(target, name):
+        target.mkdir(parents=True)
+        (target / name).write_text('{}', encoding='utf-8')
+        return call_receipt('Final program: add(3, const_0)', tokens=12)
+
+    def local(_, prompt, target, __):
+        if target.parent.name == order[0]:
+            sync_local.wait(timeout=5)
+        return save(target, 'call.json')
+
+    def managed(target, *args, **kwargs):
+        budget.rows.append({'state': 'complete', 'usage': {'total_tokens': 12}})
+        return save(target, 'provider_receipt.json')
+
+    def selector(name):
+        def choose(row, call):
+            receipt = call(name, 'solve', row['id'])
+            from scoring import parse_dsl
+            return {'submission': parse_dsl(receipt['text']), 'calls': [name]}, row
+        return choose
+
+    monkeypatch.setattr(timing, 'recorded_call', local)
+    monkeypatch.setattr(timing.school, 'fresh_managed_call', managed)
+    monkeypatch.setattr(timing.school, 'has_gateway_capacity', lambda b: len(b.rows) < 3)
+    selectors = {arm: selector(teacher if arm == order[1] else 'low') for arm in order}
+    timing.collect_cases(args, root, cases, gold, {'solve': None}, {teacher: ({}, {})}, budget, 'test', 'run', selectors)
+    attempts = [json.loads(line) for line in (root / 'outcomes.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert [entry['complete_pair'] for entry in attempts] == [True, True, False, False]
+    assert [entry['id'] for entry in attempts] == ['0', '1', '2', '3']
+    assert attempts[0]['arm_batches'][order[0]]['local_call_cost']['calls'] == 2
+    assert attempts[2]['arm_batches'][order[1]]['campus_call_cost']['calls'] == 1
+    assert all(entry['policies'][order[0]]['status'] == 'complete' for entry in attempts)
+    summary = json.loads((root / 'collection.json').read_text(encoding='utf-8'))
+    assert summary['complete_paired_questions'] == 2 and summary['stop_reason'] == 'gateway_budget'
+    assert summary['all_attempt_cost']['calls'] == 19 and summary['campus_posts'] == 3
+    accepted, tries = timing.joint_history(tmp_path, plan, 'plan')
+    assert [entry['id'] for entry in accepted] == ['0', '1'] and tries == 1
+
+    # A crash during publication cannot commit a lone row from a two-row block.
+    (root / 'outcomes.jsonl').write_text(json.dumps(attempts[0]) + '\n', encoding='utf-8')
+    assert timing.joint_history(tmp_path, plan, 'plan') == ([], 1)
+
+
+def test_wave_reports_final_remainder_separately(timing, question, monkeypatch, tmp_path):
+    rows = [{**question, 'id': str(i)} for i in range(3)]
+    args = SimpleNamespace(metric_dir=None, joint_workers=2)
+
+    def recorded(_, prompt, target, __):
+        return call_receipt('Final program: add(3, const_0)', tokens=12)
+
+    def select(row, call):
+        from scoring import parse_dsl
+        receipt = call('low', 'solve', row['question'])
+        return {'submission': parse_dsl(receipt['text']), 'calls': ['low']}, row
+
+    monkeypatch.setattr(timing, 'recorded_call', recorded)
+    cases = [(row, ('local',)) for row in rows]
+    timing.collect_cases(args, tmp_path, cases, {('finqa', row['id']): {'exe_ans': 3} for row in rows},
+                         {'solve': None}, {}, SimpleNamespace(rows=[]), 'fixture', 'run', {'local': select},
+                         joint_offset=4)
+    outcomes = [json.loads(line) for line in (tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert [(row['block_index'], row['block_size'], row['block_slot']) for row in outcomes] == [(2, 2, 0), (2, 2, 1), (3, 1, 0)]
+    summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    assert summary['complete_paired_questions'] == 3
+    strata = summary['block_size_strata']
+    assert {size: item['questions'] for size, item in strata.items()} == {'1': 1, '2': 2}
+    assert strata['1']['arms']['local']['local_call_cost']['known_tokens'] == 12
+    assert strata['2']['arms']['local']['local_call_cost']['known_tokens'] == 24
+
+
+def test_joint_shard_preserves_legacy_plan_and_rejects_wave_mixing(timing, question, monkeypatch, tmp_path):
+    monkeypatch.setitem(sys.modules, 'fcntl', SimpleNamespace(LOCK_EX=1, LOCK_NB=2, flock=lambda *_: None))
+    ns = tmp_path / 'timed'
+    ns.mkdir()
+    plan_path = ns / 'joint_plan.json'
+    old = next(iter(timing.LEGACY_SERIAL_DRIVERS))
+    serial = {'schema': 'finance-live-joint-timing-plan-v1', 'dataset': 'finqa',
+              'driver_sha256': {'live_policy_timing.py': old, 'scoring.py': 'same'},
+              'case_order': [{'id': question['id'], 'report': question['report'],
+                              'policy_order': list(timing.JOINT_POLICIES)}]}
+    timing.freeze(plan_path, serial)
+    plan_hash = timing.digest_file(plan_path)
+    candidate = {**serial, 'driver_sha256': {**serial['driver_sha256'], 'live_policy_timing.py': 'current'}}
+    args = SimpleNamespace(namespace='timed', cases=1, offset=None)
+    cases = [(question, timing.JOINT_POLICIES)]
+    with ExitStack() as resources:
+        _, todo, next_offset, returned = timing.joint_shard(args, tmp_path, resources, candidate, cases)
+    assert todo == cases and next_offset == 0 and returned == plan_hash == timing.digest_file(plan_path)
+    with ExitStack() as resources, pytest.raises(ValueError, match='Frozen request differs'):
+        timing.joint_shard(args, tmp_path, resources, {**candidate, 'schema': timing.JOINT_WAVE_PLAN,
+                                                    'joint_workers': 2}, cases)
+    assert timing.digest_file(plan_path) == plan_hash

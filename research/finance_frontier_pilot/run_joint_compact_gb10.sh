@@ -13,12 +13,33 @@ driver="$repo/research/finance_frontier_pilot"
 python="$repo/venv/bin/python"
 original_train="$study/training/run"
 train="$original_train"
-if [[ ${1:-} == --hard-adapter ]]; then
-    shift
-    train="$study/training/hard_adapt_v1/run"
+plan_arm=
+case ${1:-} in
+    --hard-adapter)
+        shift
+        train="$study/training/hard_adapt_v1/run"
+        ;;
+    --planning-adapter)
+        plan_arm=${2:?plain or planned}
+        [[ $plan_arm == plain || $plan_arm == planned ]]
+        shift 2
+        train="$study/training/planning_v1/$plan_arm/run"
+        ;;
+esac
+restore_status="$train/restore_teacher/status"
+if [[ -n $plan_arm ]]; then
+    restore_status="$study/training/planning_v1/restore_teacher/status"
+    for flag in "$@"; do
+        if [[ $flag == --planned ]]; then
+            echo 'The planning adapter determines the prompt format.' >&2
+            exit 2
+        fi
+    done
+fi
+if [[ $train != "$original_train" ]]; then
     case ${1:-} in
         --joint-timing|--live-teacher)
-            echo '--hard-adapter uses the compact evaluation mode.' >&2
+            echo 'Continuation adapters use the compact evaluation mode.' >&2
             exit 2
             ;;
     esac
@@ -38,14 +59,16 @@ for ((attempt=0; attempt<15; attempt++)); do
     sleep 1
 done
 grep -Fxq 0 "$study/training/supervisor/exit"
-grep -Fxq ready "$train/restore_teacher/status"
-adapter=$("$python" -B - "$original_train" "$train" "$model" <<'PY'
+grep -Fxq ready "$restore_status"
+adapter=$("$python" -B - "$original_train" "$train" "$model" "$plan_arm" <<'PY'
 from pathlib import Path
 import json
 import sys
 from benchmark_actions import digest_file
+from compact_consensus import OPERAND_PLAN_INSTRUCTION
 
-original, train, model = map(Path, sys.argv[1:])
+original, train, model = map(Path, sys.argv[1:4])
+plan_arm = sys.argv[4]
 
 
 def adapter_from_receipt(directory, status, examples):
@@ -68,11 +91,24 @@ if Path(plan['model_path']).resolve() != model.resolve():
     raise ValueError('Expected the pinned ODA base for the joint adapter')
 adapter, original_artifacts = adapter_from_receipt(original, 'TRAINED_ODA_JOINT_COMPACT', 3000)
 if train != original:
-    hard_plan = json.loads((train / 'PLAN.json').read_text())
-    if (hard_plan['schema'] != 'oda-joint-compact-hard-v1'
-            or hard_plan['warm_adapter'] != original_artifacts or hard_plan['model_files'] != plan['model_files']):
-        raise ValueError('Hard continuation must inherit the exact joint adapter and pinned ODA base')
-    adapter, _ = adapter_from_receipt(train, 'TRAINED_ODA_JOINT_COMPACT_HARD', hard_plan['examples'])
+    continuation = json.loads((train / 'PLAN.json').read_text())
+    if continuation['warm_adapter'] != original_artifacts or continuation['model_files'] != plan['model_files']:
+        raise ValueError('Continuation must inherit the exact joint adapter and pinned ODA base')
+    if plan_arm:
+        planned = plan_arm == 'planned'
+        result = json.loads((train / 'RESULT.json').read_text())
+        if (continuation['schema'] != 'oda-joint-compact-operand-planning-v1'
+                or continuation['arm'] != plan_arm or continuation['planned'] is not planned
+                or continuation['plan_prompt_suffix'] != (OPERAND_PLAN_INSTRUCTION if planned else '')
+                or result['arm'] != plan_arm or result['planned'] is not planned
+                or continuation['examples'] != 384):
+            raise ValueError('Planning arm, prompt format or matched row count differs')
+        status = 'TRAINED_ODA_JOINT_COMPACT_OPERAND_PLAN'
+    else:
+        if continuation['schema'] != 'oda-joint-compact-hard-v1':
+            raise ValueError('Expected hard-example continuation')
+        status = 'TRAINED_ODA_JOINT_COMPACT_HARD'
+    adapter, _ = adapter_from_receipt(train, status, continuation['examples'])
 print(adapter)
 PY
 )
@@ -204,6 +240,7 @@ elif [[ ${1:-} == --live-teacher ]]; then
         --base "$base" --serving-profile "$out/serving_profile.json" --serving-profile-sha256 "$profile_digest" \
         --metric-dir "$metric" "$@" >"$out/eval.log" 2>&1
 else
+    if [[ $plan_arm == planned ]]; then set -- --planned "$@"; fi
     "$python" -B -u "$driver/compact_consensus.py" --panel "$panel" --output "$out/measurements" \
         --base "$base" --model "$alias" --serving-profile "$out/serving_profile.json" \
         --metric-dir "$metric" --measure-exclusive-engine "$@" >"$out/eval.log" 2>&1
