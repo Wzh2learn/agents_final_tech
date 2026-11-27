@@ -156,7 +156,8 @@ image, argv, mounts = map(json.loads, subprocess.check_output(
     ['docker', 'inspect', '--format', template, container], text=True).splitlines())
 freeze(Path(out) / 'serving_profile.json', {
     'model': alias, 'image': image, 'argv': argv,
-    'mounts': [{k: entry[k] for k in ('Source', 'Destination', 'RW')} for entry in mounts],
+    'mounts': [{k: entry[k] for k in ('Source', 'Destination', 'RW')}
+               for entry in sorted(mounts, key=lambda entry: entry['Destination'])],
     'adapter_files': {name: digest_file(Path(adapter) / name)
                       for name in ('adapter_config.json', 'adapter_model.safetensors')},
     'training_result_sha256': digest_file(Path(train) / 'RESULT.json'),

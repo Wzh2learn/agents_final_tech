@@ -18,7 +18,7 @@ SCHEMA = 'finance-compact-teacher-gate-v1'
 SELECTED_SCHEMA = 'finance-compact-selected-teacher-v1'
 TEACHER = 'deepseek-v4-flash'
 DATASETS = tuple(TRAIN)
-PROFILE = ('model', 'serving_profile_sha256', 'max_tokens', 'temperature',
+PROFILE = ('model', 'serving_profile_sha256', 'max_tokens', 'temperature', 'single_temperature',
            'planned', 'without_logprobs', 'shared_request_cache', 'compiler_sha256', 'scorer_sha256')
 
 
