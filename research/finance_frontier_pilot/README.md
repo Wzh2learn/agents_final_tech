@@ -120,7 +120,9 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 
 隔离会话库后，两库各验收前四题，每题八臂均有完整计费。FinQA 的四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均墙时为 16.83、21.46、17.48 秒。TAT-QA 分别得 3、4、3 题，平均墙时为 7.00、19.08、19.85 秒。两库的 CAR 与两种 BudgetVerify 合计占首块计时的 69.2% 与 82.5%，主要耗时在本地长生成。前缀的三轴表与图已导出，范围标记为部分官方题。见 `analysis/joint_pareto_live_k4_v2/accepted_pareto.{tsv,pdf,png}` 与 `finance_frontier_benchmark_20261120_v2/joint_full_timing_{finqa,tatqa}_k4_v2/shards/00000/collection.json`。
 
-原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing`，沿用冻结门控和置信度重排。FinQA 首批 32 道题在八臂均有完整用量。紧凑级联为 24/32、52,044 tokens、平均 9.84 秒／题。DeepSeek 直跑为 25/32、57,310 tokens、29.57 秒／题。其余六臂均答对更少、用量更高且更慢，范围为 18–21 题、66,286–263,257 tokens、39.95–439.26 秒／题。首块采集 9,757 秒，TAT-QA 首块已启动。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_pareto{,_paired}.tsv`。
+原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing`，沿用冻结门控和置信度重排。FinQA 首批 32 道题在八臂均有完整用量。紧凑级联为 24/32、52,044 tokens、平均 9.84 秒／题。DeepSeek 直跑为 25/32、57,310 tokens、29.57 秒／题。其余六臂均答对更少、用量更高且更慢，范围为 18–21 题、66,286–263,257 tokens、39.95–439.26 秒／题。首块采集 9,757 秒。
+
+TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分别用 33,740 和 76,709 tokens。一次 BudgetVerify–TabFM 的 OpenCode 进程在生成前崩溃，未留下用量。在八臂计费齐全的 31 题上，两者同为 29/31。紧凑级联用 33,140 tokens、平均 3.78 秒／题，Qwen→DeepSeek 用 73,460 tokens、平均 56.90 秒／题。同 31 题上，紧凑级联比其余六臂答对更多、用量更少且更快。首块采集 7,947 秒。两库合表、逐对比较和前沿图见 `analysis/joint_pareto_steady_k4_v1/both_first32_pareto{.tsv,_paired.tsv,.pdf,.png}`。
 
 逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
