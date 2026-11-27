@@ -21,7 +21,7 @@ from uuid import uuid4
 
 from benchmark_actions import digest_file, freeze, read_panel
 from run_pilot import FINAL_DSL, PUBLIC_FIELDS, local_endpoint
-from scoring import SCALE_FACTORS, finqa, public_execution, score
+from scoring import SCALE_FACTORS, _metric_type, finqa, public_execution, score
 from table_scope_replay import representation
 
 
@@ -291,8 +291,13 @@ def main():
         parser.error('duplicate n values')
     if not 1 <= args.workers <= 8:
         parser.error('--workers must be between 1 and 8')
-    if args.metric_dir is None and any(row['dataset'] == 'tatqa' for row in public):
+    has_tatqa = any(row['dataset'] == 'tatqa' for row in public)
+    if args.metric_dir is None and has_tatqa:
         parser.error('--metric-dir is required to grade TAT-QA')
+    # The legacy loaders populate shared Python modules on first use.
+    finqa.executor()
+    if has_tatqa:
+        _metric_type(args.metric_dir)
     args.output.mkdir(parents=True, exist_ok=False)
     run_salt = uuid4().hex
     metadata = vars(args)

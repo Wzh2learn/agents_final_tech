@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
+from threading import current_thread, main_thread
 import unittest
 from unittest.mock import patch
 from urllib.request import Request
@@ -126,14 +127,26 @@ class CompactConsensusTest(unittest.TestCase):
             before, after = metric_sample(100, 32), metric_sample(316, 136, cache=644)
             usage = {'prompt_tokens': 108, 'completion_tokens': 52, 'total_tokens': 160}
             response = {'model': 'student', 'choices': [choice(i, 12) for i in range(4)], 'usage': usage}
+            initialized = False
+            load_executor = compact.finqa.executor
+
+            def load():
+                nonlocal initialized
+                if not initialized:
+                    self.assertIs(current_thread(), main_thread())
+                    initialized = True
+                return load_executor()
 
             def fetch(request, **_):
                 if isinstance(request, Request):
+                    self.assertTrue(initialized)
                     return BytesIO(json.dumps(response).encode())
                 return next(snapshots)
 
             snapshots = iter([BytesIO(before.encode()), BytesIO(after.encode())])
-            with patch.object(sys, 'argv', args), patch.object(compact, 'urlopen', side_effect=fetch):
+            with (patch.object(sys, 'argv', args),
+                  patch.object(compact, 'urlopen', side_effect=fetch),
+                  patch.object(compact.finqa, 'executor', side_effect=load)):
                 compact.main()
             summary = json.loads((root / 'output' / 'summary.json').read_text())['finqa/n4']
             self.assertEqual(summary['strict_executable'], 2)
