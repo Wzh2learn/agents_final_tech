@@ -649,11 +649,12 @@ def test_isolated_wave_cannot_resume_a_shared_store_plan(timing, question, monke
         timing.joint_history(shard.parent, isolated, digest)
 
 
-def test_steady_refills_freed_slot_while_other_routes_run(timing, question):
+@pytest.mark.parametrize('workers', [4, 6, 8])
+def test_steady_refills_freed_slot_while_other_routes_run(timing, question, workers):
     from concurrent.futures import ThreadPoolExecutor
 
-    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(8)]
-    initial = Barrier(4)
+    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(2 * workers)]
+    initial = Barrier(workers)
     refilled = Event()
     active, seen = {}, {}
     checks = Lock()
@@ -664,29 +665,31 @@ def test_steady_refills_freed_slot_while_other_routes_run(timing, question):
             assert actor_slot not in active
             active[actor_slot] = index
             seen[index] = actor_slot
-        if index < 4:
+        if index < workers:
             initial.wait(timeout=5)
-        if index < 3:
+        if index < workers - 1:
             assert refilled.wait(timeout=5)
-        elif index == 4:
+        elif index == workers:
             with checks:
-                assert active == {0: 0, 1: 1, 2: 2, 3: 4}
+                assert active == {**{i: i for i in range(workers - 1)}, workers - 1: workers}
             refilled.set()
         with checks:
             del active[actor_slot]
         return {'status': 'complete'}, None, None
 
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        measured = timing.steady_arm(pool, block, 'one-arm', measure, 4, Lock())
-    assert set(measured) == set(range(8)) and all(record[0]['status'] == 'complete' for record in measured.values())
-    assert seen[4] == seen[3] == measured[4][0]['actor_slot'] and not active
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        measured = timing.steady_arm(pool, block, 'one-arm', measure, workers, Lock())
+    assert set(measured) == set(range(2 * workers))
+    assert all(record[0]['status'] == 'complete' for record in measured.values())
+    assert seen[workers] == seen[workers - 1] == measured[workers][0]['actor_slot'] and not active
 
 
-def test_steady_drains_but_does_not_admit_after_a_failed_route(timing, question, monkeypatch):
+@pytest.mark.parametrize('workers', [4, 6, 8])
+def test_steady_drains_but_does_not_admit_after_a_failed_route(timing, question, monkeypatch, workers):
     from concurrent.futures import ThreadPoolExecutor
 
-    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(10)]
-    initial = Barrier(4)
+    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(workers + 2)]
+    initial = Barrier(workers)
     release = Event()
     real_wait = timing.wait
     called, finished = [], []
@@ -707,30 +710,34 @@ def test_steady_drains_but_does_not_admit_after_a_failed_route(timing, question,
         return {'status': 'complete' if index else 'incomplete_budget'}, None, None
 
     monkeypatch.setattr(timing, 'wait', observe_failure)
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        measured = timing.steady_arm(pool, block, 'one-arm', measure, 4, Lock())
-    assert set(measured) == set(called) == set(finished) == {0, 1, 2, 3}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        measured = timing.steady_arm(pool, block, 'one-arm', measure, workers, Lock())
+    assert set(measured) == set(called) == set(finished) == set(range(workers))
     assert measured[0][0]['status'] == 'incomplete_budget'
 
 
-def test_steady_history_accepts_only_full_32_blocks_and_real_tail(timing, question, monkeypatch, tmp_path):
+@pytest.mark.parametrize('workers', [4, 6, 8])
+def test_steady_history_resumes_only_after_full_32_blocks_and_accepts_real_tail(timing, question, monkeypatch, tmp_path, workers):
     monkeypatch.setattr(timing, 'BOOTSTRAP_DRAWS', 20)
+    monkeypatch.setitem(sys.modules, 'fcntl', SimpleNamespace(LOCK_EX=1, LOCK_NB=2, flock=lambda *_: None))
     rows = [{**question, 'id': str(index), 'report': f'r{index}'} for index in range(35)]
     cases = timing.joint_wave_cases(rows, 32)
     order = [{'id': row['id'], 'report': row['report'], 'policy_order': list(arms)} for row, arms in cases]
-    mode = {'joint_workers': 4, 'joint_steady_block': 32, 'actor_store_scope': timing.ISOLATED_ACTOR_STORE,
+    mode = {'joint_workers': workers, 'joint_steady_block': 32, 'actor_store_scope': timing.ISOLATED_ACTOR_STORE,
             'local_selection': 'confidence-rerank-v1'}
     plan = {'schema': timing.JOINT_STEADY_PLAN, 'dataset': 'finqa', 'case_order': order, 'panel': 'fixture',
             'measurement': 'fixture', **mode}
-    shard = tmp_path / 'shards' / '00000'
-    shard.mkdir(parents=True)
-    timing.freeze(shard / 'run.json', {'schema': timing.JOINT_STEADY_SHARD, 'joint_plan_sha256': 'plan',
+    args = SimpleNamespace(metric_dir=None, joint_workers=workers, joint_steady_block=32,
+                           namespace='timed', cases=35, offset=0)
+    with ExitStack() as resources:
+        shard, todo, start, plan_hash = timing.joint_shard(args, tmp_path, resources, plan, cases)
+    assert todo == cases and start == 0
+    timing.freeze(shard / 'run.json', {'schema': timing.JOINT_STEADY_SHARD, 'joint_plan_sha256': plan_hash,
                   'case_offset': 0, 'case_order': order, **mode})
-    args = SimpleNamespace(metric_dir=None, joint_workers=4, joint_steady_block=32)
-    actors = tuple({'solve': slot} for slot in range(4))
+    actors = tuple({'solve': slot} for slot in range(workers))
 
     def recorded(actor, prompt, target, contract):
-        assert 0 <= actor < 4
+        assert 0 <= actor < workers
         target.mkdir(parents=True)
         (target / 'call.json').write_text('{}', encoding='utf-8')
         return call_receipt('Final program: add(3, const_0)', tokens=12)
@@ -741,19 +748,33 @@ def test_steady_history_accepts_only_full_32_blocks_and_real_tail(timing, questi
         return {'submission': parse_dsl(result['text']), 'calls': ['solve']}, row
 
     monkeypatch.setattr(timing, 'recorded_call', recorded)
-    timing.collect_cases(args, shard, cases, {('finqa', row['id']): {'exe_ans': 3} for row in rows},
-                         actors[0], {}, SimpleNamespace(rows=[]), 'fixture', 'run',
-                         {arm: select for arm in timing.JOINT_POLICIES}, actor_slots=actors)
+    from scoring import finqa
+
+    finqa.executor()  # Real setup loads this while replaying the baseline calibration.
+    gold = {('finqa', row['id']): {'exe_ans': 3} for row in rows}
+    selectors = {arm: select for arm in timing.JOINT_POLICIES}
+    timing.collect_cases(args, shard, cases, gold, actors[0], {}, SimpleNamespace(rows=[]), 'fixture', 'run',
+                         selectors, actor_slots=actors)
     outcomes = shard / 'outcomes.jsonl'
     lines = outcomes.read_text(encoding='utf-8').splitlines(keepends=True)
     outcomes.write_text(''.join(lines[:31]), encoding='utf-8')
-    assert timing.joint_history(shard.parent, plan, 'plan') == ([], 1)
+    assert timing.joint_history(shard.parent, plan, plan_hash) == ([], 1)
     outcomes.write_text(''.join(lines[:33]), encoding='utf-8')
-    accepted, attempts = timing.joint_history(shard.parent, plan, 'plan')
+    accepted, attempts = timing.joint_history(shard.parent, plan, plan_hash)
     assert attempts == 1 and [row['id'] for row in accepted] == [case['id'] for case in order[:32]]
-    outcomes.write_text(''.join(lines), encoding='utf-8')
-    timing.publish_joint_progress(tmp_path, plan, 'plan')
-    collection = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    assert {row['policies']['joint-compact']['actor_slot'] for row in accepted} == set(range(workers))
+    args.offset = 32
+    with ExitStack() as resources, pytest.raises(ValueError, match='Frozen request differs'):
+        timing.joint_shard(args, tmp_path, resources, {**plan, 'joint_workers': 8 if workers == 4 else 4}, cases)
+    with ExitStack() as resources:
+        tail, todo, start, pinned = timing.joint_shard(args, tmp_path, resources, plan, cases)
+    assert todo == cases[32:] and start == 32 and pinned == plan_hash
+    timing.freeze(tail / 'run.json', {'schema': timing.JOINT_STEADY_SHARD, 'joint_plan_sha256': plan_hash,
+                  'case_offset': start, 'case_order': order[start:], **mode})
+    timing.collect_cases(args, tail, todo, gold, actors[0], {}, SimpleNamespace(rows=[]), 'fixture', 'run',
+                         selectors, joint_offset=start, actor_slots=actors)
+    timing.publish_joint_progress(shard.parent.parent, plan, plan_hash)
+    collection = json.loads((shard.parent.parent / 'collection.json').read_text(encoding='utf-8'))
     assert collection['schema'] == timing.JOINT_STEADY_FULL and collection['joint_steady_block'] == 32
     assert {size: cohort['questions'] for size, cohort in collection['block_size_strata'].items()} == {'3': 3, '32': 32}
     assert collection['complete_paired_questions'] == 35

@@ -49,6 +49,7 @@ JOINT_WAVE_SHARD = 'finance-live-joint-timing-wave-shard-v1'
 JOINT_STEADY_PLAN = 'finance-live-joint-timing-steady-plan-v1'
 JOINT_STEADY_SHARD = 'finance-live-joint-timing-steady-shard-v1'
 JOINT_STEADY_FULL = 'finance-live-joint-timing-steady-full-v1'
+JOINT_STEADY_WORKERS = (4, 6, 8)
 ISOLATED_ACTOR_STORE = 'per-role-per-block-slot-xdg-v1'
 LEGACY_SERIAL_DRIVERS = {
     '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
@@ -593,8 +594,10 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     steady_block = getattr(args, 'joint_steady_block', None)
     if actor_slots is not None and (workers <= 1 or len(actor_slots) != workers):
         raise ValueError('Isolated actor stores must match the wave width')
-    if steady_block is not None and (steady_block != 32 or workers != 4 or actor_slots is None):
-        raise ValueError('Steady timing requires 32-question blocks and four isolated actor slots')
+    if steady_block is not None and (steady_block != 32 or workers not in JOINT_STEADY_WORKERS or actor_slots is None):
+        raise ValueError('Steady timing requires 32-question blocks and four, six, or eight isolated actor slots')
+    if steady_block is None and not 1 <= workers <= 4:
+        raise ValueError('Non-steady timing supports at most four workers')
 
     def measure(row, policy, *, actor_slot=0, **kwargs):
         selected_actors = actors if actor_slots is None else actor_slots[actor_slot]
@@ -712,10 +715,13 @@ def joint_block_width(plan):
     workers = plan.get('joint_workers', 1)
     steady = plan.get('joint_steady_block')
     if steady is not None or plan.get('schema') == JOINT_STEADY_PLAN:
-        if (plan.get('schema') != JOINT_STEADY_PLAN or type(steady) is not int or steady != 32 or workers != 4
+        if (plan.get('schema') != JOINT_STEADY_PLAN or type(steady) is not int or steady != 32
+                or type(workers) is not int or workers not in JOINT_STEADY_WORKERS
                 or plan.get('actor_store_scope') != ISOLATED_ACTOR_STORE
                 or plan.get('local_selection') != 'confidence-rerank-v1'):
-            raise ValueError('A steady plan requires 32-question blocks, four isolated actor slots, and frozen selection')
+            raise ValueError('A steady plan requires 32-question blocks, four, six, or eight isolated actor slots, and frozen selection')
+    elif type(workers) is not int or not 1 <= workers <= 4:
+        raise ValueError('A non-steady plan supports at most four workers')
     return steady or workers
 
 
@@ -1019,9 +1025,10 @@ def run(args, benchmark, ledger_root):
             steady_profile = ({'joint_steady_block': steady, 'local_selection': 'confidence-rerank-v1'}
                               if steady is not None else {})
             if steady is not None:
+                slots = {4: 'Four', 6: 'Six', 8: 'Eight'}[workers]
                 plan.update(schema=JOINT_STEADY_PLAN, **steady_profile,
                             measurement='Fresh wall from each route admission through terminal public execution, '
-                                        'including gateway wait. Four isolated slots are refilled within a 32-question '
+                                        f'including gateway wait. {slots} isolated slots are refilled within a 32-question '
                                         'same-arm block. No overlap between arms. Grading follows timing.',
                             block_order='Balanced policy orders rotate by frozen block index. Only complete blocks '
                                         'advance the prefix; the true final remainder is reported separately.')
@@ -1129,12 +1136,12 @@ def main():
                              help='Measure a bounded shard of the frozen full official joint/strong-baseline comparison')
     parser.add_argument('--joint-serving-profile', type=Path,
                         help='Recorded base and joint LoRA configuration of the admitted live container')
-    parser.add_argument('--joint-workers', type=int, choices=range(1, 5), default=1,
-                        help='Joint-only same-arm concurrency per frozen block (default 1, serial)')
+    parser.add_argument('--joint-workers', type=int, choices=(1, 2, 3, *JOINT_STEADY_WORKERS), default=1,
+                        help='Joint-only same-arm concurrency (default 1, serial; above 4 requires steady timing)')
     parser.add_argument('--joint-isolated-actor-slots', action='store_true',
                         help='Preinitialize one OpenCode store per local role and concurrent block slot')
     parser.add_argument('--joint-steady-block', type=int, choices=(32,),
-                        help='Refill four isolated slots within each frozen 32-question same-arm block')
+                        help='Refill four, six, or eight isolated slots within each frozen 32-question same-arm block')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
@@ -1145,9 +1152,11 @@ def main():
         parser.error('--joint-workers above one requires --joint-gate')
     if args.joint_isolated_actor_slots and (not args.joint_gate or args.joint_workers <= 1):
         parser.error('--joint-isolated-actor-slots requires --joint-gate and --joint-workers above one')
-    if args.joint_steady_block is not None and (not args.joint_gate or args.joint_workers != 4
+    if args.joint_steady_block is not None and (not args.joint_gate or args.joint_workers not in JOINT_STEADY_WORKERS
                                                 or not args.joint_isolated_actor_slots):
-        parser.error('--joint-steady-block requires --joint-gate, --joint-workers 4 and --joint-isolated-actor-slots')
+        parser.error('--joint-steady-block requires --joint-gate, --joint-workers 4, 6, or 8 and --joint-isolated-actor-slots')
+    if args.joint_workers > 4 and args.joint_steady_block is None:
+        parser.error('--joint-workers above 4 requires --joint-steady-block 32 and isolated actor slots')
     if args.joint_gate:
         if (args.stage != 'eval' or not args.compare_baselines or not args.compact_container
                 or not args.joint_serving_profile or not args.tabfm_checkpoint or args.cases < 1

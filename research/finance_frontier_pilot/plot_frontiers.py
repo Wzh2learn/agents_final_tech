@@ -498,7 +498,7 @@ def load_joint_pareto(namespace, *, allow_partial=False, paired_rows=None):
     """Load the immutable full-panel plan and the accepted fresh timing prefix."""
     from cohorts import UPSTREAM, read_source
     from live_policy_timing import (ISOLATED_ACTOR_STORE, JOINT_POLICIES, JOINT_STEADY_PLAN,
-                                    JOINT_WAVE_PLAN, OFFICIAL_COUNTS, joint_history)
+                                    JOINT_STEADY_WORKERS, JOINT_WAVE_PLAN, OFFICIAL_COUNTS, joint_history)
 
     plan_path = namespace / 'joint_plan.json'
     plan = json.loads(plan_path.read_bytes())
@@ -508,7 +508,7 @@ def load_joint_pareto(namespace, *, allow_partial=False, paired_rows=None):
     serial = plan['schema'] == 'finance-live-joint-timing-plan-v1' and type(width) is int and width == 1
     waves = plan['schema'] == JOINT_WAVE_PLAN and type(width) is int and 2 <= width <= 4
     steady_block = plan.get('joint_steady_block')
-    steady = (plan['schema'] == JOINT_STEADY_PLAN and type(width) is int and width == 4
+    steady = (plan['schema'] == JOINT_STEADY_PLAN and type(width) is int and width in JOINT_STEADY_WORKERS
               and type(steady_block) is int and steady_block == 32
               and plan.get('actor_store_scope') == ISOLATED_ACTOR_STORE)
     official = plan['official_source']

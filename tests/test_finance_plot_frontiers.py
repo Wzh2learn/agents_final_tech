@@ -17,7 +17,7 @@ def plotting(monkeypatch):
     return plot_frontiers
 
 
-def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_missing=False):
+def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_missing=False, steady_workers=None):
     from benchmark_actions import action_cost
     from cohorts import UPSTREAM
     import live_policy_timing as timing
@@ -30,13 +30,19 @@ def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_miss
             'panel': {'public.jsonl': 'a' * 64, 'references.jsonl': 'b' * 64},
             'official_source': {'split': 'test', 'sha256': UPSTREAM['finqa'][2], 'source_questions': 3,
                                 'path': str(root / 'not-copied-source.json')}}
+    steady = {} if steady_workers is None else {
+        'joint_workers': steady_workers, 'joint_steady_block': 32,
+        'actor_store_scope': timing.ISOLATED_ACTOR_STORE, 'local_selection': 'confidence-rerank-v1',
+    }
+    if steady:
+        plan.update(schema=timing.JOINT_STEADY_PLAN, driver_sha256={'live_policy_timing.py': 'c' * 64}, **steady)
     plan_path = root / 'joint_plan.json'
     plan_path.write_text(json.dumps(plan), encoding='utf-8')
     shard = root / 'shards/00000'
     shard.mkdir(parents=True)
     (shard / 'run.json').write_text(json.dumps({
-        'schema': 'finance-live-joint-timing-shard-v1', 'joint_plan_sha256': plotting.digest(plan_path),
-        'case_offset': 0, 'case_order': order,
+        'schema': timing.JOINT_STEADY_SHARD if steady else 'finance-live-joint-timing-shard-v1',
+        'joint_plan_sha256': plotting.digest(plan_path), 'case_offset': 0, 'case_order': order, **steady,
     }), encoding='utf-8')
     outcomes = []
     # Compact, DeepSeek, CAR and TabFM can be non-dominated in 3-D even when a 2-D projection hides one.
@@ -55,7 +61,14 @@ def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_miss
                                                              'executable': executable},
                              'wall_seconds': wall if i < 2 else wall + 30,
                              'calls': {'solve': call}, 'cost': action_cost([call])}
-        outcomes.append({**case, 'dataset': 'finqa', 'complete_pair': True, 'policies': records})
+        row = {**case, 'dataset': 'finqa', 'complete_pair': True, 'policies': records}
+        if steady:
+            for record in records.values():
+                record['actor_slot'] = i
+            row.update(block_index=0, block_size=len(order), block_slot=i)
+            if i == 0:
+                row['arm_batches'] = {name: {'attempted_routes': len(order), 'complete_routes': len(order)} for name in arms}
+        outcomes.append(row)
     (shard / 'outcomes.jsonl').write_text(''.join(json.dumps(row) + '\n' for row in outcomes), encoding='utf-8')
     return plan_path, shard
 
@@ -93,6 +106,14 @@ def test_joint_pareto_matches_all_eight_methods_on_one_usage_cohort(plotting, mo
     assert deepseek['point_dominance'] == 'tradeoff'
     assert comparisons['budgetverify-tabfm-compiled']['point_dominance'] == 'tie'
     assert comparisons['author-cascade']['point_dominance'] == 'proposed'
+
+
+@pytest.mark.parametrize('workers', [4, 6, 8])
+def test_joint_pareto_reads_rolling_plan_without_current_driver_digest(plotting, monkeypatch, tmp_path, workers):
+    write_joint_pareto_fixture(plotting, tmp_path, monkeypatch, steady_workers=workers)
+    rows = plotting.load_joint_pareto(tmp_path)
+    assert len(rows) == 8
+    assert {(row['scheduling'], row['joint_workers'], row['frozen_block_size']) for row in rows} == {('rolling', workers, 32)}
 
 
 def test_joint_pareto_partial_cli_labels_scope_and_writes_three_artifacts(plotting, monkeypatch, tmp_path):
