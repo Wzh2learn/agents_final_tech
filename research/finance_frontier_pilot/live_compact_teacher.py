@@ -14,8 +14,8 @@ from uuid import uuid4
 
 from benchmark_actions import action_cost, deliver, digest_file, freeze, grade_case, read_panel
 from compact_consensus import SAMPLE_COUNTS, call_compact, compact_prompt
-from compact_frontier import (SCHEMA, SELECTED_SCHEMA, TEACHER, local_cases, risk, route_case,
-                              selected_teacher, teacher_item)
+from compact_frontier import (SCHEMA, SELECTED_SCHEMA, TEACHER, local_cases, local_choice_index,
+                              risk, route_case, selected_teacher, teacher_item)
 from live_policy_timing import OFFICIAL_COUNTS, paired_online_wall, stratified_cases, validate_official_panel
 from run_pilot import local_endpoint
 from scoring import _metric_type, parse_dsl, public_execution
@@ -82,12 +82,7 @@ def local_call(args, profile, row, seed, salt):
 
 def local_selection(row, case, *, rerank=False):
     decision = case['decision']
-    index = decision['selected_index']
-    if rerank and decision['vote_share'] < 1:
-        candidates = [sample for sample in decision['samples']
-                      if sample['status'] == 'executed' and sample['min_token_logprob'] is not None]
-        if candidates:
-            index = max(candidates, key=lambda sample: (sample['min_token_logprob'], -sample['index']))['index']
+    index = local_choice_index(decision, rerank=rerank)
     if index is None:
         return {'submission': parse_dsl(''), 'decision': 'no_local_program'}, row
     sample = decision['samples'][index]
@@ -114,7 +109,7 @@ def timed_arm(args, policy, profile, row, arm, root, index, run_salt, teacher_ca
         local = local_call(args, profile, row, args.seed + (index if seed_index is None else seed_index) * 8, salt)
         local_risk = risk(local)
         dispatch = route_case(local, policy, args.rate)
-        selected, projection = local_selection(row, local)
+        selected, projection = local_selection(row, local, rerank=getattr(args, 'confidence_rerank', False))
         calls.append({'usage': school.measured_usage(local['response']['usage']) if local['usage'] else None,
                       'elapsed_seconds': local['model_wall_seconds']})
     else:
@@ -343,11 +338,16 @@ def main():
     mode.add_argument('--live', action='store_true', help='Measure fresh compact and teacher paths (default)')
     mode.add_argument('--selected-local', type=Path, help='Collect teachers only for selected cached official rows')
     parser.add_argument('--matched-risk', type=Path, help='Complete the same-K comparison using an existing teacher archive')
+    parser.add_argument('--confidence-rerank', action='store_true',
+                        help='Resolve local disagreement by confidence during live timing')
     parser.add_argument('--dry-run', action='store_true', help='Validate frozen inputs and show the sample size without calls')
     parser.add_argument('--max-posts', type=int, required=True)
     parser.add_argument('--token-cap', type=int, required=True)
     parser.add_argument('--prior-charged-tokens', type=int, required=True)
     args = parser.parse_args()
+    if args.confidence_rerank and args.selected_local is not None:
+        parser.error('--confidence-rerank is only available for live timing')
+    local_strategy = {'local_selection': 'confidence-rerank-v1'} if args.confidence_rerank else {}
     if args.matched_risk is not None and args.selected_local is None:
         parser.error('--matched-risk requires --selected-local with the full local cache')
     root = args.output.resolve()
@@ -399,7 +399,7 @@ def main():
     if args.dry_run:
         if args.selected_local is None:
             print(json.dumps({'pairs': len(cases), 'datasets': args.datasets,
-                              'gate_sha256': args.gate_sha256, 'sample_manifests_sha256': manifests}))
+                              'gate_sha256': args.gate_sha256, 'sample_manifests_sha256': manifests, **local_strategy}))
         elif args.matched_risk is None:
             print(json.dumps({'selected': {dataset: sum(row['dataset'] == dataset for row in routed)
                                            for dataset in args.datasets}, **lock}))
@@ -453,6 +453,7 @@ def main():
             'base': args.base, 'opening_posts': opening_posts, 'opening_tokens': opening_tokens,
             'max_new_posts': args.max_posts, 'token_cap': args.token_cap,
             'measurement': 'Fresh alternating serial requests through native execution; scoring follows timing.',
+            **local_strategy,
         })
         collect(args, root, policy, profile, cases, gold, budget, key, teacher_profile, gateway,
                 digest_file(run), run_salt, seed_indices=seed_indices)

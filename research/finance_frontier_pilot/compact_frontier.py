@@ -47,7 +47,16 @@ def route_case(case, policy, rate):
     return cutoff is not None and risk(case) <= tuple(cutoff)
 
 
-def local_cases(directory, public, identity):
+def local_choice_index(decision, *, rerank=False):
+    if rerank and decision['vote_share'] < 1:
+        candidates = [sample for sample in decision['samples']
+                      if sample['status'] == 'executed' and sample['min_token_logprob'] is not None]
+        if candidates:
+            return max(candidates, key=lambda sample: (sample['min_token_logprob'], -sample['index']))['index']
+    return decision['selected_index']
+
+
+def local_cases(directory, public, identity, *, rerank=False):
     metadata = read(directory / 'run.json')
     if metadata['panel_sha256'] != identity:
         raise ValueError('Compact receipts do not identify these panel bytes')
@@ -64,6 +73,15 @@ def local_cases(directory, public, identity):
                 raise ValueError('Expected exactly one matched native vLLM case per arm')
             label = row['score']['strict_executable']
             risk_key = risk(row)
+            if rerank:
+                index = local_choice_index(row['decision'], rerank=True)
+                labels = row['score']['correct_by_index']
+                stock = row['decision']['selected_index']
+                if (not isinstance(labels, list) or len(labels) != n or any(type(value) is not bool for value in labels)
+                        or (index is not None and (type(index) is not int or not 0 <= index < n))
+                        or label is not (stock is not None and labels[stock])):
+                    raise ValueError(f'Invalid candidate correctness vector for {key}')
+                label = index is not None and labels[index]
             usage = row['usage']
             work = row['engine_work']
             wall = row['route_wall_seconds']
@@ -306,7 +324,8 @@ def selected_teacher(path, groups, policy, identity, policy_digest, local_digest
 def replay_report(args, rows, identity):
     policy = read(args.policy)
     calibration, _, cal_identity = read_panel(args.calibration_panel, None)
-    groups, profile = local_cases(args.local, rows, identity)
+    rerank = getattr(args, 'confidence_rerank', False)
+    groups, profile = local_cases(args.local, rows, identity, rerank=rerank)
     if (policy['schema'] != SCHEMA or policy['train_panel_sha256'] != cal_identity
             or policy['profile'] != profile or not {f'n{n}' for n in groups} <= policy['arms'].keys()):
         raise ValueError('Official replay requires an unchanged compact profile and frozen TRAIN policy')
@@ -357,7 +376,7 @@ def replay_report(args, rows, identity):
                 results[tag]['budget_points'][rate] = stats
     if args.routes is not None:
         freeze(args.routes, routes)
-    return {'panel_sha256': identity, 'policy_sha256': policy_digest, 'local_receipts_sha256': local_digest,
+    report = {'panel_sha256': identity, 'policy_sha256': policy_digest, 'local_receipts_sha256': local_digest,
             'calibration_panel_sha256': cal_identity, 'teacher_profile': teacher_profile,
             'fresh_selected_teacher_profile_sha256': fresh[4] if fresh is not None else None,
             'teacher_rule': 'One compiled DeepSeek answer per selected case. Retain local answer if it cannot execute.',
@@ -368,6 +387,9 @@ def replay_report(args, rows, identity):
                             'separately when a matching selected-teacher receipt records it.',
             'budget_scope': 'Fractions are TRAIN caps. Fixed cutoffs can yield a different realized rate per dataset.',
             'evaluation': results, 'original_baselines': originals}
+    if rerank:
+        report['local_selection'] = 'confidence-rerank-v1'
+    return report
 
 
 def main():
@@ -387,6 +409,8 @@ def main():
                                  metavar=('DATASET', 'CASCADE_COMPILED', 'FRONTIER_REPORT'))
             command.add_argument('--routes', type=Path)
             command.add_argument('--selected-teacher', type=Path)
+            command.add_argument('--confidence-rerank', action='store_true',
+                                 help='Use the same confidence-based local fallback as steady timing')
             command.add_argument('--bootstrap-draws', type=int, default=2000)
     args = parser.parse_args()
     rows, _, identity = read_panel(args.panel, None)

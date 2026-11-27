@@ -48,16 +48,20 @@ if [[ -n $plan_arm ]]; then
     done
 elif [[ -n $preference_arm ]]; then
     restore_status="$study/training/semantic_joint_preference_run_v1/restore_teacher/status"
-    for flag in "$@"; do
+    preference_options_start=1
+    case ${1:-} in
+        --joint-timing|--live-teacher) preference_options_start=2 ;;
+    esac
+    for flag in "${@:preference_options_start}"; do
         case $flag in
             --joint-timing|--live-teacher|--pl*)
-                echo 'Joint preference adapters require unplanned compact evaluation.' >&2
+                echo 'Use unplanned evaluation and place any timing mode immediately after the preference arm.' >&2
                 exit 2
                 ;;
         esac
     done
 fi
-if [[ $train != "$original_train" ]]; then
+if [[ $train != "$original_train" && -z $preference_arm ]]; then
     case ${1:-} in
         --joint-timing|--live-teacher)
             echo 'Continuation adapters use the compact evaluation mode.' >&2
