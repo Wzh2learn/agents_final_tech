@@ -478,7 +478,8 @@ def check_joint_serving(args, baseline, compact):
     template = '\n'.join('{{json .' + field + '}}' for field in ('Image', 'Config.Cmd', 'Mounts', 'State.Running'))
     image, argv, mounts, running = map(json.loads, subprocess.check_output(
         ['docker', 'inspect', '--format', template, args.compact_container], text=True).splitlines())
-    mounts = [{key: item[key] for key in ('Source', 'Destination', 'RW')} for item in mounts]
+    mounts = sorted(({key: item[key] for key in ('Source', 'Destination', 'RW')} for item in mounts),
+                    key=lambda item: item['Destination'])
     if not running or (image, argv, mounts) != (compact['image'], compact['argv'], compact['mounts']):
         raise ValueError('Joint timing requires the frozen compact LoRA serving profile on the live container')
     keys = ('--dtype', '--max-model-len', '--max-num-seqs', '--max-num-batched-tokens',
