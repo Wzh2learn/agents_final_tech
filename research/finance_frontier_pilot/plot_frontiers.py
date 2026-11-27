@@ -9,6 +9,7 @@ from math import isclose, isfinite
 from pathlib import Path
 import re
 from statistics import fmean, median, quantiles
+from types import SimpleNamespace
 
 import matplotlib
 
@@ -416,7 +417,84 @@ def joint_pareto_case(record):
     return result['strict'], result['strict'] and result['executable'], wall, cost
 
 
-def load_joint_pareto(namespace, *, allow_partial=False):
+def joint_workload_sha256(plan):
+    """Fingerprint shared policy inputs without including corpus-specific baselines or metrics."""
+    fields = ('gate_n', 'gate_rate', 'gate_sha256', 'baseline_serving_sha256', 'serving_sha256', 'managed_profile_sha256')
+    shared = {name: plan[name] for name in fields if name in plan}
+    drivers = plan.get('driver_sha256', {})
+    for name in ('table_scope_replay.py', 'scoring.py'):
+        if name in drivers:
+            shared[name] = drivers[name]
+    return sha256(json.dumps(shared, sort_keys=True).encode()).hexdigest() if shared else None
+
+
+def joint_pareto_pairs(rows, points, common, policies):
+    from frontier_report import BOOTSTRAP_DRAWS
+    from paired_tradeoff import TAIL, contrast
+
+    proposed = 'joint-compact'
+    scope = policies[proposed]
+    ids = [rows[i]['id'] for i in common]
+    reports = {rows[i]['id']: rows[i]['report'] for i in common}
+    blocks = {rows[i]['id']: rows[i].get('block_index', rows[i]['report']) for i in common}
+    outcomes = {
+        name: {rows[i]['id']: SimpleNamespace(strict=arm[i][0], executable=arm[i][1],
+                                               wall=arm[i][2], tokens=arm[i][3]['total_tokens']) for i in common}
+        for name, arm in points.items()
+    }
+    count = len(common)
+    for comparator, other in policies.items():
+        if comparator == proposed:
+            continue
+        compare = {
+            'dataset': scope['dataset'], 'timing_scope': scope['scope'],
+            'comparison_cohort': 'all_eight_common_metered', 'official_n': scope['official_n'],
+            'timed_n': scope['timed_n'], 'common_cost_complete_n': count,
+            'joint_plan_sha256': scope['joint_plan_sha256'], 'shared_workload_sha256': scope['shared_workload_sha256'],
+            'proposed': proposed, 'comparator': comparator,
+            'recovered_strict_executable': None, 'harmed_strict_executable': None,
+            'delta_strict_pp': None, 'delta_strict_executable_pp': None,
+            'delta_request_tokens_per_question': None, 'delta_wall_seconds_per_question': None,
+            'point_dominance': 'unavailable', 'strict_executable_ci_lower_pp': None, 'strict_executable_ci_upper_pp': None,
+            'tokens_ci_lower_per_question': None, 'tokens_ci_upper_per_question': None,
+            'wall_ci_lower_seconds_per_question': None, 'wall_ci_upper_seconds_per_question': None,
+            'marginal_ci_level': 1 - 2 * TAIL, 'accuracy_and_tokens_ci_group': 'report',
+            'wall_ci_group': 'timing_block' if scope['joint_workers'] > 1 else 'report',
+        }
+        if count:
+            accuracy = scope['common_strict_executable'] - other['common_strict_executable']
+            tokens = scope['common_request_tokens'] - other['common_request_tokens']
+            wall = scope['common_mean_wall_seconds'] - other['common_mean_wall_seconds']
+            gains = (accuracy, -tokens, -wall)
+            if not any(gains):
+                dominance = 'tie'
+            elif all(gain >= 0 for gain in gains):
+                dominance = 'proposed'
+            elif all(gain <= 0 for gain in gains):
+                dominance = 'comparator'
+            else:
+                dominance = 'tradeoff'
+            recovered = sum(points[proposed][i][1] and not points[comparator][i][1] for i in common)
+            harmed = sum(points[comparator][i][1] and not points[proposed][i][1] for i in common)
+            left, right = outcomes[proposed], outcomes[comparator]
+            reports_ci = contrast(left, right, ids, reports, 'tokens', lambda a, b: a.tokens - b.tokens,
+                                  BOOTSTRAP_DRAWS, scope['timed_n'] - count, True)['interval_95'] or {}
+            blocks_ci = contrast(left, right, ids, blocks, 'wall', lambda a, b: a.wall - b.wall,
+                                 BOOTSTRAP_DRAWS, scope['timed_n'] - count, True)['interval_95'] or {}
+            accuracy_ci = reports_ci.get('strict_and_executable_delta_pp', (None, None))
+            tokens_ci = reports_ci.get('tokens', (None, None))
+            wall_ci = blocks_ci.get('wall', (None, None))
+            compare.update(recovered_strict_executable=recovered, harmed_strict_executable=harmed,
+                           delta_strict_pp=100 * (scope['common_strict_correct'] - other['common_strict_correct']) / count,
+                           delta_strict_executable_pp=100 * accuracy / count, delta_request_tokens_per_question=tokens / count,
+                           delta_wall_seconds_per_question=wall, point_dominance=dominance,
+                           strict_executable_ci_lower_pp=accuracy_ci[0], strict_executable_ci_upper_pp=accuracy_ci[1],
+                           tokens_ci_lower_per_question=tokens_ci[0], tokens_ci_upper_per_question=tokens_ci[1],
+                           wall_ci_lower_seconds_per_question=wall_ci[0], wall_ci_upper_seconds_per_question=wall_ci[1])
+        yield compare
+
+
+def load_joint_pareto(namespace, *, allow_partial=False, paired_rows=None):
     """Load the immutable full-panel plan and the accepted fresh timing prefix."""
     from cohorts import UPSTREAM, read_source
     from live_policy_timing import (ISOLATED_ACTOR_STORE, JOINT_POLICIES, JOINT_STEADY_PLAN,
@@ -460,6 +538,7 @@ def load_joint_pareto(namespace, *, allow_partial=False):
     dataset_scope = 'full_official' if n == expected else 'partial_frozen_prefix'
     block_size = steady_block if steady else width
     schedule = 'rolling' if steady else 'wave' if waves else 'serial'
+    workload_sha = joint_workload_sha256(plan)
     policies = {}
     for name, arm in points.items():
         matched = [arm[index] for index in common]
@@ -470,7 +549,7 @@ def load_joint_pareto(namespace, *, allow_partial=False):
             'joint_workers': width, 'official_n': expected, 'timed_n': n, 'common_cost_complete_n': len(common),
             'scheduling': schedule, 'frozen_block_size': block_size, 'actor_store_scope': plan.get('actor_store_scope'),
             'local_selection': plan.get('local_selection', 'native-vote-v1'),
-            'timing_attempts': attempts, 'joint_plan_sha256': plan_sha,
+            'timing_attempts': attempts, 'joint_plan_sha256': plan_sha, 'shared_workload_sha256': workload_sha,
             'timed_questions_by_block_size': ';'.join(f'{size}:{sizes[size]}' for size in sorted(sizes)),
             'timed_strict_correct': sum(item[0] for item in arm),
             'timed_strict_executable': sum(item[1] for item in arm),
@@ -488,6 +567,8 @@ def load_joint_pareto(namespace, *, allow_partial=False):
     frontier = three_axis_frontier(policies) if common else set()
     for name, point in policies.items():
         point['on_three_axis_frontier'] = name in frontier if common else None
+    if paired_rows is not None:
+        paired_rows.extend(joint_pareto_pairs(rows, points, common, policies))
     return list(policies.values())
 
 
@@ -540,12 +621,12 @@ def render_joint_pareto(charts, output, label=None):
     save_joint(figure, output, 'pareto')
 
 
-def write_joint_pareto(charts, output):
+def write_joint_pareto(charts, output, paired_rows):
     output.parent.mkdir(parents=True, exist_ok=True)
-    with output.with_name(f'{output.name}_pareto.tsv').open('w', newline='', encoding='utf-8') as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(charts[0][0]), delimiter='\t', lineterminator='\n')
-        writer.writeheader()
-        for rows in charts:
+    for suffix, rows in (('pareto', [row for chart in charts for row in chart]), ('pareto_paired', paired_rows)):
+        with output.with_name(f'{output.name}_{suffix}.tsv').open('w', newline='', encoding='utf-8') as stream:
+            writer = csv.DictWriter(stream, fieldnames=list(rows[0]), delimiter='\t', lineterminator='\n')
+            writer.writeheader()
             writer.writerows(rows)
 
 
@@ -908,15 +989,21 @@ def main():
         parser.error('--allow-partial requires --joint-pareto')
     try:
         if args.joint_pareto:
-            charts = [load_joint_pareto(path, allow_partial=args.allow_partial) for path in args.joint_pareto]
+            paired_rows = []
+            charts = [load_joint_pareto(path, allow_partial=args.allow_partial, paired_rows=paired_rows)
+                      for path in args.joint_pareto]
             if len({rows[0]['dataset'] for rows in charts}) != len(charts):
                 parser.error('Pass distinct FinQA or TAT-QA timing namespaces')
             protocol = ('scheduling', 'joint_workers', 'frozen_block_size', 'actor_store_scope', 'local_selection')
             if len({tuple(rows[0][field] for field in protocol) for rows in charts}) != 1:
                 parser.error('Pass timing namespaces measured under one load protocol')
+            if len(charts) == 2 and all(rows[0]['scope'] == 'full_official' for rows in charts):
+                if len({rows[0]['shared_workload_sha256'] for rows in charts}) != 1:
+                    parser.error('Pass full timing namespaces with the same gate, compiler and serving profiles')
             charts.sort(key=lambda rows: rows[0]['dataset'])
+            paired_rows.sort(key=lambda row: row['dataset'])
             render_joint_pareto(charts, args.output, args.label)
-            write_joint_pareto(charts, args.output)
+            write_joint_pareto(charts, args.output, paired_rows)
             return
         if args.joint_report:
             if not args.joint_measurements or bool(args.joint_live) != bool(args.joint_historical_timing):

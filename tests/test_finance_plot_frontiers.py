@@ -62,7 +62,8 @@ def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_miss
 
 def test_joint_pareto_matches_all_eight_methods_on_one_usage_cohort(plotting, monkeypatch, tmp_path):
     write_joint_pareto_fixture(plotting, tmp_path, monkeypatch)
-    rows = {row['policy']: row for row in plotting.load_joint_pareto(tmp_path)}
+    paired = []
+    rows = {row['policy']: row for row in plotting.load_joint_pareto(tmp_path, paired_rows=paired)}
     assert set(rows) == set(plotting.JOINT_PARETO_LABELS)
     assert {row['scope'] for row in rows.values()} == {'full_official'}
     assert {(row['timed_n'], row['common_cost_complete_n']) for row in rows.values()} == {(3, 2)}
@@ -78,6 +79,20 @@ def test_joint_pareto_matches_all_eight_methods_on_one_usage_cohort(plotting, mo
     assert unknown['timed_known_request_tokens'] == unknown['common_request_tokens']
     gbm = rows['budgetverify-gbm-compiled']
     assert gbm['common_strict_correct'] == 2 and gbm['common_strict_executable'] == 1
+    comparisons = {row['comparator']: row for row in paired}
+    assert set(comparisons) == set(rows) - {'joint-compact'}
+    assert {row['common_cost_complete_n'] for row in paired} == {2}
+    assert {row['comparison_cohort'] for row in paired} == {'all_eight_common_metered'}
+    deepseek = comparisons['deepseek-direct']
+    assert deepseek['timing_scope'] == 'full_official' and deepseek['timed_n'] == 3
+    assert (deepseek['recovered_strict_executable'], deepseek['harmed_strict_executable']) == (0, 1)
+    assert deepseek['delta_strict_executable_pp'] == -50
+    assert deepseek['delta_request_tokens_per_question'] == -20
+    assert deepseek['delta_wall_seconds_per_question'] == 1
+    assert deepseek['tokens_ci_lower_per_question'] == -20 and deepseek['wall_ci_upper_seconds_per_question'] == 1
+    assert deepseek['point_dominance'] == 'tradeoff'
+    assert comparisons['budgetverify-tabfm-compiled']['point_dominance'] == 'tie'
+    assert comparisons['author-cascade']['point_dominance'] == 'proposed'
 
 
 def test_joint_pareto_partial_cli_labels_scope_and_writes_three_artifacts(plotting, monkeypatch, tmp_path):
@@ -95,10 +110,16 @@ def test_joint_pareto_partial_cli_labels_scope_and_writes_three_artifacts(plotti
     assert {(row['scheduling'], row['frozen_block_size']) for row in rows} == {('serial', '1')}
     assert output.with_name('live_pareto.pdf').read_bytes().startswith(b'%PDF')
     assert output.with_name('live_pareto.png').read_bytes().startswith(b'\x89PNG')
+    with output.with_name('live_pareto_paired.tsv').open(encoding='utf-8') as stream:
+        paired = list(csv.DictReader(stream, delimiter='\t'))
+    assert len(paired) == 7
+    assert {(row['timing_scope'], row['common_cost_complete_n'], row['official_n']) for row in paired} == {
+        ('partial_frozen_prefix', '2', '3'),
+    }
 
 
 def test_joint_pareto_rejects_mixing_rolling_and_wave_schedules(plotting, monkeypatch, tmp_path, capsys):
-    def load(path, *, allow_partial):
+    def load(path, *, allow_partial, paired_rows):
         dataset = path.name
         return [{'dataset': dataset, 'joint_workers': 4, 'actor_store_scope': 'isolated',
                  'local_selection': 'same-selection', 'scheduling':
@@ -113,10 +134,28 @@ def test_joint_pareto_rejects_mixing_rolling_and_wave_schedules(plotting, monkey
     assert 'one load protocol' in capsys.readouterr().err
 
 
+def test_joint_pareto_rejects_mixing_full_gate_compiler_or_service_profiles(plotting, monkeypatch, tmp_path, capsys):
+    def load(path, *, allow_partial, paired_rows):
+        return [{'dataset': path.name, 'scope': 'full_official', 'joint_workers': 4, 'actor_store_scope': 'isolated',
+                 'scheduling': 'rolling', 'frozen_block_size': 32, 'local_selection': 'same-selection',
+                 'shared_workload_sha256': path.name}]
+
+    monkeypatch.setattr(plotting, 'load_joint_pareto', load)
+    monkeypatch.setattr(sys, 'argv', ['plot_frontiers', '--joint-pareto', 'finqa', 'tatqa',
+                                     '--output', str(tmp_path / 'export/live')])
+    with pytest.raises(SystemExit) as exit_state:
+        plotting.main()
+    assert exit_state.value.code == 2
+    assert 'same gate, compiler and serving profiles' in capsys.readouterr().err
+
+
 def test_joint_pareto_keeps_full_denominator_when_no_common_cost_cohort(plotting, monkeypatch, tmp_path):
     write_joint_pareto_fixture(plotting, tmp_path, monkeypatch, all_missing=True)
-    rows = plotting.load_joint_pareto(tmp_path)
+    paired = []
+    rows = plotting.load_joint_pareto(tmp_path, paired_rows=paired)
     assert {row['timed_n'] for row in rows} == {3}
+    assert len(paired) == 7
+    assert all(case['point_dominance'] == 'unavailable' and case['delta_strict_executable_pp'] is None for case in paired)
     assert {row['common_cost_complete_n'] for row in rows} == {0}
     assert all(row['on_three_axis_frontier'] is None and row['common_request_tokens'] is None for row in rows)
 
