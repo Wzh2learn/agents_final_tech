@@ -90,6 +90,14 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 9 对开发题上，只读取题干中的百分比线索即可判断 18/18 个运算意图。该分数只测意图分类。冻结官方级联的 67 道 TAT-QA 本地保留错题中，只换差额／相对变化且维持原尺度可救 1 道，允许用参考评分选择尺度时可救 7 道。现阶段优先核验基础模型能否把明确意图落实为同时正确的程序和尺度。见 `analysis/semantic_operator_holdout_v1/question_only_control.json` 与 `analysis/fresh_vs_archives_v1/operator_swap_headroom.json`。
 
+固定原模型程序的尺度和其余步骤，只交换一步减法的两个操作数，可以离线救回两个来源不重叠的 TAT-QA TRAIN 面板中的 6/49 和 1/10 道可执行错题。五道由负转正，两道由正转负。原 3,000 题中已冻结 128 组对应反例（FinQA 42、TAT-QA 86，来源互异），交换后仍可执行且在全部合法尺度下仍错，其中 14 组的最终符号保持相同。见 `analysis/semantic_pair_extension_v1/train_formula_headroom.json` 与 `training/semantic_operand_order_preferences_v1/PROVENANCE.json`。
+
+将同一组 TRAIN 定义的算式编辑用于冻结官方回执，TAT-QA 67 道本地保留错题中，固定原尺度并用参考答案挑选编辑，可离线救回 5 道，其中 3 道来自减法换序。只修尺度可救 16 道，允许换算式与尺度可在这 16 道之外再覆盖 11 道。本分析固定接管与已采纳教师答案，只用于诊断。见 `analysis/fresh_vs_archives_v1/train_defined_formula_ceiling.json`。
+
+已冻结一个 256 组联合 TRAIN 对照。保留 128 组减法换序，另配 128 组同算式、不同尺度的通过／失败反例。`percent` 与 `none` 两个方向各 41 组，每方向同为 27 道单步、14 道多步。另有 46 组千、百万或十亿尺度反例。256 组来源和报告均互异。见 `training/semantic_joint_balanced_preferences_v1/PROVENANCE.json`。
+
+四候选分歧时改用逐步平均 logprob 的最低值重排，在两批共 240 道 TRAIN 题从 190 降至 187（R1/H4）。原门控未接管的 204 道题正误全部保持。沿用当前重排规则。见 `analysis/compact_answer_confidence_train_v1/STEP_MIN_RESULT.json`。
+
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
 
 重放 1,800 个 TAT-QA TRAIN 参考程序并遍历合法尺度，630 个被修正的标注尺度全部无法通过官方评分，14 个具备多个通过尺度的程序结果均为零。复用两批共 240 道 TRAIN 题的首答与四采样，分歧时用贪心结果补位的两个规则均未增加正确数。在官方冻结级联保留的 67 道本地错题中，仅 1 道已有同值且严格正确的替代尺度候选，有 46 道遍历四候选及全部合法尺度均错。见 `analysis/{scale_keep_set_v1/train_target_equivalences,compare_sample_counts_v1/greedy_anchor_train}.json`。
