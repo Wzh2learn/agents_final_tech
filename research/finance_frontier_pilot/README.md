@@ -96,6 +96,8 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 已冻结一个 256 组联合 TRAIN 对照。保留 128 组减法换序，另配 128 组同算式、不同尺度的通过／失败反例。`percent` 与 `none` 两个方向各 41 组，每方向同为 27 道单步、14 道多步。另有 46 组千、百万或十亿尺度反例。256 组来源和报告均互异。见 `training/semantic_joint_balanced_preferences_v1/PROVENANCE.json`。
 
+256 组联合反例已接入两臂训练。两臂从原 3,000 题适配器出发，使用完全相同的正例、顺序及 64 次更新。候选在原监督损失上增加 DPO 偏好项，用原适配器的固定参考分数比较两份包含结束符的完整程序。CPU 验证顺序与联合反传的梯度一致，实际分词的最大微批次为 3,602 tokens。训练与来源隔离的 TRAIN194 原生评估已排在六槽试跑之后。评分端固定 `a16e5aa4` 的实际服务代码，290 条归档回执的判定和分数均复算一致。见 `training/semantic_joint_preference_run_v1/TRAIN_PROTOCOL.json`、`analysis/semantic_joint_preference_run_v1/EVAL_PROTOCOL.json` 和 `serving/queued_semantic_joint_preference_v1/`。 [DPO 原文](https://arxiv.org/abs/2305.18290)
+
 四候选分歧时改用逐步平均 logprob 的最低值重排，在两批共 240 道 TRAIN 题从 190 降至 187（R1/H4）。原门控未接管的 204 道题正误全部保持。沿用当前重排规则。见 `analysis/compact_answer_confidence_train_v1/STEP_MIN_RESULT.json`。
 
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
