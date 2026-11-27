@@ -60,6 +60,8 @@ TAT-QA 逐题对固定双模型为 34 胜、39 负。接管的 97 题为 60 对 
 
 教师交接对照在真实执行分歧且所有可执行分支共享无歧义、无显式冲突的表格定位时，对比原提示与追加至多两条定位信息。校准 13 题、独立复核 5 题均为 TRAIN。固定本地先答为 10/18，原提示达到 13/18（R5/H2，37,665 tokens），追加定位为 12/18（R4/H2，38,902 tokens）。独立 5 题各得 4 题。36 次调用全部完成，沿用原教师提示。见 `analysis/teacher_binding_pair_v1/live/collection.json`。
 
+在上述相同提示的 18 条教师回执上，若四个候选均可执行，且当前本地选答获三票，仅在教师恰好复现唯一异议票时保留本地答。规则只触发一次，放弃一道正确恢复，13→12/18（R0/H1），沿用原采纳方式。两库另有 288 条来源隔离的历史 TRAIN 教师回执，均使用旧提示。按现行统一编译重放，FinQA 96／48 题的正确数由 59／24 变为 28／12，TAT-QA 仍为 80／42。现行 TRAIN128 与独立 TRAIN112 的 20% 名义预算共选 36 题。其中 18 题已有同提示教师回执，补齐还需 18 次调用。见 `analysis/teacher_binding_pair_v1/live/outcomes.jsonl` 及外部基准目录 `campus_{fit,calibration}_deepseek-v4-flash_v1/`。
+
 TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固定原程序、遍历五种尺度可使其中 16 道通过官方评分，这给出尺度修复的离线上界。早已锁定的 25% 名义预算会额外接管 28 道三票一致的 TAT-QA 题，按历史教师推演只净增 2 题，FinQA 同一扩宽点净减 2 题。独立 380 道 TRAIN 首答中同程序可改尺度救回 13/49 道可执行错题，另一个 96 道 TAT-QA TRAIN 面板为 3/10。仅靠题干百分比提示或当前尺度置信度补全会误伤对题。八次答案一致仍出错的现象也已在同领域研究中观察到。[Confidently Wrong](https://arxiv.org/abs/2607.11414v2)
 
 候选生成对照从同一 3,000 题适配器出发，两臂复用相同 384 道 TRAIN 题、题序、微批次与 96 次更新。规划臂只多生成一行至多两个公开证据位置，最终算式和尺度监督逐题一致，输出上限为 80 tokens。已锁定 64 道全新 TAT-QA TRAIN 来源及 32 道 FinQA 回归题。FinQA 中 30 道来源在历史实验中使用过，两库均与本次和原联合适配器训练来源隔离。对照见 `training/planning_v1/`。
@@ -93,6 +95,10 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 9 对开发题上，只读取题干中的百分比线索即可判断 18/18 个运算意图。该分数只测意图分类。冻结官方级联的 67 道 TAT-QA 本地保留错题中，只换差额／相对变化且维持原尺度可救 1 道，允许用参考评分选择尺度时可救 7 道。见 `analysis/semantic_operator_holdout_v1/question_only_control.json` 与 `analysis/fresh_vs_archives_v1/operator_swap_headroom.json`。
 
 原 3,000 题适配器在这 18 道真实 TRAIN 题的贪心与四采样下均为 17/18，9 组中有 8 组两题均对，没有把两种运算互相用错。唯一错题选对了减法和单位，但把表中两笔负成本当作正数。该面板没有显示专门训练差额／相对变化选择的空间。见 `serving/operator_holdout_base_v1/measurements/`。
+
+固定算式和尺度，仅将公开表文无同号证据、反号唯一落在无显式冲突单元格的操作数反号。该规则修回上述成本题，在独立 TRAIN112 四采样上从 96 降至 93（R0/H3），在换值两臂的 TRAIN194 上分别保持 134（各 R2/H2）。原 1,800 道 TAT-QA TRAIN 拟合题提供两个方向的执行反例。126 个单操作数变体错误地把表中负数当作正数，123 个错误地把原本正确的正幅度改成表中的负数。两方向的错误变体均在所有合法尺度下无法通过评分。这些计数按变体计。见 `analysis/semantic_pair_extension_v1/signed_operand_inventory.{py,json}` 及 `serving/{confidence_recheck_v1,semantic_control_eval_v1,semantic_pair_eval_v1}/measurements/`。
+
+在当前来源隔离后可用的 133 道 TAT-QA TRAIN 新题中，59 道有经原生评分验证的原程序。只翻一处唯一绑定的符号即可导致所有尺度失败的真实参考，分别来自 2 个应保留负号的来源和 1 个应取正幅度的来源。该规模只支持病例分析，暂不另训符号专用模型。
 
 固定原模型程序的尺度和其余步骤，只交换一步减法的两个操作数，可以离线救回两个来源不重叠的 TAT-QA TRAIN 面板中的 6/49 和 1/10 道可执行错题。五道由负转正，两道由正转负。原 3,000 题中已冻结 128 组对应反例（FinQA 42、TAT-QA 86，来源互异），交换后仍可执行且在全部合法尺度下仍错，其中 14 组的最终符号保持相同。见 `analysis/semantic_pair_extension_v1/train_formula_headroom.json` 与 `training/semantic_operand_order_preferences_v1/PROVENANCE.json`。
 
