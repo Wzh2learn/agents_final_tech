@@ -2,7 +2,7 @@
 
 > 2026-11-27 | 接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。实际授权看会话 Goal。
 
-- **强基座金融推理**：FinQA 812/1,147，TAT-QA 633/718，正确数、实际用量、逐题对照和触发计时均已验收。Goal 已结项，待外部专家评审。[验收与证据入口](../research/finance_frontier_pilot/README.md#续做强基线比较)
+- **强基座金融推理**：当前 Goal 已恢复，GB10 正训练 3,000 题执行对齐共享 LoRA，随后测 `n=1/4/8` 投票与统一接管。上一轮 812/1,147、633/718 是冻结强对照。[联合紧凑主力实验](../research/finance_frontier_pilot/README.md#联合紧凑主力实验)
 - **第二篇 v4/v5 阶段档案**：保留 79000372 与 36edf5bd。纠正、接管、跨契约和单步分层见[实验总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，阶段费用见[历史短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#边界预算与恢复位置)。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。

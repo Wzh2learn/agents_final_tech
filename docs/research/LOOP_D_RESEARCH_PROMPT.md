@@ -10,7 +10,7 @@
 
 ## 目标与执行边界
 
-强基座可执行金融推理的[续做验收](../../research/finance_frontier_pilot/README.md#续做强基线比较)已完成，当前待外部专家评审。后续实验按用户最新指令、会话 Goal 和对应批次协议执行。
+按活跃 Goal 执行[联合紧凑主力实验](../../research/finance_frontier_pilot/README.md#联合紧凑主力实验)。前期定制级联作为[冻结强对照](../../research/finance_frontier_pilot/README.md#续做强基线比较)，训练选择与门控校准使用来源隔离的 TRAIN。
 
 运行状态查对应队列、进程与回执，STATE 和短计划提供恢复定位。经验使用、可执行纠正和训练融合的有效片段与失败归因入知识索引。模型资格只按当前必要条件核验。
 
