@@ -54,6 +54,8 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 另用 49 道原 8B 可执行错题与 49 道步数逐对匹配的正确题，复核同一规划模型的四采样。TAT-QA 从 47 升至 55/98（R9/H1），其中原模型错题从 1 到 9（净增 6 道多步、2 道单步），原模型正确题均为 46/49。九个恢复中，三个第一次生成了正确候选，六个选中了对照臂已有的正确答案。只有三个恢复案例的规划坐标对应最终算式中任一操作数，用于评估规划监督与提示的联合效果。总用量从 93,894 增到 102,275 tokens，单题墙时中位数从 3.65 增到 4.86 秒。见 `analysis/operand_planning_challenge_v1/paired_report.json`。两库官方全量本地首答及四采样已排在隔离计时首块之后，候选复核期间沿用现有冻结级联成绩。
 
+按现行置信度重排，TAT-QA 困难集上普通臂与规划臂为 51、54/98（R6/H3）。规划臂 66 道一致答案中有 65 道的最低 token 概率落在规划行。排除该前缀，只用最终程序和尺度计算置信度，规划臂达到 56/98（相对普通臂 R7/H2）。常规 96 题上，普通臂、规划全文置信度、规划答案段置信度分别为 85、82、83。两种置信度在 TRAIN 门控校准上均选中同样的 15 题。官方规划版已启动，原方案及答案段补充对照均在查看本轮官方结果前锁定。见 `analysis/operand_planning_challenge_v1/answer_only_probe_result.json` 与 `analysis/operand_planning_official_v1/ANSWER_ONLY_PROTOCOL.json`。
+
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
 
 同一 ODA 基座的 1,865 条官方思考版回执已逐题校验提示哈希并重放。固定原回复，FinQA 原答、通用编译、旧专用编译分别得 284、325、634/1,147（通用编译 R41/H0，旧编译相对通用 R319/H10）。TAT-QA 对应为 446、505、505/718（通用编译 R59/H0）。思考版已知计费为 4,437,636（另有 1 条缺失）和 2,222,315 tokens。当前对齐模型相对通用编译后的思考版增加 497、100 题。两模型的提示、解码设置和调用入口有差异，配对结果衡量完整系统差异。见 `analysis/thinking_compiler_v1/{report.json,cases.jsonl}`。
@@ -68,7 +70,7 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请求 20 次。TabFM 一次本地调用因并发 OpenCode 争用 SQLite 会话库，在 0.415 秒退出且无生成回执，旧采集器将其记为失败答题。计费齐全的同三题上，四采样级联对 DeepSeek 直跑为 2 对 3，平均端到端墙时 19.62 对 114.77 秒，合计 5,587 对 6,153 tokens。固定 DeepSeek→Qwen 也答对其中 2 题，在这三题的八臂对比中用量最低（4,426 tokens），墙时均值为 31.82 秒。旧批次保留用于诊断。后续正式计时在独立命名空间隔离各并发槽的会话库，用同题同配置从头采集。见 `finance_frontier_benchmark_20261120_v2/joint_full_timing_finqa_k4_v1/shards/00000/` 和 `analysis/joint_pareto_live_k4_v1/finqa_first_pareto.tsv`。
 
-隔离会话库的 FinQA 重采已验收前四题。各臂均完成，TabFM 为 3/4。八臂收集用时 1,574 秒，19 次校内请求计 39,863 tokens。四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均端到端墙时分别为 16.83、21.46、17.48 秒。TAT-QA 首块正在采集，完成后转入已排队的规划版全量本地评测。见 `finance_frontier_benchmark_20261120_v2/joint_full_timing_finqa_k4_v2/shards/00000/collection.json`。
+隔离会话库后，两库各验收前四题，每题八臂均有完整计费。FinQA 的四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均墙时为 16.83、21.46、17.48 秒。TAT-QA 分别得 3、4、3 题，平均墙时为 7.00、19.08、19.85 秒。两库的 CAR 与两种 BudgetVerify 合计占首块计时的 69.2% 与 82.5%，主要耗时在本地长生成。前缀的三轴表与图已导出，范围标记为部分官方题。见 `analysis/joint_pareto_live_k4_v2/accepted_pareto.{tsv,pdf,png}` 与 `finance_frontier_benchmark_20261120_v2/joint_full_timing_{finqa,tatqa}_k4_v2/shards/00000/collection.json`。
 
 ## 续做强基线比较
 

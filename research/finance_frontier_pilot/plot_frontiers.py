@@ -404,7 +404,14 @@ def joint_pareto_case(record):
                 or (usage is not None and (type(usage['total']) is not int or usage['total'] < 0))):
             raise ValueError('Invalid measured model call in joint timing receipts')
     cost = action_cost(list(calls.values()))
-    if cost != record['cost']:
+    recorded_cost = record['cost'].copy()
+    recorded_seconds = recorded_cost.get('summed_call_seconds')
+    # Different Python versions can round the sum of the same call durations differently.
+    if (type(recorded_seconds) not in (int, float)
+            or not isclose(recorded_seconds, cost['summed_call_seconds'], rel_tol=0, abs_tol=1e-12)):
+        raise ValueError('Recorded route cost differs from its bound call receipts')
+    recorded_cost['summed_call_seconds'] = cost['summed_call_seconds']
+    if cost != recorded_cost:
         raise ValueError('Recorded route cost differs from its bound call receipts')
     return result['strict'], result['strict'] and result['executable'], wall, cost
 

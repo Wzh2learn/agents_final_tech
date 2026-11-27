@@ -104,7 +104,7 @@ def test_joint_pareto_keeps_full_denominator_when_no_common_cost_cohort(plotting
     assert all(row['on_three_axis_frontier'] is None and row['common_request_tokens'] is None for row in rows)
 
 
-@pytest.mark.parametrize('bad', ['duplicate_official_id', 'missing_timed_arm', 'mismatched_cost'])
+@pytest.mark.parametrize('bad', ['duplicate_official_id', 'missing_timed_arm', 'mismatched_cost', 'mismatched_seconds'])
 def test_joint_pareto_rejects_unbound_coverage_or_cost(plotting, monkeypatch, tmp_path, bad):
     plan_path, shard = write_joint_pareto_fixture(plotting, tmp_path, monkeypatch)
     if bad == 'duplicate_official_id':
@@ -116,11 +116,26 @@ def test_joint_pareto_rejects_unbound_coverage_or_cost(plotting, monkeypatch, tm
         rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
         if bad == 'missing_timed_arm':
             del rows[0]['policies']['joint-compact']
-        else:
+        elif bad == 'mismatched_cost':
             rows[0]['policies']['joint-compact']['cost']['total_tokens'] += 1
+        else:
+            rows[0]['policies']['joint-compact']['cost']['summed_call_seconds'] += .1
         path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
     with pytest.raises(ValueError):
         plotting.load_joint_pareto(tmp_path)
+
+
+def test_joint_pareto_accepts_float_rounding_between_interpreters(plotting, monkeypatch, tmp_path):
+    from math import nextafter
+
+    _, shard = write_joint_pareto_fixture(plotting, tmp_path, monkeypatch)
+    path = shard / 'outcomes.jsonl'
+    rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+    cost = rows[0]['policies']['joint-compact']['cost']
+    cost['summed_call_seconds'] = nextafter(cost['summed_call_seconds'], float('inf'))
+    path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+
+    assert plotting.load_joint_pareto(tmp_path)[0]['timed_n'] == 3
 
 
 def write_pair(root, plotting, version, *, dataset='finqa', n=1):
