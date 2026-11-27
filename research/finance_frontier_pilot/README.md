@@ -86,6 +86,8 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 在原 3,000 题中，固定题目与操作数、交换绝对差额和相对变化，可从 860 道 TAT-QA 和 206 道 FinQA 构造可执行但在全部合法尺度下仍错的反例。按来源和方向锁定 256 条（TAT-QA 172、FinQA 84）。已将原适配器的 9 对真实题诊断排在换值配对实验之后，先量化明确运算混淆再决定是否训练。见 `training/semantic_operator_preferences_v1/PROVENANCE.json` 和 `serving/queued_operator_holdout_base_v1/`。
 
+9 对开发题上，只读取题干中的百分比线索即可判断 18/18 个运算意图。该分数只测意图分类。冻结官方级联的 67 道 TAT-QA 本地保留错题中，只换差额／相对变化且维持原尺度可救 1 道，允许用参考评分选择尺度时可救 7 道。现阶段优先核验基础模型能否把明确意图落实为同时正确的程序和尺度。见 `analysis/semantic_operator_holdout_v1/question_only_control.json` 与 `analysis/fresh_vs_archives_v1/operator_swap_headroom.json`。
+
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
 
 重放 1,800 个 TAT-QA TRAIN 参考程序并遍历合法尺度，630 个被修正的标注尺度全部无法通过官方评分，14 个具备多个通过尺度的程序结果均为零。复用两批共 240 道 TRAIN 题的首答与四采样，分歧时用贪心结果补位的两个规则均未增加正确数。在官方冻结级联保留的 67 道本地错题中，仅 1 道已有同值且严格正确的替代尺度候选，有 46 道遍历四候选及全部合法尺度均错。见 `analysis/{scale_keep_set_v1/train_target_equivalences,compare_sample_counts_v1/greedy_anchor_train}.json`。
@@ -104,7 +106,7 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 
 隔离会话库后，两库各验收前四题，每题八臂均有完整计费。FinQA 的四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均墙时为 16.83、21.46、17.48 秒。TAT-QA 分别得 3、4、3 题，平均墙时为 7.00、19.08、19.85 秒。两库的 CAR 与两种 BudgetVerify 合计占首块计时的 69.2% 与 82.5%，主要耗时在本地长生成。前缀的三轴表与图已导出，范围标记为部分官方题。见 `analysis/joint_pareto_live_k4_v2/accepted_pareto.{tsv,pdf,png}` 与 `finance_frontier_benchmark_20261120_v2/joint_full_timing_{finqa,tatqa}_k4_v2/shards/00000/collection.json`。
 
-原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing` 与两库新命名空间。每库首块 32 题，沿用冻结门控并加入官方回放中使用的置信度重排。已在旧 1,865 题回执上逐题验证选答一致。FinQA 已从实际回执确认动态补位，前两臂完成 32 题时，紧凑级联为 24/32、52,044 tokens，DeepSeek 直跑为 25/32、57,310 tokens。八臂同题首块仍在采集。见 `serving/queued_joint_timing_steady_v1/`。
+原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing`，沿用冻结门控和置信度重排。FinQA 首批 32 道题在八臂均有完整用量。紧凑级联为 24/32、52,044 tokens、平均 9.84 秒／题。DeepSeek 直跑为 25/32、57,310 tokens、29.57 秒／题。其余六臂均答对更少、用量更高且更慢，范围为 18–21 题、66,286–263,257 tokens、39.95–439.26 秒／题。首块采集 9,757 秒，TAT-QA 首块已启动。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_pareto{,_paired}.tsv`。
 
 统一编译版的全量计时入口已通过干跑。独立工作树固定在 `f7d5f9f1`，复用同一训练门控阈值，采用新的计时目录从零采集。旧计时和换值训练交还单卡后再启动。见 `serving/queued_joint_timing_uniform_full_v1/`。
 
