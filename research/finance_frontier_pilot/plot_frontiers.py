@@ -3,11 +3,12 @@
 import argparse
 from collections import Counter
 import csv
-from hashlib import sha256
+from hashlib import file_digest, sha256
 import json
 from math import isclose, isfinite
 from pathlib import Path
 import re
+from statistics import fmean, median, quantiles
 
 import matplotlib
 
@@ -68,6 +69,12 @@ EXECUTABLE_FRONTIERS = {
     False: ('common_complete_execution', 'executable_correct_serial_call_time_frontier',
             'complete execution'),
 }
+JOINT_COLORS = {'fresh': '#087F73', 'historical': '#686B93', 'local': '#B64D24'}
+JOINT_ARCHIVED_TABFM = {'finqa': '0.8', 'tatqa': '0'}
+JOINT_ARCHIVED_GBM = {'finqa': '0.8', 'tatqa': '0.65'}
+JOINT_TIMED_ARMS = {'contract': 'Earlier contract cascade', 'car': 'CAR', 'budgetverify': 'BudgetVerify / TabFM',
+                    'author-cascade': 'Cascade Routing', 'ds-first': 'DeepSeek → Qwen',
+                    'qwen-first': 'Qwen → DeepSeek'}
 
 
 def family(name, metadata):
@@ -97,6 +104,275 @@ def pareto_frontier(points, cost, score):
             if not any(other[cost] <= point[cost] and other[score] >= point[score]
                        and (other[cost] < point[cost] or other[score] > point[score])
                        for other in points.values())}
+
+
+def digest(path):
+    with path.open('rb') as stream:
+        return file_digest(stream, 'sha256').hexdigest()
+
+
+def joint_official(path, measurements, n, rate):
+    report = json.loads(path.read_text(encoding='utf-8'))
+    metadata = json.loads((measurements / 'run.json').read_text(encoding='utf-8'))
+    usage = json.loads((measurements / 'summary.json').read_text(encoding='utf-8'))
+    if (metadata['panel_sha256'] != report['panel_sha256']
+            or digest(measurements / 'cases.jsonl') != report['local_receipts_sha256']):
+        raise ValueError('Official joint figures require matching compact receipt bytes and panel')
+    official, prefill = {}, {}
+    for dataset, (expected_n, _) in FULL_OFFICIAL_COMPACT.items():
+        points, inputs = [], report['original_baselines'][dataset]['benchmark_aggregates']
+        baselines = {
+            'car': 'CAR', 'car_compiled': 'CAR + compiler',
+            f'budgetverify_compiled/tabfm/lambda_{JOINT_ARCHIVED_TABFM[dataset]}': 'TabFM + compiler',
+            f'budgetverify_compiled/gbm/lambda_{JOINT_ARCHIVED_GBM[dataset]}': 'GBM + compiler',
+            'cascade/compiled/cascade_routing_1.5': 'Cascade Routing + compiler',
+            'cascade/compiled/always_deepseek': 'DeepSeek direct',
+            'cascade/compiled/nonexecution_deepseek_qwen': 'DeepSeek → Qwen',
+            'cascade/compiled/nonexecution_qwen_deepseek': 'Qwen → DeepSeek',
+        }
+
+        def point(label, source, row, *, old=False):
+            correct = row['strict_and_executable'] if old else row['correct']
+            known = row['known_tokens'] if old else row['local_logical_api_tokens_known'] + row['teacher_provider_tokens_known']
+            unknown = row['unknown_usage_calls'] if old else row['local_logical_api_usage_unknown_n'] + row['teacher_provider_usage_unknown_n']
+            if (row['n'] != expected_n or type(correct) is not int or not 0 <= correct <= expected_n
+                    or type(known) is not int or known <= 0 or type(unknown) is not int or unknown < 0):
+                raise ValueError(f'{dataset}/{label}: missing or unmatched official accuracy or usage')
+            paired = row.get('paired_against_compact', {})
+            return {'policy': label, 'collection': source, 'n': expected_n, 'correct': correct,
+                    'tokens_known': known, 'unknown_usage_calls': unknown,
+                    'teacher_calls': row.get('teacher_calls'), 'recovered': row.get('recovered'),
+                    'harmed': row.get('harmed'), 'paired_delta_95_pp': paired.get('paired_cluster_percentile_95_pp')}
+
+        for key, label in baselines.items():
+            points.append(point(label, 'historical baselines', inputs[key], old=True))
+        for width in dict.fromkeys((1, n)):
+            tag = f'{dataset}/n{width}'
+            local = report['evaluation'][tag]['compact_only']
+            item = usage[tag]
+            if item['known_engine_work'] == expected_n:
+                physical, source = item['engine_prefill_tokens'], 'isolated per-question engine counters'
+            else:
+                engine = item.get('engine_work') or {}
+                if (not engine.get('idle_before_after') or not engine.get('completion_tokens_reconcile')
+                        or engine['counter_deltas']['generated_tokens'] != item['api_tokens']['completion_tokens']):
+                    raise ValueError(f'{tag}: missing isolated aggregate engine attribution')
+                physical, source = engine['locally_computed_prefill_tokens'], 'isolated batch engine counters'
+            if (item['questions'] != expected_n or item['known_api_usage'] != expected_n
+                    or item['strict_executable'] != local['correct'] or type(physical) is not int or physical <= 0):
+                raise ValueError(f'{tag}: incomplete or unmatched physical prefill measurement')
+            points.append(point(f'Compact n={width}', 'current local measurements', local))
+            prefill.setdefault(dataset, []).append({'policy': f'n={width}', 'n': expected_n, 'collection': source,
+                'logical_prompt_tokens': item['api_tokens']['prompt_tokens'],
+                'physical_prefill_tokens': physical,
+                'generated_tokens': item['api_tokens']['completion_tokens']})
+        selected = report['evaluation'][f'{dataset}/n{n}']['budget_points'][f'{rate:g}']
+        points.append(point('Compact → DeepSeek (replay)', 'historical teacher replay', selected))
+        if 'fresh_selected_teacher' in selected:
+            points.append(point('Compact → DeepSeek', 'fresh selected teacher', selected['fresh_selected_teacher']))
+        official[dataset] = points
+    return report, official, prefill
+
+
+def timed_items(path, dataset, ids, arms):
+    rows = {}
+    with path.with_name('outcomes.jsonl').open(encoding='utf-8') as stream:
+        for line in stream:
+            item = json.loads(line)
+            if item['dataset'] != dataset or not item['complete_pair']:
+                continue
+            key = item['id']
+            if key in rows or key not in ids or any(name not in item['policies'] for name in arms):
+                raise ValueError(f'{path}: unexpected timed row or missing policy')
+            rows[key] = {}
+            for name in arms:
+                case = item['policies'][name]
+                seconds = case['wall_seconds']
+                if case['status'] != 'complete' or not isfinite(seconds) or seconds < 0:
+                    raise ValueError(f'{path}: invalid completed wall measurement')
+                rows[key][name] = (seconds, bool(case['result']['strict'] and case['result']['executable']))
+    return rows
+
+
+def joint_timing(live_files, archived_files, report, n, rate):
+    archived = {}
+    for path in archived_files:
+        old = load_online(path)
+        dataset = old['dataset']
+        if dataset in archived or 'stratified_latency' not in old:
+            raise ValueError('Expected one original stratified timing collection per dataset')
+        run_path = path.with_name('run.json')
+        run = json.loads(run_path.read_text(encoding='utf-8'))
+        if run['panel'] != report['panel_sha256']:
+            raise ValueError(f'{path}: timing sample is from another official panel')
+        ids = [row['id'] for row in run['case_order']]
+        rows = timed_items(path, dataset, set(ids), JOINT_TIMED_ARMS)
+        if rows.keys() != set(ids):
+            raise ValueError(f'{path}: incomplete original timing membership')
+        archived[dataset] = ids, rows, digest(run_path)
+    if set(archived) != set(DATASETS):
+        raise ValueError('Old matched timing inputs must include both FinQA and TAT-QA')
+
+    fresh, live_labels = {}, {'compact-teacher': 'Compact → DeepSeek', 'deepseek-direct': 'DeepSeek direct'}
+    for path in live_files:
+        run = json.loads(path.with_name('run.json').read_text(encoding='utf-8'))
+        collection = json.loads(path.read_text(encoding='utf-8'))
+        if (run['schema'] != 'finance-compact-deepseek-live-v1' or run['panel_sha256'] != report['panel_sha256']
+                or run['gate_sha256'] != report['policy_sha256'] or run['n'] != n or run['gate_rate'] != rate):
+            raise ValueError(f'{path}: fresh timing runs must use the matching frozen policy and panel')
+        for dataset in collection['metrics']:
+            ids, _, old_digest = archived[dataset]
+            if (run['historical_timing_membership_sha256'][dataset] != old_digest
+                    or [row['id'] for row in run['case_order'] if row['dataset'] == dataset] != ids):
+                raise ValueError(f'{path}: old and fresh {dataset} timing samples differ')
+            rows = timed_items(path, dataset, set(ids), live_labels)
+            if any(item['n'] != len(rows) for name, item in collection['metrics'][dataset].items() if name in live_labels):
+                raise ValueError(f'{path}: fresh timing counts differ from completed pairs')
+            if dataset not in fresh or len(rows) > len(fresh[dataset][0]):
+                fresh[dataset] = rows, path.parent.parent.name
+
+    results = {}
+    for dataset, (rows, source) in fresh.items():
+        if not rows:
+            continue
+        old_rows = archived[dataset][1]
+        points = []
+        for labels, lookup, collection in ((live_labels, rows, f'fresh ({source})'),
+                                            (JOINT_TIMED_ARMS, old_rows, 'historical same IDs')):
+            for key, label in labels.items():
+                times, scored = zip(*(lookup[ident][key] for ident in rows), strict=True)
+                points.append({'policy': label, 'collection': collection, 'n': len(times), 'correct': sum(scored),
+                               'mean_wall_seconds': fmean(times), 'median_wall_seconds': median(times),
+                               'p90_wall_seconds': quantiles(times, n=10, method='inclusive')[-1]
+                               if len(times) > 1 else times[0]})
+        results[dataset] = points
+    return results
+
+
+def save_joint(fig, output, suffix):
+    output.parent.mkdir(parents=True, exist_ok=True)
+    for extension in ('pdf', 'png'):
+        fig.savefig(output.with_name(f'{output.name}_{suffix}.{extension}'), dpi=400, facecolor='white')
+    plt.close(fig)
+
+
+def joint_axes(title, height=3.2):
+    matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 8, 'pdf.fonttype': 42})
+    fig, axes = plt.subplots(1, 2, figsize=(7.3, height), layout='constrained')
+    fig.suptitle(title, x=.035, ha='left', fontsize=12, fontweight='bold')
+    for dataset, axis in zip(DATASETS, axes, strict=True):
+        axis.set_title(DATASETS[dataset], loc='left', fontweight='bold')
+        axis.spines[['top', 'right']].set_visible(False)
+        axis.set_axisbelow(True)
+        axis.grid(alpha=.24)
+    return fig, axes
+
+
+def render_joint(official, prefill, timing, output):
+    fig, axes = joint_axes('Official accuracy and logical token use', height=4)
+    markers = ('D', 'v', '^', 'X', 'P', 's', '<', '>', 'h', 'o', 'x', '*')
+    legend = {}
+    for dataset, axis in zip(DATASETS, axes, strict=True):
+        rows = official[dataset]
+        axis.set_title(f'{DATASETS[dataset]}  ·  {rows[0]["n"]:,} questions', loc='left', fontweight='bold')
+        exact = {row['policy']: row for row in rows if row['unknown_usage_calls'] == 0}
+        frontier = pareto_frontier(exact, 'tokens_known', 'correct')
+        coordinates = sorted({(exact[name]['tokens_known'] / exact[name]['n'], exact[name]['correct'] / exact[name]['n'])
+                              for name in frontier})
+        if coordinates:
+            x, y = zip(*coordinates)
+            artist, = axis.plot(x, y, color='#253849', linestyle='--', linewidth=1, marker='o',
+                                markerfacecolor='none', markersize=9, zorder=2)
+            legend['Pareto frontier (complete usage)'] = artist
+        for index, row in enumerate(rows):
+            marker = markers[index]
+            source = row['collection']
+            color = JOINT_COLORS['local' if source.startswith('current') else
+                                 'fresh' if source.startswith('fresh') else 'historical']
+            x, y = row['tokens_known'] / row['n'], row['correct'] / row['n']
+            artist, = axis.plot(x, y, marker=marker, color=color, markersize=6.5, linestyle='none', zorder=3)
+            if row['unknown_usage_calls']:
+                axis.annotate('', xytext=(x, y), xy=(x * 1.065, y), zorder=2,
+                              arrowprops={'arrowstyle': '->', 'color': color, 'lw': .8})
+            legend[row['policy']] = artist
+        axis.set_xlabel('Known logical tokens / question')
+        axis.yaxis.set_major_formatter(PercentFormatter(1, decimals=0))
+        axis.margins(x=.16, y=.13)
+    axes[0].set_ylabel('Strict & executable rate')
+    fig.legend(legend.values(), legend.keys(), loc='lower center', ncol=3, bbox_to_anchor=(.52, .04), frameon=False)
+    fig.text(.52, .006, 'Arrows mark lower bounds where token usage is missing.', ha='center', fontsize=7)
+    fig.get_layout_engine().set(rect=(0, .23, 1, .77))
+    save_joint(fig, output, 'official')
+
+    fig, axes = joint_axes('Local model prefill on the official panels')
+    for dataset, axis in zip(DATASETS, axes, strict=True):
+        rows = prefill[dataset]
+        x = range(len(rows))
+        for orientation, field, color, label in ((-1, 'logical_prompt_tokens', '#A3ABB6', 'API prompt'),
+                (1, 'physical_prefill_tokens', JOINT_COLORS['fresh'], 'Computed prefill')):
+            axis.bar([i + orientation * .16 for i in x], [row[field] / row['n'] for row in rows],
+                     width=.28, color=color, label=label, zorder=3)
+        for i, row in enumerate(rows):
+            share = row['physical_prefill_tokens'] / row['logical_prompt_tokens'] - 1
+            axis.annotate(f'{share:+.1%}', (i + .16, row['physical_prefill_tokens'] / row['n']),
+                          xytext=(0, 4), textcoords='offset points', ha='center', fontsize=8)
+        axis.set_xticks(x, [row['policy'] for row in rows])
+        axis.set_ylabel('Tokens / question')
+        axis.margins(y=.15)
+    items, labels = axes[0].get_legend_handles_labels()
+    fig.legend(items, labels, loc='lower center', ncol=2, frameon=False)
+    fig.get_layout_engine().set(rect=(0, .075, 1, .925))
+    save_joint(fig, output, 'prefill')
+
+    if timing:
+        fig, axes = joint_axes('End-to-end timing on shared question IDs', height=3.25)
+        observed = [row for rows in timing.values() for row in rows]
+        positive = all(row['median_wall_seconds'] > 0 for row in observed)
+        lower = min(row['median_wall_seconds'] for row in observed) * .7 if positive else 0
+        upper = max(row['p90_wall_seconds'] for row in observed) * 1.3
+        for dataset, axis in zip(DATASETS, axes, strict=True):
+            rows = timing.get(dataset, [])
+            if not rows:
+                axis.set_title(f'{DATASETS[dataset]}  ·  no completed timing pairs', loc='left')
+                axis.set_axis_off()
+                continue
+            axis.set_title(f'{DATASETS[dataset]}  ·  {rows[0]["n"]}/{STRATIFIED_LATENCY_N} timing pairs', loc='left')
+            for y, row in enumerate(rows):
+                color = JOINT_COLORS['historical' if row['collection'].startswith('historical') else 'fresh']
+                low, high = row['median_wall_seconds'], row['p90_wall_seconds']
+                axis.plot([low, high], [y, y], color=color, lw=1.1)
+                axis.scatter(low, y, color=color, s=19, zorder=3)
+                axis.scatter(high, y, facecolors='white', edgecolors=color, s=19, zorder=3)
+            labels = [f'{row["policy"]}'+(' (archive)' if row['collection'].startswith('historical') else '')
+                      for row in rows]
+            axis.set_yticks(range(len(rows)), labels)
+            if dataset == 'tatqa' and 'finqa' in timing:
+                axis.tick_params(axis='y', labelleft=False)
+            axis.invert_yaxis()
+            if positive:
+                axis.set_xscale('log')
+            axis.set_xlim(lower, upper or 1)
+            axis.set_xlabel('Wall time (s, log scale)' if positive else 'Wall time (s)')
+        timing_legend = [Line2D([], [], marker='o', color='#45535F', markerfacecolor=facecolor,
+                                linestyle='none', markersize=4, label=label)
+                         for label, facecolor in (('Median', '#45535F'), ('p90', 'white'))]
+        fig.legend(handles=timing_legend, loc='lower center', ncol=2, frameon=False)
+        fig.get_layout_engine().set(rect=(0, .075, 1, .925))
+        save_joint(fig, output, 'timing')
+
+
+def write_joint(official, prefill, timing, output):
+    header = ('dataset', 'scope', 'policy', 'collection', 'n', 'correct', 'tokens_known', 'unknown_usage_calls',
+              'teacher_calls', 'recovered', 'harmed', 'paired_delta_95_pp', 'logical_prompt_tokens',
+              'physical_prefill_tokens', 'generated_tokens', 'mean_wall_seconds', 'median_wall_seconds',
+              'p90_wall_seconds')
+    with output.with_name(f'{output.name}_joint.tsv').open('w', newline='', encoding='utf-8') as stream:
+        writer = csv.DictWriter(stream, fieldnames=header, delimiter='\t', lineterminator='\n')
+        writer.writeheader()
+        for scope, group in (('full official accuracy and cost', official), ('full official local prefill', prefill),
+                             ('matched timing sample', timing)):
+            for dataset, rows in group.items():
+                writer.writerows({'dataset': dataset, 'scope': scope, **row} for row in rows)
 
 
 def load_online(path, *, fresh_comparison=False):
@@ -438,6 +714,12 @@ def main():
     source.add_argument('--input', type=Path, nargs='+')
     source.add_argument('--online-timing', type=Path, nargs=2, metavar='COLLECTION',
                         help='FinQA and TAT-QA live collection.json files with adjacent run.json')
+    source.add_argument('--joint-report', type=Path, help='Shared compact-gate replay report')
+    parser.add_argument('--joint-measurements', type=Path, help='Matched official compact measurements directory')
+    parser.add_argument('--joint-live', type=Path, nargs='+', metavar='COLLECTION')
+    parser.add_argument('--joint-historical-timing', type=Path, nargs=2, metavar='COLLECTION')
+    parser.add_argument('--joint-n', type=int, choices=(1, 4, 8), default=4)
+    parser.add_argument('--joint-rate', type=float, default=.2)
     parser.add_argument('--output', type=Path, required=True, help='Output basename without .pdf or .png')
     parser.add_argument('--fresh-comparison', action='store_true',
                         help='Also export a complete v4 token frontier and joined TSV from adjacent outcomes.jsonl')
@@ -446,6 +728,16 @@ def main():
     if args.fresh_comparison and not args.online_timing:
         parser.error('--fresh-comparison requires --online-timing')
     try:
+        if args.joint_report:
+            if not args.joint_measurements or bool(args.joint_live) != bool(args.joint_historical_timing):
+                parser.error('Joint mode needs matched compact measurements plus both timing inputs if timing is requested')
+            report, official, prefill = joint_official(args.joint_report, args.joint_measurements,
+                                                        args.joint_n, args.joint_rate)
+            timing = (joint_timing(args.joint_live, args.joint_historical_timing, report, args.joint_n, args.joint_rate)
+                      if args.joint_live else {})
+            render_joint(official, prefill, timing, args.output)
+            write_joint(official, prefill, timing, args.output)
+            return
         if args.online_timing:
             reports = [load_online(path, fresh_comparison=args.fresh_comparison) for path in args.online_timing]
             full_official = sum(report.get('full_official_panel', False) for report in reports)
