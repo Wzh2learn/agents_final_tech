@@ -10,7 +10,8 @@ shift 3
 [[ $study == "$HOME/wzh/research_evidence/"* && $label =~ ^[a-z][a-z0-9_]+$ ]]
 repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 driver="$repo/research/finance_frontier_pilot"
-python="$repo/venv/bin/python"
+lease_repo="$HOME/wzh/projects/agents_final_tech"
+python="$lease_repo/venv/bin/python"
 original_train="$study/training/run"
 train="$original_train"
 plan_arm=
@@ -187,7 +188,7 @@ PY
 
 lock="$HOME/wzh/.gpu_lock"
 guard=$(lslocks -rn -o PID,PATH | awk -v lock="$lock" '$2==lock{print $1}')
-[[ $guard =~ ^[1-9][0-9]+$ && $(readlink -f "/proc/$guard/cwd") = "$repo" ]]
+[[ $guard =~ ^[1-9][0-9]+$ && $(readlink -f "/proc/$guard/cwd") = "$lease_repo" ]]
 mapfile -d '' -t guard_command <"/proc/$guard/cmdline"
 [[ ${#guard_command[@]} == 4 && ${guard_command[0]} = "$python" && ${guard_command[1]} = -u && ${guard_command[2]} = -B ]]
 restore_script=$(realpath -- "${guard_command[3]}")
@@ -232,9 +233,13 @@ PY
             echo 'Original research guard still exists; restoration requires reconciliation.' >&2
             exit 1
         fi
-        nohup setsid "$python" -u -B "$out/restore_teacher/restore.py" \
-            </dev/null >"$out/restore.log" 2>&1 &
-        printf '%s\n' "$!" >"$out/restore.pid"
+        (
+            cd "$lease_repo" || exit 1
+            export PYTHONPATH="$lease_repo/research/finance_frontier_pilot:$lease_repo:$lease_repo/src"
+            nohup setsid "$python" -u -B "$out/restore_teacher/restore.py" \
+                </dev/null >"$out/restore.log" 2>&1 &
+            printf '%s\n' "$!" >"$out/restore.pid"
+        )
     fi
     for ((attempt=0; attempt<120; attempt++)); do
         if ready=$(curl -fsS --max-time 3 http://127.0.0.1:8006/v1/models 2>/dev/null) &&
