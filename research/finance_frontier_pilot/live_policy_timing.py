@@ -46,6 +46,7 @@ JOINT_POLICIES = ('joint-compact', 'deepseek-direct', 'car-compiled', 'budgetver
 JOINT_LAMBDAS = {'finqa': (.8, .8), 'tatqa': (.65, 0.)}
 JOINT_WAVE_PLAN = 'finance-live-joint-timing-wave-plan-v1'
 JOINT_WAVE_SHARD = 'finance-live-joint-timing-wave-shard-v1'
+ISOLATED_ACTOR_STORE = 'per-role-per-block-slot-xdg-v1'
 LEGACY_SERIAL_DRIVERS = {
     '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
     '8a9cbec1f2d5e1ee368b783dec372d2cf863414d71a3d9f10f7f636ef636a55a',
@@ -54,6 +55,10 @@ LEGACY_SERIAL_DRIVERS = {
 
 class TimingBudgetExhausted(Exception):
     """A measured policy could not dispatch its next managed request."""
+
+
+class TimingLocalStorageLocked(Exception):
+    """OpenCode exited on a local SQLite lock without emitting a model event."""
 
 
 def validate_full_panel_request(args):
@@ -390,6 +395,14 @@ def select_joint(row, arm, call, receipts, directory, run_digest, joint):
     return {**selected, 'calls': list(receipts)}, projection
 
 
+def local_storage_locked(target, result):
+    if result['exit_code'] != 1 or result['finish'] or result['usage'] is not None:
+        return False
+    raw, stderr = target / 'raw.jsonl', target / 'stderr.txt'
+    return (raw.is_file() and raw.stat().st_size == 0 and stderr.is_file()
+            and 'database is locked' in stderr.read_text(encoding='utf-8', errors='replace').casefold())
+
+
 def measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
                   *, admitted=None, campus_lock=None):
     ident = sha256(row['id'].encode()).hexdigest()[:24]
@@ -414,6 +427,8 @@ def measure_route(args, root, row, policy, actors, profiles, budget, key, run_di
         fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
         receipts[name] = {**{item: result[item] for item in fields if item in result},
                           'path': receipt_path.relative_to(root).as_posix()}
+        if campus_lock is not None and name not in profiles and local_storage_locked(target, result):
+            raise TimingLocalStorageLocked
         if (getattr(args, 'compare_baselines', False) and name not in profiles
                 and (result['exit_code'] or result['errors'])):
             model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA
@@ -468,8 +483,9 @@ def wave_reports(args, cases, gold, measure, workers, offset):
             batches, stop = {}, None
             for policy in order:
                 batch_start = monotonic()
-                futures = [pool.submit(measure, row, policy, admitted=monotonic(), campus_lock=campus_lock)
-                           for row, _ in block]
+                futures = [pool.submit(measure, row, policy, admitted=monotonic(), campus_lock=campus_lock,
+                                       actor_slot=slot)
+                           for slot, (row, _) in enumerate(block)]
                 measured = [future.result() for future in futures]
                 batch_wall = monotonic() - batch_start
                 for index, ((row, _), item) in enumerate(zip(block, measured, strict=True)):
@@ -516,7 +532,7 @@ def serial_reports(args, cases, gold, measure):
 
 
 def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None, joint=None,
-                  *, joint_offset=0):
+                  *, joint_offset=0, actor_slots=None):
     completed = 0
     started = monotonic()
     start_index = len(budget.rows)
@@ -526,9 +542,12 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     reports = {}
     all_costs, accepted_rows = [], []
     workers = getattr(args, 'joint_workers', 1)
+    if actor_slots is not None and (workers <= 1 or len(actor_slots) != workers):
+        raise ValueError('Isolated actor stores must match the wave width')
 
-    def measure(row, policy, **kwargs):
-        return measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
+    def measure(row, policy, *, actor_slot=0, **kwargs):
+        selected_actors = actors if actor_slots is None else actor_slots[actor_slot]
+        return measure_route(args, root, row, policy, selected_actors, profiles, budget, key, run_digest, selectors, joint,
                              **kwargs)
 
     produced = (wave_reports(args, cases, gold, measure, workers, joint_offset) if workers > 1
@@ -654,8 +673,9 @@ def joint_history(shards, plan, plan_hash):
                 or contract['case_offset'] != start or not order or order != target[start:start + len(order)]):
             raise ValueError('Joint shard must be a contiguous attempt on the next frozen question IDs')
         if workers > 1 and (contract.get('joint_workers') != workers or start % workers
+                            or contract.get('actor_store_scope') != plan.get('actor_store_scope')
                             or (len(order) % workers and start + len(order) != len(target))):
-            raise ValueError('A wave shard must use the same width and complete frozen blocks')
+            raise ValueError('A wave shard must use the frozen actor stores, width and complete blocks')
         if not outcomes_path.is_file():
             continue
         failed_block = None
@@ -756,6 +776,13 @@ def publish_joint_progress(root, plan, plan_hash):
             collection.update(schema='finance-live-joint-timing-wave-full-v1', joint_workers=plan['joint_workers'],
                               block_size_strata=wave_strata(rows, JOINT_POLICIES))
         freeze(root / 'collection.json', collection)
+
+
+def initialized_actors(root, args, roles):
+    actors = {role: OpenCode(root / role, args.opencode, args.base, ODA, 4096, 16384, .6) for role in roles}
+    for actor in actors.values():
+        actor.initialize_session_store()
+    return actors
 
 
 def run(args, benchmark, ledger_root):
@@ -869,6 +896,7 @@ def run(args, benchmark, ledger_root):
             # The shared provider ledger grows between attempts; the fitted input digests remain fixed.
             author_ledger_observed = baseline_metadata['author-cascade'].pop('campus_ledger_sha256')
             workers = getattr(args, 'joint_workers', 1)
+            isolated = getattr(args, 'joint_isolated_actor_slots', False)
             cases = joint_wave_cases(public, workers) if workers > 1 else frozen_cases(public, len(public), JOINT_POLICIES)
             plan = {
                 'schema': 'finance-live-joint-timing-plan-v1', 'dataset': args.dataset, 'panel': panel_digest,
@@ -896,6 +924,8 @@ def run(args, benchmark, ledger_root):
                                         'at its original size and question IDs. The final remainder is reported separately.',
                             author_rng_scope='The author worker starts at its fixed post-fit random state in each '
                                              'shard. Exchanges are serialized in the order reached by admitted routes.')
+            actor_profile = {'actor_store_scope': ISOLATED_ACTOR_STORE} if isolated else {}
+            plan.update(actor_profile)
             shard, todo, start, plan_hash = joint_shard(args, benchmark, resources, plan, cases)
             if shard is None:
                 return
@@ -905,17 +935,21 @@ def run(args, benchmark, ledger_root):
                               'case_offset': start, 'case_order': plan['case_order'][start:start + len(todo)],
                               'joint_workers': workers, 'executed_timing_driver_sha256': driver_hashes['live_policy_timing.py'],
                               'author_observed_campus_ledger_sha256': author_ledger_observed,
+                              **actor_profile,
                               'gateway_batch': {'posts_before': opening_posts, 'tokens_before': opening_tokens,
                                                 'post_limit': budget.posts, 'token_limit': budget.tokens}})
-            actors = {role: OpenCode(shard / 'actors' / role, args.opencode, args.base, ODA, 4096, 16384, .6)
-                      for role in roles}
-            for actor in actors.values():
-                actor.initialize_session_store()
+            if isolated:
+                actor_slots = tuple(initialized_actors(shard / 'actors' / f'slot-{slot}', args, roles)
+                                    for slot in range(workers))
+                actors = actor_slots[0]
+            else:
+                actor_slots = None
+                actors = initialized_actors(shard / 'actors', args, roles)
             try:
                 wait_service(args.base, ODA, 90)
                 wait_service(args.base, joint[1]['model'], 90)
                 collect_cases(args, shard, todo, gold, actors, providers, budget, key,
-                              digest_file(contract), selectors, joint, joint_offset=start)
+                              digest_file(contract), selectors, joint, joint_offset=start, actor_slots=actor_slots)
             finally:
                 publish_joint_progress(benchmark / args.namespace, plan, plan_hash)
             return
@@ -996,6 +1030,8 @@ def main():
                         help='Recorded base and joint LoRA configuration of the admitted live container')
     parser.add_argument('--joint-workers', type=int, choices=range(1, 5), default=1,
                         help='Joint-only same-arm concurrency per frozen block (default 1, serial)')
+    parser.add_argument('--joint-isolated-actor-slots', action='store_true',
+                        help='Preinitialize one OpenCode store per local role and concurrent block slot')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
@@ -1004,6 +1040,8 @@ def main():
     args = parser.parse_args()
     if args.joint_workers > 1 and not args.joint_gate:
         parser.error('--joint-workers above one requires --joint-gate')
+    if args.joint_isolated_actor_slots and (not args.joint_gate or args.joint_workers <= 1):
+        parser.error('--joint-isolated-actor-slots requires --joint-gate and --joint-workers above one')
     if args.joint_gate:
         if (args.stage != 'eval' or not args.compare_baselines or not args.compact_container
                 or not args.joint_serving_profile or not args.tabfm_checkpoint or args.cases < 1

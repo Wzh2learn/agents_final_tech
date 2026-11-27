@@ -522,29 +522,88 @@ def test_wave_gateway_budget_keeps_atomic_prefix_and_all_attempts(timing, questi
 
 def test_wave_reports_final_remainder_separately(timing, question, monkeypatch, tmp_path):
     rows = [{**question, 'id': str(i)} for i in range(3)]
-    args = SimpleNamespace(metric_dir=None, joint_workers=2)
+    args = SimpleNamespace(metric_dir=None, joint_workers=2, opencode=Path('fixture-opencode'), base='http://local/v1')
+    prepared, dispatched = set(), {}
 
-    def recorded(_, prompt, target, __):
+    def initialize(actor):
+        prepared.add(actor.env['XDG_DATA_HOME'])
+
+    def recorded(actor, prompt, target, __):
+        store = actor.env['XDG_DATA_HOME']
+        assert store in prepared and len(prepared) == 4
+        dispatched[prompt, target.name] = store
         return call_receipt('Final program: add(3, const_0)', tokens=12)
 
     def select(row, call):
         from scoring import parse_dsl
-        receipt = call('low', 'solve', row['question'])
-        return {'submission': parse_dsl(receipt['text']), 'calls': ['low']}, row
+        call('low', 'solve', row['id'])
+        receipt = call('verification', 'verify', row['id'])
+        return {'submission': parse_dsl(receipt['text']), 'calls': ['low', 'verification']}, row
 
+    monkeypatch.setattr(timing.OpenCode, 'initialize_session_store', initialize)
     monkeypatch.setattr(timing, 'recorded_call', recorded)
+    actor_slots = tuple(timing.initialized_actors(tmp_path / f'slot-{slot}', args, ('solve', 'verify'))
+                        for slot in range(2))
     cases = [(row, ('local',)) for row in rows]
     timing.collect_cases(args, tmp_path, cases, {('finqa', row['id']): {'exe_ans': 3} for row in rows},
-                         {'solve': None}, {}, SimpleNamespace(rows=[]), 'fixture', 'run', {'local': select},
-                         joint_offset=4)
+                         actor_slots[0], {}, SimpleNamespace(rows=[]), 'fixture', 'run', {'local': select},
+                         joint_offset=4, actor_slots=actor_slots)
+    assert dispatched == {(str(index), name): actor_slots[index % 2][role].env['XDG_DATA_HOME']
+                          for index in range(3) for name, role in (('low', 'solve'), ('verification', 'verify'))}
     outcomes = [json.loads(line) for line in (tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8').splitlines()]
     assert [(row['block_index'], row['block_size'], row['block_slot']) for row in outcomes] == [(2, 2, 0), (2, 2, 1), (3, 1, 0)]
     summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
     assert summary['complete_paired_questions'] == 3
     strata = summary['block_size_strata']
     assert {size: item['questions'] for size, item in strata.items()} == {'1': 1, '2': 2}
-    assert strata['1']['arms']['local']['local_call_cost']['known_tokens'] == 12
-    assert strata['2']['arms']['local']['local_call_cost']['known_tokens'] == 24
+    assert strata['1']['arms']['local']['local_call_cost']['known_tokens'] == 24
+    assert strata['2']['arms']['local']['local_call_cost']['known_tokens'] == 48
+
+
+def test_wave_startup_lock_is_an_incomplete_attempt_without_retry(timing, question, monkeypatch, tmp_path):
+    args = SimpleNamespace(metric_dir=None, joint_workers=2)
+    rows = [{**question, 'id': str(index)} for index in range(3)]
+    order = ('model-length', 'startup', 'later')
+    calls = []
+
+    def recorded(_, prompt, target, __):
+        policy = target.parent.name
+        calls.append((policy, prompt))
+        target.mkdir(parents=True)
+        receipt = call_receipt('invalid', tokens=12)
+        if policy == 'model-length':
+            receipt['finish'] = ['length']
+        elif policy == 'startup' and prompt == '0':
+            receipt.update(exit_code=1, finish=[], usage=None, text='')
+            (target / 'raw.jsonl').write_bytes(b'')
+            (target / 'stderr.txt').write_text('Unexpected error\n\ndatabase is locked\n', encoding='utf-8')
+        (target / 'call.json').write_text(json.dumps(receipt), encoding='utf-8')
+        return receipt
+
+    def select(row, call):
+        from scoring import parse_dsl
+
+        receipt = call('low', 'solve', row['id'])
+        return {'submission': parse_dsl(timing.deliver(receipt)), 'calls': ['low']}, row
+
+    monkeypatch.setattr(timing, 'recorded_call', recorded)
+    with pytest.raises(RuntimeError, match='timing wave failed'):
+        timing.collect_cases(args, tmp_path, [(row, order) for row in rows],
+                             {('finqa', row['id']): {'exe_ans': 3} for row in rows}, {'solve': None}, {},
+                             SimpleNamespace(rows=[]), 'fixture', 'run', {policy: select for policy in order})
+
+    assert Counter(calls) == Counter((policy, row['id']) for policy in order[:2] for row in rows[:2])
+    attempts = [json.loads(line) for line in (tmp_path / 'outcomes.jsonl').read_text(encoding='utf-8').splitlines()]
+    assert [attempt['complete_pair'] for attempt in attempts] == [False, False]
+    assert all(attempt['policies']['model-length']['status'] == 'complete' for attempt in attempts)
+    failed = attempts[0]['policies']['startup']
+    assert (failed['status'], failed['failure_type']) == ('incomplete_error', 'TimingLocalStorageLocked')
+    receipt = tmp_path / failed['calls']['low']['path']
+    assert receipt.is_file() and (receipt.parent / 'raw.jsonl').stat().st_size == 0
+    assert 'database is locked' in (receipt.parent / 'stderr.txt').read_text(encoding='utf-8')
+    summary = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    assert summary['stop_reason'] == 'route_error' and summary['complete_paired_questions'] == 0
+    assert summary['all_attempt_cost']['calls'] == 4 and summary['all_attempt_cost']['unknown_usage_calls'] == 1
 
 
 def test_joint_shard_preserves_legacy_plan_and_rejects_wave_mixing(timing, question, monkeypatch, tmp_path):
@@ -569,3 +628,22 @@ def test_joint_shard_preserves_legacy_plan_and_rejects_wave_mixing(timing, quest
         timing.joint_shard(args, tmp_path, resources, {**candidate, 'schema': timing.JOINT_WAVE_PLAN,
                                                     'joint_workers': 2}, cases)
     assert timing.digest_file(plan_path) == plan_hash
+
+
+def test_isolated_wave_cannot_resume_a_shared_store_plan(timing, question, monkeypatch, tmp_path):
+    monkeypatch.setitem(sys.modules, 'fcntl', SimpleNamespace(LOCK_EX=1, LOCK_NB=2, flock=lambda *_: None))
+    args = SimpleNamespace(namespace='timed', cases=2, offset=None)
+    rows = [dict(question, id=str(index)) for index in range(2)]
+    cases = [(row, timing.JOINT_POLICIES) for row in rows]
+    plan = {'schema': timing.JOINT_WAVE_PLAN, 'dataset': 'finqa', 'joint_workers': 2,
+            'case_order': [{'id': row['id'], 'policy_order': list(order), 'report': row['report']}
+                           for row, order in cases]}
+    isolated = {**plan, 'actor_store_scope': timing.ISOLATED_ACTOR_STORE}
+    with ExitStack() as resources:
+        shard, _, _, digest = timing.joint_shard(args, tmp_path, resources, plan, cases)
+    with ExitStack() as resources, pytest.raises(ValueError, match='Frozen request differs'):
+        timing.joint_shard(args, tmp_path, resources, isolated, cases)
+    timing.freeze(shard / 'run.json', {'schema': timing.JOINT_WAVE_SHARD, 'joint_plan_sha256': digest,
+                  'joint_workers': 2, 'case_offset': 0, 'case_order': plan['case_order']})
+    with pytest.raises(ValueError, match='frozen actor stores'):
+        timing.joint_history(shard.parent, isolated, digest)

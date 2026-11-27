@@ -51,6 +51,78 @@ image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
 alias=oda-compact-joint
 base=http://127.0.0.1:18157/v1
 export PYTHONPATH="$driver:$repo:$repo/src" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+
+joint_timing_batches() (
+    local mode=$1
+    shift
+    local tabfm_deps="$HOME/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1"
+    cd "$repo"
+    PYTHONPATH="$tabfm_deps:$PYTHONPATH" "$python" -B - "$mode" "$driver" "$base" "$metric" "$out" \
+        "${cid:-000000000000}" "$@" <<'PY'
+from pathlib import Path
+import subprocess
+import sys
+
+mode, driver, base, metric, output, container, *arguments = sys.argv[1:]
+groups = [[]]
+for token in arguments:
+    if token == '--next-joint-timing':
+        groups.append([])
+    else:
+        groups[-1].append(token)
+if len(groups) < 2 or not all(groups):
+    raise SystemExit('Separate two or more nonempty timing argument groups with --next-joint-timing.')
+
+script = str(Path(driver) / 'live_policy_timing.py')
+profile = str(Path(output) / 'serving_profile.json')
+common = ['--stage', 'eval', '--base', base, '--compare-baselines', '--compact-container', container,
+          '--joint-serving-profile', profile, '--metric-dir', metric]
+
+if mode == 'check':
+    sys.path.insert(0, driver)
+    import live_policy_timing as timing
+
+    def check(args, benchmark, ledger_root):
+        if args.joint_gate is None or not args.joint_gate.is_file():
+            raise SystemExit('Each timing group requires an existing --joint-gate file.')
+        if not args.tabfm_checkpoint.exists():
+            raise SystemExit('Each timing group requires an existing --tabfm-checkpoint.')
+
+    # Reuse the driver's normal CLI validation without entering the live runner.
+    timing.run = check
+    for index, group in enumerate(groups, 1):
+        if set(group) & {'-h', '--help'}:
+            raise SystemExit(f'Timing group {index} must contain driver arguments.')
+        sys.argv = [script, *group, *common]
+        try:
+            timing.main()
+        except SystemExit as error:
+            print(f'Invalid timing argument group {index}.', file=sys.stderr)
+            if error.code == 0:
+                raise SystemExit(2) from None
+            raise
+else:
+    for index, group in enumerate(groups, 1):
+        with (Path(output) / f'eval_{index:02d}.log').open('x', encoding='utf-8') as log:
+            result = subprocess.run([sys.executable, '-B', '-u', script, *group, *common],
+                                    stdout=log, stderr=subprocess.STDOUT)
+        if result.returncode:
+            raise SystemExit(result.returncode if result.returncode > 0 else 128 - result.returncode)
+PY
+)
+
+joint_batch=0
+if [[ ${1:-} == --joint-timing ]]; then
+    # A separator opts in; an ordinary timing invocation keeps its original log and command.
+    for flag in "${@:2}"; do
+        if [[ $flag == --next-joint-timing ]]; then
+            joint_batch=1
+            joint_timing_batches check "${@:2}"
+            break
+        fi
+    done
+fi
+
 test -s "$panel/public.jsonl"
 test -s "$panel/references.jsonl"
 test -s "$metric/tatqa_metric.py"
@@ -227,7 +299,9 @@ freeze(Path(out) / 'serving_profile.json', {
 })
 wait_service(base, alias, 360)
 PY
-if [[ ${1:-} == --joint-timing ]]; then
+if ((joint_batch)); then
+    joint_timing_batches run "${@:2}"
+elif [[ ${1:-} == --joint-timing ]]; then
     shift
     tabfm_deps="$HOME/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1"
     PYTHONPATH="$tabfm_deps:$PYTHONPATH" "$python" -B -u "$driver/live_policy_timing.py" --stage eval --base "$base" --compare-baselines \
