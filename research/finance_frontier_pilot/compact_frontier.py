@@ -136,7 +136,7 @@ def normalized_teacher(path, expected, identity):
     return rows
 
 
-def frozen_cutoff(rows, rate, teacher):
+def frozen_cutoff(rows, rate, teacher, *, disagreement_only=False):
     """Include tied candidates together and learn the cutoff using TRAIN only."""
     buckets = Counter(row['risk'] for row in rows.values())
     gains = Counter()
@@ -149,6 +149,8 @@ def frozen_cutoff(rows, rate, teacher):
     cutoff, actual, utility = None, 0, 0
     count, gain = 0, 0
     for key, size in sorted(buckets.items()):
+        if disagreement_only and key[1] == 1:
+            break
         count += size
         if count > cap:
             break
@@ -217,7 +219,7 @@ def calibration_report(args, rows, identity):
     for n, states in sorted(groups.items()):
         arms = {}
         for rate in sorted(args.rates):
-            cutoff = frozen_cutoff(states, rate, teacher)
+            cutoff = frozen_cutoff(states, rate, teacher, disagreement_only=n > 1)
             arms[f'{rate:g}'] = {**cutoff, 'train': summary(states, cutoff['risk_cutoff'], teacher)[0]}
         no_teacher = {dataset: summary({key: row for key, row in states.items() if key[0] == dataset})[0]
                       for dataset in DATASETS}
@@ -227,7 +229,8 @@ def calibration_report(args, rows, identity):
             'train_local_receipts_sha256': digest_file(args.local / 'cases.jsonl'),
             'train_teacher_sha256': digest_file(args.teacher) if args.teacher else None,
             'risk_order': 'Ascending (has-executable-result, execution vote share, selected minimum token logprob); '
-                          'missing logprob is neutral and exact cutoff ties route together.',
+                          'missing logprob is neutral and exact cutoff ties route together. '
+                          'Multisample unanimity accepts locally, regardless of the call cap.',
             'calibration': ('Maximize paired net gains within each TRAIN call cap; ties favor fewer calls.'
                             if teacher is not None else 'Use pooled, label-free TRAIN call-rate quantiles.'),
             'arms': policy}
