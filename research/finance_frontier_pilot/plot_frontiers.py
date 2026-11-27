@@ -75,6 +75,12 @@ JOINT_ARCHIVED_GBM = {'finqa': '0.8', 'tatqa': '0.65'}
 JOINT_TIMED_ARMS = {'contract': 'Earlier contract cascade', 'car': 'CAR', 'budgetverify': 'BudgetVerify / TabFM',
                     'author-cascade': 'Cascade Routing', 'ds-first': 'DeepSeek → Qwen',
                     'qwen-first': 'Qwen → DeepSeek'}
+JOINT_PARETO_LABELS = {
+    'joint-compact': 'Compact → DeepSeek', 'deepseek-direct': 'DeepSeek direct',
+    'car-compiled': 'CAR + compiler', 'budgetverify-gbm-compiled': 'BudgetVerify GBM + compiler',
+    'budgetverify-tabfm-compiled': 'BudgetVerify TabFM + compiler', 'author-cascade': 'Cascade Routing',
+    'qwen-first': 'Qwen → DeepSeek', 'ds-first': 'DeepSeek → Qwen',
+}
 
 
 def family(name, metadata):
@@ -104,6 +110,15 @@ def pareto_frontier(points, cost, score):
             if not any(other[cost] <= point[cost] and other[score] >= point[score]
                        and (other[cost] < point[cost] or other[score] > point[score])
                        for other in points.values())}
+
+
+def three_axis_frontier(points):
+    """Maximize executable correctness, and minimize matched tokens and wall time."""
+    vectors = {name: (point['common_strict_executable'], -point['common_request_tokens'],
+                      -point['common_mean_wall_seconds']) for name, point in points.items()}
+    return {name for name, value in vectors.items()
+            if not any(other != value and all(a >= b for a, b in zip(other, value, strict=True))
+                       for other in vectors.values())}
 
 
 def digest(path):
@@ -373,6 +388,147 @@ def write_joint(official, prefill, timing, output):
                              ('matched timing sample', timing)):
             for dataset, rows in group.items():
                 writer.writerows({'dataset': dataset, 'scope': scope, **row} for row in rows)
+
+
+def joint_pareto_case(record):
+    from benchmark_actions import action_cost
+
+    result, wall, calls = record['result'], record['wall_seconds'], record['calls']
+    if (record['status'] != 'complete' or type(result['strict']) is not bool
+            or type(result['executable']) is not bool or type(wall) not in (int, float)
+            or not isfinite(wall) or wall < 0 or not calls):
+        raise ValueError('Invalid completed route in joint timing receipts')
+    for call in calls.values():
+        usage, seconds = call['usage'], call['elapsed_seconds']
+        if (type(seconds) not in (int, float) or not isfinite(seconds) or seconds < 0
+                or (usage is not None and (type(usage['total']) is not int or usage['total'] < 0))):
+            raise ValueError('Invalid measured model call in joint timing receipts')
+    cost = action_cost(list(calls.values()))
+    if cost != record['cost']:
+        raise ValueError('Recorded route cost differs from its bound call receipts')
+    return result['strict'], result['strict'] and result['executable'], wall, cost
+
+
+def load_joint_pareto(namespace, *, allow_partial=False):
+    """Load the immutable full-panel plan and the accepted fresh timing prefix."""
+    from cohorts import UPSTREAM, read_source
+    from live_policy_timing import JOINT_POLICIES, JOINT_WAVE_PLAN, OFFICIAL_COUNTS, joint_history
+
+    plan_path = namespace / 'joint_plan.json'
+    plan = json.loads(plan_path.read_bytes())
+    plan_sha = digest(plan_path)
+    dataset, order = plan['dataset'], plan['case_order']
+    expected, width = OFFICIAL_COUNTS[dataset], plan.get('joint_workers', 1)
+    serial = plan['schema'] == 'finance-live-joint-timing-plan-v1' and type(width) is int and width == 1
+    waves = plan['schema'] == JOINT_WAVE_PLAN and type(width) is int and 2 <= width <= 4
+    official = plan['official_source']
+    if (not (serial or waves) or len(order) != expected or len({case['id'] for case in order}) != expected
+            or tuple(plan['policies']) != JOINT_POLICIES
+            or any(len(case['policy_order']) != len(JOINT_POLICIES) or set(case['policy_order']) != set(JOINT_POLICIES)
+                   for case in order)
+            or (official['split'], official['sha256'], official['source_questions'])
+            != (UPSTREAM[dataset][0], UPSTREAM[dataset][2], expected)
+            or any(not isinstance(plan['panel'].get(name), str) or not SHA256.fullmatch(plan['panel'][name])
+                   for name in ('public.jsonl', 'references.jsonl'))):
+        raise ValueError(f'{namespace}: does not describe the exact eight-policy official panel')
+    source_path = Path(official['path'])
+    if source_path.is_file():
+        source, identity = read_source(dataset, source_path)
+        expected_rows = {(row['id'], row['report']) for row, _, _ in source}
+        if identity != official or expected_rows != {(case['id'], case['report']) for case in order}:
+            raise ValueError(f'{namespace}: timing plan does not match its official source records')
+    rows, attempts = joint_history(namespace / 'shards', plan, plan_sha)
+    n = len(rows)
+    if not n or (n != expected and not allow_partial):
+        raise ValueError(f'{namespace}: {n}/{expected} complete pairs; full export requires all official questions')
+    points = {name: [joint_pareto_case(row['policies'][name]) for row in rows] for name in JOINT_POLICIES}
+    common = [index for index in range(n) if all(arm[index][3]['total_tokens'] is not None for arm in points.values())]
+    sizes = Counter(row.get('block_size', 1) for row in rows)
+    dataset_scope = 'full_official' if n == expected else 'partial_frozen_prefix'
+    policies = {}
+    for name, arm in points.items():
+        matched = [arm[index] for index in common]
+        known = sum(item[3]['known_tokens'] for item in arm)
+        unknown_calls = sum(item[3]['unknown_usage_calls'] for item in arm)
+        policies[name] = {
+            'dataset': dataset, 'scope': dataset_scope, 'policy': name, 'policy_label': JOINT_PARETO_LABELS[name],
+            'joint_workers': width, 'official_n': expected, 'timed_n': n, 'common_cost_complete_n': len(common),
+            'timing_attempts': attempts, 'joint_plan_sha256': plan_sha,
+            'timed_questions_by_block_size': ';'.join(f'{size}:{sizes[size]}' for size in sorted(sizes)),
+            'timed_strict_correct': sum(item[0] for item in arm),
+            'timed_strict_executable': sum(item[1] for item in arm),
+            'timed_strict_executable_accuracy': sum(item[1] for item in arm) / n,
+            'timed_mean_wall_seconds': fmean(item[2] for item in arm),
+            'timed_known_request_tokens': known, 'timed_total_request_tokens': None if unknown_calls else known,
+            'timed_unknown_usage_questions': sum(item[3]['unknown_usage_calls'] > 0 for item in arm),
+            'timed_unknown_usage_calls': unknown_calls,
+            'common_strict_correct': sum(item[0] for item in matched),
+            'common_strict_executable': sum(item[1] for item in matched),
+            'common_strict_executable_accuracy': sum(item[1] for item in matched) / len(matched) if matched else None,
+            'common_request_tokens': sum(item[3]['total_tokens'] for item in matched) if matched else None,
+            'common_mean_wall_seconds': fmean(item[2] for item in matched) if matched else None,
+        }
+    frontier = three_axis_frontier(policies) if common else set()
+    for name, point in policies.items():
+        point['on_three_axis_frontier'] = name in frontier if common else None
+    return list(policies.values())
+
+
+def render_joint_pareto(charts, output, label=None):
+    matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 8, 'pdf.fonttype': 42})
+    figure, axes = plt.subplots(len(charts), 2, figsize=(7.6, 2.45 * len(charts) + .85),
+                                squeeze=False, layout='constrained')
+    markers = ('*', 'o', 'D', 's', '^', 'P', 'v', 'X')
+    colors = ('#B64D24', '#0072B2', '#686B93', '#946900', '#AC4F85', '#00815F', '#6D7890', '#564956')
+    for rows, (token_axis, wall_axis) in zip(charts, axes, strict=True):
+        coverage = rows[0]
+        common = coverage['common_cost_complete_n']
+        name = DATASETS[coverage['dataset']]
+        token_axis.set_title(f'{name} · {coverage["timed_n"]:,}/{coverage["official_n"]:,} timed', loc='left',
+                             fontweight='bold')
+        wall_axis.set_title(f'{common:,} with complete usage · {coverage["joint_workers"]} workers', loc='left')
+        for axis, field, xlabel, divisor in (
+            (token_axis, 'common_request_tokens', 'Measured request tokens / question', common or 1),
+            (wall_axis, 'common_mean_wall_seconds', 'End-to-end wall time / question (s)', 1),
+        ):
+            axis.spines[['top', 'right']].set_visible(False)
+            axis.set_axisbelow(True)
+            axis.grid(alpha=.24)
+            axis.yaxis.set_major_formatter(PercentFormatter(1, decimals=0))
+            axis.set_xlabel(xlabel)
+            if not common:
+                axis.text(.5, .5, 'No common complete-usage questions', transform=axis.transAxes, ha='center')
+                axis.set_xticks([])
+                axis.set_yticks([])
+                continue
+            for row, marker, color in zip(rows, markers, colors, strict=True):
+                x, y = row[field] / divisor, row['common_strict_executable_accuracy']
+                if row['on_three_axis_frontier']:
+                    axis.scatter(x, y, marker='o', s=93, facecolor='none', edgecolor='#253849', linewidth=.8, zorder=2)
+                axis.scatter(x, y, marker=marker, color=color, s=55 if marker == '*' else 33, zorder=3)
+            axis.margins(x=.12, y=.14)
+            ymin, ymax = axis.get_ylim()
+            axis.set_ylim(max(-.04, ymin), min(1.04, ymax))
+        token_axis.set_ylabel('Strict & executable accuracy')
+    partial = any(rows[0]['scope'] == 'partial_frozen_prefix' for rows in charts)
+    title = label or 'Accuracy, measured tokens, and end-to-end wall time'
+    figure.suptitle(f'{title} · partial prefix' if partial else title, x=.025, ha='left', fontweight='bold', fontsize=12)
+    legend = [Line2D([], [], marker=marker, color=color, markersize=6, linestyle='none', label=row['policy_label'])
+              for row, marker, color in zip(charts[0], markers, colors, strict=True)]
+    legend.append(Line2D([], [], marker='o', markerfacecolor='none', color='#253849', linestyle='none',
+                         markersize=8, label='Three-axis Pareto frontier'))
+    figure.legend(handles=legend, loc='lower center', bbox_to_anchor=(.5, .012), ncol=3, frameon=False, fontsize=7)
+    figure.get_layout_engine().set(rect=(0, .19 if len(charts) == 1 else .12, 1, .81 if len(charts) == 1 else .88))
+    save_joint(figure, output, 'pareto')
+
+
+def write_joint_pareto(charts, output):
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.with_name(f'{output.name}_pareto.tsv').open('w', newline='', encoding='utf-8') as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(charts[0][0]), delimiter='\t', lineterminator='\n')
+        writer.writeheader()
+        for rows in charts:
+            writer.writerows(rows)
 
 
 def load_online(path, *, fresh_comparison=False):
@@ -715,6 +871,9 @@ def main():
     source.add_argument('--online-timing', type=Path, nargs=2, metavar='COLLECTION',
                         help='FinQA and TAT-QA live collection.json files with adjacent run.json')
     source.add_argument('--joint-report', type=Path, help='Shared compact-gate replay report')
+    source.add_argument('--joint-pareto', type=Path, nargs='+', metavar='NAMESPACE',
+                        help='One or two live eight-policy joint timing namespaces with plan and shards')
+    parser.add_argument('--allow-partial', action='store_true', help='Label and export a nonempty frozen timing prefix')
     parser.add_argument('--joint-measurements', type=Path, help='Matched official compact measurements directory')
     parser.add_argument('--joint-live', type=Path, nargs='+', metavar='COLLECTION')
     parser.add_argument('--joint-historical-timing', type=Path, nargs=2, metavar='COLLECTION')
@@ -727,7 +886,17 @@ def main():
     args = parser.parse_args()
     if args.fresh_comparison and not args.online_timing:
         parser.error('--fresh-comparison requires --online-timing')
+    if args.allow_partial and not args.joint_pareto:
+        parser.error('--allow-partial requires --joint-pareto')
     try:
+        if args.joint_pareto:
+            charts = [load_joint_pareto(path, allow_partial=args.allow_partial) for path in args.joint_pareto]
+            if len({rows[0]['dataset'] for rows in charts}) != len(charts):
+                parser.error('Pass distinct FinQA or TAT-QA timing namespaces')
+            charts.sort(key=lambda rows: rows[0]['dataset'])
+            render_joint_pareto(charts, args.output, args.label)
+            write_joint_pareto(charts, args.output)
+            return
         if args.joint_report:
             if not args.joint_measurements or bool(args.joint_live) != bool(args.joint_historical_timing):
                 parser.error('Joint mode needs matched compact measurements plus both timing inputs if timing is requested')

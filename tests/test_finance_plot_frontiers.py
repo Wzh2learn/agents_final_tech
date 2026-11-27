@@ -17,6 +17,112 @@ def plotting(monkeypatch):
     return plot_frontiers
 
 
+def write_joint_pareto_fixture(plotting, root, monkeypatch, *, timed=3, all_missing=False):
+    from benchmark_actions import action_cost
+    from cohorts import UPSTREAM
+    import live_policy_timing as timing
+
+    monkeypatch.setitem(timing.OFFICIAL_COUNTS, 'finqa', 3)
+    arms = timing.JOINT_POLICIES
+    order = [{'id': f'q{i}', 'report': f'r{i}', 'policy_order': list(arms)} for i in range(3)]
+    plan = {'schema': 'finance-live-joint-timing-plan-v1', 'dataset': 'finqa',
+            'case_order': order, 'policies': list(arms),
+            'panel': {'public.jsonl': 'a' * 64, 'references.jsonl': 'b' * 64},
+            'official_source': {'split': 'test', 'sha256': UPSTREAM['finqa'][2], 'source_questions': 3,
+                                'path': str(root / 'not-copied-source.json')}}
+    plan_path = root / 'joint_plan.json'
+    plan_path.write_text(json.dumps(plan), encoding='utf-8')
+    shard = root / 'shards/00000'
+    shard.mkdir(parents=True)
+    (shard / 'run.json').write_text(json.dumps({
+        'schema': 'finance-live-joint-timing-shard-v1', 'joint_plan_sha256': plotting.digest(plan_path),
+        'case_offset': 0, 'case_order': order,
+    }), encoding='utf-8')
+    outcomes = []
+    # Compact, DeepSeek, CAR and TabFM can be non-dominated in 3-D even when a 2-D projection hides one.
+    props = [(10, 4, 1), (30, 3, 2), (40, 2, 2), (60, 5, 1), (10, 4, 1),
+             (50, 5, 1), (50, 6, 0), (60, 5, 0)]
+    for i, case in enumerate(order[:timed]):
+        records = {}
+        for j, (name, (tokens, wall, correct)) in enumerate(zip(arms, props, strict=True)):
+            path = Path('calls') / case['id'] / name / 'call.json'
+            (shard / path).parent.mkdir(parents=True)
+            (shard / path).write_text('{}', encoding='utf-8')
+            usage = None if (j == 6 and (i == 2 or all_missing)) else {'total': tokens}
+            call = {'usage': usage, 'elapsed_seconds': .1, 'path': path.as_posix()}
+            executable = i < correct or i == 2
+            records[name] = {'status': 'complete', 'result': {'strict': executable or (j == 3 and i == 1),
+                                                             'executable': executable},
+                             'wall_seconds': wall if i < 2 else wall + 30,
+                             'calls': {'solve': call}, 'cost': action_cost([call])}
+        outcomes.append({**case, 'dataset': 'finqa', 'complete_pair': True, 'policies': records})
+    (shard / 'outcomes.jsonl').write_text(''.join(json.dumps(row) + '\n' for row in outcomes), encoding='utf-8')
+    return plan_path, shard
+
+
+def test_joint_pareto_matches_all_eight_methods_on_one_usage_cohort(plotting, monkeypatch, tmp_path):
+    write_joint_pareto_fixture(plotting, tmp_path, monkeypatch)
+    rows = {row['policy']: row for row in plotting.load_joint_pareto(tmp_path)}
+    assert set(rows) == set(plotting.JOINT_PARETO_LABELS)
+    assert {row['scope'] for row in rows.values()} == {'full_official'}
+    assert {(row['timed_n'], row['common_cost_complete_n']) for row in rows.values()} == {(3, 2)}
+    assert {name for name, row in rows.items() if row['on_three_axis_frontier']} == {
+        'joint-compact', 'deepseek-direct', 'car-compiled', 'budgetverify-tabfm-compiled',
+    }
+    compact = rows['joint-compact']
+    assert compact['common_request_tokens'] == 20 and compact['timed_total_request_tokens'] == 30
+    assert compact['common_mean_wall_seconds'] == 4 and compact['timed_mean_wall_seconds'] == 14
+    assert compact['common_strict_executable'] == 1 and compact['timed_strict_executable'] == 2
+    unknown = next(row for row in rows.values() if row['timed_unknown_usage_calls'])
+    assert unknown['timed_unknown_usage_questions'] == 1 and unknown['timed_total_request_tokens'] is None
+    assert unknown['timed_known_request_tokens'] == unknown['common_request_tokens']
+    gbm = rows['budgetverify-gbm-compiled']
+    assert gbm['common_strict_correct'] == 2 and gbm['common_strict_executable'] == 1
+
+
+def test_joint_pareto_partial_cli_labels_scope_and_writes_three_artifacts(plotting, monkeypatch, tmp_path):
+    write_joint_pareto_fixture(plotting, tmp_path, monkeypatch, timed=2)
+    with pytest.raises(ValueError, match='2/3 complete pairs'):
+        plotting.load_joint_pareto(tmp_path)
+    output = tmp_path / 'export/live'
+    monkeypatch.setattr(sys, 'argv', ['plot_frontiers', '--joint-pareto', str(tmp_path), '--allow-partial',
+                                     '--output', str(output)])
+    plotting.main()
+    with output.with_name('live_pareto.tsv').open(encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream, delimiter='\t'))
+    assert len(rows) == 8
+    assert {(row['scope'], row['timed_n'], row['official_n']) for row in rows} == {('partial_frozen_prefix', '2', '3')}
+    assert output.with_name('live_pareto.pdf').read_bytes().startswith(b'%PDF')
+    assert output.with_name('live_pareto.png').read_bytes().startswith(b'\x89PNG')
+
+
+def test_joint_pareto_keeps_full_denominator_when_no_common_cost_cohort(plotting, monkeypatch, tmp_path):
+    write_joint_pareto_fixture(plotting, tmp_path, monkeypatch, all_missing=True)
+    rows = plotting.load_joint_pareto(tmp_path)
+    assert {row['timed_n'] for row in rows} == {3}
+    assert {row['common_cost_complete_n'] for row in rows} == {0}
+    assert all(row['on_three_axis_frontier'] is None and row['common_request_tokens'] is None for row in rows)
+
+
+@pytest.mark.parametrize('bad', ['duplicate_official_id', 'missing_timed_arm', 'mismatched_cost'])
+def test_joint_pareto_rejects_unbound_coverage_or_cost(plotting, monkeypatch, tmp_path, bad):
+    plan_path, shard = write_joint_pareto_fixture(plotting, tmp_path, monkeypatch)
+    if bad == 'duplicate_official_id':
+        plan = json.loads(plan_path.read_bytes())
+        plan['case_order'][0]['id'] = plan['case_order'][1]['id']
+        plan_path.write_text(json.dumps(plan), encoding='utf-8')
+    else:
+        path = shard / 'outcomes.jsonl'
+        rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+        if bad == 'missing_timed_arm':
+            del rows[0]['policies']['joint-compact']
+        else:
+            rows[0]['policies']['joint-compact']['cost']['total_tokens'] += 1
+        path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8')
+    with pytest.raises(ValueError):
+        plotting.load_joint_pareto(tmp_path)
+
+
 def write_pair(root, plotting, version, *, dataset='finqa', n=1):
     names = sorted(plotting.ONLINE_POLICIES | (plotting.COMPACT_POLICIES if version >= 3 else set()))
     contract = {'schema': f'finance-live-policy-timing-v{version}', 'stage': 'eval', 'dataset': dataset,
