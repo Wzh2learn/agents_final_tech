@@ -164,7 +164,13 @@ freeze(Path(out) / 'serving_profile.json', {
 })
 wait_service(base, alias, 360)
 PY
-if [[ ${1:-} == --live-teacher ]]; then
+if [[ ${1:-} == --joint-timing ]]; then
+    shift
+    tabfm_deps="$HOME/wzh/external_research_sources/finance_frontier/budgetverify-tabfm-deps-v1"
+    PYTHONPATH="$tabfm_deps:$PYTHONPATH" "$python" -B -u "$driver/live_policy_timing.py" --stage eval --base "$base" --compare-baselines \
+        --compact-container "$cid" \
+        --joint-serving-profile "$out/serving_profile.json" --metric-dir "$metric" "$@" >"$out/eval.log" 2>&1
+elif [[ ${1:-} == --live-teacher ]]; then
     shift
     profile_digest=$(sha256sum "$out/serving_profile.json" | cut -d ' ' -f 1)
     "$python" -B -u "$driver/live_compact_teacher.py" --live --panel "$panel" --output "$out/live" \
