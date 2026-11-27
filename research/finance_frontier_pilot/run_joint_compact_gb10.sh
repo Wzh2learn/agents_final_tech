@@ -15,6 +15,7 @@ python="$lease_repo/venv/bin/python"
 original_train="$study/training/run"
 train="$original_train"
 plan_arm=
+preference_arm=
 case ${1:-} in
     --hard-adapter)
         shift
@@ -26,6 +27,15 @@ case ${1:-} in
         shift 2
         train="$study/training/planning_v1/$plan_arm/run"
         ;;
+    --joint-preference-adapter)
+        preference_arm=${2:-}
+        if [[ $preference_arm != control && $preference_arm != preference ]]; then
+            echo '--joint-preference-adapter requires control or preference.' >&2
+            exit 2
+        fi
+        shift 2
+        train="$study/training/semantic_joint_preference_run_v1/$preference_arm/run"
+        ;;
 esac
 restore_status="$train/restore_teacher/status"
 if [[ -n $plan_arm ]]; then
@@ -35,6 +45,16 @@ if [[ -n $plan_arm ]]; then
             echo 'The planning adapter determines the prompt format.' >&2
             exit 2
         fi
+    done
+elif [[ -n $preference_arm ]]; then
+    restore_status="$study/training/semantic_joint_preference_run_v1/restore_teacher/status"
+    for flag in "$@"; do
+        case $flag in
+            --joint-timing|--live-teacher|--pl*)
+                echo 'Joint preference adapters require unplanned compact evaluation.' >&2
+                exit 2
+                ;;
+        esac
     done
 fi
 if [[ $train != "$original_train" ]]; then
@@ -133,7 +153,7 @@ for ((attempt=0; attempt<15; attempt++)); do
 done
 grep -Fxq 0 "$study/training/supervisor/exit"
 grep -Fxq ready "$restore_status"
-adapter=$("$python" -B - "$original_train" "$train" "$model" "$plan_arm" <<'PY'
+adapter=$("$python" -B - "$original_train" "$train" "$model" "$plan_arm" "$preference_arm" <<'PY'
 from pathlib import Path
 import json
 import sys
@@ -141,7 +161,7 @@ from benchmark_actions import digest_file
 from compact_consensus import OPERAND_PLAN_INSTRUCTION
 
 original, train, model = map(Path, sys.argv[1:4])
-plan_arm = sys.argv[4]
+plan_arm, preference_arm = sys.argv[4:6]
 
 
 def adapter_from_receipt(directory, status, examples):
@@ -177,6 +197,15 @@ if train != original:
                 or continuation['examples'] != 384):
             raise ValueError('Planning arm, prompt format or matched row count differs')
         status = 'TRAINED_ODA_JOINT_COMPACT_OPERAND_PLAN'
+    elif preference_arm:
+        result = json.loads((train / 'RESULT.json').read_text())
+        if (continuation['schema'] != 'oda-joint-compact-joint-preference-v1'
+                or continuation['examples'] != 256 or continuation['optimizer_updates'] != 64
+                or result['optimizer_updates'] != continuation['optimizer_updates']
+                or any(receipt['arm'] != preference_arm or receipt['planned'] is not False
+                       for receipt in (continuation, result))):
+            raise ValueError('Joint preference arm, prompt format or matched training plan differs')
+        status = 'TRAINED_ODA_JOINT_COMPACT_JOINT_PREFERENCE'
     else:
         if continuation['schema'] != 'oda-joint-compact-hard-v1':
             raise ValueError('Expected hard-example continuation')
