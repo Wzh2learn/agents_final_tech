@@ -82,7 +82,11 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 为检验算式结构选择，从原始 TRAIN 找到 51 个来源组内的真实问题对。同组两题共享报告、表文及同一组数值证据，程序结构不同；交换两题的程序后遍历尺度仍错。冻结 32 对（TAT-QA 24、FinQA 8），其中主要对照为绝对差额与相对变化。数值证据集合固定，操作数重复次数可以不同。见 `training/semantic_operator_contrast_v1/PROVENANCE.json`。
 
+另锁定 9 对没有进入原 3,000 题或已排队两臂的 TAT-QA 真实问题作开发验证。九对均为绝对差额与相对变化，交换程序的 18 次执行全部评分失败。来源曾用于未开训的数据准备，使用这些来源训练的模型须另选验证题。见 `analysis/semantic_operator_holdout_v1/panel/manifest.json`。
+
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
+
+重放 1,800 个 TAT-QA TRAIN 参考程序并遍历合法尺度，630 个被修正的标注尺度全部无法通过官方评分，14 个具备多个通过尺度的程序结果均为零。复用两批共 240 道 TRAIN 题的首答与四采样，分歧时用贪心结果补位的两个规则均未增加正确数。在官方冻结级联保留的 67 道本地错题中，仅 1 道已有同值且严格正确的替代尺度候选，有 46 道遍历四候选及全部合法尺度均错。见 `analysis/{scale_keep_set_v1/train_target_equivalences,compare_sample_counts_v1/greedy_anchor_train}.json`。
 
 同一 ODA 基座的 1,865 条官方思考版回执已逐题校验提示哈希并重放。固定原回复，FinQA 原答、通用编译、旧专用编译分别得 284、325、634/1,147（通用编译 R41/H0，旧编译相对通用 R319/H10）。TAT-QA 对应为 446、505、505/718（通用编译 R59/H0）。思考版已知计费为 4,437,636（另有 1 条缺失）和 2,222,315 tokens。当前对齐模型相对通用编译后的思考版增加 497、100 题。两模型的提示、解码设置和调用入口有差异，配对结果衡量完整系统差异。见 `analysis/thinking_compiler_v1/{report.json,cases.jsonl}`。
 
@@ -99,6 +103,8 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 隔离会话库后，两库各验收前四题，每题八臂均有完整计费。FinQA 的四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均墙时为 16.83、21.46、17.48 秒。TAT-QA 分别得 3、4、3 题，平均墙时为 7.00、19.08、19.85 秒。两库的 CAR 与两种 BudgetVerify 合计占首块计时的 69.2% 与 82.5%，主要耗时在本地长生成。前缀的三轴表与图已导出，范围标记为部分官方题。见 `analysis/joint_pareto_live_k4_v2/accepted_pareto.{tsv,pdf,png}` 与 `finance_frontier_benchmark_20261120_v2/joint_full_timing_{finqa,tatqa}_k4_v2/shards/00000/collection.json`。
 
 原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing` 与两库新命名空间。每库首块 32 题，沿用冻结门控并加入官方回放中使用的置信度重排。已在旧 1,865 题回执上逐题验证选答一致。FinQA 已从实际回执确认动态补位，前两臂完成 32 题时，紧凑级联为 24/32、52,044 tokens，DeepSeek 直跑为 25/32、57,310 tokens。八臂同题首块仍在采集。见 `serving/queued_joint_timing_steady_v1/`。
+
+统一编译版的全量计时入口已通过干跑。独立工作树固定在 `f7d5f9f1`，复用同一训练门控阈值，采用新的计时目录从零采集。旧计时和换值训练交还单卡后再启动。见 `serving/queued_joint_timing_uniform_full_v1/`。
 
 ## 续做强基线比较
 
