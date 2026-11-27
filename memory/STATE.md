@@ -2,7 +2,7 @@
 
 > 2026-11-27 | 接续按[研究导航](../docs/research/README.md)选入口，未决见[THREADS](THREADS.md)。实际授权看会话 Goal。
 
-- **强基座金融推理**：3,000 题共享 LoRA 与 128 题校准已完成，四采样的实际 Prefill 增幅约 2%–3.4%，本地投票未明显提分。GB10 正跑官方全量的单采样与四采样。812/1,147、633/718 是上一轮冻结强对照。[联合紧凑主力实验](../research/finance_frontier_pilot/README.md#联合紧凑主力实验)
+- **强基座金融推理**：3,000 题共享 LoRA 的官方全量贪心得 822/1,147、605/718，四采样得 813/1,147、592/718。冻结门控历史回放为 852/1,147、615/718，进入新教师接管和同题计时实测。[联合紧凑主力实验](../research/finance_frontier_pilot/README.md#联合紧凑主力实验)
 - **第二篇 v4/v5 阶段档案**：保留 79000372 与 36edf5bd。纠正、接管、跨契约和单步分层见[实验总表](../research/agent_frontier_portfolio_20261029/results/IJCNN_EXPERIMENT_TABLES.md)，阶段费用见[历史短计划](../research/agent_frontier_portfolio_20261029/STAGE2_AGENT_RESEARCH_PLAN_20261102.md#边界预算与恢复位置)。
 - **后续机制存档**：MultiHiertt 同值引用与 tau2／ALFWorld 进度配对保留为后续研究材料。[实验索引](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)。
 - **历史资产**：[机制知识](../research/agent_frontier_portfolio_20261029/results/CONTINUATION_PROGRAM.md#mechanism-knowledge)覆盖20结果页；代码/续行长过程已入[主题归档](../docs/archive/2026-11-06_agent_research_context/README.md)。旧结果/费用保留，按需读取。

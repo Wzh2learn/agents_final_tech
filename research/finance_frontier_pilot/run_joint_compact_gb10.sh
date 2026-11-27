@@ -164,6 +164,14 @@ freeze(Path(out) / 'serving_profile.json', {
 })
 wait_service(base, alias, 360)
 PY
-"$python" -B -u "$driver/compact_consensus.py" --panel "$panel" --output "$out/measurements" \
-    --base "$base" --model "$alias" --serving-profile "$out/serving_profile.json" \
-    --metric-dir "$metric" --measure-exclusive-engine "$@" >"$out/eval.log" 2>&1
+if [[ ${1:-} == --live-teacher ]]; then
+    shift
+    profile_digest=$(sha256sum "$out/serving_profile.json" | cut -d ' ' -f 1)
+    "$python" -B -u "$driver/live_compact_teacher.py" --live --panel "$panel" --output "$out/live" \
+        --base "$base" --serving-profile "$out/serving_profile.json" --serving-profile-sha256 "$profile_digest" \
+        --metric-dir "$metric" "$@" >"$out/eval.log" 2>&1
+else
+    "$python" -B -u "$driver/compact_consensus.py" --panel "$panel" --output "$out/measurements" \
+        --base "$base" --model "$alias" --serving-profile "$out/serving_profile.json" \
+        --metric-dir "$metric" --measure-exclusive-engine "$@" >"$out/eval.log" 2>&1
+fi
