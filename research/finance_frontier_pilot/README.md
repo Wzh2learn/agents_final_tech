@@ -110,11 +110,11 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 
 原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing`，沿用冻结门控和置信度重排。FinQA 首批 32 道题在八臂均有完整用量。紧凑级联为 24/32、52,044 tokens、平均 9.84 秒／题。DeepSeek 直跑为 25/32、57,310 tokens、29.57 秒／题。其余六臂均答对更少、用量更高且更慢，范围为 18–21 题、66,286–263,257 tokens、39.95–439.26 秒／题。首块采集 9,757 秒，TAT-QA 首块已启动。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_pareto{,_paired}.tsv`。
 
-逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。直跑两批使用不同提示与编译路径，这组变化为两次采集的描述性差异。完整三轴结论采用同次在线采集。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_archive_vs_steady.json`。
+逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
 统一编译版的全量计时入口已通过干跑。独立工作树固定在 `f7d5f9f1`，复用同一训练门控阈值，采用新的计时目录从零采集。旧计时和换值训练交还单卡后再启动。见 `serving/queued_joint_timing_uniform_full_v1/`。
 
-滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 或 BudgetVerify 的最长序列组合在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens；六槽对应 1/36 和 0/23。该估计未计入真实调度或缓存复用。六槽同题试跑已排在本地运算诊断之后。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json` 和 `serving/queued_joint_timing_k6_smoke_v1/`。
+滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 和 BudgetVerify 的最长序列组合各在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens。六槽下两种方法各在 FinQA 1/36 个块超过上限，对应两个不同的块，TAT-QA 均为 0/23。该估计未计入真实调度或缓存复用。六槽同题试跑已排在本地运算诊断之后。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json` 和 `serving/queued_joint_timing_k6_smoke_v1/`。
 
 三轴导出分支 `research/finance-paired-frontier` 加入七组逐对比较，在八臂计费齐全的同题上给出恢复、错改、准确率差、每题请求用量差与实测墙时差。当前两库各四题的已验收早期回执已成功导出 14 行，保留部分覆盖标识。全量入口已接入该导出版本 `d344c8c9`。
 
