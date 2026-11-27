@@ -169,7 +169,7 @@ def evaluate_choices(row, response, n):
                 or not isinstance(reply, str) or not reply.strip()):
             sample['status'] = 'not_delivered'
             continue
-        projected, program, stage, _cells = representation(public, reply, stopped=True)
+        projected, program, stage, _cells = representation(public, reply, stopped=True, allow_legacy_finqa_scale=False)
         execution = public_execution(projected, program)
         sample.update(stage=stage, submission=program, execution=execution, status='unexecutable')
         if projected is not public:

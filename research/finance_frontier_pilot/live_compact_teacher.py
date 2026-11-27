@@ -98,7 +98,7 @@ def local_selection(row, case, *, rerank=False):
 def teacher_selection(row, receipt):
     reply = deliver(receipt) if receipt['finish'] == ['stop'] else ''
     projection, submission, stage, _ = representation(
-        row, reply, stopped=bool(reply),
+        row, reply, stopped=bool(reply), allow_legacy_finqa_scale=False,
     )
     execution = public_execution(projection, submission)
     return {'submission': submission, 'decision': stage}, projection, execution['status'] == 'executed'

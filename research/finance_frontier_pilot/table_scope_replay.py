@@ -199,11 +199,12 @@ def compile_table_scope(public, reply):
              'parse_mode': 'exact_table_scope'}, provenance)
 
 
-def representation(row, reply, *, stopped):
+def representation(row, reply, *, stopped, allow_legacy_finqa_scale=True):
+    """Compile an executable reply, optionally filling the older FinQA prompt's scale slot."""
     original = parse_dsl(reply)
     if stopped and public_execution(row, original)['status'] != 'executed':
-        if row['dataset'] == 'finqa':
-            # Its prompt has no scale slot. Preserve any existing declaration.
+        if allow_legacy_finqa_scale and row['dataset'] == 'finqa':
+            # The legacy prompt has no scale slot. Preserve any existing declaration.
             reply = _reply_text(reply)
             marked = INLINE_LABEL.sub(lambda match: match[0] if match[0].startswith('"') else '\n', reply)
             labels = any(SCALE_PREFIX.match(_plain(line.strip().rstrip(','))) for line in marked.splitlines())

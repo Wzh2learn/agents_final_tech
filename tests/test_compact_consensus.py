@@ -13,6 +13,9 @@ PILOT = Path(__file__).resolve().parents[1] / 'research' / 'finance_frontier_pil
 sys.path.insert(0, str(PILOT))
 try:
     import compact_consensus as compact
+    from live_compact_teacher import teacher_selection
+    from scoring import public_execution
+    from table_scope_replay import public_contract
 finally:
     sys.path.remove(str(PILOT))
 
@@ -59,6 +62,23 @@ class CompactConsensusTest(unittest.TestCase):
         self.assertEqual(compact.grade_choices(ROW, result, {'exe_ans': 12}, None),
                          {'strict_executable': True, 'first_sample_strict_executable': False,
                           'correct_by_index': [False, True, True, True]})
+
+    def test_disclosed_scale_controls_only_fallback_compilation(self):
+        scoped = 'Final program: table_value("Sales", "2020")'
+        legacy_row, legacy, stage, _ = public_contract(ROW, scoped, stopped=True)
+        self.assertEqual(stage, 'table_scope')
+        self.assertEqual(public_execution(legacy_row, legacy)['terminal_execution_answer'], 12)
+
+        cases = ((scoped, False), (scoped + '\nScale: none', True), ('Final program: add(12, const_0)', True))
+        for reply, expected_execution in cases:
+            with self.subTest(reply=reply):
+                response = choice(0, 12)
+                response['message']['content'] = reply
+                local = compact.evaluate_choices(ROW, {'choices': [response]}, 1)
+                self.assertEqual(local['executed_n'], int(expected_execution))
+                receipt = {'text': reply, 'exit_code': 0, 'errors': [], 'finish': ['stop']}
+                _, _, teacher_executable = teacher_selection(ROW, receipt)
+                self.assertEqual(teacher_executable, expected_execution)
 
     def test_scale_and_incomplete_samples_do_not_create_spurious_consensus(self):
         row = {**ROW, 'dataset': 'tatqa'}
