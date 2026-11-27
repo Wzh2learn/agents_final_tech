@@ -72,7 +72,9 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 规划版官方全量现已完成 3,730 个本地请求。FinQA 贪心从 822 降至 789（R16/H49），四采样从 813 降至 784（R37/H66）。TAT-QA 分别从 605 降至 600（R11/H16）、从 592 降至 586（R22/H28）。两库四采样正确候选覆盖仍为 871 和 622 题。每题四采样墙时中位数分别增加 1.02 和 1.09 秒。用同一批历史教师回放，原紧凑版、规划全文版、规划答案段版分别为 FinQA 853、843、845 与 TAT-QA 619、613、620。答案段版发出更多接管请求，新教师覆盖不足以确定全量收益。保留原紧凑模型和冻结门控作为在线对标主力。见 `analysis/operand_planning_official_v1/{report,route_replay,answer_only_route_replay}.json`。
 
-针对算式结构正确、操作数绑定错误的情况，已准备 24 个独立 TAT-QA TRAIN 来源的同单位换值配对，18 道为多步。每对交换两个公开表格值，程序只替换一个绑定。原题与变体各自通过原生评分，交叉提交即使遍历合法尺度仍错。两臂各 208 条记录、52 次更新，编码量均为 213,932 tokens，其中监督 tokens 为 5,488。冻结的 194 道 TRAIN 验证题与新增配对、回放均无来源交集。训练和评分沿用原紧凑模型设置，在首批计时后执行。见 `training/semantic_pair_extension_v1/TRAIN_PROTOCOL.json` 和 `analysis/semantic_pair_extension_v1/EVAL_PROTOCOL.json`。
+针对算式结构正确、操作数绑定错误的情况，使用 24 个独立 TAT-QA TRAIN 来源的同单位换值配对，18 道为多步。每对交换两个公开表格值，程序只替换一个绑定。原题与变体各自通过原生评分，交叉提交即使遍历合法尺度仍错。两臂各 208 条记录、52 次更新，编码量均为 213,932 tokens，其中监督 tokens 为 5,488。冻结的 194 道 TRAIN 验证题与新增配对、回放均无来源交集。见 `training/semantic_pair_extension_v1/TRAIN_PROTOCOL.json` 和 `analysis/semantic_pair_extension_v1/EVAL_PROTOCOL.json`。
+
+两臂共收齐 776 条本地原生回执。TAT-QA 困难集上，成对臂的四采样多数票从 48→50/98，正确候选覆盖从 56→58/98，均为 R2/H0。贪心及当前部署的置信度选答均为 50/98，四候选一致且遍历合法尺度仍错均为 23 道。常规集两臂贪心及四采样置信度选答均为 84/96。沿用原紧凑模型，继续检验已排队的减法换序与尺度反例。见 `analysis/semantic_pair_extension_v1/EVAL_REPORT.json`。
 
 用经核验的 TRAIN 参考算式做单一绑定替换，固定算式结构和尺度。困难集 47 道可执行错题中可直接修回的表格取数错误为 3 道。25 道四候选一致的错题中，有 2 道可如此修回、7 道仅需调整尺度、6 道同结构但有多处取数差异、9 道结构不同，另有 1 道单处差异仍未修回。常规集唯一可以直接替换修回的例子来自 FinQA 文本。训练探针同时观察完整候选覆盖与端到端严格正确率。见 `analysis/semantic_pair_extension_v1/OPERAND_HEADROOM.json`。
 
@@ -88,11 +90,15 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 在原 3,000 题中，固定题目与操作数、交换绝对差额和相对变化，可从 860 道 TAT-QA 和 206 道 FinQA 构造可执行但在全部合法尺度下仍错的反例。按来源和方向锁定 256 条（TAT-QA 172、FinQA 84）。已将原适配器的 9 对真实题诊断排在换值配对实验之后，先量化明确运算混淆再决定是否训练。见 `training/semantic_operator_preferences_v1/PROVENANCE.json` 和 `serving/queued_operator_holdout_base_v1/`。
 
-9 对开发题上，只读取题干中的百分比线索即可判断 18/18 个运算意图。该分数只测意图分类。冻结官方级联的 67 道 TAT-QA 本地保留错题中，只换差额／相对变化且维持原尺度可救 1 道，允许用参考评分选择尺度时可救 7 道。现阶段优先核验基础模型能否把明确意图落实为同时正确的程序和尺度。见 `analysis/semantic_operator_holdout_v1/question_only_control.json` 与 `analysis/fresh_vs_archives_v1/operator_swap_headroom.json`。
+9 对开发题上，只读取题干中的百分比线索即可判断 18/18 个运算意图。该分数只测意图分类。冻结官方级联的 67 道 TAT-QA 本地保留错题中，只换差额／相对变化且维持原尺度可救 1 道，允许用参考评分选择尺度时可救 7 道。见 `analysis/semantic_operator_holdout_v1/question_only_control.json` 与 `analysis/fresh_vs_archives_v1/operator_swap_headroom.json`。
+
+原 3,000 题适配器在这 18 道真实 TRAIN 题的贪心与四采样下均为 17/18，9 组中有 8 组两题均对，没有把两种运算互相用错。唯一错题选对了减法和单位，但把表中两笔负成本当作正数。该面板没有显示专门训练差额／相对变化选择的空间。见 `serving/operator_holdout_base_v1/measurements/`。
 
 固定原模型程序的尺度和其余步骤，只交换一步减法的两个操作数，可以离线救回两个来源不重叠的 TAT-QA TRAIN 面板中的 6/49 和 1/10 道可执行错题。五道由负转正，两道由正转负。原 3,000 题中已冻结 128 组对应反例（FinQA 42、TAT-QA 86，来源互异），交换后仍可执行且在全部合法尺度下仍错，其中 14 组的最终符号保持相同。见 `analysis/semantic_pair_extension_v1/train_formula_headroom.json` 与 `training/semantic_operand_order_preferences_v1/PROVENANCE.json`。
 
 将同一组 TRAIN 定义的算式编辑用于冻结官方回执，TAT-QA 67 道本地保留错题中，固定原尺度并用参考答案挑选编辑，可离线救回 5 道，其中 3 道来自减法换序。只修尺度可救 16 道，允许换算式与尺度可在这 16 道之外再覆盖 11 道。本分析固定接管与已采纳教师答案，只用于诊断。见 `analysis/fresh_vs_archives_v1/train_defined_formula_ceiling.json`。
+
+冻结接管名单并继续采纳所有可执行的教师答案，从四个已有本地候选中按金标挑选的上界为 FinQA 874/1,147、TAT-QA 624/718。TAT-QA 未接管的 60 道错题中，52 道四候选一致，只有 3 道已有正确候选。另有 12 道错误的教师答案覆盖了存在正确候选的本地尝试。该事后上界说明单改本地选答不足以超过冻结的 Qwen→DeepSeek（626/718）。见 `analysis/fresh_vs_archives_v1/local_selection_ceiling.json`。
 
 已冻结一个 256 组联合 TRAIN 对照。保留 128 组减法换序，另配 128 组同算式、不同尺度的通过／失败反例。`percent` 与 `none` 两个方向各 41 组，每方向同为 27 道单步、14 道多步。另有 46 组千、百万或十亿尺度反例。256 组来源和报告均互异。见 `training/semantic_joint_balanced_preferences_v1/PROVENANCE.json`。
 
@@ -126,7 +132,7 @@ TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分�
 
 逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
-统一编译版的全量计时入口已通过干跑。独立工作树固定在 `f7d5f9f1`，复用同一训练门控阈值，采用新的计时目录从零采集。旧计时和换值训练交还单卡后再启动。见 `serving/queued_joint_timing_uniform_full_v1/`。
+统一编译版的全量计时使用独立命名空间。候选工作树为 `3e448f3e`，包含四／六槽与空回执崩溃识别。使用这版复放 384 条校准、3,730 条官方本地回执和 346 条教师回执，所有编译及执行判定一致，原紧凑适配器的 TRAIN 门控文件逐字节一致。全量启动器的四槽、六槽预检均通过，正式槽宽待六槽实测，若采用新适配器则在隔离的 TRAIN 上重新定阈值。见 `analysis/fresh_vs_archives_v1/release_3e448f3e/` 和 `serving/queued_joint_timing_uniform_full_v2/`。
 
 滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 和 BudgetVerify 的最长序列组合各在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens。六槽下两种方法各在 FinQA 1/36 个块超过上限，对应两个不同的块，TAT-QA 均为 0/23。该估计未计入真实调度或缓存复用。六槽同题试跑已排在本地运算诊断之后。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json` 和 `serving/queued_joint_timing_k6_smoke_v1/`。
 
