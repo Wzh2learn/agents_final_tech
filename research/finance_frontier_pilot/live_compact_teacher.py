@@ -14,7 +14,8 @@ from uuid import uuid4
 
 from benchmark_actions import action_cost, deliver, digest_file, freeze, grade_case, read_panel
 from compact_consensus import SAMPLE_COUNTS, call_compact, compact_prompt
-from compact_frontier import SCHEMA, SELECTED_SCHEMA, TEACHER, local_cases, risk, route_case
+from compact_frontier import (SCHEMA, SELECTED_SCHEMA, TEACHER, local_cases, risk, route_case,
+                              selected_teacher, teacher_item)
 from live_policy_timing import OFFICIAL_COUNTS, paired_online_wall, stratified_cases, validate_official_panel
 from run_pilot import local_endpoint
 from scoring import _metric_type, parse_dsl, public_execution
@@ -215,10 +216,11 @@ def selected_rows(args, public, panel, policy, compiler_sha):
     rows = [row for row in public if threshold is not None
             and groups[args.n][row['dataset'], row['id']]['risk'] <= threshold]
     return rows, {'local_receipts_sha256': digest_file(local_root / 'cases.jsonl'),
-                  'local_run_sha256': digest_file(local_run)}
+                  'local_run_sha256': digest_file(local_run)}, groups[args.n]
 
 
-def collect_selected(args, root, rows, gold, lock, budget, key, teacher_profile, gateway, run_digest):
+def collect_selected(args, root, rows, gold, lock, budget, key, teacher_profile, gateway, run_digest,
+                     *, publish_canonical=True):
     """Attach fresh teacher execution to a previously recorded compact decision."""
     opening_index = len(budget.rows)
     items = []
@@ -247,8 +249,75 @@ def collect_selected(args, root, rows, gold, lock, budget, key, teacher_profile,
     freeze(root / 'collection.json', {'planned': len(rows), 'completed': len(items), 'complete': complete,
                                       'stop_reason': None if complete else 'gateway_budget',
                                       'campus_posts': posts, 'campus_debit_including_unknown': tokens})
-    if complete:
+    if complete and publish_canonical:
         freeze(root / 'selected_teacher.json', {'schema': SELECTED_SCHEMA, **lock, 'items': items})
+    return items if complete else None
+
+
+def confidence_priority(key, state):
+    executable, _, confidence = state['risk']
+    dataset, ident = key
+    tie = sha256(f'confidence-only-n4-v1|{dataset}|{ident}'.encode()).hexdigest()
+    return executable, confidence, tie
+
+
+def matched_risk_plan(args, public, gate_rows, local, policy, lock):
+    """Freeze exact call-count matching while sharing overlapping teacher outcomes."""
+    archive_path = args.matched_risk
+    teachers, walls, n, rate, teacher_profile = selected_teacher(
+        archive_path, {args.n: local}, policy, lock['panel_sha256'], lock['policy_sha256'],
+        lock['local_receipts_sha256'], lock['compiler_sha256'],
+    )
+    archive = json.loads(archive_path.read_bytes())
+    gate_keys = {(row['dataset'], row['id']) for row in gate_rows}
+    if (n != args.n or rate != f'{args.rate:g}' or teachers.keys() != gate_keys
+            or teacher_profile != lock['teacher_profile_sha256'] or any(wall is not None for wall in walls.values())
+            or archive.get('local_run_sha256') != lock['local_run_sha256']
+            or archive.get('scorer_sha256') != lock['scorer_sha256'] or archive.get('planned') != lock['planned']):
+        raise ValueError('Prior teacher collection does not match the complete frozen gate run')
+    dataset_counts = {}
+    risk_keys = set()
+    for dataset in args.datasets:
+        eligible = [key for key in local if key[0] == dataset]
+        gate = {key for key in gate_keys if key[0] == dataset}
+        selected = set(sorted(eligible, key=lambda key: confidence_priority(key, local[key]))[:len(gate)])
+        risk_keys.update(selected)
+        dataset_counts[dataset] = {'k_each': len(gate), 'overlap': len(gate & selected),
+                                   'gate_only': len(gate - selected), 'new_risk_only': len(selected - gate)}
+    needed = risk_keys - gate_keys
+    rows = [row for row in public if (row['dataset'], row['id']) in needed]
+    return rows, teachers, risk_keys, dataset_counts
+
+
+def matched_risk_report(local, teachers, existing, risk_keys, counts):
+    results = {}
+    policies = {'execution_agreement': existing, 'confidence_only': risk_keys}
+    for dataset, selection in counts.items():
+        states = {key: row for key, row in local.items() if key[0] == dataset}
+        local_correct = {key: row['correct'] for key, row in states.items()}
+        local_tokens = sum(row['local_api_tokens'] or 0 for row in states.values())
+        unknown_local = sum(row['local_api_tokens'] is None for row in states.values())
+        arms, outcomes = {}, {}
+        for arm, keys in policies.items():
+            chosen = states.keys() & keys
+            final = dict(local_correct)
+            final.update({key: teachers[key].strict for key in chosen if teachers[key].executable})
+            teacher_tokens = sum(teachers[key].known_tokens for key in chosen)
+            unknown_teacher = sum(teachers[key].unknown_usage_calls for key in chosen)
+            arms[arm] = {'calls': len(chosen), 'correct': sum(final.values()),
+                         'recoveries_vs_local': sum(final[key] and not correct for key, correct in local_correct.items()),
+                         'harms_vs_local': sum(not final[key] and correct for key, correct in local_correct.items()),
+                         'known_teacher_tokens': teacher_tokens, 'unknown_teacher_calls': unknown_teacher,
+                         'known_local_tokens': local_tokens, 'unknown_local_usage_rows': unknown_local,
+                         'known_tokens': local_tokens + teacher_tokens,
+                         'total_tokens': None if unknown_local or unknown_teacher else local_tokens + teacher_tokens}
+            outcomes[arm] = final
+        gate, risk_only = [outcomes[name] for name in policies]
+        results[dataset] = {'n': len(states), 'local_correct': sum(local_correct.values()), **selection, **arms,
+                            'paired_gate_vs_risk': {'recoveries': sum(gate[k] and not risk_only[k] for k in states),
+                                                    'harms': sum(not gate[k] and risk_only[k] for k in states)},
+                            'online_route_seconds': None}
+    return results
 
 
 def main():
@@ -268,11 +337,14 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--live', action='store_true', help='Measure fresh compact and teacher paths (default)')
     mode.add_argument('--selected-local', type=Path, help='Collect teachers only for selected cached official rows')
+    parser.add_argument('--matched-risk', type=Path, help='Complete the same-K comparison using an existing teacher archive')
     parser.add_argument('--dry-run', action='store_true', help='Validate frozen inputs and show the sample size without calls')
     parser.add_argument('--max-posts', type=int, required=True)
     parser.add_argument('--token-cap', type=int, required=True)
     parser.add_argument('--prior-charged-tokens', type=int, required=True)
     args = parser.parse_args()
+    if args.matched_risk is not None and args.selected_local is None:
+        parser.error('--matched-risk requires --selected-local with the full local cache')
     root = args.output.resolve()
     if (sys.platform != 'linux' or not root.is_relative_to(PRIVATE) or root.exists()
             or not args.benchmark.resolve().is_relative_to(PRIVATE)
@@ -302,11 +374,19 @@ def main():
             parser.error('selected-only collection requires the full official local cache for both datasets')
         for dataset in args.datasets:
             validate_official_panel(args.benchmark, dataset, [row for row in public if row['dataset'] == dataset], gold)
-        routed, local_sources = selected_rows(args, public, panel, policy, compiler_sha)
+        routed, local_sources, local_states = selected_rows(args, public, panel, policy, compiler_sha)
         lock = {'model': TEACHER, 'panel_sha256': panel, 'policy_sha256': args.gate_sha256,
                 'compiler_sha256': compiler_sha, 'scorer_sha256': scorer_sha,
                 'teacher_profile_sha256': args.api_profile_sha256,
                 'n': args.n, 'rate': args.rate, 'planned': profile['planned'], **local_sources}
+        if args.matched_risk is not None:
+            args.matched_risk = args.matched_risk.resolve()
+            if not args.matched_risk.is_relative_to(PRIVATE):
+                parser.error('use a completed private selected-teacher archive')
+            routed, existing_teachers, risk_keys, matched_counts = matched_risk_plan(
+                args, public, routed, local_states, policy, lock,
+            )
+            lock['existing_teacher_sha256'] = digest_file(args.matched_risk)
         if len(routed) > args.max_posts:
             parser.error(f'the frozen selection contains {len(routed)} rows, exceeding the request cap')
     if 'tatqa' in args.datasets:
@@ -315,9 +395,11 @@ def main():
         if args.selected_local is None:
             print(json.dumps({'pairs': len(cases), 'datasets': args.datasets,
                               'gate_sha256': args.gate_sha256, 'sample_manifests_sha256': manifests}))
-        else:
+        elif args.matched_risk is None:
             print(json.dumps({'selected': {dataset: sum(row['dataset'] == dataset for row in routed)
                                            for dataset in args.datasets}, **lock}))
+        else:
+            print(json.dumps({'matched_risk': matched_counts, **lock}))
         return
     key = os.environ.get('BUPT_API_KEY')
     if not key:
@@ -335,13 +417,23 @@ def main():
         root.mkdir(parents=True, mode=0o700, exist_ok=False)
         run = root / 'run.json'
         if args.selected_local is not None:
-            freeze(run, {'schema': 'finance-compact-selected-teacher-run-v1', **lock,
+            schema = ('finance-compact-selected-teacher-run-v1' if args.matched_risk is None
+                      else 'finance-compact-matched-risk-run-v1')
+            freeze(run, {'schema': schema, **lock,
                          'routes': [(row['dataset'], row['id']) for row in routed],
                          'opencode_sha256': digest_file(args.opencode),
                          'runner_sha256': digest_file(Path(__file__)), 'opening_posts': opening_posts,
                          'opening_tokens': opening_tokens, 'max_new_posts': args.max_posts, 'token_cap': args.token_cap,
                          'measurement': 'Fresh teacher and cached compact calls; no end-to-end route wall time.'})
-            collect_selected(args, root, routed, gold, lock, budget, key, teacher_profile, gateway, digest_file(run))
+            items = collect_selected(args, root, routed, gold, lock, budget, key, teacher_profile, gateway,
+                                     digest_file(run), publish_canonical=args.matched_risk is None)
+            if args.matched_risk is not None and items is not None:
+                added = {(row['dataset'], row['id']): teacher_item(row) for row in items}
+                all_teachers = {**existing_teachers, **added}
+                freeze(root / 'matched_risk.json', {'schema': 'finance-compact-matched-risk-v1', **lock,
+                       'timing_scope': 'Cached compact and matched teacher replies; no end-to-end wall time.',
+                       'results': matched_risk_report(local_states, all_teachers, existing_teachers.keys(),
+                                                      risk_keys, matched_counts)})
             return
         freeze(run, {
             'schema': 'finance-compact-deepseek-live-v1', 'panel_sha256': panel,
