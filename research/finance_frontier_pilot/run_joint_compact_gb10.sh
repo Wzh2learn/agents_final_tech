@@ -11,8 +11,18 @@ shift 3
 repo="$HOME/wzh/projects/agents_final_tech"
 driver="$repo/research/finance_frontier_pilot"
 python="$repo/venv/bin/python"
-train="$study/training/run"
-adapter="$train/adapter_3000"
+original_train="$study/training/run"
+train="$original_train"
+if [[ ${1:-} == --hard-adapter ]]; then
+    shift
+    train="$study/training/hard_adapt_v1/run"
+    case ${1:-} in
+        --joint-timing|--live-teacher)
+            echo '--hard-adapter uses the compact evaluation mode.' >&2
+            exit 2
+            ;;
+    esac
+fi
 model="$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea"
 metric="$HOME/wzh/research_evidence/agent_learning_20261030/tools/tatqa/870accc41953dcde885aabeb963d94aabdc0fbc3"
 out="$study/serving/$label"
@@ -29,26 +39,43 @@ for ((attempt=0; attempt<15; attempt++)); do
 done
 grep -Fxq 0 "$study/training/supervisor/exit"
 grep -Fxq ready "$train/restore_teacher/status"
-"$python" -B - "$train" "$adapter" "$model" <<'PY'
+adapter=$("$python" -B - "$original_train" "$train" "$model" <<'PY'
 from pathlib import Path
 import json
 import sys
 from benchmark_actions import digest_file
 
-train, adapter, model = map(Path, sys.argv[1:])
-result = json.loads((train / 'RESULT.json').read_text())
-plan = json.loads((train / 'PLAN.json').read_text())
-matches = [item for item in result['adapters'] if item['examples'] == 3000]
-if (result['status'] != 'TRAINED_ODA_JOINT_COMPACT' or result['examples'] != 3000
-        or result['plan_sha256'] != digest_file(train / 'PLAN.json') or len(matches) != 1
-        or Path(matches[0]['directory']).resolve() != adapter.resolve()
-        or Path(plan['model_path']).resolve() != model.resolve()):
-    raise ValueError('Expected the finalized 3,000-example joint artifact')
-artifacts = matches[0]['artifacts']
-if set(artifacts) != {'adapter_config.json', 'adapter_model.safetensors'} or any(
-        digest_file(adapter / name) != checksum for name, checksum in artifacts.items()):
-    raise ValueError('Adapter files differ from the training receipt')
+original, train, model = map(Path, sys.argv[1:])
+
+
+def adapter_from_receipt(directory, status, examples):
+    result = json.loads((directory / 'RESULT.json').read_text())
+    matches = [item for item in result['adapters'] if item['examples'] == examples]
+    adapter = directory / f'adapter_{examples:04d}'
+    if (result['status'] != status or result['examples'] != examples
+            or result['plan_sha256'] != digest_file(directory / 'PLAN.json') or len(matches) != 1
+            or Path(matches[0]['directory']).resolve() != adapter.resolve()):
+        raise ValueError(f'Expected the finalized {examples}-example adapter in {directory}')
+    artifacts = matches[0]['artifacts']
+    if set(artifacts) != {'adapter_config.json', 'adapter_model.safetensors'} or any(
+            digest_file(adapter / name) != checksum for name, checksum in artifacts.items()):
+        raise ValueError('Adapter files differ from the training receipt')
+    return adapter, artifacts
+
+
+plan = json.loads((original / 'PLAN.json').read_text())
+if Path(plan['model_path']).resolve() != model.resolve():
+    raise ValueError('Expected the pinned ODA base for the joint adapter')
+adapter, original_artifacts = adapter_from_receipt(original, 'TRAINED_ODA_JOINT_COMPACT', 3000)
+if train != original:
+    hard_plan = json.loads((train / 'PLAN.json').read_text())
+    if (hard_plan['schema'] != 'oda-joint-compact-hard-v1'
+            or hard_plan['warm_adapter'] != original_artifacts or hard_plan['model_files'] != plan['model_files']):
+        raise ValueError('Hard continuation must inherit the exact joint adapter and pinned ODA base')
+    adapter, _ = adapter_from_receipt(train, 'TRAINED_ODA_JOINT_COMPACT_HARD', hard_plan['examples'])
+print(adapter)
 PY
+)
 
 lock="$HOME/wzh/.gpu_lock"
 guard=$(lslocks -rn -o PID,PATH | awk -v lock="$lock" '$2==lock{print $1}')
