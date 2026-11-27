@@ -2,6 +2,7 @@ from io import BytesIO
 import json
 from pathlib import Path
 import sys
+from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 from urllib.request import Request
@@ -104,3 +105,38 @@ class CompactConsensusTest(unittest.TestCase):
         self.assertEqual(result['counter_deltas']['prompt_local_compute_tokens'], 105)
         self.assertIsNone(result['locally_computed_prefill_tokens'])
         self.assertFalse(result['completion_tokens_reconcile'])
+
+    def test_parallel_collection_reconciles_engine_work_only_at_batch_level(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'public.jsonl').write_text(
+                ''.join(json.dumps({**ROW, 'id': str(i)}) + '\n' for i in range(2)),
+                encoding='utf-8',
+            )
+            (root / 'references.jsonl').write_text(
+                ''.join(json.dumps({'dataset': 'finqa', 'id': str(i), 'gold': {'exe_ans': 12}}) + '\n'
+                        for i in range(2)),
+                encoding='utf-8',
+            )
+            (root / 'serving.json').write_text('{}', encoding='utf-8')
+            args = ['compact_consensus', '--panel', directory, '--output', str(root / 'output'),
+                    '--model', 'student', '--base', 'http://127.0.0.1:8000/v1',
+                    '--serving-profile', str(root / 'serving.json'), '--n', '4', '--workers', '2',
+                    '--measure-exclusive-engine']
+            before, after = metric_sample(100, 32), metric_sample(316, 136, cache=644)
+            usage = {'prompt_tokens': 108, 'completion_tokens': 52, 'total_tokens': 160}
+            response = {'model': 'student', 'choices': [choice(i, 12) for i in range(4)], 'usage': usage}
+
+            def fetch(request, **_):
+                if isinstance(request, Request):
+                    return BytesIO(json.dumps(response).encode())
+                return next(snapshots)
+
+            snapshots = iter([BytesIO(before.encode()), BytesIO(after.encode())])
+            with patch.object(sys, 'argv', args), patch.object(compact, 'urlopen', side_effect=fetch):
+                compact.main()
+            summary = json.loads((root / 'output' / 'summary.json').read_text())['finqa/n4']
+            self.assertEqual(summary['strict_executable'], 2)
+            self.assertEqual(summary['known_engine_work'], 0)
+            self.assertEqual(summary['engine_work']['locally_computed_prefill_tokens'], 216)
+            self.assertEqual(summary['engine_work']['locally_computed_tokens'], 320)

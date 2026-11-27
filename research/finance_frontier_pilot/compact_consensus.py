@@ -8,6 +8,7 @@ prefill work and can differ from that API accounting.
 
 import argparse
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
 import json
 import math
@@ -274,6 +275,7 @@ def main():
     parser.add_argument('--n', nargs='+', default=[1, 4, 8], type=int, choices=SAMPLE_COUNTS)
     parser.add_argument('--max-tokens', default=80, type=int)
     parser.add_argument('--temperature', default=0.6, type=float)
+    parser.add_argument('--single-temperature', default=0.0, type=float)
     parser.add_argument('--seed', default=20261127, type=int)
     parser.add_argument('--timeout', default=120, type=float)
     parser.add_argument('--planned', action='store_true')
@@ -281,10 +283,14 @@ def main():
     parser.add_argument('--measure-exclusive-engine', action='store_true')
     parser.add_argument('--shared-request-cache', action='store_true',
                         help='Allow whole-request prefix reuse between arms and questions')
+    parser.add_argument('--workers', type=int, default=1,
+                        help='Parallel collection with aggregate engine counters for each n')
     args = parser.parse_args()
     public, gold, identity = read_panel(args.panel, args.dataset)
     if len(args.n) != len(set(args.n)):
         parser.error('duplicate n values')
+    if not 1 <= args.workers <= 8:
+        parser.error('--workers must be between 1 and 8')
     if args.metric_dir is None and any(row['dataset'] == 'tatqa' for row in public):
         parser.error('--metric-dir is required to grade TAT-QA')
     args.output.mkdir(parents=True, exist_ok=False)
@@ -297,27 +303,65 @@ def main():
         'runner_sha256': digest_file(Path(__file__)), 'panel_sha256': identity, 'run_salt': run_salt,
         'serving_profile_sha256': digest_file(args.serving_profile),
     })
+    def collect(job):
+        case_number, row, n = job
+        key = row['dataset'], row['id']
+        salt = None if args.shared_request_cache else sha256(f'{run_salt}:{case_number}:{n}'.encode()).hexdigest()
+        temperature = args.single_temperature if n == 1 else args.temperature
+        case = call_compact(row, base=args.base, model=args.model, n=n, max_tokens=args.max_tokens,
+                            temperature=temperature, seed=args.seed + case_number * 8, timeout=args.timeout,
+                            logprobs=not args.without_logprobs, cache_salt=salt,
+                            measure_engine=args.measure_exclusive_engine and args.workers == 1, planned=args.planned)
+        case.update(id=row['id'], dataset=row['dataset'], n=n, report=row['report'],
+                    score=grade_choices(row, case['decision'], gold[key], args.metric_dir))
+        return case
+
+    def snapshot():
+        with urlopen(local_endpoint(args.base).removesuffix('/v1') + '/metrics', timeout=args.timeout) as stream:
+            return metrics_snapshot(stream.read().decode('utf-8'))
+
     grouped = {}
+    engine_batches = {}
     with (args.output / 'cases.jsonl').open('x', encoding='utf-8') as stream:
-        for case_number, row in enumerate(public):
-            key = row['dataset'], row['id']
-            offset = case_number % len(args.n)
-            order = args.n[offset:] + args.n[:offset]
-            seed = args.seed + case_number * 8
-            for n in order:
-                salt = None if args.shared_request_cache else sha256(f'{run_salt}:{case_number}:{n}'.encode()).hexdigest()
-                case = call_compact(row, base=args.base, model=args.model, n=n, max_tokens=args.max_tokens,
-                                    temperature=args.temperature, seed=seed, timeout=args.timeout,
-                                    logprobs=not args.without_logprobs, cache_salt=salt,
-                                    measure_engine=args.measure_exclusive_engine, planned=args.planned)
-                case.update(id=row['id'], dataset=row['dataset'], n=n, report=row['report'],
-                            score=grade_choices(row, case['decision'], gold[key], args.metric_dir))
-                print(json.dumps(case, ensure_ascii=False, allow_nan=False), file=stream, flush=True)
-                # Keep scalar summaries in memory. Complete request and response stay on disk.
-                summary_case = {key: case[key] for key in ('usage', 'engine_work', 'route_wall_seconds', 'score')}
-                summary_case['decision'] = {k: case['decision'][k] for k in ('selected_index', 'vote_share')}
-                grouped.setdefault(f'{row["dataset"]}/n{n}', []).append(summary_case)
-    freeze(args.output / 'summary.json', {key: summarize(cases) for key, cases in grouped.items()})
+        def record(case):
+            print(json.dumps(case, ensure_ascii=False, allow_nan=False), file=stream, flush=True)
+            # Keep scalar summaries in memory. Complete request and response stay on disk.
+            summary_case = {key: case[key] for key in ('usage', 'engine_work', 'route_wall_seconds', 'score')}
+            summary_case['decision'] = {key: case['decision'][key] for key in ('selected_index', 'vote_share')}
+            grouped.setdefault(f'{case["dataset"]}/n{case["n"]}', []).append(summary_case)
+
+        if args.workers == 1:
+            for index, row in enumerate(public):
+                offset = index % len(args.n)
+                for n in args.n[offset:] + args.n[:offset]:
+                    record(collect((index, row, n)))
+        else:
+            for dataset in sorted({row['dataset'] for row in public}):
+                for n in args.n:
+                    group = f'{dataset}/n{n}'
+                    before = snapshot() if args.measure_exclusive_engine else None
+                    if before is not None and any(before.get(key) != 0 for key in ('running', 'waiting')):
+                        raise RuntimeError('exclusive engine measurement requires an idle service')
+                    started = perf_counter()
+                    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+                        for case in pool.map(collect, ((i, row, n) for i, row in enumerate(public)
+                                                       if row['dataset'] == dataset)):
+                            record(case)
+                    elapsed = perf_counter() - started
+                    usages = [case['usage'] for case in grouped[group]]
+                    total = {'completion_tokens': sum(usage['completion_tokens'] for usage in usages)
+                             } if all(usage is not None for usage in usages) else None
+                    work = None
+                    if before is not None:
+                        for attempt in range(20):
+                            if attempt:
+                                sleep(0.1)
+                            work = engine_work(before, snapshot(), total)
+                            if work['locally_computed_tokens'] is not None or total is None:
+                                break
+                    engine_batches[group] = {'batch_wall_seconds': elapsed, 'engine_work': work}
+    freeze(args.output / 'summary.json', {key: {**summarize(cases), **engine_batches.get(key, {})}
+                                        for key, cases in grouped.items()})
 
 
 if __name__ == '__main__':

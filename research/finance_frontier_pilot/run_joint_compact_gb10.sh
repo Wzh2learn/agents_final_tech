@@ -23,6 +23,12 @@ export PYTHONPATH="$driver:$repo:$repo/src" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLIN
 test -s "$panel/public.jsonl"
 test -s "$panel/references.jsonl"
 test -s "$metric/tatqa_metric.py"
+for ((attempt=0; attempt<15; attempt++)); do
+    [[ ! -s $study/training/supervisor/exit ]] || break
+    sleep 1
+done
+grep -Fxq 0 "$study/training/supervisor/exit"
+grep -Fxq ready "$train/restore_teacher/status"
 "$python" -B - "$train" "$adapter" "$model" <<'PY'
 from pathlib import Path
 import json
@@ -57,9 +63,14 @@ awk '/^vllm:num_requests_(running|waiting)\{/{n++; if ($NF!=0) live++} END {exit
 docker image inspect "$image" >/dev/null
 mkdir -p "$study/serving"
 mkdir "$out"
+mkdir "$out/restore_teacher"
+cp -- "$restore_script" "$out/restore_teacher/restore.py"
+cmp -s "$restore_script" "$out/restore_teacher/restore.py"
 cd "$repo"
 
 cid=
+compact_name="finance-compact-joint-$$"
+launched=
 watcher=
 cleanup() {
     rc=$?
@@ -69,13 +80,14 @@ cleanup() {
         kill "$watcher" 2>/dev/null
         wait "$watcher" 2>/dev/null
     fi
-    if [[ -n $cid ]]; then
-        docker logs "$cid" >"$out/vllm.log" 2>&1
-        if ! docker stop --time 15 "$cid" >/dev/null &&
-                [[ $(docker inspect --format '{{.State.Running}}' "$cid" 2>/dev/null) != false ]]; then
-            echo 'Compact research container did not stop; do not load a second model.' >&2
-            exit 1
-        fi
+    if [[ -n $launched ]]; then
+        docker logs "${cid:-$compact_name}" >"$out/vllm.log" 2>&1
+        "$python" -B - "${cid:-$compact_name}" "$out/stop.json" <<'PY'
+from pathlib import Path
+import sys
+from scripts.graph.research_gpu_guard import stop_owned
+stop_owned(sys.argv[1], {'status': 'STOPPED_COMPACT'}, Path(sys.argv[2]), 5)
+PY
     fi
     flock -u 9
     exec 9>&-
@@ -85,7 +97,8 @@ cleanup() {
             echo 'Original research guard still exists; restoration requires reconciliation.' >&2
             exit 1
         fi
-        nohup setsid "$python" -u -B "$restore_script" </dev/null >"$out/restore.log" 2>&1 &
+        nohup setsid "$python" -u -B "$out/restore_teacher/restore.py" \
+            </dev/null >"$out/restore.log" 2>&1 &
         printf '%s\n' "$!" >"$out/restore.pid"
     fi
     for ((attempt=0; attempt<120; attempt++)); do
@@ -108,7 +121,8 @@ flock -w 100 9
 [[ $(docker inspect --format '{{.State.Running}}' "$teacher" 2>/dev/null || true) != true ]]
 awk '/^MemAvailable:/{if ($2<50331648) exit 1; print}' /proc/meminfo
 
-cid=$(docker run -d --name "finance-compact-joint-$$" --pull never --network host --ipc host \
+launched=1
+cid=$(docker run -d --name "$compact_name" --pull never --network host --ipc host \
     --device nvidia.com/gpu=all -v "$model:/models/oda:ro" -v "$adapter:/adapters/joint:ro" \
     -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 \
     "$image" vllm serve /models/oda --host 127.0.0.1 --port 18157 --served-model-name oda-fin-rl-8b \
