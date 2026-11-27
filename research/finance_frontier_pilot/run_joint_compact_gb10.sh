@@ -8,7 +8,7 @@ panel=$(cd "${2:?public and reference panel directory}" && pwd -P)
 label=${3:?new run label}
 shift 3
 [[ $study == "$HOME/wzh/research_evidence/"* && $label =~ ^[a-z][a-z0-9_]+$ ]]
-repo="$HOME/wzh/projects/agents_final_tech"
+repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 driver="$repo/research/finance_frontier_pilot"
 python="$repo/venv/bin/python"
 original_train="$study/training/run"

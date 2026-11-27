@@ -3,7 +3,7 @@ from contextlib import ExitStack, nullcontext
 import json
 from pathlib import Path
 import sys
-from threading import Barrier
+from threading import Barrier, Event, Lock
 from types import SimpleNamespace
 
 import pytest
@@ -647,3 +647,113 @@ def test_isolated_wave_cannot_resume_a_shared_store_plan(timing, question, monke
                   'joint_workers': 2, 'case_offset': 0, 'case_order': plan['case_order']})
     with pytest.raises(ValueError, match='frozen actor stores'):
         timing.joint_history(shard.parent, isolated, digest)
+
+
+def test_steady_refills_freed_slot_while_other_routes_run(timing, question):
+    from concurrent.futures import ThreadPoolExecutor
+
+    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(8)]
+    initial = Barrier(4)
+    refilled = Event()
+    active, seen = {}, {}
+    checks = Lock()
+
+    def measure(row, policy, *, admitted, campus_lock, actor_slot):
+        index = int(row['id'])
+        with checks:
+            assert actor_slot not in active
+            active[actor_slot] = index
+            seen[index] = actor_slot
+        if index < 4:
+            initial.wait(timeout=5)
+        if index < 3:
+            assert refilled.wait(timeout=5)
+        elif index == 4:
+            with checks:
+                assert active == {0: 0, 1: 1, 2: 2, 3: 4}
+            refilled.set()
+        with checks:
+            del active[actor_slot]
+        return {'status': 'complete'}, None, None
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        measured = timing.steady_arm(pool, block, 'one-arm', measure, 4, Lock())
+    assert set(measured) == set(range(8)) and all(record[0]['status'] == 'complete' for record in measured.values())
+    assert seen[4] == seen[3] == measured[4][0]['actor_slot'] and not active
+
+
+def test_steady_drains_but_does_not_admit_after_a_failed_route(timing, question, monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor
+
+    block = [({**question, 'id': str(i)}, ('one-arm',)) for i in range(10)]
+    initial = Barrier(4)
+    release = Event()
+    real_wait = timing.wait
+    called, finished = [], []
+
+    def observe_failure(futures, **kwargs):
+        done, pending = real_wait(futures, **kwargs)
+        if any(future.result()[0]['status'] == 'incomplete_budget' for future in done):
+            release.set()
+        return done, pending
+
+    def measure(row, policy, **kwargs):
+        index = int(row['id'])
+        called.append(index)
+        initial.wait(timeout=5)
+        if index:
+            assert release.wait(timeout=5)
+        finished.append(index)
+        return {'status': 'complete' if index else 'incomplete_budget'}, None, None
+
+    monkeypatch.setattr(timing, 'wait', observe_failure)
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        measured = timing.steady_arm(pool, block, 'one-arm', measure, 4, Lock())
+    assert set(measured) == set(called) == set(finished) == {0, 1, 2, 3}
+    assert measured[0][0]['status'] == 'incomplete_budget'
+
+
+def test_steady_history_accepts_only_full_32_blocks_and_real_tail(timing, question, monkeypatch, tmp_path):
+    monkeypatch.setattr(timing, 'BOOTSTRAP_DRAWS', 20)
+    rows = [{**question, 'id': str(index), 'report': f'r{index}'} for index in range(35)]
+    cases = timing.joint_wave_cases(rows, 32)
+    order = [{'id': row['id'], 'report': row['report'], 'policy_order': list(arms)} for row, arms in cases]
+    mode = {'joint_workers': 4, 'joint_steady_block': 32, 'actor_store_scope': timing.ISOLATED_ACTOR_STORE,
+            'local_selection': 'confidence-rerank-v1'}
+    plan = {'schema': timing.JOINT_STEADY_PLAN, 'dataset': 'finqa', 'case_order': order, 'panel': 'fixture',
+            'measurement': 'fixture', **mode}
+    shard = tmp_path / 'shards' / '00000'
+    shard.mkdir(parents=True)
+    timing.freeze(shard / 'run.json', {'schema': timing.JOINT_STEADY_SHARD, 'joint_plan_sha256': 'plan',
+                  'case_offset': 0, 'case_order': order, **mode})
+    args = SimpleNamespace(metric_dir=None, joint_workers=4, joint_steady_block=32)
+    actors = tuple({'solve': slot} for slot in range(4))
+
+    def recorded(actor, prompt, target, contract):
+        assert 0 <= actor < 4
+        target.mkdir(parents=True)
+        (target / 'call.json').write_text('{}', encoding='utf-8')
+        return call_receipt('Final program: add(3, const_0)', tokens=12)
+
+    def select(row, call):
+        from scoring import parse_dsl
+        result = call('solve', 'solve', row['id'])
+        return {'submission': parse_dsl(result['text']), 'calls': ['solve']}, row
+
+    monkeypatch.setattr(timing, 'recorded_call', recorded)
+    timing.collect_cases(args, shard, cases, {('finqa', row['id']): {'exe_ans': 3} for row in rows},
+                         actors[0], {}, SimpleNamespace(rows=[]), 'fixture', 'run',
+                         {arm: select for arm in timing.JOINT_POLICIES}, actor_slots=actors)
+    outcomes = shard / 'outcomes.jsonl'
+    lines = outcomes.read_text(encoding='utf-8').splitlines(keepends=True)
+    outcomes.write_text(''.join(lines[:31]), encoding='utf-8')
+    assert timing.joint_history(shard.parent, plan, 'plan') == ([], 1)
+    outcomes.write_text(''.join(lines[:33]), encoding='utf-8')
+    accepted, attempts = timing.joint_history(shard.parent, plan, 'plan')
+    assert attempts == 1 and [row['id'] for row in accepted] == [case['id'] for case in order[:32]]
+    outcomes.write_text(''.join(lines), encoding='utf-8')
+    timing.publish_joint_progress(tmp_path, plan, 'plan')
+    collection = json.loads((tmp_path / 'collection.json').read_text(encoding='utf-8'))
+    assert collection['schema'] == timing.JOINT_STEADY_FULL and collection['joint_steady_block'] == 32
+    assert {size: cohort['questions'] for size, cohort in collection['block_size_strata'].items()} == {'3': 3, '32': 32}
+    assert collection['complete_paired_questions'] == 35

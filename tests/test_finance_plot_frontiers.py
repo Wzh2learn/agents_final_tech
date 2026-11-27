@@ -92,8 +92,25 @@ def test_joint_pareto_partial_cli_labels_scope_and_writes_three_artifacts(plotti
         rows = list(csv.DictReader(stream, delimiter='\t'))
     assert len(rows) == 8
     assert {(row['scope'], row['timed_n'], row['official_n']) for row in rows} == {('partial_frozen_prefix', '2', '3')}
+    assert {(row['scheduling'], row['frozen_block_size']) for row in rows} == {('serial', '1')}
     assert output.with_name('live_pareto.pdf').read_bytes().startswith(b'%PDF')
     assert output.with_name('live_pareto.png').read_bytes().startswith(b'\x89PNG')
+
+
+def test_joint_pareto_rejects_mixing_rolling_and_wave_schedules(plotting, monkeypatch, tmp_path, capsys):
+    def load(path, *, allow_partial):
+        dataset = path.name
+        return [{'dataset': dataset, 'joint_workers': 4, 'actor_store_scope': 'isolated',
+                 'local_selection': 'same-selection', 'scheduling':
+                 'rolling' if dataset == 'finqa' else 'wave', 'frozen_block_size': 32 if dataset == 'finqa' else 4}]
+
+    monkeypatch.setattr(plotting, 'load_joint_pareto', load)
+    monkeypatch.setattr(sys, 'argv', ['plot_frontiers', '--joint-pareto', 'finqa', 'tatqa',
+                                     '--output', str(tmp_path / 'export/live')])
+    with pytest.raises(SystemExit) as exit_state:
+        plotting.main()
+    assert exit_state.value.code == 2
+    assert 'one load protocol' in capsys.readouterr().err
 
 
 def test_joint_pareto_keeps_full_denominator_when_no_common_cost_cohort(plotting, monkeypatch, tmp_path):

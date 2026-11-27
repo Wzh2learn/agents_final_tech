@@ -80,9 +80,14 @@ def local_call(args, profile, row, seed, salt):
     return {**case, 'id': row['id'], 'n': args.n}
 
 
-def local_selection(row, case):
+def local_selection(row, case, *, rerank=False):
     decision = case['decision']
     index = decision['selected_index']
+    if rerank and decision['vote_share'] < 1:
+        candidates = [sample for sample in decision['samples']
+                      if sample['status'] == 'executed' and sample['min_token_logprob'] is not None]
+        if candidates:
+            index = max(candidates, key=lambda sample: (sample['min_token_logprob'], -sample['index']))['index']
     if index is None:
         return {'submission': parse_dsl(''), 'decision': 'no_local_program'}, row
     sample = decision['samples'][index]

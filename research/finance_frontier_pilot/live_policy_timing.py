@@ -2,7 +2,7 @@
 
 import argparse
 import ast
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from contextlib import ExitStack, nullcontext
 from copy import copy
 from hashlib import sha256
@@ -46,6 +46,9 @@ JOINT_POLICIES = ('joint-compact', 'deepseek-direct', 'car-compiled', 'budgetver
 JOINT_LAMBDAS = {'finqa': (.8, .8), 'tatqa': (.65, 0.)}
 JOINT_WAVE_PLAN = 'finance-live-joint-timing-wave-plan-v1'
 JOINT_WAVE_SHARD = 'finance-live-joint-timing-wave-shard-v1'
+JOINT_STEADY_PLAN = 'finance-live-joint-timing-steady-plan-v1'
+JOINT_STEADY_SHARD = 'finance-live-joint-timing-steady-shard-v1'
+JOINT_STEADY_FULL = 'finance-live-joint-timing-steady-full-v1'
 ISOLATED_ACTOR_STORE = 'per-role-per-block-slot-xdg-v1'
 LEGACY_SERIAL_DRIVERS = {
     '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
@@ -250,10 +253,10 @@ def frozen_cases(rows, count, policies=POLICIES, offset=0):
     return [(row, orders[(offset + i) % len(orders)]) for i, row in enumerate(sample)]
 
 
-def joint_wave_cases(rows, workers):
+def joint_wave_cases(rows, block_size):
     """Use the original public question order and rotate policies by whole block."""
     ordered = frozen_cases(rows, len(rows), JOINT_POLICIES)
-    return [(row, ordered[index // workers][1]) for index, (row, _) in enumerate(ordered)]
+    return [(row, ordered[index // block_size][1]) for index, (row, _) in enumerate(ordered)]
 
 
 def reference_depth(dataset, reference):
@@ -381,7 +384,7 @@ def select_joint(row, arm, call, receipts, directory, run_digest, joint):
         usage = school.measured_usage(local['usage']) if local['usage'] is not None else None
         receipts['compact'] = {'usage': usage, 'elapsed_seconds': local['model_wall_seconds'],
                                'path': Path('calls', directory.parent.name, directory.name, path.name).as_posix()}
-        selected, projection = local_selection(row, local)
+        selected, projection = local_selection(row, local, rerank=getattr(config, 'rerank', False))
         selected.update(selected_model=profile['model'], selected_stage='joint_compact')
         if not route_case(local, policy, config.rate):
             return {**selected, 'calls': list(receipts)}, projection
@@ -470,12 +473,53 @@ def grade_timed_route(args, row, gold, measure):
     return record
 
 
-def wave_reports(args, cases, gold, measure, workers, offset):
+def steady_arm(pool, block, policy, measure, workers, campus_lock):
+    """Refill only the actor slot whose prior route has returned."""
+    admission = Lock()
+    pending, results = {}, {}
+    failed = False
+    rows = iter(enumerate(block))
+
+    def execute(row, slot, admitted):
+        nonlocal failed
+        try:
+            item = measure(row, policy, admitted=admitted, campus_lock=campus_lock, actor_slot=slot)
+        except Exception as error:
+            cost = action_cost([])
+            item = ({'status': 'incomplete_error', 'failure_type': type(error).__name__, 'calls': {}, 'cost': cost,
+                     'local_call_cost': cost, 'campus_call_cost': cost, 'wall_seconds': monotonic() - admitted},
+                    None, None)
+        if item[0]['status'] != 'complete':
+            with admission:
+                failed = True
+        item[0]['actor_slot'] = slot
+        return item
+
+    def submit(slot):
+        with admission:
+            next_row = None if failed else next(rows, None)
+            if next_row is not None:
+                index, (row, _) = next_row
+                pending[pool.submit(execute, row, slot, monotonic())] = index, slot
+
+    for slot in range(min(workers, len(block))):
+        submit(slot)
+    while pending:
+        done, _ = wait(pending, return_when=FIRST_COMPLETED)
+        for future in sorted(done, key=pending.__getitem__):
+            index, slot = pending.pop(future)
+            results[index] = future.result()
+            submit(slot)
+    return results
+
+
+def wave_reports(args, cases, gold, measure, workers, offset, *, steady_block=None):
     """Yield complete blocks in frozen order and preserve the entire failed block."""
     campus_lock = Lock()
+    block_width = steady_block or workers
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        for start in range(0, len(cases), workers):
-            block = cases[start:start + workers]
+        for start in range(0, len(cases), block_width):
+            block = cases[start:start + block_width]
             order = block[0][1]
             if any(arm_order != order for _, arm_order in block):
                 raise ValueError('Every route in a timing wave must use the same frozen arm order')
@@ -483,18 +527,22 @@ def wave_reports(args, cases, gold, measure, workers, offset):
             batches, stop = {}, None
             for policy in order:
                 batch_start = monotonic()
-                futures = [pool.submit(measure, row, policy, admitted=monotonic(), campus_lock=campus_lock,
-                                       actor_slot=slot)
-                           for slot, (row, _) in enumerate(block)]
-                measured = [future.result() for future in futures]
+                if steady_block is not None:
+                    measured = steady_arm(pool, block, policy, measure, workers, campus_lock)
+                else:
+                    futures = [pool.submit(measure, row, policy, admitted=monotonic(), campus_lock=campus_lock,
+                                           actor_slot=slot)
+                               for slot, (row, _) in enumerate(block)]
+                    measured = {i: future.result() for i, future in enumerate(futures)}
                 batch_wall = monotonic() - batch_start
-                for index, ((row, _), item) in enumerate(zip(block, measured, strict=True)):
+                for index, item in sorted(measured.items()):
+                    row = block[index][0]
                     try:
                         records[index][policy] = grade_timed_route(args, row, gold, item)
                     except Exception as error:
                         records[index][policy] = {**item[0], 'status': 'incomplete_error',
                                                   'failure_type': type(error).__name__}
-                items = [record[policy] for record in records]
+                items = [record[policy] for record in records if policy in record]
                 statuses = {item['status'] for item in items}
                 batches[policy] = {'wall_seconds': batch_wall, 'attempted_routes': len(items),
                                    'complete_routes': sum(item['status'] == 'complete' for item in items),
@@ -503,7 +551,7 @@ def wave_reports(args, cases, gold, measure, workers, offset):
                 if statuses != {'complete'}:
                     stop = 'route_error' if 'incomplete_error' in statuses else 'gateway_budget'
                     break
-            index = (offset + start) // workers
+            index = (offset + start) // block_width
             for slot, ((row, _), record) in enumerate(zip(block, records, strict=True)):
                 report = {k: row[k] for k in ('dataset', 'id', 'report')}
                 report.update(policy_order=order, policies=record, complete_pair=stop is None, block_index=index,
@@ -542,15 +590,18 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     reports = {}
     all_costs, accepted_rows = [], []
     workers = getattr(args, 'joint_workers', 1)
+    steady_block = getattr(args, 'joint_steady_block', None)
     if actor_slots is not None and (workers <= 1 or len(actor_slots) != workers):
         raise ValueError('Isolated actor stores must match the wave width')
+    if steady_block is not None and (steady_block != 32 or workers != 4 or actor_slots is None):
+        raise ValueError('Steady timing requires 32-question blocks and four isolated actor slots')
 
     def measure(row, policy, *, actor_slot=0, **kwargs):
         selected_actors = actors if actor_slots is None else actor_slots[actor_slot]
         return measure_route(args, root, row, policy, selected_actors, profiles, budget, key, run_digest, selectors, joint,
                              **kwargs)
 
-    produced = (wave_reports(args, cases, gold, measure, workers, joint_offset) if workers > 1
+    produced = (wave_reports(args, cases, gold, measure, workers, joint_offset, steady_block=steady_block) if workers > 1
                 else serial_reports(args, cases, gold, measure))
     with (root / 'outcomes.jsonl').open('x', encoding='utf-8') as stream:
         for report, stop in produced:
@@ -595,6 +646,8 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
         }
     if workers > 1:
         summary.update(joint_workers=workers, block_size_strata=wave_strata(accepted_rows, paired_policies))
+    if steady_block is not None:
+        summary['joint_steady_block'] = steady_block
     write_json(root / 'collection.json', summary)
     if stop == 'route_error':
         raise RuntimeError('A timing wave failed; inspect its recorded route attempts')
@@ -655,12 +708,32 @@ def check_joint_serving(args, baseline, compact):
         raise ValueError('Both timing arms must share the pinned ODA base-model mount')
 
 
+def joint_block_width(plan):
+    workers = plan.get('joint_workers', 1)
+    steady = plan.get('joint_steady_block')
+    if steady is not None or plan.get('schema') == JOINT_STEADY_PLAN:
+        if (plan.get('schema') != JOINT_STEADY_PLAN or type(steady) is not int or steady != 32 or workers != 4
+                or plan.get('actor_store_scope') != ISOLATED_ACTOR_STORE
+                or plan.get('local_selection') != 'confidence-rerank-v1'):
+            raise ValueError('A steady plan requires 32-question blocks, four isolated actor slots, and frozen selection')
+    return steady or workers
+
+
 def joint_history(shards, plan, plan_hash):
     """Return the exact completed prefix; keep failed/partial attempts on disk."""
     accepted, attempts = [], sorted(shards.iterdir())
     target = plan['case_order']
     workers = plan.get('joint_workers', 1)
-    schema = JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1'
+    width = joint_block_width(plan)
+    steady = plan.get('joint_steady_block')
+    schema = (JOINT_STEADY_SHARD if steady is not None else
+              JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1')
+    if steady is not None:
+        for start in range(0, len(target), width):
+            order = target[start]['policy_order']
+            if (len(order) != len(JOINT_POLICIES) or set(order) != set(JOINT_POLICIES)
+                    or any(item['policy_order'] != order for item in target[start:start + width])):
+                raise ValueError('A steady plan must run the same full arm order throughout each block')
     for number, path in enumerate(attempts):
         if not path.is_dir() or path.name != f'{number:05d}':
             raise ValueError('Unexpected attempt directory in the immutable joint timing namespace')
@@ -672,9 +745,11 @@ def joint_history(shards, plan, plan_hash):
         if (contract['schema'] != schema or contract['joint_plan_sha256'] != plan_hash
                 or contract['case_offset'] != start or not order or order != target[start:start + len(order)]):
             raise ValueError('Joint shard must be a contiguous attempt on the next frozen question IDs')
-        if workers > 1 and (contract.get('joint_workers') != workers or start % workers
+        if workers > 1 and (contract.get('joint_workers') != workers or start % width
+                            or contract.get('joint_steady_block') != steady
+                            or (steady is not None and contract.get('local_selection') != plan['local_selection'])
                             or contract.get('actor_store_scope') != plan.get('actor_store_scope')
-                            or (len(order) % workers and start + len(order) != len(target))):
+                            or (len(order) % width and start + len(order) != len(target))):
             raise ValueError('A wave shard must use the frozen actor stores, width and complete blocks')
         if not outcomes_path.is_file():
             continue
@@ -690,8 +765,8 @@ def joint_history(shards, plan, plan_hash):
                         or row['policy_order'] != order[index]['policy_order']
                         or type(row['complete_pair']) is not bool):
                     raise ValueError('Joint shard recorded an unexpected or duplicate timing row')
-                block, slot = divmod(start + index, workers)
-                size = min(workers, len(target) - block * workers)
+                block, slot = divmod(start + index, width)
+                size = min(width, len(target) - block * width)
                 if workers > 1 and ((row['block_index'], row['block_slot'], row['block_size']) != (block, slot, size)
                                     or (slot == 0) != ('arm_batches' in row)):
                     raise ValueError('A wave timing row has invalid block metadata')
@@ -705,6 +780,10 @@ def joint_history(shards, plan, plan_hash):
                 if (set(row['policies']) != set(JOINT_POLICIES)
                         or any(item['status'] != 'complete' for item in row['policies'].values())):
                     raise ValueError('A completed joint pair must contain every completed fresh route')
+                if steady is not None and any(type(item.get('actor_slot')) is not int
+                                              or not 0 <= item['actor_slot'] < workers
+                                              for item in row['policies'].values()):
+                    raise ValueError('A completed steady route must identify its admitted actor slot')
                 for item in row['policies'].values():
                     paths = [(path / receipt['path']).resolve() for receipt in item['calls'].values()]
                     if not paths or any(not receipt.is_relative_to(path.resolve()) or not receipt.is_file()
@@ -712,6 +791,10 @@ def joint_history(shards, plan, plan_hash):
                         raise ValueError('A completed joint pair must retain all of its own new receipts')
                 if workers > 1 and slot == 0 and set(row['arm_batches']) != set(JOINT_POLICIES):
                     raise ValueError('A completed wave requires timing evidence for every arm')
+                if steady is not None and slot == 0 and any(
+                        item['attempted_routes'] != size or item['complete_routes'] != size
+                        for item in row['arm_batches'].values()):
+                    raise ValueError('A completed steady block must measure every planned route in each arm')
                 buffer.append(row)
                 if len(buffer) == size:
                     accepted.extend(buffer)
@@ -731,6 +814,7 @@ def joint_shard(args, benchmark, resources, plan, cases):
         raise ValueError('Joint timing requires a dedicated namespace')
     plan = json.loads(json.dumps(plan, ensure_ascii=False, allow_nan=False))
     workers = plan.get('joint_workers', 1)
+    width = joint_block_width(plan)
     if workers == 1 and plan_path.is_file():
         previous = json.loads(plan_path.read_text(encoding='utf-8'))
         old_driver = previous.get('driver_sha256', {}).get('live_policy_timing.py')
@@ -748,8 +832,8 @@ def joint_shard(args, benchmark, resources, plan, cases):
         publish_joint_progress(root, plan, plan_hash)
         return None, [], start, plan_hash
     end = min(start + args.cases, len(cases))
-    if workers > 1 and end < len(cases):
-        end -= end % workers
+    if width > 1 and end < len(cases):
+        end -= end % width
         if end <= start:
             raise ValueError('Joint wave shard size must fit the next complete block')
     shard = shards / f'{next_attempt:05d}'
@@ -775,6 +859,9 @@ def publish_joint_progress(root, plan, plan_hash):
         if plan.get('joint_workers', 1) > 1:
             collection.update(schema='finance-live-joint-timing-wave-full-v1', joint_workers=plan['joint_workers'],
                               block_size_strata=wave_strata(rows, JOINT_POLICIES))
+        if 'joint_steady_block' in plan:
+            collection.update(schema=JOINT_STEADY_FULL, joint_steady_block=plan['joint_steady_block'],
+                              local_selection=plan['local_selection'])
         freeze(root / 'collection.json', collection)
 
 
@@ -830,7 +917,8 @@ def run(args, benchmark, ledger_root):
         driver_hashes = {name: digest_file(driver / name) for name in files}
         if gate['compiler_sha256'] != driver_hashes['table_scope_replay.py'] or gate['scorer_sha256'] != driver_hashes['scoring.py']:
             raise ValueError('Joint timing compiler and scorer must match the frozen gate')
-        config = SimpleNamespace(base=args.base, n=JOINT_N, rate=JOINT_RATE, timeout=120)
+        config = SimpleNamespace(base=args.base, n=JOINT_N, rate=JOINT_RATE, timeout=120,
+                                 rerank=bool(getattr(args, 'joint_steady_block', None)))
         joint = policy, gate, config, seed_by_id
     elif getattr(args, 'compact_container', None):
         from compact_eval import BASE as COMPACT_BASE, timed_compact_profile
@@ -897,7 +985,9 @@ def run(args, benchmark, ledger_root):
             author_ledger_observed = baseline_metadata['author-cascade'].pop('campus_ledger_sha256')
             workers = getattr(args, 'joint_workers', 1)
             isolated = getattr(args, 'joint_isolated_actor_slots', False)
-            cases = joint_wave_cases(public, workers) if workers > 1 else frozen_cases(public, len(public), JOINT_POLICIES)
+            steady = getattr(args, 'joint_steady_block', None)
+            cases = (joint_wave_cases(public, steady or workers) if workers > 1
+                     else frozen_cases(public, len(public), JOINT_POLICIES))
             plan = {
                 'schema': 'finance-live-joint-timing-plan-v1', 'dataset': args.dataset, 'panel': panel_digest,
                 'official_source': official_source, 'case_order': [{'id': row['id'], 'policy_order': list(order),
@@ -926,16 +1016,27 @@ def run(args, benchmark, ledger_root):
                                              'shard. Exchanges are serialized in the order reached by admitted routes.')
             actor_profile = {'actor_store_scope': ISOLATED_ACTOR_STORE} if isolated else {}
             plan.update(actor_profile)
+            steady_profile = ({'joint_steady_block': steady, 'local_selection': 'confidence-rerank-v1'}
+                              if steady is not None else {})
+            if steady is not None:
+                plan.update(schema=JOINT_STEADY_PLAN, **steady_profile,
+                            measurement='Fresh wall from each route admission through terminal public execution, '
+                                        'including gateway wait. Four isolated slots are refilled within a 32-question '
+                                        'same-arm block. No overlap between arms. Grading follows timing.',
+                            block_order='Balanced policy orders rotate by frozen block index. Only complete blocks '
+                                        'advance the prefix; the true final remainder is reported separately.')
             shard, todo, start, plan_hash = joint_shard(args, benchmark, resources, plan, cases)
             if shard is None:
                 return
             contract = shard / 'run.json'
-            freeze(contract, {'schema': JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1',
+            shard_schema = (JOINT_STEADY_SHARD if steady is not None else
+                            JOINT_WAVE_SHARD if workers > 1 else 'finance-live-joint-timing-shard-v1')
+            freeze(contract, {'schema': shard_schema,
                               'joint_plan_sha256': plan_hash,
                               'case_offset': start, 'case_order': plan['case_order'][start:start + len(todo)],
                               'joint_workers': workers, 'executed_timing_driver_sha256': driver_hashes['live_policy_timing.py'],
                               'author_observed_campus_ledger_sha256': author_ledger_observed,
-                              **actor_profile,
+                              **actor_profile, **steady_profile,
                               'gateway_batch': {'posts_before': opening_posts, 'tokens_before': opening_tokens,
                                                 'post_limit': budget.posts, 'token_limit': budget.tokens}})
             if isolated:
@@ -1032,6 +1133,8 @@ def main():
                         help='Joint-only same-arm concurrency per frozen block (default 1, serial)')
     parser.add_argument('--joint-isolated-actor-slots', action='store_true',
                         help='Preinitialize one OpenCode store per local role and concurrent block slot')
+    parser.add_argument('--joint-steady-block', type=int, choices=(32,),
+                        help='Refill four isolated slots within each frozen 32-question same-arm block')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
@@ -1042,6 +1145,9 @@ def main():
         parser.error('--joint-workers above one requires --joint-gate')
     if args.joint_isolated_actor_slots and (not args.joint_gate or args.joint_workers <= 1):
         parser.error('--joint-isolated-actor-slots requires --joint-gate and --joint-workers above one')
+    if args.joint_steady_block is not None and (not args.joint_gate or args.joint_workers != 4
+                                                or not args.joint_isolated_actor_slots):
+        parser.error('--joint-steady-block requires --joint-gate, --joint-workers 4 and --joint-isolated-actor-slots')
     if args.joint_gate:
         if (args.stage != 'eval' or not args.compare_baselines or not args.compact_container
                 or not args.joint_serving_profile or not args.tabfm_checkpoint or args.cases < 1

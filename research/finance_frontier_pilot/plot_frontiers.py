@@ -419,7 +419,8 @@ def joint_pareto_case(record):
 def load_joint_pareto(namespace, *, allow_partial=False):
     """Load the immutable full-panel plan and the accepted fresh timing prefix."""
     from cohorts import UPSTREAM, read_source
-    from live_policy_timing import JOINT_POLICIES, JOINT_WAVE_PLAN, OFFICIAL_COUNTS, joint_history
+    from live_policy_timing import (ISOLATED_ACTOR_STORE, JOINT_POLICIES, JOINT_STEADY_PLAN,
+                                    JOINT_WAVE_PLAN, OFFICIAL_COUNTS, joint_history)
 
     plan_path = namespace / 'joint_plan.json'
     plan = json.loads(plan_path.read_bytes())
@@ -428,8 +429,13 @@ def load_joint_pareto(namespace, *, allow_partial=False):
     expected, width = OFFICIAL_COUNTS[dataset], plan.get('joint_workers', 1)
     serial = plan['schema'] == 'finance-live-joint-timing-plan-v1' and type(width) is int and width == 1
     waves = plan['schema'] == JOINT_WAVE_PLAN and type(width) is int and 2 <= width <= 4
+    steady_block = plan.get('joint_steady_block')
+    steady = (plan['schema'] == JOINT_STEADY_PLAN and type(width) is int and width == 4
+              and type(steady_block) is int and steady_block == 32
+              and plan.get('actor_store_scope') == ISOLATED_ACTOR_STORE)
     official = plan['official_source']
-    if (not (serial or waves) or len(order) != expected or len({case['id'] for case in order}) != expected
+    if (not (serial or waves or steady) or len(order) != expected or len({case['id'] for case in order}) != expected
+            or ('joint_steady_block' in plan and not steady)
             or tuple(plan['policies']) != JOINT_POLICIES
             or any(len(case['policy_order']) != len(JOINT_POLICIES) or set(case['policy_order']) != set(JOINT_POLICIES)
                    for case in order)
@@ -452,6 +458,8 @@ def load_joint_pareto(namespace, *, allow_partial=False):
     common = [index for index in range(n) if all(arm[index][3]['total_tokens'] is not None for arm in points.values())]
     sizes = Counter(row.get('block_size', 1) for row in rows)
     dataset_scope = 'full_official' if n == expected else 'partial_frozen_prefix'
+    block_size = steady_block if steady else width
+    schedule = 'rolling' if steady else 'wave' if waves else 'serial'
     policies = {}
     for name, arm in points.items():
         matched = [arm[index] for index in common]
@@ -460,6 +468,8 @@ def load_joint_pareto(namespace, *, allow_partial=False):
         policies[name] = {
             'dataset': dataset, 'scope': dataset_scope, 'policy': name, 'policy_label': JOINT_PARETO_LABELS[name],
             'joint_workers': width, 'official_n': expected, 'timed_n': n, 'common_cost_complete_n': len(common),
+            'scheduling': schedule, 'frozen_block_size': block_size, 'actor_store_scope': plan.get('actor_store_scope'),
+            'local_selection': plan.get('local_selection', 'native-vote-v1'),
             'timing_attempts': attempts, 'joint_plan_sha256': plan_sha,
             'timed_questions_by_block_size': ';'.join(f'{size}:{sizes[size]}' for size in sorted(sizes)),
             'timed_strict_correct': sum(item[0] for item in arm),
@@ -493,7 +503,8 @@ def render_joint_pareto(charts, output, label=None):
         name = DATASETS[coverage['dataset']]
         token_axis.set_title(f'{name} · {coverage["timed_n"]:,}/{coverage["official_n"]:,} timed', loc='left',
                              fontweight='bold')
-        wall_axis.set_title(f'{common:,} with complete usage · {coverage["joint_workers"]} workers', loc='left')
+        load = f'{coverage["scheduling"]} K{coverage["joint_workers"]}/{coverage["frozen_block_size"]}'
+        wall_axis.set_title(f'{common:,} with complete usage · {load}', loc='left')
         for axis, field, xlabel, divisor in (
             (token_axis, 'common_request_tokens', 'Measured request tokens / question', common or 1),
             (wall_axis, 'common_mean_wall_seconds', 'End-to-end wall time / question (s)', 1),
@@ -900,6 +911,9 @@ def main():
             charts = [load_joint_pareto(path, allow_partial=args.allow_partial) for path in args.joint_pareto]
             if len({rows[0]['dataset'] for rows in charts}) != len(charts):
                 parser.error('Pass distinct FinQA or TAT-QA timing namespaces')
+            protocol = ('scheduling', 'joint_workers', 'frozen_block_size', 'actor_store_scope', 'local_selection')
+            if len({tuple(rows[0][field] for field in protocol) for rows in charts}) != 1:
+                parser.error('Pass timing namespaces measured under one load protocol')
             charts.sort(key=lambda rows: rows[0]['dataset'])
             render_joint_pareto(charts, args.output, args.label)
             write_joint_pareto(charts, args.output)
