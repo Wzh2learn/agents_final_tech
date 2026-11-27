@@ -58,7 +58,7 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 规划版官方全量现已完成 3,730 个本地请求。FinQA 贪心从 822 降至 789（R16/H49），四采样从 813 降至 784（R37/H66）。TAT-QA 分别从 605 降至 600（R11/H16）、从 592 降至 586（R22/H28）。两库四采样正确候选覆盖仍为 871 和 622 题。每题四采样墙时中位数分别增加 1.02 和 1.09 秒。用同一批历史教师回放，原紧凑版、规划全文版、规划答案段版分别为 FinQA 853、843、845 与 TAT-QA 619、613、620。答案段版发出更多接管请求，新教师覆盖不足以确定全量收益。保留原紧凑模型和冻结门控作为在线对标主力。见 `analysis/operand_planning_official_v1/{report,route_replay,answer_only_route_replay}.json`。
 
-针对算式结构正确、操作数绑定错误的情况，已准备 24 个独立 TAT-QA TRAIN 来源的同单位换值配对，18 道为多步。每对交换两个公开表格值，程序只替换一个绑定。原题与变体各自通过原生评分，交叉提交即使遍历合法尺度仍错。以两臂相同的 208 条训练记录检验成对数据的效果，训练待排程。见 `training/semantic_pair_extension_v1/PAIR_RECIPE.json`。
+针对算式结构正确、操作数绑定错误的情况，已准备 24 个独立 TAT-QA TRAIN 来源的同单位换值配对，18 道为多步。每对交换两个公开表格值，程序只替换一个绑定。原题与变体各自通过原生评分，交叉提交即使遍历合法尺度仍错。两臂各 208 条记录、52 次更新，编码量均为 213,932 tokens，其中监督 tokens 为 5,488。冻结的 194 道 TRAIN 验证题与新增配对、回放均无来源交集。训练和评分沿用原紧凑模型设置，在首批计时后执行。见 `training/semantic_pair_extension_v1/TRAIN_PROTOCOL.json` 和 `analysis/semantic_pair_extension_v1/EVAL_PROTOCOL.json`。
 
 尺度读出的 CPU 对照使用 412 个独立 TRAIN 来源，五折分组交叉拟合。带置信度和去掉置信度的两种读出，在训练折外均无正净收益的阈值。两个读出按训练规则锁为全部 KEEP，独立 112 题均为 97/112。已有 C3 公开单位规则为 96/112（R0/H1）。独立面板有 3 道同程序、只改尺度可修题，两个读出的替代尺度排序首选分别覆盖其中 1、2 道。对现有四候选回放，合并精确等价的比例和百分数表示，在两批共 240 道 TRAIN 题均未改变票数或选择。见 `analysis/{scale_keep_set_v1/RESULT.json,ratio_vote_v1/report.json}`。
 
@@ -76,7 +76,7 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 
 隔离会话库后，两库各验收前四题，每题八臂均有完整计费。FinQA 的四采样级联、DeepSeek 直跑与固定 DeepSeek→Qwen 分别得 3、4、3 题，平均墙时为 16.83、21.46、17.48 秒。TAT-QA 分别得 3、4、3 题，平均墙时为 7.00、19.08、19.85 秒。两库的 CAR 与两种 BudgetVerify 合计占首块计时的 69.2% 与 82.5%，主要耗时在本地长生成。前缀的三轴表与图已导出，范围标记为部分官方题。见 `analysis/joint_pareto_live_k4_v2/accepted_pareto.{tsv,pdf,png}` 与 `finance_frontier_benchmark_20261120_v2/joint_full_timing_{finqa,tatqa}_k4_v2/shards/00000/collection.json`。
 
-原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing` 与两库新命名空间。每库首块 32 题，沿用冻结门控并加入官方回放中使用的置信度重排。已在旧 1,865 题回执上逐题验证选答一致。见 `serving/queued_joint_timing_steady_v1/`。齐步计时保留为独立负载下的首批实测。
+原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing` 与两库新命名空间。每库首块 32 题，沿用冻结门控并加入官方回放中使用的置信度重排。已在旧 1,865 题回执上逐题验证选答一致。FinQA 已从实际回执确认动态补位，前两臂完成 32 题时，紧凑级联为 24/32、52,044 tokens，DeepSeek 直跑为 25/32、57,310 tokens。八臂同题首块仍在采集。见 `serving/queued_joint_timing_steady_v1/`。
 
 ## 续做强基线比较
 

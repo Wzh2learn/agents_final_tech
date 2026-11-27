@@ -14,6 +14,7 @@ python="$repo/venv/bin/python"
 original_train="$study/training/run"
 train="$original_train"
 plan_arm=
+semantic_arm=
 case ${1:-} in
     --hard-adapter)
         shift
@@ -25,13 +26,23 @@ case ${1:-} in
         shift 2
         train="$study/training/planning_v1/$plan_arm/run"
         ;;
+    --semantic-adapter)
+        semantic_arm=${2:?control or pair}
+        [[ $semantic_arm == control || $semantic_arm == pair ]]
+        shift 2
+        train="$study/training/semantic_pair_extension_v1/$semantic_arm/run"
+        ;;
 esac
 restore_status="$train/restore_teacher/status"
 if [[ -n $plan_arm ]]; then
     restore_status="$study/training/planning_v1/restore_teacher/status"
+elif [[ -n $semantic_arm ]]; then
+    restore_status="$study/training/semantic_pair_extension_v1/restore_teacher/status"
+fi
+if [[ -n $plan_arm || -n $semantic_arm ]]; then
     for flag in "$@"; do
         if [[ $flag == --planned ]]; then
-            echo 'The planning adapter determines the prompt format.' >&2
+            echo 'The continuation adapter determines the prompt format.' >&2
             exit 2
         fi
     done
@@ -132,7 +143,7 @@ for ((attempt=0; attempt<15; attempt++)); do
 done
 grep -Fxq 0 "$study/training/supervisor/exit"
 grep -Fxq ready "$restore_status"
-adapter=$("$python" -B - "$original_train" "$train" "$model" "$plan_arm" <<'PY'
+adapter=$("$python" -B - "$original_train" "$train" "$model" "$plan_arm" "$semantic_arm" <<'PY'
 from pathlib import Path
 import json
 import sys
@@ -140,7 +151,7 @@ from benchmark_actions import digest_file
 from compact_consensus import OPERAND_PLAN_INSTRUCTION
 
 original, train, model = map(Path, sys.argv[1:4])
-plan_arm = sys.argv[4]
+plan_arm, semantic_arm = sys.argv[4:6]
 
 
 def adapter_from_receipt(directory, status, examples):
@@ -176,6 +187,14 @@ if train != original:
                 or continuation['examples'] != 384):
             raise ValueError('Planning arm, prompt format or matched row count differs')
         status = 'TRAINED_ODA_JOINT_COMPACT_OPERAND_PLAN'
+    elif semantic_arm:
+        result = json.loads((train / 'RESULT.json').read_text())
+        if (continuation['schema'] != 'oda-joint-compact-semantic-pair-training-v1'
+                or continuation['arm'] != semantic_arm or continuation['planned'] is not False
+                or continuation['examples'] != 208 or continuation['optimizer_updates'] != 52
+                or result['arm'] != semantic_arm or result['planned'] is not False):
+            raise ValueError('Semantic pair arm, prompt format or matched training schedule differs')
+        status = 'TRAINED_ODA_JOINT_COMPACT_SEMANTIC_PAIR'
     else:
         if continuation['schema'] != 'oda-joint-compact-hard-v1':
             raise ValueError('Expected hard-example continuation')
