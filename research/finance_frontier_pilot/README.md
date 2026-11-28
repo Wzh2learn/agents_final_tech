@@ -112,6 +112,8 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 256 组联合反例的两臂训练均已完成。两臂从原 3,000 题适配器出发，使用完全相同的正例、顺序及 64 次更新。候选在原监督损失上增加 DPO 偏好项，用原适配器的固定参考分数比较两份包含结束符的完整程序。CPU 验证顺序与联合反传的梯度一致，实际分词的最大微批次为 3,602 tokens。普通监督臂和成对偏好臂训练用时 374.55、976.71 秒，校内调用均为零。随后为来源隔离的 TRAIN194 原生评估。评分端固定 `a16e5aa4` 的实际服务代码，290 条归档回执的判定和分数均复算一致。见 `training/semantic_joint_preference_run_v1/TRAIN_PROTOCOL.json`、`analysis/semantic_joint_preference_run_v1/EVAL_PROTOCOL.json` 和 `serving/queued_semantic_joint_preference_v1/`。 [DPO 原文](https://arxiv.org/abs/2305.18290)
 
+当前全量使用的普通监督臂重复训练原 3,000 题中的 256 道（FinQA 42、TAT-QA 214），共有 1,460 个训练来源组。按题号、报告、规范化表格及 FinQA 公司／年份，对两库 13,659 条公开记录构造跨库来源连通组。原始 TRAIN 与官方评测共享 238 个组，实际训练使用的 1,460 个组全部与官方评测隔离。核验覆盖本项目的 LoRA 样本。见 `data/targets.jsonl`、`training/semantic_joint_balanced_preferences_v1/{PROVENANCE.json,pairs.jsonl}` 及 [来源分组代码](benchmark_panels.py)。
+
 两臂的 TRAIN194 共收齐 776 条回执。四采样置信度选答由普通监督的 136/194 降至偏好臂的 133/194（R1/H4）。困难 TAT-QA 为 53→51/98，常规 TAT-QA 为 63→62/64，FinQA 常规题持平于 20/32。困难集正确候选覆盖从 61 降至 53，少的八题中四题变为一致算错。四候选一致且换遍尺度仍错的困难题由 17 增至 25，逐题累加的不同可执行投票结果数由 134 降至 112。见 `analysis/semantic_joint_preference_run_v1/TRAIN194_REPORT.json` 及 `serving/joint_preference_{control,pair}_eval_v1/measurements/`。
 
 原 3,000 题适配器已按相同题序、种子及评分补齐 TRAIN194 的四采样原生回执。原模型／普通监督／DPO 在困难 TAT-QA 为 48／53／51（98 题），常规 TAT-QA 为 63／63／62（64 题），FinQA 为 21／20／20（32 题），合计为 132／136／133。普通监督在困难组恢复 5 题、错改 0 题（+5.10 pp，按报告簇配对的 95% 区间 [1.02, 10.20] pp），在 FinQA 错改 1 题。选择普通监督进入独立 TRAIN128 校准及全量实时对标。见 `serving/queued_semantic_joint_original_n4_v1/TRAIN194_ORIGINAL_N4_REPORT.json`。
