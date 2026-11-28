@@ -17,6 +17,18 @@ train="$original_train"
 plan_arm=
 preference_arm=
 case ${1:-} in
+    --scale-adapter)
+        shift
+        train="$study/training/scale_4000_v1/run"
+        for flag in "$@"; do
+            case $flag in
+                --joint-timing|--live-teacher|--pl*)
+                    echo 'The 4000-row adapter supports unplanned native compact evaluation only.' >&2
+                    exit 2
+                    ;;
+            esac
+        done
+        ;;
     --hard-adapter)
         shift
         train="$study/training/hard_adapt_v1/run"
@@ -187,7 +199,29 @@ plan = json.loads((original / 'PLAN.json').read_text())
 if Path(plan['model_path']).resolve() != model.resolve():
     raise ValueError('Expected the pinned ODA base for the joint adapter')
 adapter, original_artifacts = adapter_from_receipt(original, 'TRAINED_ODA_JOINT_COMPACT', 3000)
-if train != original:
+if train == original.parent / 'scale_4000_v1/run':
+    manifest_path = original.parents[1] / 'data/joint_scale_4000_v1/manifest.json'
+    if digest_file(manifest_path) != '2da43151f271556174bfbddc2f25cdadfd7bbcb04b0fa139c24abec522c5ed78':
+        raise ValueError('Expected the frozen 4000-row source manifest')
+    manifest = json.loads(manifest_path.read_text())
+    scale_plan = json.loads((train / 'PLAN.json').read_text())
+    result = json.loads((train / 'RESULT.json').read_text())
+    targets = manifest_path.with_name('targets_4000.jsonl')
+    target_sha = manifest['target_sha256'][targets.name]
+    if (manifest['status'] != 'CPU_FROZEN' or manifest['combined_count'] != 4000
+            or scale_plan['schema'] != 'oda-joint-compact-train-v1' or scale_plan['examples'] != 4000
+            or manifest['original_fit_sha256'] != plan['targets_sha256']
+            or scale_plan['script_sha256'] != plan['script_sha256']
+            or scale_plan['thinking'] is not False or scale_plan['optimizer_updates'] != 1000
+            or result['optimizer_updates'] != 1000 or result['trainable_parameters'] != 3833856
+            or Path(scale_plan['model_path']).resolve() != model.resolve()
+            or scale_plan['model_files'] != plan['model_files']
+            or any(digest_file(model / name) != checksum for name, checksum in plan['model_files'].items())
+            or Path(scale_plan['targets']).resolve() != targets
+            or digest_file(targets) != target_sha or scale_plan['targets_sha256'] != target_sha):
+        raise ValueError('The finalized 4000-row training plan or source differs')
+    adapter, _ = adapter_from_receipt(train, 'TRAINED_ODA_JOINT_COMPACT', 4000)
+elif train != original:
     continuation = json.loads((train / 'PLAN.json').read_text())
     if continuation['warm_adapter'] != original_artifacts or continuation['model_files'] != plan['model_files']:
         raise ValueError('Continuation must inherit the exact joint adapter and pinned ODA base')
