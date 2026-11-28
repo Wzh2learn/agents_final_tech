@@ -38,6 +38,8 @@
 
 尺度训练消融使用相同 3,000 题、模型和优化设置，只将 630 个 TAT-QA 监督尺度 token 从原标注 `percent` 改为执行对齐的 `none`。官方 TAT-QA 从 420 升至 605/718（R198/H13，+25.77 pp，95% 配对区间 [22.11, 29.42]），两臂用量 604,119 与 604,042 tokens。算式相同、尺度不同的 214 对贡献了 189 个恢复、4 个错改，覆盖全部净增。FinQA 从 813 到 822/1,147（R28/H19，+0.78 pp，[−0.35, 1.96]）。见 `scale_ablation_v1/paired_report.json`。
 
+固定原始回执，按「算式来源 × 尺度来源」交换同题输出，顺序为原标注／原标注、原标注／执行对齐、执行对齐／原标注、执行对齐／执行对齐。TAT-QA 官方分数依次为 420、608、416、605/718，FinQA 为 813、814、821、822/1,147。两臂均有可执行候选的 717 道 TAT-QA、1,139 道 FinQA 交换尺度，其余沿用算式来源臂的原判定。固定 TAT-QA 原标注臂的程序，仅交换尺度就恢复 193 道、错改 5 道。结果说明该训练对照的主要增量经由尺度预测实现。608 是同题双回执离线归因分数。见 GB10 `scale_ablation_v1/generated_scale_factor_replay.{py,json}`。
+
 同调用数 Risk 对照使用同一批四候选，按可执行性与最低生成 token 置信度排序。两臂分别各接管 FinQA 249、TAT-QA 97 道，重叠 182、72 道。补采的 92 份回执用量完整。多数选答下一致性门控与 Risk 分别为 FinQA 866 对 863、TAT-QA 618 对 618。两臂都应用同一本地重排后，分别为 867 对 864（R14/H11，+0.26 pp [−0.62, 1.14]）、621 对 621（R5/H5，[−0.84, 0.84] pp）。Risk 的总用量分别为 2,218,898 和 822,449 tokens。见 `serving/queued_matched_risk_v1/fresh/matched_risk.json`、`analysis/fresh_matched_risk_v1/report.json`。
 
 按已实测教师用量回放等 token 上限，保留两条排序各自的最长前缀。FinQA 的一致性与 Risk 分别接管 249 和 245 题，得 867 对 864/1,147，总用量 2,211,234 对 2,208,035。TAT-QA 分别接管 90 和 97 题，得 622 对 621/718（R5/H4，+0.14 pp [−0.69, 0.98]），总用量 821,801 对 822,449。等用量回放用于对照门控排序，实际部署仍采用冻结接管规则。见 `analysis/fresh_matched_token_v1/report.json`。
@@ -165,6 +167,8 @@ TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分�
 复核同配置两次 FinQA 首块的 32 题调用回执。紧凑模型的四条原始候选在 31 题逐条一致，选出的终值及尺度在 32 题一致，接管两次均选中同样的 7 题。DeepSeek 直跑两次都正常返回 32 题，用户提示完全相同，线上的系统提示仅工作目录不同。可见文本完全相同 14 题，输入均为 41,741 tokens，输出为 13,564／13,867 tokens。两次 OpenCode 调用墙时中位数为 7.00／6.49 秒。该复核只使用调用回执。见 `joint_full_timing_finqa_uniform_steady_k6_control_v2/shards/{00000,00001}/calls/`。
 
 11 月 28 日停止长时计时并记录降温。Dell GB10 机内热点／GPU／SSD 由 83.5／78.0／68.8°C 降至 50.8／48.0／48.9°C。GB10 的 `~/wzh/thermal/samples.jsonl` 每 15 秒采样。受保护计时使用独立目录，在策略之间按温度或约 45 分钟工作间隔进入至少 15 分钟冷却，连续 3 分钟满足 75／70／65°C 才放行。持续越过 88／85／80°C、出现 GPU 热降频或关键读数持续缺失时，停止本实验。冷却时间与逐题墙时分列。[温度守卫](../../scripts/graph/gb10_thermal_guard.py)另存原始读数。
+
+当前队列为 `serving/queued_joint_timing_uniform_thermal_v4/`，官方结果写入 `joint_full_timing_{finqa,tatqa}_uniform_steady_k6_control_thermal_v4`。与停机前版本逐项核对官方题序、八臂、六槽并发、模型、门控及编译口径。FinQA 首块等待约 904 秒后放行。无 LoRA 原版 ODA 对照改由 `serving/queued_native_base_control_thermal_v2/` 等待两库完整验收和冷却后执行。
 
 滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 和 BudgetVerify 的最长序列组合各在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens。六槽下两种方法各在 FinQA 1/36 个块超过上限，对应两个不同的块，TAT-QA 均为 0/23。该估计未计入真实调度或缓存复用。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json`。
 
