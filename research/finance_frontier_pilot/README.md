@@ -42,6 +42,8 @@
 
 按已实测教师用量回放等 token 上限，保留两条排序各自的最长前缀。FinQA 的一致性与 Risk 分别接管 249 和 245 题，得 867 对 864/1,147，总用量 2,211,234 对 2,208,035。TAT-QA 分别接管 90 和 97 题，得 622 对 621/718（R5/H4，+0.14 pp [−0.69, 0.98]），总用量 821,801 对 822,449。等用量回放用于对照门控排序，实际部署仍采用冻结接管规则。见 `analysis/fresh_matched_token_v1/report.json`。
 
+隔离于拟合来源的 TRAIN240 对照使用统一编译口径。复用 18 条同提示教师回执，补采 31 条并核对账本，新增 61,206 tokens。两组均各接管 36 次时，一致性门控与 Risk 为 199/240、196/240，总用量为 330,964、316,129。按每组共同 token 上限截断，两者均为 196/240。独立 Hard112 中，TAT-QA 同为 86/96，FinQA 为 10/16、11/16。等调用数时，一致性门控独选的 13 题比 Risk 独选的 13 题多用 14,835 tokens，其中 10,356 来自教师输出。该对照针对接管决策，沿用冻结门控。见 `analysis/train_risk_union_v1/live/{report,exclusive_route_cost}.json`。
+
 128 道 TRAIN 校准题上，保留一致答案、分歧时选可执行候选中最低 token 置信度最高者，从四采样多数投票的 91 提至 94（R4/H1），贪心为 92。冻结规则后，在独立的 112 道 TRAIN 题上，FinQA 为 10/16，较多数投票持平，TAT-QA 从 82 提至 86/96（R4/H0），与贪心答对同一批题。复用官方四候选得到 FinQA 813→821（R28/H20）、TAT-QA 592→604（R17/H5）。全部正确性变化落在原定接管集合内。用同一批新教师回执，最终从 866→867、618→621（R3/H0）。实际调用数和 tokens 相同。见 `serving/confidence_recheck_v1/` 和 `analysis/confidence_official_replay_v1/`。
 
 固定同一门控，在这 240 道 TRAIN 题上对比答案段 token 均值及去单个最低值后取均值。独立 112 题分别为 96、92，对照 max-min 为 96。未接管的 204 题中，175 题有正确候选，max-min 全部选中；两个均值规则净变化为 0、−2。沿用 max-min，后续配对训练检验正确候选覆盖。见 `analysis/compact_answer_confidence_train_v1/RESULT.json`。
@@ -108,7 +110,7 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 已冻结一个 256 组联合 TRAIN 对照。保留 128 组减法换序，另配 128 组同算式、不同尺度的通过／失败反例。`percent` 与 `none` 两个方向各 41 组，每方向同为 27 道单步、14 道多步。另有 46 组千、百万或十亿尺度反例。256 组来源和报告均互异。见 `training/semantic_joint_balanced_preferences_v1/PROVENANCE.json`。
 
-256 组联合反例已接入两臂训练。两臂从原 3,000 题适配器出发，使用完全相同的正例、顺序及 64 次更新。候选在原监督损失上增加 DPO 偏好项，用原适配器的固定参考分数比较两份包含结束符的完整程序。CPU 验证顺序与联合反传的梯度一致，实际分词的最大微批次为 3,602 tokens。六槽试跑验收及服务恢复后，普通监督臂已启动训练，随后运行成对偏好臂和来源隔离的 TRAIN194 原生评估。评分端固定 `a16e5aa4` 的实际服务代码，290 条归档回执的判定和分数均复算一致。见 `training/semantic_joint_preference_run_v1/TRAIN_PROTOCOL.json`、`analysis/semantic_joint_preference_run_v1/EVAL_PROTOCOL.json` 和 `serving/queued_semantic_joint_preference_v1/`。 [DPO 原文](https://arxiv.org/abs/2305.18290)
+256 组联合反例的两臂训练均已完成。两臂从原 3,000 题适配器出发，使用完全相同的正例、顺序及 64 次更新。候选在原监督损失上增加 DPO 偏好项，用原适配器的固定参考分数比较两份包含结束符的完整程序。CPU 验证顺序与联合反传的梯度一致，实际分词的最大微批次为 3,602 tokens。普通监督臂和成对偏好臂训练用时 374.55、976.71 秒，校内调用均为零。随后为来源隔离的 TRAIN194 原生评估。评分端固定 `a16e5aa4` 的实际服务代码，290 条归档回执的判定和分数均复算一致。见 `training/semantic_joint_preference_run_v1/TRAIN_PROTOCOL.json`、`analysis/semantic_joint_preference_run_v1/EVAL_PROTOCOL.json` 和 `serving/queued_semantic_joint_preference_v1/`。 [DPO 原文](https://arxiv.org/abs/2305.18290)
 
 原 3,000 题适配器只在困难 98 题上有可复核的历史贪心回执，得 49/98，逐题采样种子与 TRAIN194 不同。原适配器的同题 n4 对照已排入队列，偏好实验成功结束并恢复服务后自动运行。它用相同题序、种子和评分比较原模型与两条新臂，也给扩容候选提供共享基准。见 `serving/queued_semantic_joint_original_n4_v1/`。
 
