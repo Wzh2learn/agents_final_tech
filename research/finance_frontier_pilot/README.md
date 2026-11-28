@@ -116,6 +116,8 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 原 3,000 题适配器已按相同题序、种子及评分补齐 TRAIN194 的四采样原生回执。原模型／普通监督／DPO 在困难 TAT-QA 为 48／53／51（98 题），常规 TAT-QA 为 63／63／62（64 题），FinQA 为 21／20／20（32 题），合计为 132／136／133。普通监督在困难组恢复 5 题、错改 0 题（+5.10 pp，按报告簇配对的 95% 区间 [1.02, 10.20] pp），在 FinQA 错改 1 题。选择普通监督进入独立 TRAIN128 校准及全量实时对标。见 `serving/queued_semantic_joint_original_n4_v1/TRAIN194_ORIGINAL_N4_REPORT.json`。
 
+用相同原生评分遍历困难组四个候选的全部合法尺度。普通监督恢复的 5 题中，原模型有 1 题已生成正确候选，另 4 题对既有候选换尺度即可通过。允许为任意候选选尺度的诊断上界，原模型、普通监督、DPO 分别为 70／71／65。在四候选一致且全部合法尺度都错的原模型 18 题上，本次普通监督恢复 0 题。此项复算限于 TRAIN194 回执。
+
 备选扩容数据已从原训练来源中选择额外 1,000 个执行验证的 TRAIN 题，排除既有训练题、辅助训练及验证面板，原文件的 3,000 题和顺序逐字节保留。新增 FinQA 单步 80 题，TAT-QA 单步与多步各 460 题，其中 279 道 TAT-QA 的尺度经执行对齐。4,000 题中 FinQA／TAT-QA 为 1,280／2,720，FinQA 占比从 40% 到 32%。原训练器已完成离线分词与核验。训练计划沿用原基座与超参数，单轮为 1,000 次更新，当前仅完成准备。见 `data/joint_scale_4000_v1/manifest.json` 和 `training/scale_4000_v1/run/PLAN.json`。
 
 新增 920 道 TAT-QA 中，915 道与旧训练题共享原表文，913 道在该表文中新增了程序或尺度。109 道与旧题使用相同的数值操作数集合，运行各自程序均正确，双向互换程序在所有合法尺度下均失败。109 道中有 102 道是绝对差额与相对变化，两边同时为多步程序的配对为零。扩容效果仍以独立 TRAIN194 原生评分评估。见 `data/joint_scale_4000_v1/{target_diversity,paired_target_diversity}.json`。
@@ -153,6 +155,8 @@ TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分�
 逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
 统一编译版的全量计时使用独立命名空间。工作树为 `3e448f3e`，包含四／六槽与空回执崩溃识别。使用这版复放 384 条校准、3,730 条官方本地回执和 346 条教师回执，所有编译及执行判定一致，原紧凑适配器的 TRAIN 门控文件逐字节一致。普通监督臂的独立 TRAIN128 四采样已就绪，本地得 96/128（FinQA 14/32，TAT-QA 82/96），按两库合并的冻结阈值划入 25 题。已锁定适配器和门控，六槽全量运行于 11 月 28 日启动，写入两库的 `joint_full_timing_{finqa,tatqa}_uniform_steady_k6_control_v2` 独立目录。见 `analysis/fresh_vs_archives_v1/release_3e448f3e/` 和 `serving/queued_joint_timing_uniform_full_v2/`。
+
+普通监督臂 TRAIN128 的引擎计数也吻合单次预填充后重算末块的公式。FinQA／TAT-QA 四采样实际预填充为 44,400／78,384 tokens，生成 3,361／10,363 tokens。见 `serving/joint_preference_control_calibration_v1/measurements/summary.json`。
 
 滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 和 BudgetVerify 的最长序列组合各在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens。六槽下两种方法各在 FinQA 1/36 个块超过上限，对应两个不同的块，TAT-QA 均为 0/23。该估计未计入真实调度或缓存复用。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json`。
 
