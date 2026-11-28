@@ -10,11 +10,14 @@ import argparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
+from itertools import islice
 import json
 import math
 from pathlib import Path
 import re
 from statistics import median
+import subprocess
+import sys
 from time import perf_counter, sleep
 from urllib.request import Request, urlopen
 from uuid import uuid4
@@ -26,6 +29,8 @@ from table_scope_replay import representation
 
 
 SAMPLE_COUNTS = (1, 4, 8)
+THERMAL_DUTY = {'chunk_questions': 32, 'max_work_seconds': 2700,
+                'cooldown_seconds': 900, 'stable_seconds': 180}
 COMPACT_SYSTEM = 'Answer the provided task using the supplied evidence.'
 OPERAND_PLAN_INSTRUCTION = (
     '\nFirst write Plan: with up to two operand sources in order: Trow,col (table), '
@@ -267,6 +272,37 @@ def summarize(cases):
             'p95_route_wall_seconds': elapsed[math.ceil(0.95 * n) - 1]}
 
 
+def thermal_chunk_guard(script, log, profile):
+    last_ready = perf_counter()
+
+    def before_chunk():
+        nonlocal last_ready
+        started = perf_counter()
+        if digest_file(script) != profile['script_sha256']:
+            raise RuntimeError('Thermal guard script changed during native evaluation')
+        command = [sys.executable, '-B', str(script)]
+        sample = subprocess.run([*command, 'sample', '--nvidia-smi-telemetry'],
+                                capture_output=True, text=True, timeout=30)
+        if sample.returncode not in (0, 1, 2):
+            sample.check_returncode()
+        record = json.loads(sample.stdout)
+        if record.get('admission_ready') is not (sample.returncode == 0):
+            raise RuntimeError('Thermal guard sample and exit code disagree')
+        reason = ('not_ready' if sample.returncode else
+                  'interval' if started - last_ready >= profile['max_work_seconds'] else None)
+        with log.open('a', encoding='utf-8') as stream:
+            print(json.dumps({**record, 'event': 'NATIVE_CHUNK_ADMISSION', 'cooldown_reason': reason},
+                             allow_nan=False), file=stream)
+        if reason is not None:
+            subprocess.run([*command, 'cooldown', '--seconds', str(profile['cooldown_seconds']),
+                            '--stable-seconds', str(profile['stable_seconds']), '--nvidia-smi-telemetry',
+                            '--log', str(log)], check=True)
+            last_ready = perf_counter()
+        return perf_counter() - started
+
+    return before_chunk
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--panel', required=True, type=Path)
@@ -289,7 +325,15 @@ def main():
                         help='Allow whole-request prefix reuse between arms and questions')
     parser.add_argument('--workers', type=int, default=1,
                         help='Parallel collection with aggregate engine counters for each n')
+    parser.add_argument('--thermal-guard-script', type=Path,
+                        help='Check and cool GB10 between drained four-worker n=1 chunks')
     args = parser.parse_args()
+    thermal = None
+    if args.thermal_guard_script is not None:
+        if args.workers != 4 or args.n != [1] or not args.thermal_guard_script.is_file():
+            parser.error('--thermal-guard-script requires four workers, --n 1, and an existing guard script')
+        args.thermal_guard_script = args.thermal_guard_script.resolve()
+        thermal = {**THERMAL_DUTY, 'script_sha256': digest_file(args.thermal_guard_script)}
     public, gold, identity = read_panel(args.panel, args.dataset)
     if len(args.n) != len(set(args.n)):
         parser.error('duplicate n values')
@@ -304,9 +348,10 @@ def main():
         _metric_type(args.metric_dir)
     args.output.mkdir(parents=True, exist_ok=False)
     run_salt = uuid4().hex
-    metadata = vars(args)
+    metadata = {key: value for key, value in vars(args).items() if key != 'thermal_guard_script' or thermal is not None}
     freeze(args.output / 'run.json', {
         **{key: str(value) if isinstance(value, Path) else value for key, value in metadata.items()},
+        **({'thermal_guard': thermal} if thermal is not None else {}),
         'compiler_sha256': digest_file(Path(__file__).with_name('table_scope_replay.py')),
         'scorer_sha256': digest_file(Path(__file__).with_name('scoring.py')),
         'runner_sha256': digest_file(Path(__file__)), 'panel_sha256': identity, 'run_salt': run_salt,
@@ -329,6 +374,8 @@ def main():
         with urlopen(local_endpoint(args.base).removesuffix('/v1') + '/metrics', timeout=args.timeout) as stream:
             return metrics_snapshot(stream.read().decode('utf-8'))
 
+    pause = (thermal_chunk_guard(args.thermal_guard_script, args.output / 'thermal_guard.jsonl', thermal)
+             if thermal is not None else None)
     grouped = {}
     engine_batches = {}
     with (args.output / 'cases.jsonl').open('x', encoding='utf-8') as stream:
@@ -351,12 +398,26 @@ def main():
                     before = snapshot() if args.measure_exclusive_engine else None
                     if before is not None and any(before.get(key) != 0 for key in ('running', 'waiting')):
                         raise RuntimeError('exclusive engine measurement requires an idle service')
-                    started = perf_counter()
-                    with ThreadPoolExecutor(max_workers=args.workers) as pool:
-                        for case in pool.map(collect, ((i, row, n) for i, row in enumerate(public)
-                                                       if row['dataset'] == dataset)):
-                            record(case)
-                    elapsed = perf_counter() - started
+                    jobs = ((i, row, n) for i, row in enumerate(public) if row['dataset'] == dataset)
+                    chunks = (iter(lambda: tuple(islice(jobs, thermal['chunk_questions'])), ())
+                              if pause is not None else (jobs,))
+                    elapsed, thermal_seconds = 0.0, 0.0
+                    for chunk in chunks:
+                        if pause is not None:
+                            for attempt in range(20):
+                                if attempt:
+                                    sleep(0.1)
+                                status = snapshot()
+                                if all(status.get(key) == 0 for key in ('running', 'waiting')):
+                                    break
+                            else:
+                                raise RuntimeError('Thermal guard requires a fully drained native engine')
+                            thermal_seconds += pause()
+                        started = perf_counter()
+                        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+                            for case in pool.map(collect, chunk):
+                                record(case)
+                        elapsed += perf_counter() - started
                     usages = [case['usage'] for case in grouped[group]]
                     total = {'completion_tokens': sum(usage['completion_tokens'] for usage in usages)
                              } if all(usage is not None for usage in usages) else None
@@ -369,6 +430,8 @@ def main():
                             if work['locally_computed_tokens'] is not None or total is None:
                                 break
                     engine_batches[group] = {'batch_wall_seconds': elapsed, 'engine_work': work}
+                    if pause is not None:
+                        engine_batches[group]['thermal_wait_seconds'] = thermal_seconds
     freeze(args.output / 'summary.json', {key: {**summarize(cases), **engine_batches.get(key, {})}
                                         for key, cases in grouped.items()})
 
