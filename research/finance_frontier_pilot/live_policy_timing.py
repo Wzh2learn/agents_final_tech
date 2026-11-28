@@ -8,6 +8,7 @@ from copy import copy
 from hashlib import sha256
 from itertools import permutations
 import json
+from math import isfinite
 import os
 from pathlib import Path
 from random import Random
@@ -52,6 +53,8 @@ JOINT_STEADY_FULL = 'finance-live-joint-timing-steady-full-v1'
 JOINT_STEADY_WORKERS = (4, 6, 8)
 ISOLATED_ACTOR_STORE = 'per-role-per-block-slot-xdg-v1'
 BUN_STARTUP_RECOVERY = 'bun-sigtrap-empty-raw-v1'
+THERMAL_DUTY = {'schema': 'gb10-pre-arm-thermal-duty-v1', 'max_work_seconds': 2700,
+                'cooldown_seconds': 900, 'stable_seconds': 180}
 LEGACY_SERIAL_DRIVERS = {
     '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
     '8a9cbec1f2d5e1ee368b783dec372d2cf863414d71a3d9f10f7f636ef636a55a',
@@ -565,7 +568,37 @@ def steady_arm(pool, block, policy, measure, workers, campus_lock):
     return results
 
 
-def wave_reports(args, cases, gold, measure, workers, offset, *, steady_block=None):
+def thermal_arm_guard(script, log, profile):
+    """Return a gate that runs while the previous arm is drained and before the next is admitted."""
+    last_cooled = None
+
+    def before_arm():
+        nonlocal last_cooled
+        started = monotonic()
+        if digest_file(script) != profile['script_sha256']:
+            raise RuntimeError('Thermal monitor differs from the frozen script')
+        command = [sys.executable, str(script)]
+        reason = None
+        if last_cooled is None:
+            reason = 'initial'
+        elif started - last_cooled >= profile['max_work_seconds']:
+            reason = 'interval'
+        else:
+            sample = subprocess.run([*command, 'sample'], capture_output=True, timeout=30)
+            if sample.returncode in (1, 2):
+                reason = 'not_ready'
+            else:
+                sample.check_returncode()
+        if reason is not None:
+            subprocess.run([*command, 'cooldown', '--seconds', str(profile['cooldown_seconds']),
+                            '--stable-seconds', str(profile['stable_seconds']), '--log', str(log)], check=True)
+            last_cooled = monotonic()
+        return {'thermal_wait_seconds': monotonic() - started, 'thermal_cooldown_reason': reason}
+
+    return before_arm
+
+
+def wave_reports(args, cases, gold, measure, workers, offset, *, steady_block=None, thermal_check=None):
     """Yield complete blocks in frozen order and preserve the entire failed block."""
     campus_lock = Lock()
     block_width = steady_block or workers
@@ -578,6 +611,16 @@ def wave_reports(args, cases, gold, measure, workers, offset, *, steady_block=No
             records = [{} for _ in block]
             batches, stop = {}, None
             for policy in order:
+                boundary = {}
+                if thermal_check is not None:
+                    check_started = monotonic()
+                    try:
+                        boundary = thermal_check()
+                    except (OSError, RuntimeError, subprocess.SubprocessError) as error:
+                        batches[policy] = {'thermal_wait_seconds': monotonic() - check_started,
+                                           'thermal_guard_error': type(error).__name__}
+                        stop = 'thermal_guard'
+                        break
                 batch_start = monotonic()
                 if steady_block is not None:
                     measured = steady_arm(pool, block, policy, measure, workers, campus_lock)
@@ -596,7 +639,7 @@ def wave_reports(args, cases, gold, measure, workers, offset, *, steady_block=No
                                                   'failure_type': type(error).__name__}
                 items = [record[policy] for record in records if policy in record]
                 statuses = {item['status'] for item in items}
-                batches[policy] = {'wall_seconds': batch_wall, 'attempted_routes': len(items),
+                batches[policy] = {**boundary, 'wall_seconds': batch_wall, 'attempted_routes': len(items),
                                    'complete_routes': sum(item['status'] == 'complete' for item in items),
                                    'local_call_cost': summed_cost([item['local_call_cost'] for item in items]),
                                    'campus_call_cost': summed_cost([item['campus_call_cost'] for item in items])}
@@ -632,7 +675,7 @@ def serial_reports(args, cases, gold, measure):
 
 
 def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_digest, selectors=None, joint=None,
-                  *, joint_offset=0, actor_slots=None):
+                  *, joint_offset=0, actor_slots=None, thermal_check=None):
     completed = 0
     started = monotonic()
     start_index = len(budget.rows)
@@ -641,6 +684,7 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
     pair_records = {name: [] for name in paired_policies}
     reports = {}
     all_costs, accepted_rows = [], []
+    thermal_wait = 0.0
     workers = getattr(args, 'joint_workers', 1)
     steady_block = getattr(args, 'joint_steady_block', None)
     if actor_slots is not None and (workers <= 1 or len(actor_slots) != workers):
@@ -655,13 +699,16 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
         return measure_route(args, root, row, policy, selected_actors, profiles, budget, key, run_digest, selectors, joint,
                              **kwargs)
 
-    produced = (wave_reports(args, cases, gold, measure, workers, joint_offset, steady_block=steady_block) if workers > 1
+    produced = (wave_reports(args, cases, gold, measure, workers, joint_offset, steady_block=steady_block,
+                             thermal_check=thermal_check) if workers > 1
                 else serial_reports(args, cases, gold, measure))
     with (root / 'outcomes.jsonl').open('x', encoding='utf-8') as stream:
         for report, stop in produced:
             measured = report['policies']
             stream.write(json.dumps(report, ensure_ascii=False, allow_nan=False) + '\n')
             stream.flush()
+            if thermal_check is not None:
+                thermal_wait += sum(arm['thermal_wait_seconds'] for arm in report.get('arm_batches', {}).values())
             all_costs.extend(record['cost'] for record in measured.values())
             if not report['complete_pair']:
                 continue
@@ -702,9 +749,13 @@ def collect_cases(args, root, cases, gold, actors, profiles, budget, key, run_di
         summary.update(joint_workers=workers, block_size_strata=wave_strata(accepted_rows, paired_policies))
     if steady_block is not None:
         summary['joint_steady_block'] = steady_block
+    if thermal_check is not None:
+        summary['thermal_wait_seconds'] = thermal_wait
     write_json(root / 'collection.json', summary)
     if stop == 'route_error':
         raise RuntimeError('A timing wave failed; inspect its recorded route attempts')
+    if stop == 'thermal_guard':
+        raise RuntimeError('Thermal guard aborted before arm admission; inspect the shard thermal log')
 
 
 def summarize_timed_policies(pair_records):
@@ -768,6 +819,12 @@ def joint_block_width(plan):
     if ('local_startup_recovery' in plan and
             (steady is None or plan['local_startup_recovery'] != BUN_STARTUP_RECOVERY)):
         raise ValueError('Local Bun startup recovery requires the frozen rolling timing protocol')
+    if 'thermal_guard' in plan:
+        thermal = plan['thermal_guard']
+        if (steady is None or not isinstance(thermal, dict)
+                or thermal != {**THERMAL_DUTY, 'script_sha256': thermal.get('script_sha256')}
+                or not re.fullmatch(r'[0-9a-f]{64}', str(thermal.get('script_sha256')))):
+            raise ValueError('Thermal guard requires the exact frozen rolling thermal protocol')
     if steady is not None or plan.get('schema') == JOINT_STEADY_PLAN:
         if (plan.get('schema') != JOINT_STEADY_PLAN or type(steady) is not int or steady != 32
                 or type(workers) is not int or workers not in JOINT_STEADY_WORKERS
@@ -810,6 +867,7 @@ def joint_history(shards, plan, plan_hash):
                             or (steady is not None and contract.get('local_selection') != plan['local_selection'])
                             or contract.get('actor_store_scope') != plan.get('actor_store_scope')
                             or contract.get('local_startup_recovery') != plan.get('local_startup_recovery')
+                            or contract.get('thermal_guard') != plan.get('thermal_guard')
                             or (len(order) % width and start + len(order) != len(target))):
             raise ValueError('A wave shard must use the frozen actor stores, width and complete blocks')
         if not outcomes_path.is_file():
@@ -856,6 +914,13 @@ def joint_history(shards, plan, plan_hash):
                         item['attempted_routes'] != size or item['complete_routes'] != size
                         for item in row['arm_batches'].values()):
                     raise ValueError('A completed steady block must measure every planned route in each arm')
+                if slot == 0 and 'thermal_guard' in plan:
+                    for batch in row['arm_batches'].values():
+                        duration = batch.get('thermal_wait_seconds')
+                        if (type(duration) not in (int, float) or not isfinite(duration) or duration < 0
+                                or 'thermal_cooldown_reason' not in batch
+                                or batch['thermal_cooldown_reason'] not in (None, 'initial', 'interval', 'not_ready')):
+                            raise ValueError('A thermal timing arm requires its pre-admission wait receipt')
                 buffer.append(row)
                 if len(buffer) == size:
                     accepted.extend(buffer)
@@ -1081,6 +1146,9 @@ def run(args, benchmark, ledger_root):
                               if steady is not None else {})
             if getattr(args, 'retry_bun_startup', False):
                 steady_profile['local_startup_recovery'] = BUN_STARTUP_RECOVERY
+            thermal_script = getattr(args, 'thermal_guard_script', None)
+            if thermal_script is not None:
+                steady_profile['thermal_guard'] = {**THERMAL_DUTY, 'script_sha256': digest_file(thermal_script)}
             if steady is not None:
                 slots = {4: 'Four', 6: 'Six', 8: 'Eight'}[workers]
                 plan.update(schema=JOINT_STEADY_PLAN, **steady_profile,
@@ -1089,6 +1157,8 @@ def run(args, benchmark, ledger_root):
                                         'same-arm block. No overlap between arms. Grading follows timing.',
                             block_order='Balanced policy orders rotate by frozen block index. Only complete blocks '
                                         'advance the prefix; the true final remainder is reported separately.')
+                if thermal_script is not None:
+                    plan['measurement'] += ' Thermal waits occur before arm admission and are recorded separately.'
             shard, todo, start, plan_hash = joint_shard(args, benchmark, resources, plan, cases)
             if shard is None:
                 return
@@ -1113,8 +1183,12 @@ def run(args, benchmark, ledger_root):
             try:
                 wait_service(args.base, ODA, 90)
                 wait_service(args.base, joint[1]['model'], 90)
+                thermal_check = (thermal_arm_guard(thermal_script, shard / 'thermal_guard.jsonl',
+                                                  steady_profile['thermal_guard'])
+                                 if thermal_script is not None else None)
                 collect_cases(args, shard, todo, gold, actors, providers, budget, key,
-                              digest_file(contract), selectors, joint, joint_offset=start, actor_slots=actor_slots)
+                              digest_file(contract), selectors, joint, joint_offset=start, actor_slots=actor_slots,
+                              thermal_check=thermal_check)
             finally:
                 publish_joint_progress(benchmark / args.namespace, plan, plan_hash)
             return
@@ -1201,6 +1275,8 @@ def main():
                         help='Refill four, six, or eight isolated slots within each frozen 32-question same-arm block')
     parser.add_argument('--retry-bun-startup', action='store_true',
                         help='Allow one traced local Bun startup retry in a fresh rolling timing namespace')
+    parser.add_argument('--thermal-guard-script', type=Path,
+                        help='Cool and verify GB10 between measured arms in a fresh rolling timing namespace')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
@@ -1216,6 +1292,10 @@ def main():
         parser.error('--joint-steady-block requires --joint-gate, --joint-workers 4, 6, or 8 and --joint-isolated-actor-slots')
     if args.retry_bun_startup and args.joint_steady_block is None:
         parser.error('--retry-bun-startup requires rolling --joint-steady-block timing')
+    if args.thermal_guard_script is not None:
+        if args.joint_steady_block is None or not args.thermal_guard_script.is_file():
+            parser.error('--thermal-guard-script requires rolling --joint-steady-block timing and a readable script')
+        args.thermal_guard_script = args.thermal_guard_script.resolve()
     if args.joint_workers > 4 and args.joint_steady_block is None:
         parser.error('--joint-workers above 4 requires --joint-steady-block 32 and isolated actor slots')
     if args.joint_gate:

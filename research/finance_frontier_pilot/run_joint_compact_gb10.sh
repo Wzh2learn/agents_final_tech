@@ -258,6 +258,13 @@ from scripts.graph.research_gpu_guard import stop_owned
 stop_owned(sys.argv[1], {'status': 'STOPPED_COMPACT'}, Path(sys.argv[2]), 5)
 PY
     fi
+    if [[ -f ${GB10_THERMAL_HOLD_FILE:-} ]]; then
+        if [[ ! -s ${GB10_THERMAL_GUARD_SCRIPT:-} ]] || ! "$python" -B "$GB10_THERMAL_GUARD_SCRIPT" cooldown \
+                --seconds 900 --stable-seconds 180 --nvidia-smi-telemetry --log "$out/thermal_restore.jsonl"; then
+            printf 'thermal-hold\n' >"$out/restore.status"
+            exit 75
+        fi
+    fi
     flock -u 9
     exec 9>&-
     if [[ $(docker inspect --format '{{.State.Running}}' research-qwen27b-current 2>/dev/null) != true ]]; then
