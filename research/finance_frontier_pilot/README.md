@@ -112,15 +112,15 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 256 组联合反例的两臂训练均已完成。两臂从原 3,000 题适配器出发，使用完全相同的正例、顺序及 64 次更新。候选在原监督损失上增加 DPO 偏好项，用原适配器的固定参考分数比较两份包含结束符的完整程序。CPU 验证顺序与联合反传的梯度一致，实际分词的最大微批次为 3,602 tokens。普通监督臂和成对偏好臂训练用时 374.55、976.71 秒，校内调用均为零。随后为来源隔离的 TRAIN194 原生评估。评分端固定 `a16e5aa4` 的实际服务代码，290 条归档回执的判定和分数均复算一致。见 `training/semantic_joint_preference_run_v1/TRAIN_PROTOCOL.json`、`analysis/semantic_joint_preference_run_v1/EVAL_PROTOCOL.json` 和 `serving/queued_semantic_joint_preference_v1/`。 [DPO 原文](https://arxiv.org/abs/2305.18290)
 
-两臂的 TRAIN194 共收齐 776 条回执。四采样置信度选答由普通监督的 136/194 降至偏好臂的 133/194（R1/H4）。困难 TAT-QA 为 53→51/98，常规 TAT-QA 为 63→62/64，FinQA 常规题持平于 20/32。困难集正确候选覆盖从 61 降至 53，少的八题中四题变为一致算错。四候选一致且换遍尺度仍错的困难题由 17 增至 25，逐题累加的不同可执行投票结果数由 134 降至 112。保留原方案等待普通监督臂与原 3,000 题模型的同题对照。见 `analysis/semantic_joint_preference_run_v1/TRAIN194_REPORT.json` 及 `serving/joint_preference_{control,pair}_eval_v1/measurements/`。
+两臂的 TRAIN194 共收齐 776 条回执。四采样置信度选答由普通监督的 136/194 降至偏好臂的 133/194（R1/H4）。困难 TAT-QA 为 53→51/98，常规 TAT-QA 为 63→62/64，FinQA 常规题持平于 20/32。困难集正确候选覆盖从 61 降至 53，少的八题中四题变为一致算错。四候选一致且换遍尺度仍错的困难题由 17 增至 25，逐题累加的不同可执行投票结果数由 134 降至 112。见 `analysis/semantic_joint_preference_run_v1/TRAIN194_REPORT.json` 及 `serving/joint_preference_{control,pair}_eval_v1/measurements/`。
 
-原 3,000 题适配器的历史贪心回执在困难 98 题上得 49/98，逐题采样种子与 TRAIN194 不同。偏好实验成功结束并恢复服务后，原适配器的同题 n4 对照已接力启动。它用相同题序、种子和评分比较原模型与两条新臂，也给扩容候选提供共享基准。见 `serving/queued_semantic_joint_original_n4_v1/`。
+原 3,000 题适配器已按相同题序、种子及评分补齐 TRAIN194 的四采样原生回执。原模型／普通监督／DPO 在困难 TAT-QA 为 48／53／51（98 题），常规 TAT-QA 为 63／63／62（64 题），FinQA 为 21／20／20（32 题），合计为 132／136／133。普通监督在困难组恢复 5 题、错改 0 题（+5.10 pp，按报告簇配对的 95% 区间 [1.02, 10.20] pp），在 FinQA 错改 1 题。选择普通监督进入独立 TRAIN128 校准及全量实时对标。见 `serving/queued_semantic_joint_original_n4_v1/TRAIN194_ORIGINAL_N4_REPORT.json`。
 
 备选扩容数据已从原训练来源中选择额外 1,000 个执行验证的 TRAIN 题，排除既有训练题、辅助训练及验证面板，原文件的 3,000 题和顺序逐字节保留。新增 FinQA 单步 80 题，TAT-QA 单步与多步各 460 题，其中 279 道 TAT-QA 的尺度经执行对齐。4,000 题中 FinQA／TAT-QA 为 1,280／2,720，FinQA 占比从 40% 到 32%。原训练器已完成离线分词与核验。训练计划沿用原基座与超参数，单轮为 1,000 次更新，当前仅完成准备。见 `data/joint_scale_4000_v1/manifest.json` 和 `training/scale_4000_v1/run/PLAN.json`。
 
 新增 920 道 TAT-QA 中，915 道与旧训练题共享原表文，913 道在该表文中新增了程序或尺度。109 道与旧题使用相同的数值操作数集合，运行各自程序均正确，双向互换程序在所有合法尺度下均失败。109 道中有 102 道是绝对差额与相对变化，两边同时为多步程序的配对为零。扩容效果仍以独立 TRAIN194 原生评分评估。见 `data/joint_scale_4000_v1/{target_diversity,paired_target_diversity}.json`。
 
-4,000 题训前入口 `training/scale_4000_v1/run.sh --check` 已验收。`research/finance-scale-adapter`（`2965f58f`）的原生 `--scale-adapter` 已在 GB10 的隔离工作树就位，在获取 GPU 前核对扩容训练回执、固定数据与实际权重。`training/scale_4000_v1/compare_n4.py` 用历史回执验证了七个 TRAIN194 分组的原生评分。两条 256 题续训臂若在困难 TAT-QA 98 题、常规 TAT-QA 64 题和 FinQA 32 题中均未超过原 3,000 题模型，已启动的 `training/scale_4000_v1/handoff.py` 会接力扩容训练和同题四采样对照。任一组出现提升则先评估真实回执与取舍。当前备选尚在等待比较报告。
+4,000 题训前入口 `training/scale_4000_v1/run.sh --check` 已验收。`research/finance-scale-adapter`（`2965f58f`）的原生 `--scale-adapter` 已在 GB10 的隔离工作树就位，在获取 GPU 前核对扩容训练回执、固定数据与实际权重。`training/scale_4000_v1/compare_n4.py` 用历史回执验证了七个 TRAIN194 分组的原生评分。普通监督臂在困难 TAT-QA 上的提升已触发备选的退出条件，此轮未启动 4,000 题训练。见 `training/scale_4000_v1/handoff.status.json`。
 
 同一旧门控用于早期难例续训适配器，在 112 道同题 TRAIN 复放中，FinQA 接管从 2/16 变为 6/16，TAT-QA 从 9/96 变为 17/96，两库本地各仅多答对 1 道。预留的 TRAIN128 与原 3,000 题、偏好 256 题和 TRAIN194 均无来源交集，可按名义 20% 为选定的适配器新定阈值。分支 `67ffe58e` 接通重新定阈值后的偏好适配器计时，并让实时和离线复算共用同一选答函数。用 1,865 道归档回执验证，默认选答复现 FinQA 866、TAT-QA 618，统一置信度选答复现 867、621，门控的逐题接管列表完全一致。见 `analysis/compact_answer_confidence_train_v1/gate_shift_replay.json` 和 `serving/queued_semantic_joint_preference_v1/calibrate_selected.sh`。
 
@@ -152,7 +152,7 @@ TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分�
 
 逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
-统一编译版的全量计时使用独立命名空间。候选工作树为 `3e448f3e`，包含四／六槽与空回执崩溃识别。使用这版复放 384 条校准、3,730 条官方本地回执和 346 条教师回执，所有编译及执行判定一致，原紧凑适配器的 TRAIN 门控文件逐字节一致。全量启动器已将六槽设为默认，预检通过。若 TRAIN194 选出新臂，启动器从其独立 TRAIN128 回执复算门控，锁定模型与门控指纹后另开命名空间。见 `analysis/fresh_vs_archives_v1/release_3e448f3e/` 和 `serving/queued_joint_timing_uniform_full_v2/`。
+统一编译版的全量计时使用独立命名空间。工作树为 `3e448f3e`，包含四／六槽与空回执崩溃识别。使用这版复放 384 条校准、3,730 条官方本地回执和 346 条教师回执，所有编译及执行判定一致，原紧凑适配器的 TRAIN 门控文件逐字节一致。普通监督臂的独立 TRAIN128 四采样已就绪，本地得 96/128（FinQA 14/32，TAT-QA 82/96），按两库合并的冻结阈值划入 25 题。已锁定适配器和门控，六槽全量运行于 11 月 28 日启动，写入两库的 `joint_full_timing_{finqa,tatqa}_uniform_steady_k6_control_v2` 独立目录。见 `analysis/fresh_vs_archives_v1/release_3e448f3e/` 和 `serving/queued_joint_timing_uniform_full_v2/`。
 
 滚动并发扩展位于 `research/finance-rolling-slots`（`ea4bf3f4`）。保持每块 32 题逐臂运行，允许每臂六或八个隔离槽。以归档序列估算缓存峰值，八槽下 CAR 和 BudgetVerify 的最长序列组合各在 FinQA 36/36、TAT-QA 22/23 个块可能超过 36,400 tokens。六槽下两种方法各在 FinQA 1/36 个块超过上限，对应两个不同的块，TAT-QA 均为 0/23。该估计未计入真实调度或缓存复用。见 `analysis/joint_pareto_steady_k4_v1/cache_envelope.json`。
 
