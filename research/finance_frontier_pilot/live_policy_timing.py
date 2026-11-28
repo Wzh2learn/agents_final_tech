@@ -51,6 +51,7 @@ JOINT_STEADY_SHARD = 'finance-live-joint-timing-steady-shard-v1'
 JOINT_STEADY_FULL = 'finance-live-joint-timing-steady-full-v1'
 JOINT_STEADY_WORKERS = (4, 6, 8)
 ISOLATED_ACTOR_STORE = 'per-role-per-block-slot-xdg-v1'
+BUN_STARTUP_RECOVERY = 'bun-sigtrap-empty-raw-v1'
 LEGACY_SERIAL_DRIVERS = {
     '427de38a89e70075940a4e1dc79f6cb27fd03e177d121ae78d1bcd4bc6c200b4',
     '8a9cbec1f2d5e1ee368b783dec372d2cf863414d71a3d9f10f7f636ef636a55a',
@@ -419,16 +420,38 @@ def local_startup_failure(target, result):
     return None
 
 
+def recoverable_bun_startup(target, result):
+    if (result['exit_code'] != -5 or result['text'] or result['errors']
+            or local_startup_failure(target, result) is not TimingLocalActorCrash):
+        return False
+    stderr = target / 'stderr.txt'
+    if not stderr.is_file():
+        return False
+    text = stderr.read_text(encoding='utf-8', errors='replace')
+    return all(re.search(pattern, text, re.MULTILINE) for pattern in (
+        r'^Bun v[0-9]+\.[0-9]+\.[0-9]+ \([0-9a-f]+\) Linux arm64[ \t]*$',
+        r'^panic(?:\(main thread\))?: Segmentation fault at address 0x[0-9a-fA-F]+[ \t]*$',
+        r'^oh no: Bun has crashed\.',
+    ))
+
+
 def measure_route(args, root, row, policy, actors, profiles, budget, key, run_digest, selectors, joint,
                   *, admitted=None, campus_lock=None):
     ident = sha256(row['id'].encode()).hexdigest()[:24]
     directory = root / 'calls' / ident / policy
     receipts = {}
+    failed_starts = set()
+
+    def save_call(name, path, result):
+        fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
+        receipts[name] = {**{field: result[field] for field in fields if field in result},
+                          'path': path.relative_to(root).as_posix()}
 
     def call(name, role, prompt):
         target = directory / name
         if role not in actors or (name in profiles and role != 'solve') or target.exists() or name in receipts:
             raise ValueError('live timing expects independent fresh calls to a configured role')
+        retried = False
         if name in profiles:
             with campus_lock if campus_lock is not None else nullcontext():
                 if not school.has_gateway_capacity(budget):
@@ -439,14 +462,28 @@ def measure_route(args, root, row, policy, actors, profiles, budget, key, run_di
                 receipt_path = target / 'provider_receipt.json'
         else:
             result = recorded_call(actors[role], prompt, target, run_digest)
+            if (campus_lock is not None and joint is not None and getattr(args, 'retry_bun_startup', False)
+                    and recoverable_bun_startup(target, result)):
+                first = f'{name}#bun-startup'
+                save_call(first, target / 'call.json', result)
+                failed_starts.add(first)
+                target = target / 'startup-retry'
+                if target.exists():
+                    raise ValueError('Local startup retry requires a fresh attempt path')
+                result = recorded_call(actors[role], prompt, target, run_digest)
+                retried = True
             receipt_path = target / 'call.json'
-        fields = ('usage', 'elapsed_seconds', 'exit_code', 'finish', 'errors', 'provider_posts')
-        receipts[name] = {**{item: result[item] for item in fields if item in result},
-                          'path': receipt_path.relative_to(root).as_posix()}
+        save_call(name, receipt_path, result)
         if campus_lock is not None and name not in profiles:
             startup_failure = local_startup_failure(target, result)
             if startup_failure is not None:
                 raise startup_failure
+            if retried:
+                raw = target / 'raw.jsonl'
+                if (type(result['exit_code']) is not int or result['exit_code'] != 0 or result['errors']
+                        or not result['finish'] or result['usage'] is None or not receipt_path.is_file()
+                        or not raw.is_file() or raw.stat().st_size == 0):
+                    raise TimingLocalActorCrash
         if (getattr(args, 'compare_baselines', False) and name not in profiles
                 and (result['exit_code'] or result['errors'])):
             model = actors[role].model.removeprefix('pilot/') if name == 'compact' else ODA
@@ -461,7 +498,7 @@ def measure_route(args, root, row, policy, actors, profiles, budget, key, run_di
         else:
             selected, projection = (select_policy(row, policy, call) if selectors is None
                                     else selectors[policy](row, call))
-        if selected['calls'] != list(receipts):
+        if selected['calls'] != [name for name in receipts if name not in failed_starts]:
             raise ValueError('selected call order and metered calls disagree')
         public_execution(projection, selected['submission'])
     except TimingBudgetExhausted:
@@ -728,6 +765,9 @@ def check_joint_serving(args, baseline, compact):
 def joint_block_width(plan):
     workers = plan.get('joint_workers', 1)
     steady = plan.get('joint_steady_block')
+    if ('local_startup_recovery' in plan and
+            (steady is None or plan['local_startup_recovery'] != BUN_STARTUP_RECOVERY)):
+        raise ValueError('Local Bun startup recovery requires the frozen rolling timing protocol')
     if steady is not None or plan.get('schema') == JOINT_STEADY_PLAN:
         if (plan.get('schema') != JOINT_STEADY_PLAN or type(steady) is not int or steady != 32
                 or type(workers) is not int or workers not in JOINT_STEADY_WORKERS
@@ -769,6 +809,7 @@ def joint_history(shards, plan, plan_hash):
                             or contract.get('joint_steady_block') != steady
                             or (steady is not None and contract.get('local_selection') != plan['local_selection'])
                             or contract.get('actor_store_scope') != plan.get('actor_store_scope')
+                            or contract.get('local_startup_recovery') != plan.get('local_startup_recovery')
                             or (len(order) % width and start + len(order) != len(target))):
             raise ValueError('A wave shard must use the frozen actor stores, width and complete blocks')
         if not outcomes_path.is_file():
@@ -1038,6 +1079,8 @@ def run(args, benchmark, ledger_root):
             plan.update(actor_profile)
             steady_profile = ({'joint_steady_block': steady, 'local_selection': 'confidence-rerank-v1'}
                               if steady is not None else {})
+            if getattr(args, 'retry_bun_startup', False):
+                steady_profile['local_startup_recovery'] = BUN_STARTUP_RECOVERY
             if steady is not None:
                 slots = {4: 'Four', 6: 'Six', 8: 'Eight'}[workers]
                 plan.update(schema=JOINT_STEADY_PLAN, **steady_profile,
@@ -1156,6 +1199,8 @@ def main():
                         help='Preinitialize one OpenCode store per local role and concurrent block slot')
     parser.add_argument('--joint-steady-block', type=int, choices=(32,),
                         help='Refill four, six, or eight isolated slots within each frozen 32-question same-arm block')
+    parser.add_argument('--retry-bun-startup', action='store_true',
+                        help='Allow one traced local Bun startup retry in a fresh rolling timing namespace')
     parser.add_argument('--compact-container', help='Verified running Docker container ID for optional compact policies')
     parser.add_argument('--upstream', type=Path)
     parser.add_argument('--author-deps', dest='author_dependency_path', type=Path)
@@ -1169,6 +1214,8 @@ def main():
     if args.joint_steady_block is not None and (not args.joint_gate or args.joint_workers not in JOINT_STEADY_WORKERS
                                                 or not args.joint_isolated_actor_slots):
         parser.error('--joint-steady-block requires --joint-gate, --joint-workers 4, 6, or 8 and --joint-isolated-actor-slots')
+    if args.retry_bun_startup and args.joint_steady_block is None:
+        parser.error('--retry-bun-startup requires rolling --joint-steady-block timing')
     if args.joint_workers > 4 and args.joint_steady_block is None:
         parser.error('--joint-workers above 4 requires --joint-steady-block 32 and isolated actor slots')
     if args.joint_gate:

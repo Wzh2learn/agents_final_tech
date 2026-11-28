@@ -419,7 +419,8 @@ def joint_pareto_case(record):
 
 def joint_workload_sha256(plan):
     """Fingerprint shared policy inputs without including corpus-specific baselines or metrics."""
-    fields = ('gate_n', 'gate_rate', 'gate_sha256', 'baseline_serving_sha256', 'serving_sha256', 'managed_profile_sha256')
+    fields = ('gate_n', 'gate_rate', 'gate_sha256', 'baseline_serving_sha256', 'serving_sha256',
+              'managed_profile_sha256', 'local_startup_recovery')
     shared = {name: plan[name] for name in fields if name in plan}
     drivers = plan.get('driver_sha256', {})
     for name in ('table_scope_replay.py', 'scoring.py'):
