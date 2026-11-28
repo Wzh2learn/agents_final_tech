@@ -16,7 +16,12 @@ original_train="$study/training/run"
 train="$original_train"
 plan_arm=
 preference_arm=
+alias=oda-compact-joint
 case ${1:-} in
+    --base-only)
+        shift
+        alias=oda-fin-rl-8b
+        ;;
     --hard-adapter)
         shift
         train="$study/training/hard_adapt_v1/run"
@@ -37,6 +42,20 @@ case ${1:-} in
         train="$study/training/semantic_joint_preference_run_v1/$preference_arm/run"
         ;;
 esac
+for flag in "$@"; do
+    case $flag in
+        --base-only)
+            echo 'Place --base-only immediately after the run label, by itself.' >&2
+            exit 2
+            ;;
+        --joint-timing*|--next-joint-timing*|--live-teacher*|--selected-local*|--matched-risk*|--*-adapter*|--pl*|--mo*|--ba*|--ser*)
+            if [[ $alias == oda-fin-rl-8b ]]; then
+                echo '--base-only accepts unplanned native evaluation with the frozen model, endpoint and serving profile.' >&2
+                exit 2
+            fi
+            ;;
+    esac
+done
 restore_status="$train/restore_teacher/status"
 if [[ -n $plan_arm ]]; then
     restore_status="$study/training/planning_v1/restore_teacher/status"
@@ -73,7 +92,6 @@ model="$HOME/wzh/models/hf/ODA-Fin-RL-8B-948c22ea"
 metric="$HOME/wzh/research_evidence/agent_learning_20261030/tools/tatqa/870accc41953dcde885aabeb963d94aabdc0fbc3"
 out="$study/serving/$label"
 image=sha256:734134467dc5b567845fdfc1cbe5b16e9761e3b6a059b35dc8de6d8147ac997f
-alias=oda-compact-joint
 base=http://127.0.0.1:18157/v1
 export PYTHONPATH="$driver:$repo:$repo/src" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 
@@ -334,6 +352,7 @@ freeze(Path(out) / 'serving_profile.json', {
     'adapter_files': {name: digest_file(Path(adapter) / name)
                       for name in ('adapter_config.json', 'adapter_model.safetensors')},
     'training_result_sha256': digest_file(Path(train) / 'RESULT.json'),
+    **({'base_only': True, 'request_adapter': None} if alias == 'oda-fin-rl-8b' else {}),
 })
 wait_service(base, alias, 360)
 PY
