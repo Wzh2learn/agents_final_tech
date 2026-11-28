@@ -114,6 +114,10 @@ TAT-QA 未接管的 60 道错题中，57 道没有正确的四采样候选。固
 
 备选扩容数据已从原训练来源中选择额外 1,000 个执行验证的 TRAIN 题，排除既有训练题、辅助训练及验证面板，原文件的 3,000 题和顺序逐字节保留。新增 FinQA 单步 80 题，TAT-QA 单步与多步各 460 题，其中 279 道 TAT-QA 的尺度经执行对齐。4,000 题中 FinQA／TAT-QA 为 1,280／2,720，FinQA 占比从 40% 到 32%。原训练器已完成离线分词与核验。训练计划沿用原基座与超参数，单轮为 1,000 次更新，当前仅完成准备。见 `data/joint_scale_4000_v1/manifest.json` 和 `training/scale_4000_v1/run/PLAN.json`。
 
+新增 920 道 TAT-QA 中，915 道与旧训练题共享原表文，913 道在该表文中新增了程序或尺度。109 道与旧题使用相同的数值操作数集合，运行各自程序均正确，双向互换程序在所有合法尺度下均失败。109 道中有 102 道是绝对差额与相对变化，两边同时为多步程序的配对为零。扩容效果仍以独立 TRAIN194 原生评分评估。见 `data/joint_scale_4000_v1/{target_diversity,paired_target_diversity}.json`。
+
+4,000 题训前入口 `training/scale_4000_v1/run.sh --check` 已验收。`research/finance-scale-adapter`（`2965f58f`）的原生 `--scale-adapter` 在获取 GPU 前核对扩容训练回执、固定数据与实际权重。与原 3,000 题模型同用 TRAIN194、四采样和逐题种子。扩容备选仍在 CPU 准备态。
+
 同一旧门控用于早期难例续训适配器，在 112 道同题 TRAIN 复放中，FinQA 接管从 2/16 变为 6/16，TAT-QA 从 9/96 变为 17/96，两库本地各仅多答对 1 道。预留的 TRAIN128 与原 3,000 题、偏好 256 题和 TRAIN194 均无来源交集，可按名义 20% 为选定的适配器新定阈值。分支 `67ffe58e` 接通重新定阈值后的偏好适配器计时，并让实时和离线复算共用同一选答函数。用 1,865 道归档回执验证，默认选答复现 FinQA 866、TAT-QA 618，统一置信度选答复现 867、621，门控的逐题接管列表完全一致。见 `analysis/compact_answer_confidence_train_v1/gate_shift_replay.json` 和 `serving/queued_semantic_joint_preference_v1/calibrate_selected.sh`。
 
 四候选分歧时改用逐步平均 logprob 的最低值重排，在两批共 240 道 TRAIN 题从 190 降至 187（R1/H4）。原门控未接管的 204 道题正误全部保持。沿用当前重排规则。见 `analysis/compact_answer_confidence_train_v1/STEP_MIN_RESULT.json`。
@@ -139,6 +143,8 @@ FinQA 首个四题并发试采的八臂收集用时 1,368 秒，校内实际请�
 原紧凑版的滚动四路计时使用独立分支 `research/finance-steady-timing`，沿用冻结门控和置信度重排。FinQA 首批 32 道题在八臂均有完整用量。紧凑级联为 24/32、52,044 tokens、平均 9.84 秒／题。DeepSeek 直跑为 25/32、57,310 tokens、29.57 秒／题。其余六臂均答对更少、用量更高且更慢，范围为 18–21 题、66,286–263,257 tokens、39.95–439.26 秒／题。首块采集 9,757 秒。
 
 TAT-QA 首批 32 道题中，紧凑级联和 Qwen→DeepSeek 同为 30/32，分别用 33,740 和 76,709 tokens。一次 BudgetVerify–TabFM 的 OpenCode 进程在生成前崩溃，未留下用量。在八臂计费齐全的 31 题上，两者同为 29/31。紧凑级联用 33,140 tokens、平均 3.78 秒／题，Qwen→DeepSeek 用 73,460 tokens、平均 56.90 秒／题。同 31 题上，紧凑级联比其余六臂答对更多、用量更少且更快。首块采集 7,947 秒。两库合表、逐对比较和前沿图见 `analysis/joint_pareto_steady_k4_v1/both_first32_pareto{.tsv,_paired.tsv,.pdf,.png}`。
+
+`research/finance-full-risk-replay`（`6aeac0f3`）用原生四候选与同提示的教师回执复算 Risk。先逐题复现实际一致性门控的分数和用量，再比较相同接管数及共同 token 上限。默认要求两库全量验收。旧协议两库各 32 题的诊断复算中，FinQA 在 52,044 tokens 上限下为一致性 24、Risk 22，实际用量为 52,044、50,112。TAT-QA 在 32,696 上限下均为 29，实际用量为 31,588、32,696。该共享回执对照提供正确率和用量，Risk 独立墙时尚无实测。见 `analysis/joint_pareto_steady_k4_v1/risk_replay_first32.json`。
 
 逐题对齐上述 32 题与早前归档，紧凑级联的正误逐题一致，DeepSeek 直跑从 21 升至 25（R5/H1）。六道翻转题均改了输出尺度，五道恢复题中四道的程序计算值相同。两批使用不同用户提示，系统提示中的工作目录和日期字段也有变化。固定两批回复交叉编译，在通用编译器下为 11→25，在旧编译器下为 21→15。这组差异同时受采集和编译口径影响，全量结论采用同批在线回执。见 `analysis/joint_pareto_steady_k4_v1/finqa_first32_{archive_vs_steady,direct_cross_compiler}.json`。
 
